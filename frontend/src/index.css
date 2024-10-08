@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* add the code bellow */ 
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+ /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+}
+}
+
+.main-div {
+    max-width: 400px;
+    /* margin: auto; */
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);
+    
+  }
+  
+  .main-card {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Inside your CSS file */
+.background-div {
+    background-image: url('../src/assets/background-card.jpg');
+    background-size: cover;  /* Makes sure the image covers the div */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    width: 100%;
+    height: 400px; /* Set a height for the div */
+  }
+
+  .background-base {
+    background-image: url('../src/assets/card-bg.jpg');
+  }
+  
+
+  /*=============== LAYOUT ===============*/
+.container {
+  max-width: 400px;
+  margin: auto;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* input[type="text"],input[type="password"],input[type="email"],input[type="number"],input[type="tel"],
+textarea {
+    @apply w-full border my-1 py-2 px-3 rounded-2xl
+}
+
+button{
+    @apply bg-gray-300
+}
+
+button.primary{
+    background-color: #E01760;
+    @apply bg-primary p-2 w-full text-white rounded-2xl;
+} */
