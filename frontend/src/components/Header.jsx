@@ -1,91 +1,286 @@
-// import React from 'react'
+import { useState } from "react";
+import {
+  Dialog,
+  DialogPanel,
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+  Popover,
+  PopoverButton,
+  PopoverGroup,
+  PopoverPanel,
+  Button,
+} from "@headlessui/react";
+import {
+  ArrowPathIcon,
+  Bars3Icon,
+  ChartPieIcon,
+  CursorArrowRaysIcon,
+  FingerPrintIcon,
+  SquaresPlusIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import {
+  ChevronDownIcon,
+  PhoneIcon,
+  PlayCircleIcon,
+} from "@heroicons/react/20/solid";
 
-import { Link } from "react-router-dom";
-
-// import { Link } from "react-router-dom";
+const products = [
+  {
+    name: "Analytics",
+    description: "Get a better understanding of your traffic",
+    href: "#",
+    icon: ChartPieIcon,
+  },
+  {
+    name: "Engagement",
+    description: "Speak directly to your customers",
+    href: "#",
+    icon: CursorArrowRaysIcon,
+  },
+  {
+    name: "Security",
+    description: "Your customers’ data will be safe and secure",
+    href: "#",
+    icon: FingerPrintIcon,
+  },
+  {
+    name: "Integrations",
+    description: "Connect with third-party tools",
+    href: "#",
+    icon: SquaresPlusIcon,
+  },
+  {
+    name: "Automations",
+    description: "Build strategic funnels that will convert",
+    href: "#",
+    icon: ArrowPathIcon,
+  },
+];
+const callsToAction = [
+  { name: "Watch demo", href: "#", icon: PlayCircleIcon },
+  { name: "Contact sales", href: "#", icon: PhoneIcon },
+];
 
 function Header() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
-    <header className="flex justify-between">
-      <Link to={'/'} className="flex items-center gap-1">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="1.5"
-          stroke="currentColor"
-          className="size-8"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819"
-          />
-        </svg>
-        <span className="font-bold text-xl">JemputNikah</span>
-      </Link>
-
-      <div className="flex border border-gray-300 rounded-full py-2 px-4 gap-2 shadow-md shadow-gray-300">
-        <div>Anywhere</div>
-        <div className=" border-l border-gray-300"></div>
-        <div>Any week</div>
-        <div className=" border-l border-gray-300"></div>
-        <div>Any guest</div>
-        <button className="bg-primary text-white p-1.5 rounded-full">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="size-5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m15.75 15.75-2.489-2.489m0 0a3.375 3.375 0 1 0-4.773-4.773 3.375 3.375 0 0 0 4.774 4.774ZM21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-            />
-          </svg>
-        </button>
-      </div>
-
-      <Link
-        // to={user?'/account':'/login'}
-        className="flex border border-gray-300 rounded-full py-2 px-4 gap-2 items-center"
+    <header className="sticky z-10 top-0 bg-white border border-opacity-50 border-slate-400">
+      <nav
+        aria-label="Global"
+        className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
       >
-        {/* Hamburger icon */}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="1.5"
-          stroke="currentColor"
-          className="size-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-          />
-        </svg>
-
-        {/* Person icon */}
-        <div className="bg-gray-600 rounded-full border border-gray-500 overflow-hidden">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="white"
-            className="size-6"
-          >
-            <path
-              fillRule="evenodd"
-              d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-              clipRule="evenodd"
+        <div className="flex lg:flex-1">
+          <a href="/" className="-m-1.5 p-1.5 flex gap-2">
+            <span className="sr-only">JemputNikah</span>
+            <img
+              alt=""
+              src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+              className="h-8 w-auto"
             />
-          </svg>
+            <span className="flex justify-center items-center text-lg text-gray-700">
+              Jemput Nikah
+            </span>
+          </a>
+        </div>
+        {/* Open left hamburger navbar when size < lg */}
+        <div className="flex lg:hidden">
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(true)}
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+          >
+            <span className="sr-only">Open main menu</span>
+            <Bars3Icon aria-hidden="true" className="h-8 w-8" />
+          </button>
         </div>
 
-      </Link>
+        <PopoverGroup className="hidden lg:flex lg:gap-x-12">
+          {/* Popover for product button start */}
+          <Popover className="relative">
+            <PopoverButton className="flex items-center gap-x-1 text-base font-semibold leading-6 text-gray-900">
+              Product
+              <ChevronDownIcon
+                aria-hidden="true"
+                className="h-5 w-5 flex-none text-gray-400"
+              />
+            </PopoverButton>
+
+            {/* Popover dropdown panel */}
+            <PopoverPanel
+              transition
+              className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
+            >
+              <div className="p-4">
+                {products.map((item) => (
+                  <div
+                    key={item.name}
+                    className="group relative flex items-center gap-x-6 rounded-lg p-4 text-base leading-6 hover:bg-gray-50"
+                  >
+                    <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                      <item.icon
+                        aria-hidden="true"
+                        className="h-6 w-6 text-gray-600 group-hover:text-indigo-600"
+                      />
+                    </div>
+                    <div className="flex-auto">
+                      <a
+                        href={item.href}
+                        className="block font-semibold text-gray-900"
+                      >
+                        {item.name}
+                        <span className="absolute inset-0" />
+                      </a>
+                      <p className="mt-1 text-gray-600">{item.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
+                {callsToAction.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="flex items-center justify-center gap-x-2.5 p-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-100"
+                  >
+                    <item.icon
+                      aria-hidden="true"
+                      className="h-5 w-5 flex-none text-gray-400"
+                    />
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+            </PopoverPanel>
+          </Popover>
+          {/* Popover for product button end */}
+
+          <a
+            href="/kad-digital"
+            className="text-base font-semibold leading-6 text-gray-900"
+          >
+            Kad Digital
+          </a>
+          <a
+            href="/pakej"
+            className="text-base font-semibold leading-6 text-gray-900"
+          >
+            Pakej
+          </a>
+          <a
+            href="#"
+            className="text-base font-semibold leading-6 text-gray-900"
+          >
+            Tutorial
+          </a>
+          <a
+            href="#"
+            className="text-base font-semibold leading-6 text-gray-900"
+          >
+            Hubungi Kami
+          </a>
+        </PopoverGroup>
+        {/* Login button */}
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          <Button
+            href="#"
+            className="rounded-full border border-blue-700 bg-sky-500 py-2 px-4 text-base text-white hover:bg-white hover:text-blue-500"
+          >
+            Log in <span aria-hidden="true">&rarr;</span>
+          </Button>
+        </div>
+      </nav>
+      {/* Mobile menu */}
+      <Dialog
+        open={mobileMenuOpen}
+        onClose={setMobileMenuOpen}
+        className="lg:hidden"
+      >
+        <div className="fixed inset-0 z-10" />
+        <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+          <div className="flex items-center justify-between">
+            <a href="#" className="-m-1.5 p-1.5">
+              <span className="sr-only">Jemput Nikah</span>
+              <img
+                alt=""
+                src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+                className="h-8 w-auto"
+              />
+            </a>
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(false)}
+              className="-m-2.5 rounded-md p-2.5 text-gray-700"
+            >
+              <span className="sr-only">Close menu</span>
+              <XMarkIcon aria-hidden="true" className="h-6 w-6" />
+            </button>
+          </div>
+          <div className="mt-6 flow-root">
+            <div className="-my-6 divide-y divide-gray-500/10">
+              <div className="space-y-2 py-6">
+                {/* Hidden dropdown */}
+                <Disclosure as="div" className="-mx-3">
+                  <DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                    Product
+                    <ChevronDownIcon
+                      aria-hidden="true"
+                      className="h-5 w-5 flex-none group-data-[open]:rotate-180"
+                    />
+                  </DisclosureButton>
+                  <DisclosurePanel className="mt-2 space-y-2">
+                    {[...products, ...callsToAction].map((item) => (
+                      <DisclosureButton
+                        key={item.name}
+                        as="a"
+                        href={item.href}
+                        className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      >
+                        {item.name}
+                      </DisclosureButton>
+                    ))}
+                  </DisclosurePanel>
+                </Disclosure>
+
+                <a
+                  href="#"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                  Kad Digital
+                </a>
+                <a
+                  href="#"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                  Pakej
+                </a>
+                <a
+                  href="#"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                  Tutorial
+                </a>
+                <a
+                  href="#"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                  Hubungi kami
+                </a>
+              </div>
+              <div className="py-6">
+                <a
+                  href="#"
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                  Log in
+                </a>
+              </div>
+            </div>
+          </div>
+        </DialogPanel>
+      </Dialog>
     </header>
   );
 }

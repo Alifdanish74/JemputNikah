@@ -3,14 +3,14 @@
 function Border() {
   return (
     
-    <div>
+    <div className="max-h-12 w-full">
       <svg
         viewBox="0 0 835 480"
         xmlns="http://www.w3.org/2000/svg"
         width="930"
       >
         <g
-          transform="translate(-42.000000,22.000000)  scale(0.0530000,-0.0500000)"
+          transform="translate(-42.000000,32.000000)  scale(0.0530000,-0.0500000)"
           fill="#be822b"
           stroke="none"
         >
