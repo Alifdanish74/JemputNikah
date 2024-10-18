@@ -1,6 +1,6 @@
   import FeatureCard from "./FeatureCard"; // Import the reusable FeatureCard component
   import PhoneMockup from "./PhoneMockup";
-  import { featureicons } from "../assets/featureicons";
+  import { featureicons } from "./featureicons";
   
   // The main FeaturesSection component
   function FeaturesSection() {

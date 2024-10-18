@@ -7,10 +7,16 @@ import ScrollToTopButton from "./components/ScrollToTopButton";
 import KadDigitalPage from "./pages/KadDigitalPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-
+import axios from "axios";
 import { useLocation } from "react-router-dom";
 import PakejPage from "./pages/PakejPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import { UserContextProvider } from "./customhooks/UserContext";
+import AdminUploadPage from "./adminside/AdminUploadPage";
 
+axios.defaults.baseURL = "http://localhost:4000";
+axios.defaults.withCredentials = true;
 function App() {
   const location = useLocation();
   const noHeaderFooterRoutes = ["/preview-card"]; // Add routes where you don't want the Header and Footer
@@ -19,18 +25,23 @@ function App() {
 
   return (
     <>
-      {showHeaderFooter && <Header />}
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="/preview-card" element={<BaseWeddingCard />} />
-          <Route path="/kad-digital" element={<KadDigitalPage />} />
-          <Route path="/pakej" element={<PakejPage />} />
-        </Route>
-        {/* <Route path="*" element={<NotFound />} /> */}
-      </Routes>
-      {showHeaderFooter && <Footer />}
-      <ScrollToTopButton />
+      <UserContextProvider>
+        {showHeaderFooter && <Header />}
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="/preview-card" element={<BaseWeddingCard />} />
+            <Route path="/kad-digital" element={<KadDigitalPage />} />
+            <Route path="/pakej" element={<PakejPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/admin/upload" element={<AdminUploadPage />} />
+          </Route>
+          {/* <Route path="*" element={<NotFound />} /> */}
+        </Routes>
+        {showHeaderFooter && <Footer />}
+        <ScrollToTopButton />
+      </UserContextProvider>
     </>
   );
 }

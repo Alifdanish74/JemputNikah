@@ -1,9 +1,13 @@
 // import React from 'react'
 // import { Link } from 'react-router-dom'
 import MockupImage from "../assets/phone-mockup.png";
-import { featureicons } from "../assets/featureicons";
+import { featureicons } from "./featureicons";
+import { Button } from "flowbite-react";
 
 function HeroSection() {
+
+
+
   return (
     <div className="relative bg-gradient-to-b h-fit from-pink-300 to-blue-50">
       {/* <section className="overflow-scroll"> */}
@@ -36,16 +40,16 @@ function HeroSection() {
                     ))}
                   </div>
                 </div>
-                <a
-                  href="/preview-card"
+                <Button
+                 
                   target="blank"
                   title=""
-                  className="inline-flex rounded-full border border-blue-400 items-center px-6 py-5 text-base font-semibold text-white transition-all duration-200 bg-blue-400 mt-9 hover:bg-white hover:text-blue-500 focus:bg-green-400"
+                  className="inline-flex rounded-full border border-blue-400 items-center px-6 py-5 text-base font-semibold text-white transition-all duration-200 bg-blue-400 mt-9 hover:bg-white hover:text-blue-500"
                   role="button"
                 >
                   {" "}
                   Tempah Sekarang{" "}
-                </a>
+                </Button>
               </div>
             </div>
           </div>

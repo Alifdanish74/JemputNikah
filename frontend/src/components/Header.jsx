@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate , NavLink } from "react-router-dom";
+import { Button, Dropdown } from "flowbite-react";
 import {
   Dialog,
   DialogPanel,
@@ -9,7 +11,6 @@ import {
   PopoverButton,
   PopoverGroup,
   PopoverPanel,
-  Button,
 } from "@headlessui/react";
 import {
   ArrowPathIcon,
@@ -25,6 +26,9 @@ import {
   PhoneIcon,
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
+
+import { UserContext } from "../customhooks/UserContext";
+import axios from "axios";
 
 const products = [
   {
@@ -63,8 +67,24 @@ const callsToAction = [
   { name: "Contact sales", href: "#", icon: PhoneIcon },
 ];
 
+
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, setUser } = useContext(UserContext);
+
+
+  const navigate = useNavigate();
+
+  async function logoutUser() {
+    await axios.post("/api/auth/logout");
+    setUser(null);
+    navigate("/");
+  }
+
+  function navigateToLogin() {
+    navigate("/login");
+  }
+
 
   return (
     <header className="sticky z-10 top-0 bg-white border border-opacity-50 border-slate-400">
@@ -73,7 +93,7 @@ function Header() {
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
       >
         <div className="flex lg:flex-1">
-          <a href="/" className="-m-1.5 p-1.5 flex gap-2">
+          <NavLink to={'/'} className="-m-1.5 p-1.5 flex gap-2">
             <span className="sr-only">JemputNikah</span>
             <img
               alt=""
@@ -83,7 +103,7 @@ function Header() {
             <span className="flex justify-center items-center text-lg text-gray-700">
               Jemput Nikah
             </span>
-          </a>
+          </NavLink>
         </div>
         {/* Open left hamburger navbar when size < lg */}
         <div className="flex lg:hidden">
@@ -157,42 +177,82 @@ function Header() {
           </Popover>
           {/* Popover for product button end */}
 
-          <a
-            href="/kad-digital"
-            className="text-base font-semibold leading-6 text-gray-900"
+          <NavLink
+            to="/kad-digital"
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-700 font-bold"
+                : "text-gray-600 hover:text-gray-900"
+            }
           >
             Kad Digital
-          </a>
-          <a
-            href="/pakej"
-            className="text-base font-semibold leading-6 text-gray-900"
+          </NavLink>
+          <NavLink
+            to="/pakej"
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-700 font-bold"
+                : "text-gray-600 hover:text-gray-900"
+            }
           >
             Pakej
-          </a>
-          <a
-            href="#"
-            className="text-base font-semibold leading-6 text-gray-900"
+          </NavLink>
+          <NavLink
+            to="/tutorial"
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-700 font-bold"
+                : "text-gray-600 hover:text-gray-900"
+            }
           >
             Tutorial
-          </a>
-          <a
-            href="#"
-            className="text-base font-semibold leading-6 text-gray-900"
+          </NavLink>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-700 font-bold"
+                : "text-gray-600 hover:text-gray-900"
+            }
           >
             Hubungi Kami
-          </a>
+          </NavLink>
         </PopoverGroup>
         {/* Login button */}
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Button
-            href="#"
-            className="rounded-full border border-blue-700 bg-sky-500 py-2 px-4 text-base text-white hover:bg-white hover:text-blue-500"
-          >
-            Log in <span aria-hidden="true">&rarr;</span>
-          </Button>
-        </div>
+
+        {user ? (
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <Dropdown label={user.name} dismissOnClick={false}>
+              <Dropdown.Item href="/admin/upload" className="hover:bg-blue-100 text-blue-700">
+                Dashboard
+              </Dropdown.Item>
+              <Dropdown.Item className="hover:bg-blue-100 text-blue-700">
+                Settings
+              </Dropdown.Item>
+              <Dropdown.Item className="hover:bg-blue-100 text-blue-700">
+                Earnings
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={logoutUser}
+                className="hover:bg-red-100 text-red-700"
+              >
+                Sign out
+              </Dropdown.Item>
+            </Dropdown>
+          </div>
+        ) : (
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <Button
+              onClick={navigateToLogin}
+              color="blue"
+              className="rounded-full border border-blue-700 bg-sky-700 py-2 px-4 text-base text-white hover:bg-white hover:text-blue-700"
+            >
+              Log in <span aria-hidden="true">&rarr;</span>
+            </Button>
+          </div>
+        )}
       </nav>
-      {/* Mobile menu */}
+      {/* Mobile menu ------------------------------------------------------------------------------------------------ */}
       <Dialog
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
@@ -201,14 +261,14 @@ function Header() {
         <div className="fixed inset-0 z-10" />
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
+            <NavLink href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Jemput Nikah</span>
               <img
                 alt=""
                 src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
                 className="h-8 w-auto"
               />
-            </a>
+            </NavLink>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
@@ -219,7 +279,7 @@ function Header() {
             </button>
           </div>
           <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
+            <div className="-my-6 divide-y divide-gray-700/10">
               <div className="space-y-2 py-6">
                 {/* Hidden dropdown */}
                 <Disclosure as="div" className="-mx-3">
@@ -244,39 +304,94 @@ function Header() {
                   </DisclosurePanel>
                 </Disclosure>
 
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                <NavLink
+                  to="/kad-digital"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-blue-700 font-bold block rounded-lg px-3 py-2"
+                      : "text-gray-900 hover:bg-gray-50 block rounded-lg px-3 py-2"
+                  }
                 >
                   Kad Digital
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                </NavLink>
+                <NavLink
+                  to="/pakej"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-blue-700 font-bold block rounded-lg px-3 py-2"
+                      : "text-gray-900 hover:bg-gray-50 block rounded-lg px-3 py-2"
+                  }
                 >
                   Pakej
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                </NavLink>
+                <NavLink
+                  to="/tutorial"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-blue-700 font-bold block rounded-lg px-3 py-2"
+                      : "text-gray-900 hover:bg-gray-50 block rounded-lg px-3 py-2"
+                  }
                 >
                   Tutorial
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                </NavLink>
+                <NavLink
+                  to="/contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-blue-700 font-bold block rounded-lg px-3 py-2"
+                      : "text-gray-900 hover:bg-gray-50 block rounded-lg px-3 py-2"
+                  }
                 >
                   Hubungi kami
-                </a>
+                </NavLink>
               </div>
-              <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Log in
-                </a>
-              </div>
+              {user ? (
+                <div className="py-6">
+                  <Dropdown label={user.name} dismissOnClick={false}>
+                    <Dropdown.Item
+                      onClick={() => setMobileMenuOpen(false)}
+                      href="/preview-card"
+                      className="hover:bg-blue-100 text-blue-700"
+                    >
+                      Dashboard
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="hover:bg-blue-100 text-blue-700"
+                    >
+                      Settings
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="hover:bg-blue-100 text-blue-700"
+                    >
+                      Earnings
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => {
+                        logoutUser;
+                      }}
+                      className="hover:bg-red-100 text-red-700"
+                    >
+                      Sign out
+                    </Dropdown.Item>
+                  </Dropdown>
+                </div>
+              ) : (
+                <div className="py-6">
+                  <NavLink
+                    onClick={() => setMobileMenuOpen(false)}
+                    to="/login"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold  leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Log In
+                  </NavLink>
+                </div>
+              )}
             </div>
           </div>
         </DialogPanel>
