@@ -7,10 +7,10 @@ import {
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
-  Popover,
-  PopoverButton,
+  // Popover,
+  // PopoverButton,
   PopoverGroup,
-  PopoverPanel,
+  // PopoverPanel,
 } from "@headlessui/react";
 import {
   ArrowPathIcon,
@@ -119,17 +119,17 @@ function Header() {
 
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
           {/* Popover for product button start */}
-          <Popover className="relative">
+          {/* <Popover className="relative">
             <PopoverButton className="flex items-center gap-x-1 text-base font-semibold leading-6 text-gray-900">
               Product
               <ChevronDownIcon
                 aria-hidden="true"
                 className="h-5 w-5 flex-none text-gray-400"
               />
-            </PopoverButton>
+            </PopoverButton> */}
 
             {/* Popover dropdown panel */}
-            <PopoverPanel
+            {/* <PopoverPanel
               transition
               className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
             >
@@ -174,9 +174,19 @@ function Header() {
                 ))}
               </div>
             </PopoverPanel>
-          </Popover>
+          </Popover> */}
           {/* Popover for product button end */}
 
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-700 font-bold"
+                : "text-gray-600 hover:text-gray-900"
+            }
+          >
+            Home
+          </NavLink>
           <NavLink
             to="/kad-digital"
             className={({ isActive }) =>
@@ -222,7 +232,7 @@ function Header() {
 
         {user ? (
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Dropdown label={user.name} dismissOnClick={false}>
+            <Dropdown color="blue" label={user.name} dismissOnClick={false}>
               <Dropdown.Item href="/admin/upload" className="hover:bg-blue-100 text-blue-700">
                 Dashboard
               </Dropdown.Item>

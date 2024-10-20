@@ -1,9 +1,27 @@
 // import React from 'react'
 
-import { kadDigital } from "../assets/kad-digital-data";
+import { useEffect, useState } from "react";
+// import { kadDigital } from "../assets/kad-digital-data";
+import DesignCard from "../components/DesignCard";
 import HeaderBackground from "../components/HeaderBackground";
+import axios from "axios";
 
 function KadDigitalPage() {
+  const [designs, setDesigns] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(""); // Track the selected category
+
+  // Filter the designs based on selected category
+  const filteredDesigns = selectedCategory
+    ? designs.filter((design) => design.category === selectedCategory)
+    : designs;
+
+  useEffect(() => {
+    axios.get("/api/admin/get-all-design").then((response) => {
+      setDesigns(response.data);
+      console.log(response.data);
+    });
+  }, []);
+
   return (
     <div>
       {/* Header background */}
@@ -16,47 +34,36 @@ function KadDigitalPage() {
             <div className="pb-4 lg:flex lg:items-center lg:justify-between">
               <div className="mt-6 gap-4 space-y-4 sm:flex sm:items-center sm:space-y-0 lg:mt-0 lg:justify-end">
                 <select
-                  id="order-type"
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500  sm:w-[144px]"
+                  id="category-filter"
+                  value={selectedCategory} // Bind to selected category state
+                  onChange={(e) => setSelectedCategory(e.target.value)} // Update selected category
+                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 sm:w-[144px]"
                 >
-                  <option selected>Categories</option>
-                  <option value="ongoing">Ongoing</option>
-                  <option value="completed">Completed</option>
-                  <option value="denied">Denied</option>
+                  <option value="">All Categories</option>
+                  <option value="Floral">Floral</option>
+                  <option value="Luxury">Luxury</option>
+                  <option value="Tradisional">Tradisional</option>
+                  <option value="Khat">Khat</option>
+                  <option value="Minimalist">Minimalist</option>
                 </select>
               </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {kadDigital.map((item, index) => (
-                <div key={index} className=" md:max-w-xs  mx-auto pb-2">
-                  <h5 className="text-lg md:text-xl mb-2 font-semibold tracking-tight text-gray-900 text-center">
-                    {item.name}
-                  </h5>
-                  <div className="bg-white border border-gray-200 rounded-2xl shadow-lg">
-                    <a href="#">
-                      <img
-                        className="mx-auto w-2/4 rounded-t-lg object-cover"
-                        src={item.image}
-                        alt="product image"
-                      />
-                    </a>
-
-                    <div className="grid grid-cols-2 rounded-lg  bg-gray-50">
-                      <div className="border-r py-2 w-full text-sm rounded-bl-xl border-black hover:bg-black hover:text-white">
-                        <a href="" className="">
-                          Preview
-                        </a>
-                      </div>
-                      <div className="border-l py-2 rounded-br-xl text-sm text-white border-black bg-blue-400  hover:bg-black ">
-                        <a href="" className="">
-                          Tempah
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              {filteredDesigns.length > 0 ? (
+                filteredDesigns.map((item, index) => (
+                  <DesignCard
+                    key={index}
+                    itemName={item.designName}
+                    itemImage={item.imagepreview}
+                    itemCategory={item.category}
+                  />
+                ))
+              ) : (
+                <p className="text-center col-span-full">
+                  No designs found for this category.
+                </p>
+              )}
             </div>
 
             <nav

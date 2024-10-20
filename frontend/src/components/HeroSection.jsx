@@ -1,8 +1,8 @@
 // import React from 'react'
 // import { Link } from 'react-router-dom'
+import { Button } from "@headlessui/react";
 import MockupImage from "../assets/phone-mockup.png";
 import { featureicons } from "./featureicons";
-import { Button } from "flowbite-react";
 
 function HeroSection() {
 
@@ -41,10 +41,9 @@ function HeroSection() {
                   </div>
                 </div>
                 <Button
-                 
                   target="blank"
                   title=""
-                  className="inline-flex rounded-full border border-blue-400 items-center px-6 py-5 text-base font-semibold text-white transition-all duration-200 bg-blue-400 mt-9 hover:bg-white hover:text-blue-500"
+                  className="inline-flex rounded-full border border-sky-500 items-center px-6 py-5 text-base font-semibold text-white transition-all duration-200 bg-sky-500 mt-9 hover:bg-white hover:text-blue-400"
                   role="button"
                 >
                   {" "}

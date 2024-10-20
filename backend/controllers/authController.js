@@ -26,7 +26,7 @@ const login = async (req, res) => {
         jwt.sign(
           { email: user.email, id: user._id },
           process.env.JWT_SECRET,
-          {},
+          {expiresIn: '1hr'},
           (err, token) => {
             if (err) throw err;
             res.cookie("token", token).json(user);

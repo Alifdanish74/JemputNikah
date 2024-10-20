@@ -14,6 +14,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { UserContextProvider } from "./customhooks/UserContext";
 import AdminUploadPage from "./adminside/AdminUploadPage";
+import TempahPage from "./pages/TempahPage";
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
@@ -32,6 +33,7 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="/preview-card" element={<BaseWeddingCard />} />
             <Route path="/kad-digital" element={<KadDigitalPage />} />
+            <Route path="/kad-digital/tempah/:designname" element={<TempahPage />} />
             <Route path="/pakej" element={<PakejPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />

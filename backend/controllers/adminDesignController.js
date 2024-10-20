@@ -13,9 +13,10 @@ const upload = multer({
 
 // Controller for uploading a new wedding card design
 const uploadDesign = async (req, res) => {
-  const { category, description } = req.body;
-  const imagePath = req.file.path; // Multer stores the image in 'uploads/' folder
-  const jpgImagePath = path.join(path.dirname(imagePath), `${req.file.filename}.jpg`);
+  const { category } = req.body;
+  const imagePath = req.files.image[0].path; // Multer stores the image in 'uploads/' folder
+  const imagepreviewPath = req.files.imagepreview[0].path; // Multer stores the image in 'uploads/' folder
+//   const pngImagePath = path.join(path.dirname(imagePath), `${req.file.filename}.png`);
 
   try {
     // Find the current count of designs in the provided category
@@ -25,23 +26,29 @@ const uploadDesign = async (req, res) => {
     const designNumber = String(count + 1).padStart(3, '0');
     const designName = `${category}${designNumber}`;
 
-       // Set the new file path (replace original filename with designName and .jpg extension)
-       const newImagePath = path.join(path.dirname(imagePath), `${designName}.jpg`);
+       // Set the new file path (replace original filename with designName and .png extension)
+       const newImagePath = path.join(path.dirname(imagePath), `${designName}.png`);
+       const newImagePreviewPath = path.join(path.dirname(imagepreviewPath), `Preview${designName}.png`);
 
-    // Convert the uploaded image to .jpg using sharp
+    // Convert the uploaded image to .png using sharp
     await sharp(imagePath)
-      .jpeg({ quality: 80 }) // Convert to JPG
+      .png() // Convert to png
       .toFile(newImagePath);
+    // Convert the uploaded image to .png using sharp
+    await sharp(imagepreviewPath)
+      .png() // Convert to png
+      .toFile(newImagePreviewPath);
 
     // Delete the original uploaded file
     fs.unlinkSync(imagePath);
+    fs.unlinkSync(imagepreviewPath);
 
-    // Save the design with the new .jpg image path
+    // Save the design with the new .png image path
     const newDesign = new CardDesign({
       designName,
       category,
-      description,
-      image: newImagePath, // Store the .jpg image path
+      image: newImagePath, // Store the .png image path
+      imagepreview: newImagePreviewPath, // Store the .png image path
     });
 
     await newDesign.save();
@@ -65,4 +72,9 @@ const getDesignCountByCategory = async (req, res) => {
   }
 };
 
-module.exports = { upload, uploadDesign, getDesignCountByCategory };
+// Get All Design
+const getAllDesigns = async (req, res) => {
+    res.json(await CardDesign.find());
+}
+
+module.exports = { upload, uploadDesign, getDesignCountByCategory, getAllDesigns };

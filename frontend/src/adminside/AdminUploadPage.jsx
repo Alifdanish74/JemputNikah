@@ -21,7 +21,7 @@ function AdminUploadPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-100 flex justify-center">
       <AdminUploadForm />
     </div>
   );
