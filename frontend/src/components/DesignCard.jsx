@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 // import React from "react";
 
-function DesignCard({key, itemName, itemImage, itemCategory}) {
+import { Link } from "react-router-dom";
+
+function DesignCard({ key, itemName, itemImage, itemCategory }) {
   return (
     <div>
       <div key={key} className=" sm:max-w-xs mx-auto">
@@ -21,21 +23,15 @@ function DesignCard({key, itemName, itemImage, itemCategory}) {
           </a>
 
           <div className="grid grid-cols-2 rounded-lg  bg-gray-50">
-            {/* <button className="w-1/3 text-black border border-black flex justify-center bg-white hover:bg-black hover:text-white font-medium rounded-lg text-sm md:text-base px-4 py-2.5 text-center">
-          Preview
-        </button>
-        <button className="w-1/3 text-white border border-blue-400 flex justify-center bg-blue-400 hover:bg-white hover:text-blue-500 font-medium rounded-lg text-sm md:text-base px-4 py-2.5 text-center">
-          Tempah
-        </button> */}
             <div className="border-r py-2 w-full  text-sm rounded-bl-xl border-black hover:bg-black hover:text-white">
               <a href="" className="">
                 Preview
               </a>
             </div>
             <div className="border-l py-2 rounded-br-xl text-sm text-white border-black bg-sky-500  hover:bg-black ">
-              <a href="" className="">
+              <Link to={`/kad-digital/tempah/${itemName}`} className="">
                 Tempah
-              </a>
+              </Link>
             </div>
           </div>
         </div>

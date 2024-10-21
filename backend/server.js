@@ -8,7 +8,7 @@ dotenv.config();
 const authRoutes = require('./routes/auth');
 const weddingCardRoutes = require('./routes/weddingCard');
 const rsvpRoutes = require('./routes/rsvp');
-const adminRoutes = require('./routes/admin');
+const adminRoutes = require('./routes/design');
 
 const app = express();
 app.use(express.json());

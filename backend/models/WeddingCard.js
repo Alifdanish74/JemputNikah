@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const WeddingCardSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  cardImage: { type: String, required: true },
   brideInfo: {
     eventSide: String,
     fontType: String,

@@ -77,4 +77,9 @@ const getAllDesigns = async (req, res) => {
     res.json(await CardDesign.find());
 }
 
-module.exports = { upload, uploadDesign, getDesignCountByCategory, getAllDesigns };
+const getDesignByName = async (req, res, next) => { 
+    res.json(await CardDesign.find({ designName: req.params.designName}));
+
+}
+
+module.exports = { upload, uploadDesign, getDesignCountByCategory, getAllDesigns, getDesignByName };
