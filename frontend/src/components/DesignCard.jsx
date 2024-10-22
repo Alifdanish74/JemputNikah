@@ -14,13 +14,11 @@ function DesignCard({ key, itemName, itemImage, itemCategory }) {
           {itemCategory}
         </h5>
         <div className="bg-white border border-gray-200 rounded-2xl shadow-lg">
-          <a href="#">
-            <img
-              className="mx-auto w-2/4 rounded-t-lg object-cover"
-              src={"http://localhost:4000/" + itemImage}
-              alt="product image"
-            />
-          </a>
+          <img
+            className="mx-auto w-2/4 rounded-t-lg object-cover"
+            src={"http://localhost:4000/" + itemImage}
+            alt="product image"
+          />
 
           <div className="grid grid-cols-2 rounded-lg  bg-gray-50">
             <div className="border-r py-2 w-full  text-sm rounded-bl-xl border-black hover:bg-black hover:text-white">

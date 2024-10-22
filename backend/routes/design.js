@@ -22,6 +22,6 @@ router.get('/count/:category', getDesignCountByCategory);
 
 router.get('/get-all-design', getAllDesigns);
 
-router.get('/getDesignByName', authMiddleware, getDesignByName);
+router.get('/get-design-byname/:designName', getDesignByName);
 
 module.exports = router;

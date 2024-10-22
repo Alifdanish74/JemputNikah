@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router";
 import "./App.css";
+import "./fonts.css";
 import Layout from "./Layout";
 import HomePage from "./pages/HomePage";
 import BaseWeddingCard from "./weddingcard/BaseWeddingCard";
@@ -14,6 +15,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { UserContextProvider } from "./customhooks/UserContext";
 import AdminUploadPage from "./adminside/AdminUploadPage";
+import BookingPage from "./pages/BookingPage";
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
@@ -32,6 +34,7 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="/preview-card" element={<BaseWeddingCard />} />
             <Route path="/kad-digital" element={<KadDigitalPage />} />
+            <Route path="/kad-digital/tempah/:designName" element={<BookingPage />} />
             <Route path="/pakej" element={<PakejPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />

@@ -77,9 +77,24 @@ const getAllDesigns = async (req, res) => {
     res.json(await CardDesign.find());
 }
 
-const getDesignByName = async (req, res, next) => { 
-    res.json(await CardDesign.find({ designName: req.params.designName}));
+// Controller to get design by name
+const getDesignByName = async (req, res) => {
+  const { designName } = req.params;
+  
+  try {
+    // Find the design with the given designName
+    const design = await CardDesign.findOne({ designName: designName });
+    
+    if (!design) {
+      return res.status(404).json({ message: "Design not found" });
+    }
+    
+    res.json(design);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching design by name', error });
+  }
+};
 
-}
+
 
 module.exports = { upload, uploadDesign, getDesignCountByCategory, getAllDesigns, getDesignByName };

@@ -1,23 +1,57 @@
+/* Add font imports using Google Fonts or your own hosted fonts */
 @import url('https://fonts.googleapis.com/css2?family=Tangerine&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Marck+Script&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Text&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
-@import url('https://fonts.cdnfonts.com/css/julietta-messie');
+@import url('https://fonts.googleapis.com/css2?family=La+Graziela&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Julietta+Messie&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hearthway&display=swap');
+
+
+/* CSS classes for each font using the .font-[FontName] convention */
+.font-Tangerine {
+    font-family: 'Tangerine', cursive;
+  }
+  
+  .font-CinzelDecorative {
+    font-family: 'Cinzel Decorative', cursive;
+  }
+  
+  .font-GreatVibes {
+    font-family: 'Great Vibes', cursive;
+  }
+  
+  .font-MarckScript {
+    font-family: 'Marck Script', cursive;
+  }
+  
+  .font-LibreCaslonText {
+    font-family: 'Libre Caslon Text', serif;
+  }
+  
+  .font-KaushanScript {
+    font-family: 'Kaushan Script', cursive;
+  }
+  
+  .font-LaGraziela {
+    font-family: 'La Graziela', cursive;
+  }
+  
+  .font-JuliettaMessie {
+    font-family: 'Julietta Messie', cursive;
+  }
+  
+  .font-Hearthway {
+    font-family: 'Hearthway', cursive;
+  }
 
 .fontType-1 {
     font-size: 72px !important;
     font-family: 'Tangerine', cursive !important;
 }
 
-.font-Tangerine {
-    font-family: 'Tangerine', cursive;
-}
-
-.font-Libre {
-    font-family: 'Libre Caslon Text', serif;
-}
 
 .fontType-2 {
     font-size: 45px !important;
