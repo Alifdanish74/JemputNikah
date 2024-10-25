@@ -1,13 +1,10 @@
 import { useState } from "react";
-import { FaUpload } from "react-icons/fa";
+import { Datepicker, ToggleSwitch } from "flowbite-react";
 
 // eslint-disable-next-line react/prop-types
-function RSVPSection({onPrevious, onNext}) {
-  const [selectedFont, setSelectedFont] = useState("");
-  // Function to handle font change
-  const handleFontChange = (e) => {
-    setSelectedFont(e.target.value); // Update selected font class based on user selection
-  };
+function RSVPSection({ onPrevious, onNext }) {
+  const [slotMasa, setSlotMasa] = useState(false);
+  const [kids, setkids] = useState(false);
 
   return (
     <div className="my-8">
@@ -16,203 +13,260 @@ function RSVPSection({onPrevious, onNext}) {
       </h1>
       <form action="#">
         <div className="grid gap-5 my-6 sm:grid-cols-2">
-          {/* Pihak Majlis */}
+          {/* Toggle Slot Masa */}
           <div>
-            <label
-              htmlFor="pihakmajlis"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              Pihak Majlis
-            </label>
-            <select
-              id="pihakmajlis"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5   "
-            >
-              <option selected="">Pilih pihak majlis</option>
-              <option value="L">Belah pengantin lelaki</option>
-              <option value="P">Belah pengantin perempuan</option>
-              <option value="LL">Kedua-dua belah pihak (lelaki)</option>
-              <option value="PP">Kedua-dua belah pihak (lelaki)</option>
-              <option value="D">Dua pasangan</option>
-            </select>
-          </div>
-          {/* Jenis Font */}
-          <div>
-            <label
-              htmlFor="jenisfont"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              Jenis Font
-            </label>
-            <select
-              id="jenisfont"
-              className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${selectedFont}`}
-              onChange={handleFontChange} // Trigger handleFontChange when font is selected
-            >
-              <option value="">Pilih jenis font</option>
-              <option className="font-Tangerine" value="font-Tangerine">
-                Tangerine
-              </option>
-              <option
-                className="font-CinzelDecorative"
-                value="font-CinzelDecorative"
-              >
-                Cinzel Decorative
-              </option>
-              <option className="font-GreatVibes" value="font-GreatVibes">
-                Great Vibes
-              </option>
-              <option className="font-MarckScript" value="font-MarckScript">
-                Marck Script
-              </option>
-              <option
-                className="font-LibreCaslonText"
-                value="font-LibreCaslonText"
-              >
-                Libre Caslon Text
-              </option>
-              <option className="font-KaushanScript" value="font-KaushanScript">
-                Kaushan Script
-              </option>
-              <option className="font-LaGraziela" value="font-LaGraziela">
-                La Graziela
-              </option>
-              <option
-                className="font-JuliettaMessie"
-                value="font-JuliettaMessie"
-              >
-                Julietta Messie
-              </option>
-              <option className="font-Hearthway" value="font-Hearthway">
-                Hearthway
-              </option>
-            </select>
-          </div>
-          {/* Nama panjang pengantin lelaki */}
-          <div>
-            <label
-              htmlFor="full-name-lelaki"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              Nama Penuh Pengantin Lelaki
-            </label>
-            <input
-              type="text"
-              name="full-name-lelaki"
-              id="full-name-lelaki"
-              className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
-              placeholder="Nama penuh"
-              required=""
+            <ToggleSwitch
+              checked={slotMasa}
+              label="Slot masa?"
+              onChange={setSlotMasa}
             />
           </div>
-          {/* Nama pendek pengantin lelaki */}
           <div>
-            <label
-              htmlFor="short-name-lelaki"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              Nama Pendek Pengantin Lelaki
-            </label>
-            <input
-              type="text"
-              name="short-name-lelaki"
-              id="short-name-lelaki"
-              className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
-              placeholder="Nama pendek"
-              required=""
+            {/* Toggle Kanak kanak */}
+            <ToggleSwitch
+              checked={kids}
+              label="Kehadiran kanak-kanak?"
+              onChange={setkids}
             />
-          </div>
-          {/* Nama panjang pengantin Perempuan */}
-          <div>
-            <label
-              htmlFor="full-name-Perempuan"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              Nama Penuh Pengantin Perempuan
-            </label>
-            <input
-              type="text"
-              name="full-name-Perempuan"
-              id="full-name-Perempuan"
-              className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
-              placeholder="Nama penuh"
-              required=""
-            />
-          </div>
-          {/* Nama pendek pengantin Perempuan */}
-          <div>
-            <label
-              htmlFor="short-name-Perempuan"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              Nama Pendek Pengantin Perempuan
-            </label>
-            <input
-              type="text"
-              name="short-name-Perempuan"
-              id="short-name-Perempuan"
-              className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
-              placeholder="Nama pendek"
-              required=""
-            />
-          </div>
-
-          {/* Nama bapa (pihak majlis) */}
-          <div>
-            <label
-              htmlFor="namabapa"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              Nama Bapa Pengantin (Pihak Majlis)
-            </label>
-            <input
-              type="text"
-              name="namabapa"
-              id="namabapa"
-              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
-              placeholder="Nama Bapa Pengantin"
-              required=""
-            />
-          </div>
-
-          {/* Nama ibu (pihak majlis) */}
-          <div>
-            <label
-              htmlFor="namaibu"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              Nama Ibu Pengantin (Pihak Majlis)
-            </label>
-            <input
-              type="text"
-              name="namaibu"
-              id="namaibu"
-              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
-              placeholder="Nama Ibu Pengantin"
-              required=""
-            />
-          </div>
-
-          {/* Gambar pasangan */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Upload Design Image
-            </label>
-            <div className="flex items-center space-x-3">
-              <input
-                type="file"
-                accept="image/*"
-                name="image"
-                //   onChange={handleImageChange}
-                required
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200"
-              />
-              <FaUpload className="text-indigo-600 text-xl" />
-            </div>
           </div>
         </div>
+        {/* Had kehadiran keseluruhan */}
+        <div className="grid gap-5 my-6 sm:grid-cols-2">
+          <div>
+            <label
+              htmlFor="limitguest"
+              className="block mb-2 text-sm font-medium text-gray-900 "
+            >
+              Had Kehadiran Keseluruhan
+            </label>
+            <input
+              type="number"
+              name="limitguest"
+              id="limitguest"
+              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
+              required="true"
+              placeholder="500"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="limitperperson"
+              className="block mb-2 text-sm font-medium text-gray-900 "
+            >
+              Had Kehadiran Per Tetamu
+            </label>
+            <input
+              type="number"
+              name="limitperperson"
+              id="limitperperson"
+              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
+              required="true"
+              placeholder="5"
+            />
+          </div>
+        </div>
+        {slotMasa && (
+          <div>
+            {/* Slot 1 */}
+            <label
+              htmlFor="slot1"
+              className="block  text-sm text-left pb-2 font-medium text-gray-900 "
+            >
+              Slot 1
+            </label>
+            {/* <div className="grid gap-5 sm:grid-cols-2"></div> */}
+            <div>
+              <div className=" flex">
+                <input
+                  type="text"
+                  name="label1"
+                  id="label1"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
+                  placeholder="Label (eg: Saudara-mara)*"
+                  required="true"
+                />
+                <input
+                  type="number"
+                  name="limit1"
+                  id="limit1"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
+                  placeholder="Had tetamu*"
+                  required="true"
+                />
+              </div>
+              <div className=" flex">
+                <input
+                  type="text"
+                  name="from1"
+                  id="from1"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
+                  placeholder="Dari (eg: 11:00 AM)*"
+                  required="true"
+                />
+                <input
+                  type="number"
+                  name="to1"
+                  id="to1"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
+                  placeholder="Hingga (eg: 12:30 PM)*"
+                  required="true"
+                />
+              </div>
+            </div>
+            {/* Slot 2 */}
+            <label
+              htmlFor="slot2"
+              className="block  text-sm text-left py-2 font-medium text-gray-900 "
+            >
+              Slot 2
+            </label>
+            {/* <div className="grid gap-5 sm:grid-cols-2"></div> */}
+            <div>
+              <div className=" flex">
+                <input
+                  type="text"
+                  name="label2"
+                  id="label2"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
+                  placeholder="Label (eg: Jiran tetangga)*"
+                  required=""
+                />
+                <input
+                  type="number"
+                  name="limit2"
+                  id="limit2"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
+                  placeholder="Had tetamu*"
+                  required=""
+                />
+              </div>
+              <div className=" flex">
+                <input
+                  type="text"
+                  name="from2"
+                  id="from2"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
+                  placeholder="Dari (eg: 12:30 PM)*"
+                  required=""
+                />
+                <input
+                  type="number"
+                  name="to2"
+                  id="to2"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
+                  placeholder="Hingga (eg: 2:00 PM)*"
+                  required=""
+                />
+              </div>
+            </div>
+            {/* Slot 3 */}
+            <label
+              htmlFor="slot3"
+              className="block  text-sm text-left py-2 font-medium text-gray-900 "
+            >
+              Slot 3
+            </label>
+            {/* <div className="grid gap-5 sm:grid-cols-2"></div> */}
+            <div>
+              <div className=" flex">
+                <input
+                  type="text"
+                  name="label3"
+                  id="label3"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
+                  placeholder="Label (eg: Rakan-rakan)*"
+                  required=""
+                />
+                <input
+                  type="number"
+                  name="limit3"
+                  id="limit3"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
+                  placeholder="Had tetamu*"
+                  required=""
+                />
+              </div>
+              <div className=" flex">
+                <input
+                  type="text"
+                  name="from3"
+                  id="from3"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
+                  placeholder="Dari (eg: 2:00 PM)*"
+                  required=""
+                />
+                <input
+                  type="number"
+                  name="to3"
+                  id="to3"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
+                  placeholder="Hingga (eg: 3:30 PM)*"
+                  required=""
+                />
+              </div>
+            </div>
+            {/* Slot 4 */}
+            <label
+              htmlFor="slot4"
+              className="block  text-sm text-left py-2 font-medium text-gray-900 "
+            >
+              Slot 4
+            </label>
+            {/* <div className="grid gap-5 sm:grid-cols-2"></div> */}
+            <div>
+              <div className=" flex">
+                <input
+                  type="text"
+                  name="label4"
+                  id="label4"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
+                  placeholder="Label (eg: Tetamu sekalian)*"
+                  required=""
+                />
+                <input
+                  type="number"
+                  name="limit4"
+                  id="limit4"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
+                  placeholder="Had tetamu*"
+                  required=""
+                />
+              </div>
+              <div className=" flex">
+                <input
+                  type="text"
+                  name="from4"
+                  id="from4"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
+                  placeholder="Dari (eg: 3:30 PM)*"
+                  required=""
+                />
+                <input
+                  type="number"
+                  name="to4"
+                  id="to4"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
+                  placeholder="Hingga (eg: 5:00 PM)*"
+                  required=""
+                />
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Had kehadiran per tetamu */}
 
-        <div className="grid grid-cols-2">
+        {/* Tarikh last rsvp */}
+        <div className="w-1/2">
+          <label
+            htmlFor="tarikhlastrsvp"
+            className="block my-2 text-sm font-medium text-gray-900 "
+          >
+            Tarikh Akhir RSVP
+          </label>
+          <Datepicker />
+        </div>
+
+        <div className="grid grid-cols-2 mt-10">
           <div className="flex space-x-3 justify-start">
             <button
               type="button"

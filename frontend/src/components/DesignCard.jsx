@@ -26,11 +26,11 @@ function DesignCard({ key, itemName, itemImage, itemCategory }) {
                 Preview
               </a>
             </div>
-            <div className="border-l py-2 rounded-br-xl text-sm text-white border-black bg-sky-500  hover:bg-black ">
-              <Link to={`/kad-digital/tempah/${itemName}`} className="">
+            <Link to={`/kad-digital/tempah/${itemName}`} className="">
+              <div className="border-l py-2 rounded-br-xl text-sm text-white border-black bg-sky-500  hover:bg-black ">
                 Tempah
-              </Link>
-            </div>
+              </div>
+            </Link>
           </div>
         </div>
       </div>

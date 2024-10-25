@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Datepicker } from "flowbite-react";
 
 function ClockSVG() {
@@ -19,7 +20,7 @@ function ClockSVG() {
 }
 
 // eslint-disable-next-line react/prop-types
-function MajlisSection({ onPrevious, onNext }) {
+function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
   return (
     <div className="my-8">
       <h1 className="mb-4 text-xl font-extrabold tracking-tight text-gray-900 sm:mb-6 leding-tight ">
@@ -38,11 +39,13 @@ function MajlisSection({ onPrevious, onNext }) {
             <input
               type="text"
               name="tajukmajlis"
-              defaultValue={"Walimatulurus"}
               id="tajukmajlis"
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
-              placeholder="Walimatulurus"
-              required=""
+              required={true}
+              value={formData.tajukMajlis}
+              onChange={(e) => {
+                handleFormDataChange("tajukMajlis", e.target.value);
+              }}
             />
           </div>
 
@@ -59,8 +62,11 @@ function MajlisSection({ onPrevious, onNext }) {
               name="mukadimah"
               id="mukadimah"
               className="bg-gray-50 border border-gray-300 text-center text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block  w-full p-2.5  "
-              defaultValue={"Assalamualaikum Wbt & Salam Sejahtera"}
-              required=""
+              required={true}
+              value={formData.mukadimah}
+              onChange={(e) => {
+                handleFormDataChange("mukadimah", e.target.value);
+              }}
             />
           </div>
 
@@ -76,10 +82,11 @@ function MajlisSection({ onPrevious, onNext }) {
               name="ucapan"
               id="ucapan"
               className="bg-gray-50 border border-gray-300 text-center text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block h-24 w-full p-2.5"
-              defaultValue={
-                "Dengan penuh kesyukuran kehadrat Ilahi,\n kami mempersilakan Dato'/Datin/Dr/Tuan/Puan/Encik/Cik \nke walimatulurus anakanda kesayangan kami"
-              }
-              required
+              required={true}
+              value={formData.ucapanAluan}
+              onChange={(e) => {
+                handleFormDataChange("ucapanAluan", e.target.value);
+              }}
             />
           </div>
           {/* Tarikh majlis */}
@@ -90,7 +97,13 @@ function MajlisSection({ onPrevious, onNext }) {
             >
               Tarikh Majlis
             </label>
-            <Datepicker title="Tarikh Majlis Berlangsung" />
+            <Datepicker
+              title="Tarikh Majlis Berlangsung"
+              value={formData.tarikhMajlis}
+              onChange={(e) => {
+                handleFormDataChange("tarikhMajlis", e.target.value);
+              }}
+            />
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2">
@@ -110,8 +123,11 @@ function MajlisSection({ onPrevious, onNext }) {
                   type="time"
                   id="eventstart"
                   className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  value="00:00"
-                  required
+                  required={true}
+                  value={formData.majlisStart}
+                  onChange={(e) => {
+                    handleFormDataChange("majlisStart", e.target.value);
+                  }}
                 />
               </div>
             </div>
@@ -131,8 +147,11 @@ function MajlisSection({ onPrevious, onNext }) {
                   type="time"
                   id="eventend"
                   className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  value="00:00"
-                  required
+                  required={true}
+                  value={formData.majlisEnd}
+                  onChange={(e) => {
+                    handleFormDataChange("majlisEnd", e.target.value);
+                  }}
                 />
               </div>
             </div>
@@ -152,7 +171,11 @@ function MajlisSection({ onPrevious, onNext }) {
               id="location"
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
               placeholder="Lokasi Majlis"
-              required=""
+              required={true}
+              value={formData.locationMajlis}
+              onChange={(e) => {
+                handleFormDataChange("locationMajlis", e.target.value);
+              }}
             />
           </div>
 
@@ -169,8 +192,12 @@ function MajlisSection({ onPrevious, onNext }) {
               name="alamat"
               id="alamat"
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block h-20 w-full p-2.5  "
-              required=""
+              required={true}
               placeholder="Alamat Penuh Lokasi Majlis"
+              value={formData.fullLocationMajlis}
+              onChange={(e) => {
+                handleFormDataChange("fullLocationMajlis", e.target.value);
+              }}
             />
           </div>
 
@@ -189,7 +216,11 @@ function MajlisSection({ onPrevious, onNext }) {
                 id="maps"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
                 placeholder="Link Google Maps"
-                required=""
+                required={true}
+                value={formData.googleMapsLink}
+                onChange={(e) => {
+                  handleFormDataChange("googleMapsLink", e.target.value);
+                }}
               />
             </div>
             {/* Waze */}
@@ -206,7 +237,11 @@ function MajlisSection({ onPrevious, onNext }) {
                 id="waze"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
                 placeholder="Link Waze"
-                required=""
+                required={true}
+                value={formData.wazeLink}
+                onChange={(e) => {
+                  handleFormDataChange("wazeLink", e.target.value);
+                }}
               />
             </div>
           </div>
@@ -227,7 +262,11 @@ function MajlisSection({ onPrevious, onNext }) {
                 id="nama1"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
                 placeholder="Nama *"
-                required=""
+                required={true}
+                value={formData.emergencyContacts1}
+                onChange={(e) => {
+                  handleFormDataChange("emergencyContacts1", e.target.value);
+                }}
               />
               <input
                 type="text"
@@ -235,7 +274,11 @@ function MajlisSection({ onPrevious, onNext }) {
                 id="phone1"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
                 placeholder="Nombor Telefon (Tanpa '-')*"
-                required=""
+                required={true}
+                value={formData.emergencyNumber1}
+                onChange={(e) => {
+                  handleFormDataChange("emergencyNumber1", e.target.value);
+                }}
               />
             </div>
             <div className=" flex">
@@ -245,7 +288,11 @@ function MajlisSection({ onPrevious, onNext }) {
                 id="nama2"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
                 placeholder="Nama *"
-                required=""
+                required={true}
+                value={formData.emergencyContacts2}
+                onChange={(e) => {
+                  handleFormDataChange("emergencyContacts2", e.target.value);
+                }}
               />
               <input
                 type="text"
@@ -253,7 +300,11 @@ function MajlisSection({ onPrevious, onNext }) {
                 id="phone2"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
                 placeholder="Nombor Telefon (Tanpa '-')*"
-                required=""
+                required={true}
+                value={formData.emergencyNumber2}
+                onChange={(e) => {
+                  handleFormDataChange("emergencyNumber2", e.target.value);
+                }}
               />
             </div>
             <div className=" flex">
@@ -270,6 +321,10 @@ function MajlisSection({ onPrevious, onNext }) {
                 id="phone3"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
                 placeholder="Nombor Telefon (Tanpa '-')"
+                value={formData.emergencyContacts3}
+                onChange={(e) => {
+                  handleFormDataChange("emergencyContacts3", e.target.value);
+                }}
               />
             </div>
             <div className=" flex">
@@ -279,6 +334,10 @@ function MajlisSection({ onPrevious, onNext }) {
                 id="nama4"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
                 placeholder="Nama"
+                value={formData.emergencyContacts4}
+                onChange={(e) => {
+                  handleFormDataChange("emergencyContacts4", e.target.value);
+                }}
               />
               <input
                 type="text"
@@ -286,6 +345,10 @@ function MajlisSection({ onPrevious, onNext }) {
                 id="phone4"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
                 placeholder="Nombor Telefon (Tanpa '-')"
+                value={formData.emergencyNumber4}
+                onChange={(e) => {
+                  handleFormDataChange("emergencyNumber4", e.target.value);
+                }}
               />
             </div>
           </div>
@@ -308,8 +371,11 @@ function MajlisSection({ onPrevious, onNext }) {
                   type="time"
                   id="time1"
                   className="bg-gray-50 border h-3/4 leading-none border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  value="10:00"
-                  required
+                  required={true}
+                  value={formData.eventTentativeTime1}
+                  onChange={(e) => {
+                    handleFormDataChange("eventTentativeTime1", e.target.value);
+                  }}
                 />
               </div>
               <input
@@ -317,8 +383,11 @@ function MajlisSection({ onPrevious, onNext }) {
                 name="aturcara1"
                 id="aturcara1"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
-                defaultValue={"Majlis Bermula"}
-                required=""
+                required={true}
+                value={formData.eventTentativeTitle2}
+                onChange={(e) => {
+                  handleFormDataChange("eventTentativeTitle2", e.target.value);
+                }}
               />
             </div>
             <div className="grid grid-cols-2">
@@ -330,8 +399,11 @@ function MajlisSection({ onPrevious, onNext }) {
                   type="time"
                   id="time2"
                   className="bg-gray-50 border h-3/4 leading-none border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  value="12:30"
-                  required
+                  required={true}
+                  value={formData.eventTentativeTime2}
+                  onChange={(e) => {
+                    handleFormDataChange("eventTentativeTime2", e.target.value);
+                  }}
                 />
               </div>
               <input
@@ -339,8 +411,11 @@ function MajlisSection({ onPrevious, onNext }) {
                 name="aturcara2"
                 id="aturcara2"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
-                defaultValue={"Ketibaan Pengantin"}
-                required=""
+                required={true}
+                value={formData.eventTentativeTitle3}
+                onChange={(e) => {
+                  handleFormDataChange("eventTentativeTitle3", e.target.value);
+                }}
               />
             </div>
             <div className="grid grid-cols-2">
@@ -352,8 +427,11 @@ function MajlisSection({ onPrevious, onNext }) {
                   type="time"
                   id="time3"
                   className="bg-gray-50 border h-3/4 leading-none border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  value="16:30"
-                  required
+                  required={true}
+                  value={formData.eventTentativeTime3}
+                  onChange={(e) => {
+                    handleFormDataChange("eventTentativeTime3", e.target.value);
+                  }}
                 />
               </div>
               <input
@@ -361,8 +439,11 @@ function MajlisSection({ onPrevious, onNext }) {
                 name="aturcara3"
                 id="aturcara3"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
-                required=""
-                defaultValue={"Majlis Tamat"}
+                required={true}
+                value={formData.eventTentativeTitle3}
+                onChange={(e) => {
+                  handleFormDataChange("eventTentativeTitle3", e.target.value);
+                }}
               />
             </div>
             <div className="grid grid-cols-2">
@@ -374,6 +455,10 @@ function MajlisSection({ onPrevious, onNext }) {
                   type="time"
                   id="time4"
                   className="bg-gray-50 border h-3/4 leading-none border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  value={formData.eventTentativeTime4}
+                  onChange={(e) => {
+                    handleFormDataChange("eventTentativeTime4", e.target.value);
+                  }}
                 />
               </div>
               <input
@@ -381,6 +466,10 @@ function MajlisSection({ onPrevious, onNext }) {
                 name="aturcara4"
                 id="aturcara4"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
+                value={formData.eventTentativeTitle4}
+                onChange={(e) => {
+                  handleFormDataChange("eventTentativeTitle4", e.target.value);
+                }}
               />
             </div>
             <div className="grid grid-cols-2">
@@ -392,6 +481,10 @@ function MajlisSection({ onPrevious, onNext }) {
                   type="time"
                   id="time5"
                   className="bg-gray-50 border h-3/4 leading-none border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  value={formData.eventTentativeTime5}
+                  onChange={(e) => {
+                    handleFormDataChange("eventTentativeTime5", e.target.value);
+                  }}
                 />
               </div>
               <input
@@ -399,6 +492,10 @@ function MajlisSection({ onPrevious, onNext }) {
                 name="aturcara5"
                 id="aturcara5"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
+                value={formData.eventTentativeTitle5}
+                onChange={(e) => {
+                  handleFormDataChange("eventTentativeTitle5", e.target.value);
+                }}
               />
             </div>
           </div>

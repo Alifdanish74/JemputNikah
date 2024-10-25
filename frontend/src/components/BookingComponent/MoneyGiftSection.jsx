@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import { Button } from "flowbite-react";
 import { useState } from "react";
 import { FaUpload } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 
 // eslint-disable-next-line react/prop-types
-function MoneyGiftSection({ onPrevious, onNext }) {
+function MoneyGiftSection({ onPrevious, onNext, formData, handleFormDataChange }) {
   const [imageUrl, setImageUrl] = useState(null); // To store preview of design image
   const [image, setImage] = useState(null);
 
@@ -40,6 +41,10 @@ function MoneyGiftSection({ onPrevious, onNext }) {
             <select
               id="pihakmajlis"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5   "
+              value={formData.bankName}
+              onChange={(e) => {
+                handleFormDataChange("bankName", e.target.value);
+              }}
             >
               <option selected="">Pilih bank</option>
               <option value="Maybank">Maybank</option>
@@ -62,8 +67,11 @@ function MoneyGiftSection({ onPrevious, onNext }) {
               name="accountnumber"
               id="accountnumber"
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
-              placeholder=""
-              required=""
+              required={true}
+              value={formData.accountNumber}
+              onChange={(e) => {
+                handleFormDataChange("accountNumber", e.target.value);
+              }}
             />
           </div>
 
