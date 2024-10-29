@@ -19,7 +19,7 @@ function PakejSection() {
   return (
     <>
       <section className="bg-blue-50">
-        <div className="py-8 px-4 mx-auto max-w-5xl lg:py-16 lg:px-6">
+        <div className="py-5 px-4 mx-auto max-w-5xl  lg:px-6">
           <div className="max-w-5xl mx-auto text-center pb-10">
             <h2 className="text-3xl font-bold text-gray-800">
               Pakej Yang Ditawarkan

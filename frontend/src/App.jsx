@@ -16,6 +16,8 @@ import RegisterPage from "./pages/RegisterPage";
 import { UserContextProvider } from "./customhooks/UserContext";
 import AdminUploadPage from "./adminside/AdminUploadPage";
 import BookingPage from "./pages/BookingPage";
+import RekodTempahanPage from "./pages/RekodTempahanPage";
+import Profile from "./pages/Profile";
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
@@ -39,6 +41,8 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/admin/upload" element={<AdminUploadPage />} />
+            <Route path="/tempahan" element={<RekodTempahanPage/>} />
+            <Route path="/profile" element={<Profile/>} />
           </Route>
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>

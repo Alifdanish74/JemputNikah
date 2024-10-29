@@ -46,7 +46,7 @@ function MoneyGiftSection({ onPrevious, onNext, formData, handleFormDataChange }
                 handleFormDataChange("bankName", e.target.value);
               }}
             >
-              <option selected="">Pilih bank</option>
+              <option value="">Pilih bank</option>
               <option value="Maybank">Maybank</option>
               <option value="CIMB">CIMB</option>
               <option value="UOB">UOB</option>

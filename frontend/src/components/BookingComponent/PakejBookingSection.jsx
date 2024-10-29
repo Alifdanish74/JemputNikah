@@ -10,11 +10,7 @@ import { FcPlus } from "react-icons/fc";
 import { Button } from "flowbite-react";
 
 // eslint-disable-next-line react/prop-types
-function PakejSection({onPakejChange}) {
-  
-
-
-
+function PakejSection({ onPakejChange, handleFormDataChange }) {
   return (
     <div className="my-8">
       <h1 className="mb-4 text-xl font-extrabold tracking-tight text-gray-900 sm:mb-6 leding-tight ">
@@ -84,7 +80,11 @@ function PakejSection({onPakejChange}) {
               href="#"
               size="xs"
               className="flex justify-center  text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-bue-200 font-medium rounded-lg  px-5 py-2.5 text-center"
-              onClick={() => onPakejChange("Bali")}
+              onClick={() => {
+                handleFormDataChange("pakej", "Bali");
+                handleFormDataChange("price", "39");
+                onPakejChange("Bali");
+              }}
             >
               Select
             </Button>
@@ -180,7 +180,11 @@ function PakejSection({onPakejChange}) {
               href="#"
               size="xs"
               className="flex justify-center  text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-bue-200 font-medium rounded-lg  px-5 py-2.5 text-center"
-              onClick={() => onPakejChange("Istanbul")}
+              onClick={() => {
+                handleFormDataChange("pakej", "Istanbul");
+                handleFormDataChange("price", "59");
+                onPakejChange("Istanbul");
+              }}
             >
               Select
             </Button>
@@ -288,7 +292,11 @@ function PakejSection({onPakejChange}) {
               href="#"
               size="xs"
               className="flex justify-center  text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-bue-200 font-medium rounded-lg  px-5 py-2.5 text-center"
-              onClick={() => onPakejChange("Paris")}
+              onClick={() => {
+                handleFormDataChange("pakej", "Paris");
+                handleFormDataChange("price", "79");
+                onPakejChange("Paris");
+              }}
             >
               Select
             </Button>

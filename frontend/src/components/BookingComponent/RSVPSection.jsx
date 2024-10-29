@@ -1,10 +1,10 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Datepicker, ToggleSwitch } from "flowbite-react";
 
 // eslint-disable-next-line react/prop-types
-function RSVPSection({ onPrevious, onNext }) {
+function RSVPSection({ onPrevious, onNext, formData, handleFormDataChange }) {
   const [slotMasa, setSlotMasa] = useState(false);
-  const [kids, setkids] = useState(false);
 
   return (
     <div className="my-8">
@@ -19,14 +19,6 @@ function RSVPSection({ onPrevious, onNext }) {
               checked={slotMasa}
               label="Slot masa?"
               onChange={setSlotMasa}
-            />
-          </div>
-          <div>
-            {/* Toggle Kanak kanak */}
-            <ToggleSwitch
-              checked={kids}
-              label="Kehadiran kanak-kanak?"
-              onChange={setkids}
             />
           </div>
         </div>
@@ -44,24 +36,70 @@ function RSVPSection({ onPrevious, onNext }) {
               name="limitguest"
               id="limitguest"
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
-              required="true"
+              required={true}
               placeholder="500"
+              value={formData.maxInvitations}
+              onChange={(e) => {
+                handleFormDataChange("maxInvitations", e.target.value);
+              }}
             />
           </div>
+          {/* Tarikh last rsvp */}
+          <div>
+            <label
+              htmlFor="tarikhlastrsvp"
+              className="block mb-2 text-sm font-medium text-gray-900 "
+            >
+              Tarikh Akhir RSVP
+            </label>
+            <Datepicker
+              title="Tarikh Akhir RSVP"
+              minDate={new Date()}
+              onChange={(date) => handleFormDataChange("maxDate", date)}
+            />
+          </div>
+        </div>
+        <div className="grid gap-5 my-6 sm:grid-cols-2">
+          {/* Had kehadiran per tetamu */}
           <div>
             <label
               htmlFor="limitperperson"
               className="block mb-2 text-sm font-medium text-gray-900 "
             >
-              Had Kehadiran Per Tetamu
+              Had Kehadiran Per Tetamu (Dewasa)
             </label>
             <input
               type="number"
               name="limitperperson"
               id="limitperperson"
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
-              required="true"
+              required={true}
               placeholder="5"
+              value={formData.maxInvitationsDewasa}
+              onChange={(e) => {
+                handleFormDataChange("maxInvitationsDewasa", e.target.value);
+              }}
+            />
+          </div>
+          {/* Had kehadiran per tetamu kanak kanak */}
+          <div>
+            <label
+              htmlFor="limitperperson"
+              className="block mb-2 text-sm font-medium text-gray-900 "
+            >
+              Had Kehadiran Per Tetamu (Kanak-kanak)
+            </label>
+            <input
+              type="number"
+              name="limitperperson"
+              id="limitperperson"
+              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
+              required={true}
+              placeholder="5"
+              value={formData.maxInvitationsKids}
+              onChange={(e) => {
+                handleFormDataChange("maxInvitationsKids", e.target.value);
+              }}
             />
           </div>
         </div>
@@ -70,7 +108,7 @@ function RSVPSection({ onPrevious, onNext }) {
             {/* Slot 1 */}
             <label
               htmlFor="slot1"
-              className="block  text-sm text-left pb-2 font-medium text-gray-900 "
+              className="block  text-sm text-left py-2 font-medium text-gray-900 "
             >
               Slot 1
             </label>
@@ -83,7 +121,11 @@ function RSVPSection({ onPrevious, onNext }) {
                   id="label1"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
                   placeholder="Label (eg: Saudara-mara)*"
-                  required="true"
+                  required={true}
+                  value={formData.labelSlot1}
+                  onChange={(e) => {
+                    handleFormDataChange("labelSlot1", e.target.value);
+                  }}
                 />
                 <input
                   type="number"
@@ -91,7 +133,11 @@ function RSVPSection({ onPrevious, onNext }) {
                   id="limit1"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
                   placeholder="Had tetamu*"
-                  required="true"
+                  required={true}
+                  value={formData.maxSlot1}
+                  onChange={(e) => {
+                    handleFormDataChange("maxSlot1", e.target.value);
+                  }}
                 />
               </div>
               <div className=" flex">
@@ -101,15 +147,23 @@ function RSVPSection({ onPrevious, onNext }) {
                   id="from1"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
                   placeholder="Dari (eg: 11:00 AM)*"
-                  required="true"
+                  required={true}
+                  value={formData.fromSlot1}
+                  onChange={(e) => {
+                    handleFormDataChange("fromSlot1", e.target.value);
+                  }}
                 />
                 <input
-                  type="number"
+                  type="text"
                   name="to1"
                   id="to1"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
                   placeholder="Hingga (eg: 12:30 PM)*"
-                  required="true"
+                  required={true}
+                  value={formData.toSlot1}
+                  onChange={(e) => {
+                    handleFormDataChange("toSlot1", e.target.value);
+                  }}
                 />
               </div>
             </div>
@@ -129,7 +183,11 @@ function RSVPSection({ onPrevious, onNext }) {
                   id="label2"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
                   placeholder="Label (eg: Jiran tetangga)*"
-                  required=""
+                  required={true}
+                  value={formData.labelSlot2}
+                  onChange={(e) => {
+                    handleFormDataChange("labelSlot2", e.target.value);
+                  }}
                 />
                 <input
                   type="number"
@@ -137,7 +195,11 @@ function RSVPSection({ onPrevious, onNext }) {
                   id="limit2"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
                   placeholder="Had tetamu*"
-                  required=""
+                  required={true}
+                  value={formData.maxSlot2}
+                  onChange={(e) => {
+                    handleFormDataChange("maxSlot2", e.target.value);
+                  }}
                 />
               </div>
               <div className=" flex">
@@ -147,15 +209,23 @@ function RSVPSection({ onPrevious, onNext }) {
                   id="from2"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
                   placeholder="Dari (eg: 12:30 PM)*"
-                  required=""
+                  required={true}
+                  value={formData.fromSlot2}
+                  onChange={(e) => {
+                    handleFormDataChange("fromSlot2", e.target.value);
+                  }}
                 />
                 <input
-                  type="number"
+                  type="text"
                   name="to2"
                   id="to2"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
-                  placeholder="Hingga (eg: 2:00 PM)*"
-                  required=""
+                  placeholder="Hingga (eg: 2:30 PM)*"
+                  required={true}
+                  value={formData.toSlot2}
+                  onChange={(e) => {
+                    handleFormDataChange("toSlot2", e.target.value);
+                  }}
                 />
               </div>
             </div>
@@ -175,7 +245,11 @@ function RSVPSection({ onPrevious, onNext }) {
                   id="label3"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
                   placeholder="Label (eg: Rakan-rakan)*"
-                  required=""
+                  required={true}
+                  value={formData.labelSlot3}
+                  onChange={(e) => {
+                    handleFormDataChange("labelSlot3", e.target.value);
+                  }}
                 />
                 <input
                   type="number"
@@ -183,7 +257,11 @@ function RSVPSection({ onPrevious, onNext }) {
                   id="limit3"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
                   placeholder="Had tetamu*"
-                  required=""
+                  required={true}
+                  value={formData.maxSlot3}
+                  onChange={(e) => {
+                    handleFormDataChange("maxSlot3", e.target.value);
+                  }}
                 />
               </div>
               <div className=" flex">
@@ -192,79 +270,29 @@ function RSVPSection({ onPrevious, onNext }) {
                   name="from3"
                   id="from3"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
-                  placeholder="Dari (eg: 2:00 PM)*"
-                  required=""
+                  placeholder="Dari (eg: 2:30 AM)*"
+                  required={true}
+                  value={formData.fromSlot3}
+                  onChange={(e) => {
+                    handleFormDataChange("fromSlot3", e.target.value);
+                  }}
                 />
                 <input
-                  type="number"
+                  type="text"
                   name="to3"
                   id="to3"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
                   placeholder="Hingga (eg: 3:30 PM)*"
-                  required=""
-                />
-              </div>
-            </div>
-            {/* Slot 4 */}
-            <label
-              htmlFor="slot4"
-              className="block  text-sm text-left py-2 font-medium text-gray-900 "
-            >
-              Slot 4
-            </label>
-            {/* <div className="grid gap-5 sm:grid-cols-2"></div> */}
-            <div>
-              <div className=" flex">
-                <input
-                  type="text"
-                  name="label4"
-                  id="label4"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
-                  placeholder="Label (eg: Tetamu sekalian)*"
-                  required=""
-                />
-                <input
-                  type="number"
-                  name="limit4"
-                  id="limit4"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
-                  placeholder="Had tetamu*"
-                  required=""
-                />
-              </div>
-              <div className=" flex">
-                <input
-                  type="text"
-                  name="from4"
-                  id="from4"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
-                  placeholder="Dari (eg: 3:30 PM)*"
-                  required=""
-                />
-                <input
-                  type="number"
-                  name="to4"
-                  id="to4"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
-                  placeholder="Hingga (eg: 5:00 PM)*"
-                  required=""
+                  required={true}
+                  value={formData.toSlot3}
+                  onChange={(e) => {
+                    handleFormDataChange("toSlot3", e.target.value);
+                  }}
                 />
               </div>
             </div>
           </div>
         )}
-        {/* Had kehadiran per tetamu */}
-
-        {/* Tarikh last rsvp */}
-        <div className="w-1/2">
-          <label
-            htmlFor="tarikhlastrsvp"
-            className="block my-2 text-sm font-medium text-gray-900 "
-          >
-            Tarikh Akhir RSVP
-          </label>
-          <Datepicker />
-        </div>
 
         <div className="grid grid-cols-2 mt-10">
           <div className="flex space-x-3 justify-start">

@@ -3,10 +3,10 @@
 
 import { Link } from "react-router-dom";
 
-function DesignCard({ key, itemName, itemImage, itemCategory }) {
+function DesignCard({  itemName, itemImage, itemCategory }) {
   return (
     <div>
-      <div key={key} className=" sm:max-w-xs mx-auto">
+      <div className=" sm:max-w-xs mx-auto">
         <h5 className="text-lg md:text-xl mb-2 font-semibold tracking-tight text-gray-900 text-center">
           {itemName}
         </h5>
@@ -22,7 +22,7 @@ function DesignCard({ key, itemName, itemImage, itemCategory }) {
 
           <div className="grid grid-cols-2 rounded-lg  bg-gray-50">
             <div className="border-r py-2 w-full  text-sm rounded-bl-xl border-black hover:bg-black hover:text-white">
-              <a href="" className="">
+              <a href="/preview-card" target="_blank" className="">
                 Preview
               </a>
             </div>

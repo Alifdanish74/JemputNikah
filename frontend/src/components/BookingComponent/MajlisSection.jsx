@@ -99,10 +99,9 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
             </label>
             <Datepicker
               title="Tarikh Majlis Berlangsung"
-              value={formData.tarikhMajlis}
-              onChange={(e) => {
-                handleFormDataChange("tarikhMajlis", e.target.value);
-              }}
+              minDate={new Date()}
+              showTodayButton={false}
+              onChange={(date) => handleFormDataChange("tarikhMajlis", date)}
             />
           </div>
 

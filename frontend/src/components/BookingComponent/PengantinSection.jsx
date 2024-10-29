@@ -2,9 +2,79 @@
 import { useState } from "react";
 import { FaUpload } from "react-icons/fa";
 
-function PengantinSection({ onNext, formData, handleFormDataChange }) {
-  const [selectedFont, setSelectedFont] = useState("");
-  const [pihakMajlis, setPihakMajlis] = useState("");
+function PengantinSection({ onNext, formData, handleFormDataChange, errors }) {
+  const [selectedFont, setSelectedFont] = useState("font-CinzelDecorative");
+  const [pihakMajlis, setPihakMajlis] = useState("L");
+
+  // const [errors, setErrors] = useState({}); // State to hold form errors
+
+  // Validation function to check if required fields are filled
+  // const validateForm = () => {
+  //   const newErrors = {};
+  //   if (!formData.namaPenuhLelaki) {
+  //     newErrors.namaPenuhLelaki = "Nama penuh pengantin lelaki is required";
+  //   }
+  //   if (!formData.namaPendekLelaki) {
+  //     newErrors.namaPendekLelaki = "Nama pendek pengantin lelaki is required";
+  //   }
+  //   if (!formData.namaPenuhPerempuan) {
+  //     newErrors.namaPenuhPerempuan =
+  //       "Nama penuh pengantin perempuan is required";
+  //   }
+  //   if (!formData.namaPendekPerempuan) {
+  //     newErrors.namaPendekPerempuan =
+  //       "Nama pendek pengantin perempuan is required";
+  //   }
+  //   if (pihakMajlis === "P" || pihakMajlis === "L") {
+  //     if (!formData.namaBapaPengantin) {
+  //       newErrors.namaBapaPengantin = "Nama bapa pengantin is required";
+  //     }
+  //     if (!formData.namaIbuPengantin) {
+  //       newErrors.namaIbuPengantin = "Nama ibu pengantin is required";
+  //     }
+  //   }
+  //   // Add more checks here based on your requirements
+  //   if (pihakMajlis === "D") {
+  //     if (!formData.namaPenuhPasangan1) {
+  //       newErrors.namaPenuhPasangan1 = "Nama penuh pasangan is required";
+  //     }
+  //     if (!formData.namaPendekPasangan1) {
+  //       newErrors.namaPendekPasangan1 = "Nama pendek pasangan is required";
+  //     }
+  //     if (!formData.namaPenuhPasangan2) {
+  //       newErrors.namaPenuhPasangan2 = "Nama penuh pasangan is required";
+  //     }
+  //     if (!formData.namaPendekPasangan2) {
+  //       newErrors.namaPendekPasangan2 = "Nama pendek pasangan is required";
+  //     }
+  //   }
+  //   if (pihakMajlis === "LL" || pihakMajlis === "PP") {
+  //     if (!formData.namaBapaPengantinL) {
+  //       newErrors.namaBapaPengantinL = "Nama bapa pengantin is required";
+  //     }
+  //     if (!formData.namaIbuPengantinL) {
+  //       newErrors.namaIbuPengantinL = "Nama ibu pengantin is required";
+  //     }
+  //     if (!formData.namaBapaPengantinP) {
+  //       newErrors.namaBapaPengantinP = "Nama bapa pengantin is required";
+  //     }
+  //     if (!formData.namaIbuPengantinP) {
+  //       newErrors.namaIbuPengantinP = "Nama ibu pengantin is required";
+  //     }
+  //   }
+
+  //   setErrors(newErrors);
+  //   return Object.keys(newErrors).length === 0;
+  // };
+
+  // Function to handle the Next button click
+  const handleNextClick = () => {
+    // if (validateForm()) {
+      onNext(); // Proceed to the next section only if the form is valid
+    // } else {
+    //   console.log("Form is invalid"); // Show an error message or UI feedback
+    // }
+  };
 
   // Function to handle font change
   const handleFontChange = (e) => {
@@ -39,13 +109,16 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
                 handleFormDataChange("pihakMajlis", e.target.value);
               }}
             >
-              <option selected="">Pilih pihak majlis</option>
+              {/* <option value="">Pilih pihak majlis</option> */}
               <option value="L">Belah pengantin lelaki</option>
               <option value="P">Belah pengantin perempuan</option>
               <option value="LL">Kedua-dua belah pihak (lelaki)</option>
               <option value="PP">Kedua-dua belah pihak (perempuan)</option>
               <option value="D">Dua pasangan</option>
             </select>
+            {errors.pihakMajlis && (
+              <p className="text-red-500 text-sm">{errors.pihakMajlis}</p>
+            )}
           </div>
 
           {/* <h1>{pihakMajlis}</h1> */}
@@ -66,16 +139,17 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
                 handleFormDataChange("jenisFont", e.target.value);
               }} // Trigger handleFontChange when font is selected
             >
-              <option value="">Pilih jenis font</option>
-              <option className="font-Tangerine" value="font-Tangerine">
-                Tangerine
-              </option>
+              {/* <option value="">Pilih jenis font</option> */}
               <option
                 className="font-CinzelDecorative"
                 value="font-CinzelDecorative"
               >
                 Cinzel Decorative
               </option>
+              <option className="font-Tangerine" value="font-Tangerine">
+                Tangerine
+              </option>
+
               <option className="font-GreatVibes" value="font-GreatVibes">
                 Great Vibes
               </option>
@@ -104,10 +178,13 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
                 Hearthway
               </option>
             </select>
+            {errors.pihakMajlis && (
+              <p className="text-red-500 text-sm">{errors.jenisFont}</p>
+            )}
           </div>
           {pihakMajlis === "D" ? (
             <>
-              {/* Nama panjang pasangan pertama */}
+              {/* Nama penuh pasangan pertama */}
               <div>
                 <label
                   htmlFor="full-name-pair1"
@@ -120,13 +197,18 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
                   name="full-name-pair1"
                   id="full-name-pair1"
                   className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-lg rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
-                  placeholder="Ahmad Ali bin Abu & Siti Aminah binti Rahman"
+                  placeholder="Ahmad Ali bin Abu & Siti binti Rahman"
                   required={true}
                   value={formData.namaPenuhPasangan1}
                   onChange={(e) => {
                     handleFormDataChange("namaPenuhPasangan1", e.target.value);
                   }}
                 />
+                {errors.namaPenuhPasangan1 && (
+                  <p className="text-red-500 text-sm">
+                    Nama penuh pasangan pertama is required
+                  </p>
+                )}
               </div>
               {/* Nama pendek pasangan pertama */}
               <div>
@@ -148,6 +230,11 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
                     handleFormDataChange("namaPendekPasangan1", e.target.value);
                   }}
                 />
+                {errors.namaPendekPasangan1 && (
+                  <p className="text-red-500 text-sm">
+                    Nama pendek pasangan pertama is required
+                  </p>
+                )}
               </div>
               {/* Nama panjang Pasangan Kedua */}
               <div>
@@ -169,6 +256,11 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
                     handleFormDataChange("namaPenuhPasangan2", e.target.value);
                   }}
                 />
+                {errors.namaPenuhPasangan2 && (
+                  <p className="text-red-500 text-sm">
+                    Nama penuh pasangan kedua is required
+                  </p>
+                )}
               </div>
               {/* Nama pendek Pasangan Kedua*/}
               <div>
@@ -190,6 +282,11 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
                     handleFormDataChange("namaPendekPasangan2", e.target.value);
                   }}
                 />
+                {errors.namaPendekPasangan2 && (
+                  <p className="text-red-500 text-sm">
+                    Nama pendek pasangan kedua is required
+                  </p>
+                )}
               </div>
             </>
           ) : (
@@ -214,6 +311,11 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
                     handleFormDataChange("namaPenuhLelaki", e.target.value);
                   }}
                 />
+                {errors.namaPenuhLelaki && (
+                  <p className="text-red-500 text-sm">
+                    {errors.namaPenuhLelaki}
+                  </p>
+                )}
               </div>
               {/* Nama pendek pengantin lelaki */}
               <div>
@@ -235,8 +337,13 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
                     handleFormDataChange("namaPendekLelaki", e.target.value);
                   }}
                 />
+                {errors.namaPendekLelaki && (
+                  <p className="text-red-500 text-sm">
+                    {errors.namaPendekLelaki}
+                  </p>
+                )}
               </div>
-              {/* Nama panjang pengantin Perempuan */}
+              {/* Nama penuh pengantin Perempuan */}
               <div>
                 <label
                   htmlFor="full-name-Perempuan"
@@ -256,6 +363,11 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
                     handleFormDataChange("namaPenuhPerempuan", e.target.value);
                   }}
                 />
+                {errors.namaPenuhPerempuan && (
+                  <p className="text-red-500 text-sm">
+                    {errors.namaPenuhPerempuan}
+                  </p>
+                )}
               </div>
               {/* Nama pendek pengantin Perempuan */}
               <div>
@@ -277,144 +389,17 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
                     handleFormDataChange("namaPendekPerempuan", e.target.value);
                   }}
                 />
+                {errors.namaPendekPerempuan && (
+                  <p className="text-red-500 text-sm">
+                    {errors.namaPendekPerempuan}
+                  </p>
+                )}
               </div>
             </>
           )}
 
           {pihakMajlis === "LL" ? (
             <>
-              {/* Nama bapa (pihak majlis) */}
-              <div>
-                <label
-                  htmlFor="namabapa"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
-                  Nama Bapa Pengantin (Pihak Lelaki)
-                </label>
-                <input
-                  type="text"
-                  name="namabapa"
-                  id="namabapa"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
-                  placeholder="Nama Bapa Pengantin Lelaki"
-                  required={true}
-                  value={formData.namaBapaPengantinL}
-                  onChange={(e) => {
-                    handleFormDataChange("namaBapaPengantinL", e.target.value);
-                  }}
-                />
-              </div>
-
-              {/* Nama ibu (pihak majlis) */}
-              <div>
-                <label
-                  htmlFor="namaibu"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
-                  Nama Ibu Pengantin (Pihak Lelaki)
-                </label>
-                <input
-                  type="text"
-                  name="namaibu"
-                  id="namaibu"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
-                  placeholder="Nama Ibu Pengantin Lelaki"
-                  required={true}
-                  value={formData.namaIbuPengantinL}
-                  onChange={(e) => {
-                    handleFormDataChange("namaIbuPengantinL", e.target.value);
-                  }}
-                />
-              </div>
-              {/* Nama bapa (pihak Perempuan) */}
-              <div>
-                <label
-                  htmlFor="namabapa"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
-                  Nama Bapa Pengantin (Pihak Perempuan)
-                </label>
-                <input
-                  type="text"
-                  name="namabapa"
-                  id="namabapa"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
-                  placeholder="Nama Bapa Pengantin Perempuan"
-                  required={true}
-                  value={formData.namaBapaPengantinP}
-                  onChange={(e) => {
-                    handleFormDataChange("namaBapaPengantinP", e.target.value);
-                  }}
-                />
-              </div>
-
-              {/* Nama ibu (pihak Perempuan) */}
-              <div>
-                <label
-                  htmlFor="namaibu"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
-                  Nama Ibu Pengantin (Pihak Perempuan)
-                </label>
-                <input
-                  type="text"
-                  name="namaibu"
-                  id="namaibu"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
-                  placeholder="Nama Ibu Pengantin Perempuan"
-                  required={true}
-                  value={formData.namaIbuPengantinP}
-                  onChange={(e) => {
-                    handleFormDataChange("namaIbuPengantinP", e.target.value);
-                  }}
-                />
-              </div>
-            </>
-          ) : pihakMajlis === "PP" ? (
-            <>
-              {/* Nama bapa (pihak majlis) */}
-              <div>
-                <label
-                  htmlFor="namabapa"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
-                  Nama Bapa Pengantin (Pihak Perempuan)
-                </label>
-                <input
-                  type="text"
-                  name="namabapa"
-                  id="namabapa"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
-                  placeholder="Nama Bapa Pengantin Perempuan"
-                  required={true}
-                  value={formData.namaBapaPengantinP}
-                  onChange={(e) => {
-                    handleFormDataChange("namaBapaPengantinP", e.target.value);
-                  }}
-                />
-              </div>
-
-              {/* Nama ibu (pihak Perempuan) */}
-              <div>
-                <label
-                  htmlFor="namaibu"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
-                  Nama Ibu Pengantin (Pihak Perempuan)
-                </label>
-                <input
-                  type="text"
-                  name="namaibu"
-                  id="namaibu"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
-                  placeholder="Nama Ibu Pengantin Perempuan"
-                  required={true}
-                  value={formData.namaIbuPengantinP}
-                  onChange={(e) => {
-                    handleFormDataChange("namaIbuPengantinP", e.target.value);
-                  }}
-                />
-              </div>
               {/* Nama bapa (pihak lelaki) */}
               <div>
                 <label
@@ -435,6 +420,11 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
                     handleFormDataChange("namaBapaPengantinL", e.target.value);
                   }}
                 />
+                {errors.namaBapaPengantinL && (
+                  <p className="text-red-500 text-sm">
+                    {errors.namaBapaPengantinL}
+                  </p>
+                )}
               </div>
 
               {/* Nama ibu (pihak lelaki) */}
@@ -457,6 +447,173 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
                     handleFormDataChange("namaIbuPengantinL", e.target.value);
                   }}
                 />
+                {errors.namaIbuPengantinL && (
+                  <p className="text-red-500 text-sm">
+                    {errors.namaIbuPengantinL}
+                  </p>
+                )}
+              </div>
+              {/* Nama bapa (pihak Perempuan) */}
+              <div>
+                <label
+                  htmlFor="namabapa"
+                  className="block mb-2 text-sm font-medium text-gray-900 "
+                >
+                  Nama Bapa Pengantin (Pihak Perempuan)
+                </label>
+                <input
+                  type="text"
+                  name="namabapa"
+                  id="namabapa"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
+                  placeholder="Nama Bapa Pengantin Perempuan"
+                  required={true}
+                  value={formData.namaBapaPengantinP}
+                  onChange={(e) => {
+                    handleFormDataChange("namaBapaPengantinP", e.target.value);
+                  }}
+                />
+                {errors.namaBapaPengantinP && (
+                  <p className="text-red-500 text-sm">
+                    {errors.namaBapaPengantinP}
+                  </p>
+                )}
+              </div>
+
+              {/* Nama ibu (pihak Perempuan) */}
+              <div>
+                <label
+                  htmlFor="namaibu"
+                  className="block mb-2 text-sm font-medium text-gray-900 "
+                >
+                  Nama Ibu Pengantin (Pihak Perempuan)
+                </label>
+                <input
+                  type="text"
+                  name="namaibu"
+                  id="namaibu"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
+                  placeholder="Nama Ibu Pengantin Perempuan"
+                  required={true}
+                  value={formData.namaIbuPengantinP}
+                  onChange={(e) => {
+                    handleFormDataChange("namaIbuPengantinP", e.target.value);
+                  }}
+                />
+                {errors.namaIbuPengantinP && (
+                  <p className="text-red-500 text-sm">
+                    {errors.namaIbuPengantinP}
+                  </p>
+                )}
+              </div>
+            </>
+          ) : pihakMajlis === "PP" ? (
+            <>
+              {/* Nama bapa (pihak perempuan) */}
+              <div>
+                <label
+                  htmlFor="namabapa"
+                  className="block mb-2 text-sm font-medium text-gray-900 "
+                >
+                  Nama Bapa Pengantin (Pihak Perempuan)
+                </label>
+                <input
+                  type="text"
+                  name="namabapa"
+                  id="namabapa"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
+                  placeholder="Nama Bapa Pengantin Perempuan"
+                  required={true}
+                  value={formData.namaBapaPengantinP}
+                  onChange={(e) => {
+                    handleFormDataChange("namaBapaPengantinP", e.target.value);
+                  }}
+                />
+                {errors.namaBapaPengantinP && (
+                  <p className="text-red-500 text-sm">
+                    {errors.namaBapaPengantinP}
+                  </p>
+                )}
+              </div>
+
+              {/* Nama ibu (pihak Perempuan) */}
+              <div>
+                <label
+                  htmlFor="namaibu"
+                  className="block mb-2 text-sm font-medium text-gray-900 "
+                >
+                  Nama Ibu Pengantin (Pihak Perempuan)
+                </label>
+                <input
+                  type="text"
+                  name="namaibu"
+                  id="namaibu"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
+                  placeholder="Nama Ibu Pengantin Perempuan"
+                  required={true}
+                  value={formData.namaIbuPengantinP}
+                  onChange={(e) => {
+                    handleFormDataChange("namaIbuPengantinP", e.target.value);
+                  }}
+                />
+                {errors.namaIbuPengantinP && (
+                  <p className="text-red-500 text-sm">
+                    {errors.namaIbuPengantinP}
+                  </p>
+                )}
+              </div>
+              {/* Nama bapa (pihak lelaki) */}
+              <div>
+                <label
+                  htmlFor="namabapa"
+                  className="block mb-2 text-sm font-medium text-gray-900 "
+                >
+                  Nama Bapa Pengantin (Pihak Lelaki)
+                </label>
+                <input
+                  type="text"
+                  name="namabapa"
+                  id="namabapa"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
+                  placeholder="Nama Bapa Pengantin Lelaki"
+                  required={true}
+                  value={formData.namaBapaPengantinL}
+                  onChange={(e) => {
+                    handleFormDataChange("namaBapaPengantinL", e.target.value);
+                  }}
+                />
+                {errors.namaBapaPengantinL && (
+                  <p className="text-red-500 text-sm">
+                    {errors.namaBapaPengantinL}
+                  </p>
+                )}
+              </div>
+
+              {/* Nama ibu (pihak lelaki) */}
+              <div>
+                <label
+                  htmlFor="namaibu"
+                  className="block mb-2 text-sm font-medium text-gray-900 "
+                >
+                  Nama Ibu Pengantin (Pihak Lelaki)
+                </label>
+                <input
+                  type="text"
+                  name="namaibu"
+                  id="namaibu"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
+                  placeholder="Nama Ibu Pengantin Lelaki"
+                  required={true}
+                  value={formData.namaIbuPengantinL}
+                  onChange={(e) => {
+                    handleFormDataChange("namaIbuPengantinL", e.target.value);
+                  }}
+                />
+                {errors.namaIbuPengantinL && (
+                  <p className="text-red-500 text-sm">
+                    {errors.namaIbuPengantinL}
+                  </p>
+                )}
               </div>
             </>
           ) : (
@@ -481,6 +638,11 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
                     handleFormDataChange("namaBapaPengantin", e.target.value);
                   }}
                 />
+                {errors.namaBapaPengantin && (
+                  <p className="text-red-500 text-sm">
+                    {errors.namaBapaPengantin}
+                  </p>
+                )}
               </div>
 
               {/* Nama ibu (pihak majlis) */}
@@ -503,6 +665,11 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
                     handleFormDataChange("namaIbuPengantin", e.target.value);
                   }}
                 />
+                {errors.namaIbuPengantin && (
+                  <p className="text-red-500 text-sm">
+                    {errors.namaIbuPengantin}
+                  </p>
+                )}
               </div>
             </>
           )}
@@ -529,7 +696,7 @@ function PengantinSection({ onNext, formData, handleFormDataChange }) {
         <div className="flex space-x-3 justify-end">
           <button
             type="button"
-            onClick={onNext} // Call the onNext prop when the button is clicked
+            onClick={handleNextClick} // Validate form and proceed to next section
             className="w-1/2 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 sm:py-3.5 text-center"
           >
             Next: Majlis

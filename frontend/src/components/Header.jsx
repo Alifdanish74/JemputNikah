@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useNavigate , NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { Button, Dropdown } from "flowbite-react";
 import {
   Dialog,
@@ -67,11 +67,9 @@ const callsToAction = [
   { name: "Contact sales", href: "#", icon: PhoneIcon },
 ];
 
-
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, setUser } = useContext(UserContext);
-
 
   const navigate = useNavigate();
 
@@ -81,10 +79,13 @@ function Header() {
     navigate("/");
   }
 
+  function navigateTo(path) {
+    navigate(path);
+  }
+
   function navigateToLogin() {
     navigate("/login");
   }
-
 
   return (
     <header className="sticky z-10 top-0 bg-white border border-opacity-50 border-slate-400">
@@ -93,7 +94,7 @@ function Header() {
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
       >
         <div className="flex lg:flex-1">
-          <NavLink to={'/'} className="-m-1.5 p-1.5 flex gap-2">
+          <NavLink to={"/"} className="-m-1.5 p-1.5 flex gap-2">
             <span className="sr-only">JemputNikah</span>
             <img
               alt=""
@@ -101,7 +102,7 @@ function Header() {
               className="h-8 w-auto"
             />
             <span className="flex justify-center items-center text-lg text-gray-700">
-              Jemput Nikah
+              Jom Kahwin
             </span>
           </NavLink>
         </div>
@@ -128,8 +129,8 @@ function Header() {
               />
             </PopoverButton> */}
 
-            {/* Popover dropdown panel */}
-            {/* <PopoverPanel
+          {/* Popover dropdown panel */}
+          {/* <PopoverPanel
               transition
               className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
             >
@@ -231,26 +232,51 @@ function Header() {
         {/* Login button */}
 
         {user ? (
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Dropdown color="blue" label={user.name} dismissOnClick={false}>
-              <Dropdown.Item href="/admin/upload" className="hover:bg-blue-100 text-blue-700">
-                Dashboard
-              </Dropdown.Item>
-              <Dropdown.Item className="hover:bg-blue-100 text-blue-700">
-                Settings
-              </Dropdown.Item>
-              <Dropdown.Item className="hover:bg-blue-100 text-blue-700">
-                Earnings
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={logoutUser}
-                className="hover:bg-red-100 text-red-700"
-              >
-                Sign out
-              </Dropdown.Item>
-            </Dropdown>
-          </div>
+          user.isAdmin ? (
+            // If the user is logged in and is an admin
+            <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+              <Dropdown color="blue" label={user.name} dismissOnClick={false}>
+                <Dropdown.Item
+                  href="/admin/upload"
+                  className="hover:bg-blue-100 text-blue-700"
+                >
+                  Admin Dashboard
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={logoutUser}
+                  className="hover:bg-red-100 text-red-700"
+                >
+                  Sign out
+                </Dropdown.Item>
+              </Dropdown>
+            </div>
+          ) : (
+            // If the user is logged in but not an admin
+            <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+              <Dropdown color="blue" label={user.name} dismissOnClick={true}>
+                <Dropdown.Item
+                  onClick={() => navigateTo("/profile")}
+                  className="hover:bg-blue-100 text-blue-700"
+                >
+                  PROFILE
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => navigateTo("/tempahan")}
+                  className="hover:bg-blue-100 text-blue-700"
+                >
+                  REKOD TEMPAHAN
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={logoutUser}
+                  className="hover:bg-red-100 text-red-700"
+                >
+                  Sign out
+                </Dropdown.Item>
+              </Dropdown>
+            </div>
+          )
         ) : (
+          // If no user is logged in, show login button
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <Button
               onClick={navigateToLogin}
@@ -359,38 +385,69 @@ function Header() {
                   Hubungi kami
                 </NavLink>
               </div>
+
               {user ? (
-                <div className="py-6">
-                  <Dropdown label={user.name} dismissOnClick={false}>
-                    <Dropdown.Item
-                      onClick={() => setMobileMenuOpen(false)}
-                      href="/preview-card"
-                      className="hover:bg-blue-100 text-blue-700"
-                    >
-                      Dashboard
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="hover:bg-blue-100 text-blue-700"
-                    >
-                      Settings
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="hover:bg-blue-100 text-blue-700"
-                    >
-                      Earnings
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => {
-                        logoutUser;
-                      }}
-                      className="hover:bg-red-100 text-red-700"
-                    >
-                      Sign out
-                    </Dropdown.Item>
-                  </Dropdown>
-                </div>
+                user.isAdmin ? (
+                  <div className="py-6">
+                    <Dropdown label={user.name} dismissOnClick={false}>
+                      <Dropdown.Item
+                        onClick={() => {
+                          setMobileMenuOpen(false), navigateTo("/admin/upload");
+                        }}
+                        className="hover:bg-blue-100 text-blue-700"
+                      >
+                        ADMIN DASHBOARD
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => {
+                          setMobileMenuOpen(false), navigateTo("/tempahan");
+                        }}
+                        className="hover:bg-blue-100 text-blue-700"
+                      >
+                        REKOD TEMPAHAN
+                      </Dropdown.Item>
+
+                      <Dropdown.Item
+                        onClick={() => {
+                          logoutUser;
+                        }}
+                        className="hover:bg-red-100 text-red-700"
+                      >
+                        Sign out
+                      </Dropdown.Item>
+                    </Dropdown>
+                  </div>
+                ) : (
+                  <div className="py-6">
+                    <Dropdown label={user.name} dismissOnClick={false}>
+                      <Dropdown.Item
+                        onClick={() => {
+                          setMobileMenuOpen(false), navigateTo("/profile");
+                        }}
+                        className="hover:bg-blue-100 text-blue-700"
+                      >
+                        PROFILE
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => {
+                          setMobileMenuOpen(false), navigateTo("/tempahan");
+                        }}
+                        className="hover:bg-blue-100 text-blue-700"
+                      >
+                        REKOD TEMPAHAN
+                      </Dropdown.Item>
+
+                      <Dropdown.Item
+                        onClick={() => {
+                          logoutUser;
+                        }}
+                        className="hover:bg-red-100 text-red-700"
+                      >
+                        Sign out
+                      </Dropdown.Item>
+                    </Dropdown>
+                  </div>
+                )
               ) : (
                 <div className="py-6">
                   <NavLink

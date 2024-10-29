@@ -44,21 +44,45 @@ const login = async (req, res) => {
   }
 };
 
-const getProfile = (req, res) => {
-  const { token } = req.cookies;
-  // console.log("Token received:", token);  // Log the token for debugging
+// const getProfile = (req, res) => {
+//   const { token } = req.cookies;
+//   // console.log("Token received:", token);  // Log the token for debugging
 
-  if (token) {
-    jwt.verify(token,  process.env.JWT_SECRET, {}, async (err, userData) => {
-      if (err) {
-        console.error("Token verification failed:", err);
-        return res.json(null);  // Handle token verification failure
-      }
-      const { name, email, _id, isAdmin } = await User.findById(userData.id);
-      res.json({ name, email, _id, isAdmin });
+//   if (token) {
+//     jwt.verify(token,  process.env.JWT_SECRET, {}, async (err, userData) => {
+//       if (err) {
+//         console.error("Token verification failed:", err);
+//         return res.json(null);  // Handle token verification failure
+//       }
+//       const { name, email, _id, isAdmin } = await User.findById(userData.id);
+//       res.json({ name, email, _id, isAdmin });
+//     });
+//   } else {
+//     res.json(null);  // No token case
+//   }
+// };
+
+// Controller to get user profile
+const getProfile = async (req, res) => {
+  try {
+    // req.user is set by authMiddleware
+    const user = req.user;
+
+    if (!user) {
+      // return res.status(404).json({ message: 'User not found' });
+      res.json(null);
+    }
+
+    // Respond with the user's profile
+    res.json({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin, 
+      phone: user.phone// If you have user roles
     });
-  } else {
-    res.json(null);  // No token case
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching profile', error });
   }
 };
 

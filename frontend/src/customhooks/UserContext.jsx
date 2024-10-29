@@ -8,25 +8,22 @@ export function UserContextProvider({ children }) {
   const [user, setUser] = useState(null);
   const [ready, setReady] = useState(false);
 
-
-
   useEffect(() => {
-    // Only fetch user data if the user is not logged in and ready is false
-    if (!user && !ready) {
-      axios.get('/api/auth/profile')
-        .then(({ data }) => {
-          
-          setUser(data);
-          setReady(true);
-        })
-        .catch((err) => {
-          console.error("Error fetching profile:", err);
-          setReady(true);  // Mark as ready even if there's an error
-        });
+    const fetchProfile = async () => {
+      try {
+        const { data } = await axios.get('/api/auth/profile');
+        setUser(data);
+      } catch (err) {
+        console.error("Error fetching profile:", err);
+      } finally {
+        setReady(true);  // Mark as ready after fetching attempt
+      }
+    };
+
+    if (!user) {
+      fetchProfile();
     }
-    console.log("Ready", ready);
-    console.log("User", user);
-  }, [user, ready]);  // Re-run when `user` or `ready` changes
+  }, [user]);
 
   return (
     <UserContext.Provider value={{ user, setUser, ready }}>

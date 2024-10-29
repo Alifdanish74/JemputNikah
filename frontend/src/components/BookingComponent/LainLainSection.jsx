@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import ReactAudioPlayer from "react-audio-player";
 import { FileInput, Label } from "flowbite-react";
 
 // eslint-disable-next-line react/prop-types
-function LainLainSection({ onPrevious }) {
+function LainLainSection({ onPrevious, formData, handleFormDataChange, submit }) {
   return (
     <div className="my-8">
       <h1 className="mb-4 text-xl font-extrabold tracking-tight text-gray-900 sm:mb-6 leding-tight ">
@@ -25,13 +26,18 @@ function LainLainSection({ onPrevious }) {
             />
           </div>
 
-          {/* Pihak Majlis */}
+          {/* Background lagu */}
           <div>
             <select
-              id="pihakmajlis"
+              id="lagu"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5   "
+              value={formData.bgSong}
+              onChange={(e) => {
+                
+                handleFormDataChange("bgSong", e.target.value);
+              }}
             >
-              <option selected="">- Pilih musik latar belakang -</option>
+              <option value="">- Pilih musik latar belakang -</option>
               <option value="001">Kisah Cinta Kita – Hafiz Suip</option>
               <option value="002">Sesungguhnya Aku – Alif Satar</option>
               <option value="003">Sampai ke Hari Tua – Aizat Amdan</option>
@@ -93,6 +99,7 @@ function LainLainSection({ onPrevious }) {
             <button
               type="submit"
               className="w-3/4 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-5 py-2.5 sm:py-3.5 text-center "
+              onClick={submit}
             >
               Submit
             </button>

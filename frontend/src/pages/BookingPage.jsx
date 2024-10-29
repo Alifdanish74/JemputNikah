@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../customhooks/UserContext";
 import axios from "axios";
 import PengantinSection from "../components/BookingComponent/PengantinSection";
@@ -16,10 +16,32 @@ import { IoReceiptOutline } from "react-icons/io5";
 
 function BookingPage() {
   const { designName } = useParams(); // Get the design name from the URL
-  const { ready } = useContext(UserContext);
+  const { ready, user } = useContext(UserContext);
   const [design, setDesign] = useState(null); // To store the fetched design data
   const [loading, setLoading] = useState(true); // To show a loading state
   const [activeSection, setActiveSection] = useState("Pakej");
+  const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
+
+  // Fetch design details based on designName
+  useEffect(() => {
+    const fetchDesign = async () => {
+      try {
+        const response = await axios.get(
+          `/api/admin/get-design-byname/${designName}`
+        ); // Call the new API
+        setDesign(response.data); // Set the design data
+        console.log("Fetch design details: ", response.data);
+      } catch (error) {
+        console.error("Error fetching design:", error);
+      } finally {
+        setLoading(false); // Stop loading once the data is fetched
+      }
+    };
+
+    fetchDesign();
+  }, [designName]);
 
   //   To handle pakej filterations
   const [selectedPakej, setSelectedPakej] = useState("Istanbul");
@@ -32,8 +54,15 @@ function BookingPage() {
 
   // To handle form data for all pages
   const [formData, setFormData] = useState({
+    // user
+    // Pakej
+    pakej: "Istanbul",
+    designId: "",
+    designName: "",
+    price: "",
+    // design: design._id,
     // Pengantin Section
-    pihakMajlis: "",
+    pihakMajlis: "L",
     jenisFont: "",
     namaPenuhLelaki: "",
     namaPendekLelaki: "",
@@ -53,7 +82,8 @@ function BookingPage() {
     // Majlis Sections
     tajukMajlis: "Walimatulurus",
     mukadimah: "Assalamualaikum Wbt & Salam Sejahtera",
-    ucapanAluan: "Dengan penuh kesyukuran kehadrat Ilahi,\n kami mempersilakan Dato'/Datin/Dr/Tuan/Puan/Encik/Cik \nke walimatulurus anakanda kesayangan kami",
+    ucapanAluan:
+      "Dengan penuh kesyukuran kehadrat Ilahi,\n kami mempersilakan Dato'/Datin/Dr/Tuan/Puan/Encik/Cik \nke walimatulurus anakanda kesayangan kami",
     tarikhMajlis: "",
     majlisStart: "10:00",
     majlisEnd: "16:00",
@@ -83,6 +113,28 @@ function BookingPage() {
     bankName: "",
     accountNumber: "",
     qrCode: "",
+    // RSVP info
+    maxInvitations: "",
+    maxInvitationsDewasa: "",
+    maxInvitationsKids: "",
+    maxDate: "",
+    labelSlot1: "",
+    maxSlot1: "",
+    fromSlot1: "",
+    toSlot1: "",
+    labelSlot2: "",
+    maxSlot2: "",
+    fromSlot2: "",
+    toSlot2: "",
+    labelSlot3: "",
+    maxSlot3: "",
+    fromSlot3: "",
+    toSlot3: "",
+    // Lain-lain info
+    bgSong: "",
+    gallery1: "",
+    gallery2: "",
+    gallery3: "",
   });
   // Function to handle the form data changes in child components
   const handleFormDataChange = (name, value) => {
@@ -92,32 +144,111 @@ function BookingPage() {
     }));
   };
 
-  //   Handle submit
-  // Handle final form submission
-  const handleSubmit = () => {
-    console.log("Final form data:", formData);
-    // Submit the final data
+  // Update formData when user is ready and user data is available
+  useEffect(() => {
+    if (ready && user) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        user: user._id, // Set user._id once the user data is available
+      }));
+    }
+  }, [ready, user]); // This effect runs when `user` or `ready` changes
+
+  // Update formData when design is fetched
+  useEffect(() => {
+    if (design) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        designId: design._id,
+        designName: design.designName, // Set design._id once the design is fetched
+      }));
+    }
+  }, [design]); // This effect runs when `design` changes
+
+  // Function to validate form fields for the current section
+  const validateSection = () => {
+    const newErrors = {};
+
+    if (activeSection === "Pengantin") {
+      if (!formData.namaPenuhLelaki) {
+        newErrors.namaPenuhLelaki = "Nama penuh pengantin lelaki is required";
+      }
+      if (!formData.namaPendekLelaki) {
+        newErrors.namaPendekLelaki = "Nama pendek pengantin lelaki is required";
+      }
+      if (!formData.namaPenuhPerempuan) {
+        newErrors.namaPenuhPerempuan =
+          "Nama penuh pengantin perempuan is required";
+      }
+      if (!formData.namaPendekPerempuan) {
+        newErrors.namaPendekPerempuan =
+          "Nama pendek pengantin perempuan is required";
+      }
+      if (formData.pihakMajlis === "P" || formData.pihakMajlis === "L") {
+        if (!formData.namaBapaPengantin) {
+          newErrors.namaBapaPengantin = "Nama bapa pengantin is required";
+        }
+        if (!formData.namaIbuPengantin) {
+          newErrors.namaIbuPengantin = "Nama ibu pengantin is required";
+        }
+      }
+      // Add more checks here based on your requirements
+      if (formData.pihakMajlis === "D") {
+        if (!formData.namaPenuhPasangan1) {
+          newErrors.namaPenuhPasangan1 = "Nama penuh pasangan is required";
+        }
+        if (!formData.namaPendekPasangan1) {
+          newErrors.namaPendekPasangan1 = "Nama pendek pasangan is required";
+        }
+        if (!formData.namaPenuhPasangan2) {
+          newErrors.namaPenuhPasangan2 = "Nama penuh pasangan is required";
+        }
+        if (!formData.namaPendekPasangan2) {
+          newErrors.namaPendekPasangan2 = "Nama pendek pasangan is required";
+        }
+      }
+      if (formData.pihakMajlis === "LL" || formData.pihakMajlis === "PP") {
+        if (!formData.namaBapaPengantinL) {
+          newErrors.namaBapaPengantinL = "Nama bapa pengantin is required";
+        }
+        if (!formData.namaIbuPengantinL) {
+          newErrors.namaIbuPengantinL = "Nama ibu pengantin is required";
+        }
+        if (!formData.namaBapaPengantinP) {
+          newErrors.namaBapaPengantinP = "Nama bapa pengantin is required";
+        }
+        if (!formData.namaIbuPengantinP) {
+          newErrors.namaIbuPengantinP = "Nama ibu pengantin is required";
+        }
+      }
+    }
+
+    // Add validations for other sections as necessary
+    if (activeSection === "Majlis") {
+      // Example: Add validation for Majlis section fields
+      if (!formData.tajukMajlis)
+        newErrors.tajukMajlis = "Tajuk Majlis is required";
+      // Add more Majlis validation logic here...
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  // Fetch design details based on designName
-  useEffect(() => {
-    const fetchDesign = async () => {
-      try {
-        const response = await axios.get(
-          `/api/admin/get-design-byname/${designName}`
-        ); // Call the new API
-        setDesign(response.data); // Set the design data
-      } catch (error) {
-        console.error("Error fetching design:", error);
-      } finally {
-        setLoading(false); // Stop loading once the data is fetched
-      }
-    };
-
-    fetchDesign();
-  }, [designName]);
+  // Handle final form submission
+  async function handleSubmit(ev) {
+    ev.preventDefault();
+    console.log("Final form data:", formData);
+    // Submit the final data
+    await axios.post("/api/wedding-cards", formData);
+    alert("BOOKING IS DONE! PLEASE COMPLETE YOUR PAYMENT!");
+    navigate("/tempahan");
+  }
 
   //   console.log("Design: ", design);
+  if (ready && !user) {
+    return <Navigate to={"/login"} />;
+  }
 
   if (loading || !ready) {
     return <p>Loading design...</p>;
@@ -129,19 +260,29 @@ function BookingPage() {
 
   // Function to handle the section change
   const handleSectionChange = (section) => {
-    setActiveSection(section); // Update the active section state
+    if (validateSection()) {
+      setActiveSection(section); // Only change section if the form is valid
+    }
   };
 
   const renderContent = () => {
     switch (activeSection) {
       case "Pakej":
-        return <PakejSection onPakejChange={handlePakejChange} />;
+        return (
+          <PakejSection
+            onPakejChange={handlePakejChange}
+            formData={formData}
+            handleFormDataChange={handleFormDataChange}
+             // Pass errors to child component
+          />
+        );
       case "Pengantin":
         return (
           <PengantinSection
             onNext={() => handleSectionChange("Majlis")}
             formData={formData}
             handleFormDataChange={handleFormDataChange}
+            errors={errors}
           />
         );
       case "Majlis":
@@ -167,11 +308,18 @@ function BookingPage() {
           <RSVPSection
             onPrevious={() => handleSectionChange("MoneyGift")}
             onNext={() => handleSectionChange("Lain-lain")}
+            formData={formData}
+            handleFormDataChange={handleFormDataChange}
           />
         );
       case "Lain-lain":
         return (
-          <LainLainSection onPrevious={() => handleSectionChange("RSVP")} />
+          <LainLainSection
+            onPrevious={() => handleSectionChange("RSVP")}
+            formData={formData}
+            handleFormDataChange={handleFormDataChange}
+            submit={handleSubmit}
+          />
         );
       default:
         return <div>Hello, please select a section!</div>;
@@ -200,11 +348,11 @@ function BookingPage() {
 
   return (
     <div className="min-h-screen ">
-      <section className="py-8 bg-white  lg:pb-20">
-        <div className="lg:flex">
+      <section className="py-8 bg-blue-100  lg:pb-20">
+        <div className="lg:flex ">
           {/* Left side */}
-          <div className=" w-full max-w-lg mx-auto p-12 lg:h-screen lg:block bg-blue-200">
-            <div className="flex items-center mb-4 space-x-4">
+          <div className=" w-full rounded-2xl bg-white max-w-lg mx-auto lg:h-screen lg:block">
+            {/* <div className="flex items-center mb-4 space-x-4">
               <a
                 href="#"
                 className="inline-flex items-center text-sm font-medium text-black hover:text-white"
@@ -223,29 +371,28 @@ function BookingPage() {
                 </svg>
                 Go back
               </a>
-            </div>
+            </div> */}
             <div className="block p-8 text-black rounded-lg">
+              <img
+                className="mx-auto w-3/4 h-3/4 rounded-t-lg object-cover"
+                src={`http://localhost:4000/${design.imagepreview}`} // Use the preview image
+                alt={`${designName} preview`}
+              />
               <h3 className="mb-1 text-4xl font-semibold">{designName}</h3>
               <p className="mb-4 font-light text-black sm:text-lg">
                 Category: {design.category}
               </p>
-              {/* <img
-                className="mx-auto w-3/4 h-3/4 rounded-t-lg object-cover"
-                src={`http://localhost:4000/${design.imagepreview}`} // Use the preview image
-                alt={`${designName} preview`}
-              /> */}
               <div className="grid grid-cols-2">
                 <p>Selected Package: {selectedPakej}</p>{" "}
                 {/* Display the selected package */}
                 <p>Pihak Majlis: {formData.pihakMajlis}</p>{" "}
-                
-                
+                <p>ID: {design._id}</p> <p>price: {formData.price}</p>{" "}
               </div>
             </div>
           </div>
 
           {/* Right side */}
-          <div className="flex items-start mx-auto  px-4 md:px-8 xl:px-0">
+          <div className="flex bg-white rounded-2xl items-start mx-auto  px-4 md:px-8 xl:px-10">
             <div className="w-full">
               {/* Navigation */}
               <ol className="flex items-center my-6 text-sm font-medium text-center text-gray-500 lg:mb-4 sm:text-base">
@@ -287,7 +434,6 @@ function BookingPage() {
             </div>
           </div>
         </div>
-        <button onClick={handleSubmit}>Submit Form</button>
       </section>
     </div>
   );

@@ -1,21 +1,21 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const dotenv = require('dotenv');
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const dotenv = require("dotenv");
 dotenv.config();
 
-const authRoutes = require('./routes/auth');
-const weddingCardRoutes = require('./routes/weddingCard');
-const rsvpRoutes = require('./routes/rsvp');
-const adminRoutes = require('./routes/design');
+const authRoutes = require("./routes/auth");
+const weddingCardRoutes = require("./routes/weddingCard");
+const rsvpRoutes = require("./routes/rsvp");
+const adminRoutes = require("./routes/design");
+const orderRoutes = require("./routes/order");
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
-
 
 //   Connect to MongoDB by mongoose
 mongoose
@@ -25,13 +25,12 @@ mongoose
   })
   .catch((err) => console.log(err));
 
-
-
-app.use('/api/auth', authRoutes);
-app.use('/api/wedding-cards', weddingCardRoutes);
-app.use('/api/rsvp', rsvpRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/wedding-cards", weddingCardRoutes);
+app.use("/api/rsvp", rsvpRoutes);
 // Use the admin design routes
-app.use('/api/admin', adminRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/orders", orderRoutes);
 
 app.listen(process.env.PORT || 4000, () => {
   console.log(`Server running on port ${process.env.PORT}`);
@@ -137,7 +136,6 @@ app.listen(process.env.PORT || 4000, () => {
 //   }
 // });
 
-
 // --------------------------------------------------------
 // if (userDoc) {
 //   const passwordOk = bcrypt.compareSync(password, userDoc.password);
@@ -159,7 +157,6 @@ app.listen(process.env.PORT || 4000, () => {
 // }
 // --------------------------------------------------------
 
-
 // // getUserInfo
 // // app.get("/profile", (req, res) => {
 // //   const { token } = req.cookies;
@@ -178,4 +175,3 @@ app.listen(process.env.PORT || 4000, () => {
 // app.listen(PORT, () => {
 //   console.log(`Server running on port ${PORT}`);
 // });
-

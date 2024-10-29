@@ -3,10 +3,10 @@
 import { Button } from "@headlessui/react";
 import MockupImage from "../assets/phone-mockup.png";
 import { featureicons } from "./featureicons";
+import { useNavigate } from "react-router-dom";
 
 function HeroSection() {
-
-
+  const navigate = useNavigate();
 
   return (
     <div className="relative bg-gradient-to-b h-fit from-pink-300 to-blue-50">
@@ -45,6 +45,9 @@ function HeroSection() {
                   title=""
                   className="inline-flex rounded-full border border-sky-500 items-center px-6 py-5 text-base font-semibold text-white transition-all duration-200 bg-sky-500 mt-9 hover:bg-white hover:text-blue-400"
                   role="button"
+                  onClick={() => {
+                    navigate("/kad-digital")
+                  }}
                 >
                   {" "}
                   Tempah Sekarang{" "}

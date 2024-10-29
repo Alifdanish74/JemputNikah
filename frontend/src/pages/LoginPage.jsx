@@ -31,7 +31,7 @@ function LoginPage() {
 
   return (
     <div>
-      <section className="bg-gray-50 dark:bg-gray-900">
+      <section className="bg-gray-50 h-screen dark:bg-gray-900">
         <div className="mx-auto max-w-screen-xl px-4 py-8 lg:grid lg:grid-cols-12 lg:gap-20 lg:py-4">
           <div className="col-span-6 mr-auto hidden flex-col justify-between lg:flex xl:mb-0 lg:py-16">
             <div>
@@ -44,7 +44,7 @@ function LoginPage() {
                   src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
                   alt="logo"
                 />
-                Jemput Nikah
+                Jom Kahwin
               </a>
               <div className="flex">
                 <svg
