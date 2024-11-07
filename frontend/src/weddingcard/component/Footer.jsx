@@ -1,14 +1,31 @@
 import { FaWhatsapp } from "react-icons/fa";
 import ImageLogo from "../../assets/LogoJomKahwinFullBlack_clear.png";
+import { useParams } from "react-router-dom";
+import { useWeddingCard } from "../../customhooks/WeddingCardContext";
+import { useEffect } from "react";
 
 function Footer() {
+
+  const { orderNumber } = useParams();
+  const { weddingCard, loading, fetchWeddingCard } = useWeddingCard();
+
+  useEffect(() => {
+    if (orderNumber) {
+      fetchWeddingCard(orderNumber);
+    }
+  }, [orderNumber]);
+
+  if (loading) return <p>Loading wedding card details...</p>;
+  if (!weddingCard) return <p>Wedding card not found.</p>;
+
   return (
     <footer
       id="hashtag"
       className="flex flex-col text-center content-center justify-center container py-5"
     >
       <h1 className="text-black font-[gormorant] mt-10 text-xl">
-        #DANISH & IQKRIANY
+        {/* {weddingCard.hashtag} */}
+        #DanishXIqkriany
       </h1>
 
       <br></br>
@@ -20,7 +37,7 @@ function Footer() {
             src={ImageLogo}
             width={150}
             height={150}
-            alt="Logo Jom Kahwin"
+            alt="Logo Jemput Kahwin"
           />
         </a>
       </div>

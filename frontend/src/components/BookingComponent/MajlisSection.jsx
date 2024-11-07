@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Datepicker } from "flowbite-react";
+import { HiOutlineArrowNarrowLeft, HiOutlineArrowNarrowRight } from "react-icons/hi";
 
 function ClockSVG() {
   return (
@@ -383,7 +384,7 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                 id="aturcara1"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
                 required={true}
-                value={formData.eventTentativeTitle2}
+                value={formData.eventTentativeTitle1}
                 onChange={(e) => {
                   handleFormDataChange("eventTentativeTitle2", e.target.value);
                 }}
@@ -411,7 +412,7 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                 id="aturcara2"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
                 required={true}
-                value={formData.eventTentativeTitle3}
+                value={formData.eventTentativeTitle2}
                 onChange={(e) => {
                   handleFormDataChange("eventTentativeTitle3", e.target.value);
                 }}
@@ -502,21 +503,22 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
 
         <div className="grid grid-cols-2">
           <div className="flex space-x-3 justify-start">
-            <button
+          <button
               type="button"
               onClick={onPrevious} // Call the onNext prop when the button is clicked
-              className="w-1/2 text-white bg-gray-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 sm:py-3.5 text-center"
+              className=" text-white bg-gray-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl px-5 py-2.5 sm:py-3.5 text-center"
             >
-              Previous: Pengantin
+              {/* Previous: RSVP */}
+              <HiOutlineArrowNarrowLeft />
             </button>
           </div>
           <div className="flex space-x-3 justify-end">
             <button
               type="button"
               onClick={onNext} // Call the onNext prop when the button is clicked
-              className="w-1/2 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 sm:py-3.5 text-center"
+              className=" text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl px-5 py-2.5 sm:py-3.5 text-center"
             >
-              Next: Money Gift
+              <HiOutlineArrowNarrowRight />
             </button>
           </div>
         </div>

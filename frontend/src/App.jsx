@@ -18,31 +18,48 @@ import AdminUploadPage from "./adminside/AdminUploadPage";
 import BookingPage from "./pages/BookingPage";
 import RekodTempahanPage from "./pages/RekodTempahanPage";
 import Profile from "./pages/Profile";
+import { ToastContainer } from "react-toastify";
+// import WeddingCardPreview from "./pages/WeddingCardPreview";
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
 function App() {
   const location = useLocation();
-  const noHeaderFooterRoutes = ["/preview-card"]; // Add routes where you don't want the Header and Footer
+  const excludeHeaderFooterPaths = [
+    "/preview-card",
+    "/weddingcardpreview", // Base path for weddingcard preview
+  ];
 
-  const showHeaderFooter = !noHeaderFooterRoutes.includes(location.pathname);
+  // Check if the current pathname starts with any excluded path
+  const showHeaderFooter = !excludeHeaderFooterPaths.some((path) =>
+    location.pathname.startsWith(path)
+  );
 
   return (
     <>
       <UserContextProvider>
+        
         {showHeaderFooter && <Header />}
+        <ToastContainer />
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="/preview-card" element={<BaseWeddingCard />} />
             <Route path="/kad-digital" element={<KadDigitalPage />} />
-            <Route path="/kad-digital/tempah/:designName" element={<BookingPage />} />
+            <Route
+              path="/kad-digital/tempah/:designName"
+              element={<BookingPage />}
+            />
             <Route path="/pakej" element={<PakejPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/admin/upload" element={<AdminUploadPage />} />
-            <Route path="/tempahan" element={<RekodTempahanPage/>} />
-            <Route path="/profile" element={<Profile/>} />
+            <Route path="/tempahan" element={<RekodTempahanPage />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/weddingcardpreview/:designName/:tajukMajlis/:orderNumber"
+              element={<BaseWeddingCard />}
+            />
           </Route>
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>

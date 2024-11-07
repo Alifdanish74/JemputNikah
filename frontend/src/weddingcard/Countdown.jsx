@@ -1,10 +1,27 @@
 import FlipClockCountdown from "@leenguyen/react-flip-clock-countdown";
 import "@leenguyen/react-flip-clock-countdown/dist/index.css";
 import { motion } from "framer-motion";
+import { useParams } from "react-router-dom";
+import { useWeddingCard } from "../customhooks/WeddingCardContext";
+import { useEffect } from "react";
 
 function Countdown() {
+  const { orderNumber } = useParams();
+  const { weddingCard, loading, fetchWeddingCard } = useWeddingCard();
+
+  useEffect(() => {
+    if (orderNumber) {
+      fetchWeddingCard(orderNumber);
+    }
+  }, [orderNumber]);
+
+  if (loading) return <p>Loading wedding card details...</p>;
+  if (!weddingCard) return <p>Wedding card not found.</p>;
+
+  // const targetDate = new Date(weddingCard.tarikhMajlis);
   const currentDate = new Date();
-  const targetDate = new Date("2024-10-10");
+  const dateString = weddingCard.tarikhMajlis.split("T")[0]; // Extract the date part only
+  const targetDate = new Date(dateString); // Now `date` represents only the date
   const timeDifference = targetDate.getTime() - currentDate.getTime();
   const day = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 

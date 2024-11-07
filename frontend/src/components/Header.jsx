@@ -102,7 +102,7 @@ function Header() {
               className="h-8 w-auto"
             />
             <span className="flex justify-center items-center text-lg text-gray-700">
-              Jom Kahwin
+              Jemput Kahwin
             </span>
           </NavLink>
         </div>

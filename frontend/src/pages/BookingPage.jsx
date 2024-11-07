@@ -13,6 +13,9 @@ import { GiDiamondRing } from "react-icons/gi";
 import { MdEventAvailable } from "react-icons/md";
 import { BiMoneyWithdraw, BiListPlus } from "react-icons/bi";
 import { IoReceiptOutline } from "react-icons/io5";
+// import { toast } from "react-toastify";
+import { Button, Modal } from "flowbite-react";
+import { HiOutlineCheckCircle } from "react-icons/hi";
 
 function BookingPage() {
   const { designName } = useParams(); // Get the design name from the URL
@@ -21,6 +24,8 @@ function BookingPage() {
   const [loading, setLoading] = useState(true); // To show a loading state
   const [activeSection, setActiveSection] = useState("Pakej");
   const [errors, setErrors] = useState({});
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedPakej, setSelectedPakej] = useState("Istanbul");
 
   const navigate = useNavigate();
 
@@ -44,7 +49,7 @@ function BookingPage() {
   }, [designName]);
 
   //   To handle pakej filterations
-  const [selectedPakej, setSelectedPakej] = useState("Istanbul");
+
   // Function to handle pakej change
   const handlePakejChange = (pakej) => {
     setSelectedPakej(pakej);
@@ -59,11 +64,11 @@ function BookingPage() {
     pakej: "Istanbul",
     designId: "",
     designName: "",
-    price: "",
+    price: "59",
     // design: design._id,
     // Pengantin Section
     pihakMajlis: "L",
-    jenisFont: "",
+    jenisFont: "font-CinzelDecorative",
     namaPenuhLelaki: "",
     namaPendekLelaki: "",
     namaPenuhPerempuan: "",
@@ -119,15 +124,12 @@ function BookingPage() {
     maxInvitationsKids: "",
     maxDate: "",
     labelSlot1: "",
-    maxSlot1: "",
     fromSlot1: "",
     toSlot1: "",
     labelSlot2: "",
-    maxSlot2: "",
     fromSlot2: "",
     toSlot2: "",
     labelSlot3: "",
-    maxSlot3: "",
     fromSlot3: "",
     toSlot3: "",
     // Lain-lain info
@@ -135,6 +137,11 @@ function BookingPage() {
     gallery1: "",
     gallery2: "",
     gallery3: "",
+    doa: "",
+    dressCode: "",
+    extraInfo: "",
+    hashtag: "",
+    orderphone: "",
   });
   // Function to handle the form data changes in child components
   const handleFormDataChange = (name, value) => {
@@ -170,19 +177,22 @@ function BookingPage() {
     const newErrors = {};
 
     if (activeSection === "Pengantin") {
-      if (!formData.namaPenuhLelaki) {
-        newErrors.namaPenuhLelaki = "Nama penuh pengantin lelaki is required";
-      }
-      if (!formData.namaPendekLelaki) {
-        newErrors.namaPendekLelaki = "Nama pendek pengantin lelaki is required";
-      }
-      if (!formData.namaPenuhPerempuan) {
-        newErrors.namaPenuhPerempuan =
-          "Nama penuh pengantin perempuan is required";
-      }
-      if (!formData.namaPendekPerempuan) {
-        newErrors.namaPendekPerempuan =
-          "Nama pendek pengantin perempuan is required";
+      if (formData.pihakMajlis !== "D") {
+        if (!formData.namaPenuhLelaki) {
+          newErrors.namaPenuhLelaki = "Nama penuh pengantin lelaki is required";
+        }
+        if (!formData.namaPendekLelaki) {
+          newErrors.namaPendekLelaki =
+            "Nama pendek pengantin lelaki is required";
+        }
+        if (!formData.namaPenuhPerempuan) {
+          newErrors.namaPenuhPerempuan =
+            "Nama penuh pengantin perempuan is required";
+        }
+        if (!formData.namaPendekPerempuan) {
+          newErrors.namaPendekPerempuan =
+            "Nama pendek pengantin perempuan is required";
+        }
       }
       if (formData.pihakMajlis === "P" || formData.pihakMajlis === "L") {
         if (!formData.namaBapaPengantin) {
@@ -239,11 +249,32 @@ function BookingPage() {
   async function handleSubmit(ev) {
     ev.preventDefault();
     console.log("Final form data:", formData);
-    // Submit the final data
-    await axios.post("/api/wedding-cards", formData);
-    alert("BOOKING IS DONE! PLEASE COMPLETE YOUR PAYMENT!");
-    navigate("/tempahan");
+    try {
+      // Submit the final data
+      await axios.post("/api/wedding-cards", formData);
+      setOpenModal(true); // Show modal after successful submission
+    } catch (error) {
+      console.error("Error during submission:", error);
+      navigate("/");
+    }
   }
+
+  function NavigateToTempahan() {
+    if (openModal) {
+      // Ensure modal is open before navigating
+      setOpenModal(false); // Close modal first
+      navigate("/tempahan");
+    }
+  }
+
+  // async function handleSubmit(ev) {
+  //   ev.preventDefault();
+  //   console.log("Final form data:", formData);
+  //   // Submit the final data
+  //   await axios.post("/api/wedding-cards", formData);
+  //   alert("BOOKING IS DONE! PLEASE COMPLETE YOUR PAYMENT!");
+  //   navigate("/tempahan");
+  // }
 
   //   console.log("Design: ", design);
   if (ready && !user) {
@@ -264,6 +295,10 @@ function BookingPage() {
       setActiveSection(section); // Only change section if the form is valid
     }
   };
+  // Function to handle the section change (previous)
+  const handlePreviousSectionChange = (section) => {
+    setActiveSection(section); // Only change section if the form is valid
+  };
 
   const renderContent = () => {
     switch (activeSection) {
@@ -273,12 +308,13 @@ function BookingPage() {
             onPakejChange={handlePakejChange}
             formData={formData}
             handleFormDataChange={handleFormDataChange}
-             // Pass errors to child component
+            // Pass errors to child component
           />
         );
       case "Pengantin":
         return (
           <PengantinSection
+            onPrevious={() => handlePreviousSectionChange("Pakej")}
             onNext={() => handleSectionChange("Majlis")}
             formData={formData}
             handleFormDataChange={handleFormDataChange}
@@ -289,7 +325,12 @@ function BookingPage() {
         return (
           <MajlisSection
             onPrevious={() => handleSectionChange("Pengantin")}
-            onNext={() => handleSectionChange("MoneyGift")}
+            onNext={() => {
+              // Check if the pakej is "Bali" and conditionally set the next section
+              handleSectionChange(
+                formData.pakej === "Bali" ? "Lain-lain" : "MoneyGift"
+              );
+            }}
             formData={formData}
             handleFormDataChange={handleFormDataChange}
           />
@@ -346,16 +387,46 @@ function BookingPage() {
     return true; // Include all other sections
   });
 
+  // function NavigateToTempahan(){
+  //   setOpenModal(false);
+  //   navigate("/tempahan");
+  // }
+
   return (
     <div className="min-h-screen ">
+      {/* Popup Modal */}
+      <Modal
+        show={openModal}
+        size="md"
+        onClose={NavigateToTempahan} // Only navigate once modal is closed
+        popup
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineCheckCircle className="mx-auto mb-4 h-24 w-24 text-green-600 " />
+            <h3 className=" text-lg font-normal text-gray-500 ">
+              Tempahan anda telah berjaya!
+            </h3>
+            <h3 className="mb-5 text-lg font-normal text-gray-500 ">
+              Klik BAYAR untuk lakukan pembayaran
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="success" onClick={NavigateToTempahan}>
+                {"Okey"}
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
       <section className="py-8 bg-blue-100  lg:pb-20">
         <div className="lg:flex ">
           {/* Left side */}
           <div className=" w-full rounded-2xl bg-white max-w-lg mx-auto lg:h-screen lg:block">
             {/* <div className="flex items-center mb-4 space-x-4">
-              <a
-                href="#"
+              <button
                 className="inline-flex items-center text-sm font-medium text-black hover:text-white"
+                onClick={notify}
               >
                 <svg
                   className="w-6 h-6 mr-1"
@@ -370,12 +441,12 @@ function BookingPage() {
                   ></path>
                 </svg>
                 Go back
-              </a>
+              </button>
             </div> */}
             <div className="block p-8 text-black rounded-lg">
               <img
                 className="mx-auto w-3/4 h-3/4 rounded-t-lg object-cover"
-                src={`http://localhost:4000/${design.imagepreview}`} // Use the preview image
+                src={design.imagepreview} // Use the preview image
                 alt={`${designName} preview`}
               />
               <h3 className="mb-1 text-4xl font-semibold">{designName}</h3>
@@ -387,6 +458,7 @@ function BookingPage() {
                 {/* Display the selected package */}
                 <p>Pihak Majlis: {formData.pihakMajlis}</p>{" "}
                 <p>ID: {design._id}</p> <p>price: {formData.price}</p>{" "}
+                {/* <p>user: {user._id}</p> <p>price: {formData.price}</p>{" "} */}
               </div>
             </div>
           </div>

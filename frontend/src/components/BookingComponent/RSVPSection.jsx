@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Datepicker, ToggleSwitch } from "flowbite-react";
+import { HiOutlineArrowNarrowLeft, HiOutlineArrowNarrowRight } from "react-icons/hi";
 
 // eslint-disable-next-line react/prop-types
 function RSVPSection({ onPrevious, onNext, formData, handleFormDataChange }) {
@@ -119,24 +120,12 @@ function RSVPSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                   type="text"
                   name="label1"
                   id="label1"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
+                  className="bg-gray-50 border  w-1/2 border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4    "
                   placeholder="Label (eg: Saudara-mara)*"
                   required={true}
                   value={formData.labelSlot1}
                   onChange={(e) => {
                     handleFormDataChange("labelSlot1", e.target.value);
-                  }}
-                />
-                <input
-                  type="number"
-                  name="limit1"
-                  id="limit1"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
-                  placeholder="Had tetamu*"
-                  required={true}
-                  value={formData.maxSlot1}
-                  onChange={(e) => {
-                    handleFormDataChange("maxSlot1", e.target.value);
                   }}
                 />
               </div>
@@ -181,24 +170,12 @@ function RSVPSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                   type="text"
                   name="label2"
                   id="label2"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-1/2   "
                   placeholder="Label (eg: Jiran tetangga)*"
                   required={true}
                   value={formData.labelSlot2}
                   onChange={(e) => {
                     handleFormDataChange("labelSlot2", e.target.value);
-                  }}
-                />
-                <input
-                  type="number"
-                  name="limit2"
-                  id="limit2"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
-                  placeholder="Had tetamu*"
-                  required={true}
-                  value={formData.maxSlot2}
-                  onChange={(e) => {
-                    handleFormDataChange("maxSlot2", e.target.value);
                   }}
                 />
               </div>
@@ -243,24 +220,12 @@ function RSVPSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                   type="text"
                   name="label3"
                   id="label3"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-1/2   "
                   placeholder="Label (eg: Rakan-rakan)*"
                   required={true}
                   value={formData.labelSlot3}
                   onChange={(e) => {
                     handleFormDataChange("labelSlot3", e.target.value);
-                  }}
-                />
-                <input
-                  type="number"
-                  name="limit3"
-                  id="limit3"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
-                  placeholder="Had tetamu*"
-                  required={true}
-                  value={formData.maxSlot3}
-                  onChange={(e) => {
-                    handleFormDataChange("maxSlot3", e.target.value);
                   }}
                 />
               </div>
@@ -299,18 +264,19 @@ function RSVPSection({ onPrevious, onNext, formData, handleFormDataChange }) {
             <button
               type="button"
               onClick={onPrevious} // Call the onNext prop when the button is clicked
-              className="w-1/2 text-white bg-gray-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 sm:py-3.5 text-center"
+              className=" text-white bg-gray-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl px-5 py-2.5 sm:py-3.5 text-center"
             >
-              Previous: MoneyGift
+              {/* Previous: RSVP */}
+              <HiOutlineArrowNarrowLeft />
             </button>
           </div>
           <div className="flex space-x-3 justify-end">
             <button
               type="button"
               onClick={onNext} // Call the onNext prop when the button is clicked
-              className="w-1/2 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 sm:py-3.5 text-center"
+              className=" text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl px-5 py-2.5 sm:py-3.5 text-center"
             >
-              Next: Lain-Lain
+              <HiOutlineArrowNarrowRight />
             </button>
           </div>
         </div>

@@ -10,70 +10,62 @@ import { Badge } from "flowbite-react";
 import { Button } from "flowbite-react";
 import { MdPayment } from "react-icons/md";
 import { FaRegPlayCircle, FaRegEdit } from "react-icons/fa";
-import { FaRegCopy } from "react-icons/fa6";
 import { RiContactsBook3Line } from "react-icons/ri";
 import { MdOutlineDelete } from "react-icons/md";
-// const columns = [
-//   { field: "id", headerName: "No Tempahan" },
-//   {
-//     field: "tarikhTempahan",
-//     headerName: "Tarikh Tempahan",
-//   },
-//   {
-//     field: "tarikhMajlis",
-//     headerName: "Tarikh Majlis",
-//   },
-//   {
-//     field: "harga",
-//     headerName: "Harga",
-//   },
-//   {
-//     field: "paymentStatus",
-//     headerName: "Status Bayaran",
-//   },
-//   {
-//     field: "link",
-//     headerName: "Link Kad",
-//   },
-//   {
-//     field: "action",
-//     headerName: "Tindakan",
-//   },
-// ];
-
-// const rows = [
-//   {
-//     id: 1,
-//     tarikhTempahan: "Snow",
-//     tarikhMajlis: "Jon",
-//     harga: "RM39",
-//     paymentStatus: "Belum Bayar",
-//     link: "",
-//     action: "",
-//   },
-// ];
+import CopyToClipboardButton from "../customhooks/CopyToClipboard";
 
 function RekodTempahanPage() {
   const { ready, user } = useContext(UserContext);
+
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch orders once `ready` is true and the `user` object is available
+//   const navigate = useNavigate();
+
+  //   console.log("USER ID:", user._id);
   useEffect(() => {
     if (ready && user) {
-      const fetchOrders = async () => {
-        try {
-          const response = await axios.get(`/api/orders/user/${user.id}`); // Fetch orders by userId
-          setOrders(response.data); // Set the fetched orders
-        } catch (error) {
-          console.error("Error fetching orders:", error);
-        } finally {
-          setLoading(false); // Stop loading
-        }
-      };
-      fetchOrders();
+      const user_id = user._id;
+
+      // Delay execution by 1 second (1000 ms)
+      const timeoutId = setTimeout(() => {
+        const fetchOrders = async () => {
+          try {
+            const response = await axios.get(`/api/orders/user/${user_id}`); // Fetch orders by userId
+            setOrders(response.data); // Set the fetched orders
+            console.log("Orders fetched: ", response.data);
+          } catch (error) {
+            console.error("Error fetching orders:", error);
+          } finally {
+            setLoading(false); // Stop loading
+          }
+        };
+        fetchOrders();
+      }, 500);
+
+      // Clear timeout if dependencies change before 1 second
+      return () => clearTimeout(timeoutId);
     }
   }, [ready, user]);
+
+  // Function to handle the navigation
+const navigateToPreviewCard = async (weddingCardId, orderNumber) => {
+    try {
+      // Fetch the wedding card details using the weddingCardId
+      const response = await axios.get(`/api/wedding-cards/${weddingCardId}`);
+      const { designName, tajukMajlis } = response.data;
+  
+      // Construct the URL for the WeddingCardPage with designName, tajukMajlis, and orderNumber
+      const url = `/weddingcardpreview/${designName}/${tajukMajlis}/${orderNumber}`;
+  
+      // Open the URL in a new tab
+      window.open(url, "_blank");
+      
+    } catch (error) {
+      console.error("Error fetching wedding card details:", error);
+    }
+  };
+  
 
   // If user is not ready or not logged in, redirect to login
   if (ready && !user) {
@@ -197,15 +189,23 @@ function RekodTempahanPage() {
                           </td>
                           <td className=" py-3 border">
                             <div className="flex-row lg:flex  gap-x-3 mx-auto items-center justify-center">
-                              <Button size="xs" color="blue">
+                              <Button
+                                onClick={() =>
+                                  navigateToPreviewCard(
+                                    order.weddingCardId,
+                                    order.orderNumber
+                                  )
+                                }
+                                size="xs"
+                                color="blue"
+                              >
                                 {" "}
                                 <FaRegPlayCircle className="mr-2 h-5 w-5" />{" "}
                                 Digital Card
                               </Button>
+                              {/* hello {order.weddingCardId} */}
 
-                              <Button size="xs" outline>
-                                <FaRegCopy className="text-lg" />
-                              </Button>
+                              <CopyToClipboardButton content={"Hello"} />
                             </div>
                           </td>
                           <td className=" py-3 border">

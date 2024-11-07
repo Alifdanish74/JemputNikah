@@ -3,6 +3,7 @@ import { Button, Card, Label, TextInput } from "flowbite-react";
 import { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { UserContext } from "../customhooks/UserContext";
+import { toast } from "react-toastify";
 // import React from "react";
 
 function LoginPage() {
@@ -17,16 +18,27 @@ function LoginPage() {
     try {
       const { data } = await axios.post("/api/auth/login", { email, password });
       setUser(data);
-      alert("Login successful");
+      toast.success("Login successfull!", {
+        autoClose: 500,
+        position: "top-center",
+        closeOnClick: true,
+      });
       setRedirect(true);
-    } catch (e) {
-      console.error("Error", e);
-      alert("Login failed. Please try again");
+    } catch (error) {
+      const serverMessage =
+        error.response?.data?.message ||
+        "Login failed. Please try again.";
+
+      toast.error(serverMessage, {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      }); // Display toast error
     }
   }
 
   if (redirect) {
-    return <Navigate to={'/'} />;
+    return <Navigate to={"/"} />;
   }
 
   return (
@@ -44,7 +56,7 @@ function LoginPage() {
                   src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
                   alt="logo"
                 />
-                Jom Kahwin
+                Jemput Kahwin
               </a>
               <div className="flex">
                 <svg

@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { FaUpload } from "react-icons/fa";
+import { HiOutlineArrowNarrowLeft, HiOutlineArrowNarrowRight } from "react-icons/hi";
 
-function PengantinSection({ onNext, formData, handleFormDataChange, errors }) {
+function PengantinSection({ onPrevious, onNext, formData, handleFormDataChange, errors }) {
   const [selectedFont, setSelectedFont] = useState("font-CinzelDecorative");
   const [pihakMajlis, setPihakMajlis] = useState("L");
 
@@ -68,13 +69,7 @@ function PengantinSection({ onNext, formData, handleFormDataChange, errors }) {
   // };
 
   // Function to handle the Next button click
-  const handleNextClick = () => {
-    // if (validateForm()) {
-      onNext(); // Proceed to the next section only if the form is valid
-    // } else {
-    //   console.log("Form is invalid"); // Show an error message or UI feedback
-    // }
-  };
+  
 
   // Function to handle font change
   const handleFontChange = (e) => {
@@ -693,14 +688,26 @@ function PengantinSection({ onNext, formData, handleFormDataChange, errors }) {
           </div>
         </div>
 
-        <div className="flex space-x-3 justify-end">
+        <div className="grid grid-cols-2 mt-10">
+        <div className="flex space-x-3 justify-start">
           <button
-            type="button"
-            onClick={handleNextClick} // Validate form and proceed to next section
-            className="w-1/2 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 sm:py-3.5 text-center"
-          >
-            Next: Majlis
-          </button>
+              type="button"
+              onClick={onPrevious} // Call the onNext prop when the button is clicked
+              className=" text-white bg-gray-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl px-5 py-2.5 sm:py-3.5 text-center"
+            >
+              {/* Previous: RSVP */}
+              <HiOutlineArrowNarrowLeft />
+            </button>
+          </div>
+          <div className="flex space-x-3 justify-end">
+            <button
+              type="button"
+              onClick={onNext} // Call the onNext prop when the button is clicked
+              className=" text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl px-5 py-2.5 sm:py-3.5 text-center"
+            >
+              <HiOutlineArrowNarrowRight />
+            </button>
+          </div>
         </div>
       </form>
     </div>

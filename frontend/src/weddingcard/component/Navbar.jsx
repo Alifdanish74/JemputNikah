@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // import { useState, useEffect } from "react";
 // import Modal from "./Modal";
 import { IoReceiptOutline } from "react-icons/io5";
@@ -7,7 +8,50 @@ import { MdOutlineLocalPhone } from "react-icons/md";
 import { SlLocationPin } from "react-icons/sl";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
-function Navbar() {
+import { useEffect, useState } from "react";
+import Modal from "../Modal";
+function Navbar({ onGuestbookUpdate }) {
+  const [activeModal, setActiveModal] = useState("");
+  const [newModal, setNewModal] = useState(""); // To track the new modal to be opened
+  const [isClosing, setIsClosing] = useState(false); // To track if modal is closing
+
+  const openModal = (modalName) => {
+    if (activeModal === modalName) {
+      setActiveModal(null); // Close the modal if it's already open
+    } else {
+      setNewModal(modalName); // Set the new modal to be opened
+    }
+  };
+
+  const closeModal = () => {
+    setIsClosing(true); // Set closing animation flag
+    setTimeout(() => {
+      setIsClosing(false); // Reset closing animation flag after animation duration
+      setActiveModal(null); // Close the modal
+    }, 200); // Adjust the duration to match the closing animation
+  };
+
+  const handleConfirm = (nextModal) => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsClosing(false);
+      setActiveModal(nextModal);
+    }, 200);
+  };
+
+  useEffect(() => {
+    if (newModal && activeModal) {
+      setActiveModal(null); // Close the current modal first
+      setNewModal(null); // Reset the new modal
+      setTimeout(() => {
+        setActiveModal(newModal); // Open the new modal after a delay
+      }, 200); // Adjust the delay to match the closing animation duration
+    } else if (newModal) {
+      setActiveModal(newModal); // Open the new modal if no current modal is open
+      setNewModal(null); // Reset the new modal
+    }
+  }, [newModal, activeModal]);
+
   const navbarButtonCSS = "focus:outline-none flex flex-col items-center";
   return (
     <>
@@ -32,7 +76,7 @@ function Navbar() {
               scale: 1.1,
               transition: { duration: 0.4, opacity: 1 },
             }}
-            // onClick={() => openModal("Money Gift")}
+            onClick={() => openModal("Money Gift")}
             className={navbarButtonCSS}
           >
             <BiMoneyWithdraw className="text-2xl mb-1" /> Money Gift
@@ -43,24 +87,23 @@ function Navbar() {
               scale: 1.1,
               transition: { duration: 0.4, opacity: 1 },
             }}
-            // onClick={() => openModal("Wishlist")}
+            onClick={() => openModal("Wishlist")}
             className={navbarButtonCSS}
           >
             <CiGift className="text-2xl mb-1" /> Wishlist
-          </motion.button> 
+          </motion.button>
 
-            <motion.button
-              initial={{ opacity: 0.8 }}
-              whileHover={{
-                scale: 1.1,
-                transition: { duration: 0.4, opacity: 1 },
-              }}
-              // onClick={() => openModal("RSVP")}
-              className={navbarButtonCSS}
-            >
-              <IoReceiptOutline className="text-2xl mb-1" /> RSVP
-            </motion.button>
-      
+          <motion.button
+            initial={{ opacity: 0.8 }}
+            whileHover={{
+              scale: 1.1,
+              transition: { duration: 0.4, opacity: 1 },
+            }}
+            onClick={() => openModal("RSVP")}
+            className={navbarButtonCSS}
+          >
+            <IoReceiptOutline className="text-2xl mb-1" /> RSVP
+          </motion.button>
 
           {/* <div>
             <button className="relative inline-flex flex-col items-center text-xs font-medium text-white py-3 px-6 flex-grow">
@@ -76,7 +119,7 @@ function Navbar() {
               scale: 1.1,
               transition: { duration: 0.4, opacity: 1 },
             }}
-            // onClick={() => openModal("Contact")}
+            onClick={() => openModal("Contact")}
             className={navbarButtonCSS}
           >
             <MdOutlineLocalPhone className="text-2xl mb-1" /> Contact
@@ -87,7 +130,7 @@ function Navbar() {
               scale: 1.1,
               transition: { duration: 0.4, opacity: 1 },
             }}
-            // onClick={() => openModal("Location")}
+            onClick={() => openModal("Location")}
             className={navbarButtonCSS}
           >
             <SlLocationPin className="text-2xl mb-1" /> Location
@@ -98,7 +141,7 @@ function Navbar() {
               scale: 1.1,
               transition: { duration: 0.4, opacity: 1 },
             }}
-            // onClick={() => openModal("Calendar")}
+            onClick={() => openModal("Calendar")}
             className={navbarButtonCSS}
           >
             <FaRegCalendarAlt className="text-2xl mb-1" /> Calendar
@@ -107,16 +150,15 @@ function Navbar() {
         </div>
       </motion.div>
 
-      {/* Modals
-          <Modal
-            isOpen={activeModal !== null}
-            onClose={closeModal}
-            modalType={activeModal || ""}
-            onConfirm={handleConfirm}
-            onCancel={closeModal}
-            isClosing={isClosing}
-            onGuestbookUpdate={onGuestbookUpdate}  // Pass closing animation flag to the Modal component
-          /> */}
+      <Modal
+        isOpen={activeModal !== null}
+        onClose={closeModal}
+        modalType={activeModal || ""}
+        onConfirm={handleConfirm}
+        onCancel={closeModal}
+        isClosing={isClosing}
+        onGuestbookUpdate={onGuestbookUpdate} // Pass closing animation flag to the Modal component
+      />
     </>
   );
 }

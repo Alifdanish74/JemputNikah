@@ -15,7 +15,8 @@ const {
   createWeddingCard,
   getWeddingCardById,
   updateWeddingCard,
-  deleteWeddingCard
+  deleteWeddingCard,
+  getWeddingCardInfo
 } = require('../controllers/weddingCardController');
 
 const router = express.Router();
@@ -24,13 +25,16 @@ const router = express.Router();
 router.post('/', authMiddleware, createWeddingCard);
 
 // Get a wedding card by ID
-router.get('/:id',authMiddleware,  getWeddingCardById);
+router.get('/:id',  getWeddingCardById);
 
 // Update a wedding card
 router.put('/:id',authMiddleware, updateWeddingCard);
 
 // Delete a wedding card
 router.delete('/:id',authMiddleware,  deleteWeddingCard);
+
+router.get('/info/:weddingCardId', getWeddingCardInfo);
+
 
 module.exports = router;
 

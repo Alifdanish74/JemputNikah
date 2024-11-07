@@ -2,44 +2,73 @@ import axios from "axios";
 import { Button, Label, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false); // Detect if name is "ADMIN"
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
+  // Handle the registration form submission
   async function handleRegisterUser(ev) {
     ev.preventDefault();
+    setErrorMessage(""); // Clear previous errors
 
-    if(name === "ADMIN"){
-        setIsAdmin(true);
+    if (name.toUpperCase() === "ADMIN") {
+      setIsAdmin(true);
     }
-    // Check if password and confirmPassword match
+
     if (password !== confirmPassword) {
-      alert("Passwords do not match. Please try again.");
-      return; // Stop further execution if passwords don't match
-    } else if (password === confirmPassword) {
-      // call backend API to register user
-      try {
-        await axios.post("/api/auth/register", {
-          name,
-          email,
-          phone,
-          password,
-          isAdmin
-        });
-        console.log("Registering User...");
-        alert("Registration successful. Now you can login.");
-        navigate("/login"); // Redirect to login page after successful registration
-      } catch (e) {
-        console.error("Error", e);
-        alert("Registration failed. Please try again later.");
-      }
+      setErrorMessage("Passwords do not match.");
+      toast.error("Passwords do not match.", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      }); // Display toast error
+      return;
+    }
+
+    if (password.length < 6) {
+      setErrorMessage("Password must be at least 6 characters long.");
+      toast.error("Password must be at least 6 characters long.", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      }); // Display toast error
+      return;
+    }
+
+    try {
+      const response = await axios.post("/api/auth/register", {
+        name,
+        email,
+        phone,
+        password,
+        isAdmin,
+      });
+      console.log(response + errorMessage);
+      toast.success("Registration successful! You can now log in.", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      });
+      navigate("/login");
+    } catch (error) {
+      const serverMessage =
+        error.response?.data?.message ||
+        "Registration failed. Please try again.";
+      setErrorMessage(serverMessage); // Update errorMessage state
+      toast.error(serverMessage, {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      }); // Display toast error
     }
   }
 
@@ -271,38 +300,7 @@ function RegisterPage() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />
                 </div>
-                {/* <div className="flex items-start">
-                  <div className="flex h-5 items-center">
-                    <Checkbox
-                      aria-describedby="terms-social"
-                      id="terms-social"
-                      required
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <Label
-                      htmlFor="terms-social"
-                      className="text-gray-500 "
-                    >
-                      By signing up, you are creating a Flowbite account, and
-                      you agree to Flowbite’s&nbsp;
-                      <a
-                        className="font-medium text-primary-600 hover:underline "
-                        href="#"
-                      >
-                        Terms of Use
-                      </a>
-                      &nbsp;and&nbsp;
-                      <a
-                        className="font-medium text-primary-600 hover:underline "
-                        href="#"
-                      >
-                        Privacy Policy
-                      </a>
-                      .
-                    </Label>
-                  </div>
-                </div> */}
+
                 <Button type="submit" color="blue" className="w-full">
                   Create an account
                 </Button>

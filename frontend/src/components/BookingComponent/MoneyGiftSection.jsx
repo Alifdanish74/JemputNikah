@@ -2,6 +2,7 @@
 import { Button } from "flowbite-react";
 import { useState } from "react";
 import { FaUpload } from "react-icons/fa";
+import { HiOutlineArrowNarrowLeft, HiOutlineArrowNarrowRight } from "react-icons/hi";
 import { MdCancel } from "react-icons/md";
 
 // eslint-disable-next-line react/prop-types
@@ -75,7 +76,7 @@ function MoneyGiftSection({ onPrevious, onNext, formData, handleFormDataChange }
             />
           </div>
 
-          {/* Gambar pasangan */}
+          {/* Gambar QR Code */}
 
           <div className="items-center justify-start">
             <label className="block text-sm font-medium text-gray-700">
@@ -109,22 +110,23 @@ function MoneyGiftSection({ onPrevious, onNext, formData, handleFormDataChange }
         </div>
 
         <div className="grid grid-cols-2">
-          <div className="flex space-x-3 justify-start">
-            <button
+        <div className="flex space-x-3 justify-start">
+          <button
               type="button"
               onClick={onPrevious} // Call the onNext prop when the button is clicked
-              className="w-1/2 text-white bg-gray-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 sm:py-3.5 text-center"
+              className=" text-white bg-gray-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl px-5 py-2.5 sm:py-3.5 text-center"
             >
-              Previous: Majlis
+              {/* Previous: RSVP */}
+              <HiOutlineArrowNarrowLeft />
             </button>
           </div>
           <div className="flex space-x-3 justify-end">
             <button
               type="button"
               onClick={onNext} // Call the onNext prop when the button is clicked
-              className="w-1/2 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 sm:py-3.5 text-center"
+              className=" text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl px-5 py-2.5 sm:py-3.5 text-center"
             >
-              Next: RSVP
+              <HiOutlineArrowNarrowRight />
             </button>
           </div>
         </div>

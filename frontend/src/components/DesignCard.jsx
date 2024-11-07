@@ -16,7 +16,8 @@ function DesignCard({  itemName, itemImage, itemCategory }) {
         <div className="bg-white border border-gray-200 rounded-2xl shadow-lg">
           <img
             className="mx-auto w-2/4 rounded-t-lg object-cover"
-            src={"http://localhost:4000/" + itemImage}
+            src={itemImage}
+            // src={"http://localhost:4000/uploads/PreviewFloral001.png" }
             alt="product image"
           />
 

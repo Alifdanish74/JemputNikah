@@ -15,7 +15,7 @@ function Footer() {
                 alt="FlowBite Logo"
               />
               <span className="self-center text-2xl font-semibold whitespace-nowrap">
-                Jom Kahwin
+                Jemput Kahwin
               </span>
             </a>
           </div>
@@ -85,7 +85,7 @@ function Footer() {
           <span className="text-sm text-gray-500 sm:text-center ">
             Hak Cipta Terpelihara © 2024
             <a href="https://flowbite.com" className="hover:underline">
-              Jom Kahwin™
+              Jemput Kahwin™
             </a>
           </span>
         </div>

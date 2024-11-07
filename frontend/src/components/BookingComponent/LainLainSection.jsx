@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import ReactAudioPlayer from "react-audio-player";
 import { FileInput, Label } from "flowbite-react";
+import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 
 // eslint-disable-next-line react/prop-types
 function LainLainSection({ onPrevious, formData, handleFormDataChange, submit }) {
@@ -86,13 +87,14 @@ function LainLainSection({ onPrevious, formData, handleFormDataChange, submit })
         </div>
 
         <div className="grid grid-cols-2">
-          <div className="flex space-x-3 justify-start">
-            <button
+        <div className="flex space-x-3 justify-start">
+          <button
               type="button"
               onClick={onPrevious} // Call the onNext prop when the button is clicked
-              className="w-1/2 text-white bg-gray-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 sm:py-3.5 text-center"
+              className=" text-white bg-gray-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl px-5 py-2.5 sm:py-3.5 text-center"
             >
-              Previous: RSVP
+              {/* Previous: RSVP */}
+              <HiOutlineArrowNarrowLeft />
             </button>
           </div>
           <div className="flex space-x-3 justify-end">

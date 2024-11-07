@@ -32,6 +32,15 @@ exports.getOrdersByUserId = async (req, res) => {
   }
 };
 
+exports.getOrdersByOrderNumber = async (req, res) => {
+  try {
+    const orders = await Order.findOne({ orderNumber: req.params.orderNumber }).populate('weddingCardId');
+    res.status(200).json(orders);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching orders for user', error });
+  }
+};
+
 
 // DELETE: Delete an order by ID
 exports.deleteOrder = async (req, res) => {

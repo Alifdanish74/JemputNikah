@@ -21,6 +21,7 @@ function HeroSection() {
                   Kad Jemputan <br />
                   Kahwin Digital
                 </h1>
+
                 <p className="mt-6 text-base text-black sm:text-xl">
                   Jemputan majlis alaf baru! Kini lebih mudah dan teratur
                 </p>
@@ -46,7 +47,7 @@ function HeroSection() {
                   className="inline-flex rounded-full border border-sky-500 items-center px-6 py-5 text-base font-semibold text-white transition-all duration-200 bg-sky-500 mt-9 hover:bg-white hover:text-blue-400"
                   role="button"
                   onClick={() => {
-                    navigate("/kad-digital")
+                    navigate("/kad-digital");
                   }}
                 >
                   {" "}

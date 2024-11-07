@@ -3,52 +3,55 @@ const CardDesign = require('../models/CardDesign');
 const sharp = require('sharp');
 const fs = require('fs');
 const multer = require('multer');
+const AWS = require('aws-sdk');
 const path = require('path');
 
-// Multer configuration to store uploaded files in 'uploads/' directory
-const upload = multer({
-  dest: 'uploads/',
-  limits: { fileSize: 10 * 1024 * 1024 }, // Limit file size to 10MB
+// Configure multer for memory storage (no local files)
+const upload = multer({ storage: multer.memoryStorage() });
+
+// Configure AWS S3
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
 });
+
+// Function to upload to S3 and return the file URL
+const uploadToS3 = async (file, filename) => {
+  const params = {
+    Bucket: process.env.S3_BUCKET_NAME,
+    Key: `weddingcard/${key}`,
+    Body: file.buffer,
+    ContentType: file.mimetype,
+    // Remove ACL: 'public-read',
+  };
+  const data = await s3.upload(params).promise();
+  return data.Location;
+};
+
 
 // Controller for uploading a new wedding card design
 const uploadDesign = async (req, res) => {
   const { category } = req.body;
-  const imagePath = req.files.image[0].path; // Multer stores the image in 'uploads/' folder
-  const imagepreviewPath = req.files.imagepreview[0].path; // Multer stores the image in 'uploads/' folder
-//   const pngImagePath = path.join(path.dirname(imagePath), `${req.file.filename}.png`);
+  const imageFile = req.files.image[0];
+  const imagePreviewFile = req.files.imagepreview[0];
 
   try {
     // Find the current count of designs in the provided category
     const count = await CardDesign.countDocuments({ category });
-
-    // Generate the next designName based on the count of existing designs
     const designNumber = String(count + 1).padStart(3, '0');
     const designName = `${category}${designNumber}`;
 
-       // Set the new file path (replace original filename with designName and .png extension)
-       const newImagePath = path.join(path.dirname(imagePath), `${designName}.png`);
-       const newImagePreviewPath = path.join(path.dirname(imagepreviewPath), `Preview${designName}.png`);
+    // Upload images to S3
+    const imageUrl = await uploadToS3(imageFile, `${designName}.png`);
+    const imagePreviewUrl = await uploadToS3(imagePreviewFile, `Preview${designName}.png`);
 
-    // Convert the uploaded image to .png using sharp
-    await sharp(imagePath)
-      .png() // Convert to png
-      .toFile(newImagePath);
-    // Convert the uploaded image to .png using sharp
-    await sharp(imagepreviewPath)
-      .png() // Convert to png
-      .toFile(newImagePreviewPath);
-
-    // Delete the original uploaded file
-    fs.unlinkSync(imagePath);
-    fs.unlinkSync(imagepreviewPath);
-
-    // Save the design with the new .png image path
+    // Save the design with the S3 URLs
     const newDesign = new CardDesign({
       designName,
       category,
-      image: newImagePath, // Store the .png image path
-      imagepreview: newImagePreviewPath, // Store the .png image path
+      image: imageUrl,
+      imagepreview: imagePreviewUrl,
     });
 
     await newDesign.save();

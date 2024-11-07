@@ -78,15 +78,12 @@ const WeddingCardSchema = new mongoose.Schema(
     maxInvitationsKids: { type: Number },
     maxDate: { type: Date },
     labelSlot1: { type: String },
-    maxSlot1: { type: String },
     fromSlot1: { type: String },
     toSlot1: { type: String },
     labelSlot2: { type: String },
-    maxSlot2: { type: String },
     fromSlot2: { type: String },
     toSlot2: { type: String },
     labelSlot3: { type: String },
-    maxSlot3: { type: String },
     fromSlot3: { type: String },
     toSlot3: { type: String },
 
@@ -95,6 +92,11 @@ const WeddingCardSchema = new mongoose.Schema(
     gallery: [
       { type: String }, // File path or URL for gallery images
     ],
+    doa: { type: String },
+    dressCode: { type: String },
+    extraInfo: { type: String },
+    hashtag: { type: String },
+    orderphone: { type: String },
   },
   { timestamps: true }
 );
