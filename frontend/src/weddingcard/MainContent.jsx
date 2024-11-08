@@ -20,7 +20,7 @@ function MainContent() {
 
   const dateString = weddingCard.tarikhMajlis.split("T")[0]; // Extract the date part only
   const date = new Date(dateString); // Now `date` represents only the date
-  
+
   const dayName = new Intl.DateTimeFormat("ms-MY", { weekday: "long" }).format(
     date
   );
@@ -35,7 +35,17 @@ function MainContent() {
   );
 
   return (
-    <div className="flex flex-col z-10 pb-14 text-center min-h-screen main-card text-black justify-center items-center background-div">
+    <div
+      className="flex flex-col z-10 pb-14 text-center min-h-screen main-card text-black justify-center items-center"
+      style={{
+        backgroundImage: `url(${weddingCard.designUrl})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        width: "100%",
+        height: "400px",
+      }}
+    >
       <motion.div
         initial={{
           y: -30,
@@ -57,6 +67,7 @@ function MainContent() {
           transition={{ duration: 1 }}
         >
           {weddingCard.namaPendekLelaki}
+          {/* {weddingCard.designUrl} */}
         </motion.p>
         <motion.p
           initial={{ opacity: 0, scale: 0.5 }}

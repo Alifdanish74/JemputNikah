@@ -64,8 +64,8 @@ function BookingPage() {
     pakej: "Istanbul",
     designId: "",
     designName: "",
-    price: "59",
-    // design: design._id,
+    image:"",
+    price: "59", 
     // Pengantin Section
     pihakMajlis: "L",
     jenisFont: "font-CinzelDecorative",
@@ -168,6 +168,7 @@ function BookingPage() {
         ...prevFormData,
         designId: design._id,
         designName: design.designName, // Set design._id once the design is fetched
+        designUrl: design.image, //
       }));
     }
   }, [design]); // This effect runs when `design` changes
@@ -458,6 +459,7 @@ function BookingPage() {
                 {/* Display the selected package */}
                 <p>Pihak Majlis: {formData.pihakMajlis}</p>{" "}
                 <p>ID: {design._id}</p> <p>price: {formData.price}</p>{" "}
+                {/* <p>Tarikh Majlis: {formData.tarikhMajlis} </p> */}
                 {/* <p>user: {user._id}</p> <p>price: {formData.price}</p>{" "} */}
               </div>
             </div>

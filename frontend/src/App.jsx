@@ -19,6 +19,8 @@ import BookingPage from "./pages/BookingPage";
 import RekodTempahanPage from "./pages/RekodTempahanPage";
 import Profile from "./pages/Profile";
 import { ToastContainer } from "react-toastify";
+import AdminUploadSong from "./adminside/AdminUploadSongPage";
+import AdminDashboard from "./adminside/AdminDashboard";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
 axios.defaults.baseURL = "http://localhost:4000";
@@ -51,9 +53,11 @@ function App() {
               element={<BookingPage />}
             />
             <Route path="/pakej" element={<PakejPage />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/admin/upload" element={<AdminUploadPage />} />
+            <Route path="/admin/uploadsong" element={<AdminUploadSong />} />
             <Route path="/tempahan" element={<RekodTempahanPage />} />
             <Route path="/profile" element={<Profile />} />
             <Route

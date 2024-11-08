@@ -19,6 +19,7 @@ const WeddingCardSchema = new mongoose.Schema(
     pakej: { type: String, default: "Istanbul" },
     designName: { type: String },
     designId: { type: mongoose.Schema.Types.ObjectId, ref: "CardDesign" },
+    designUrl: { type: String},
     // Pengantin Section
     pihakMajlis: { type: String },
     jenisFont: { type: String },

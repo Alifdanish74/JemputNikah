@@ -237,7 +237,7 @@ function Header() {
             <div className="hidden lg:flex lg:flex-1 lg:justify-end">
               <Dropdown color="blue" label={user.name} dismissOnClick={false}>
                 <Dropdown.Item
-                  href="/admin/upload"
+                  href="/admin"
                   className="hover:bg-blue-100 text-blue-700"
                 >
                   Admin Dashboard
@@ -392,7 +392,7 @@ function Header() {
                     <Dropdown label={user.name} dismissOnClick={false}>
                       <Dropdown.Item
                         onClick={() => {
-                          setMobileMenuOpen(false), navigateTo("/admin/upload");
+                          setMobileMenuOpen(false), navigateTo("/admin");
                         }}
                         className="hover:bg-blue-100 text-blue-700"
                       >

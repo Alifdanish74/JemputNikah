@@ -10,6 +10,10 @@ const weddingCardRoutes = require("./routes/weddingCard");
 const rsvpRoutes = require("./routes/rsvp");
 const adminRoutes = require("./routes/design");
 const orderRoutes = require("./routes/order");
+// server.js
+const songRoutes = require("./routes/song");
+
+
 
 const app = express();
 app.use(express.json());
@@ -31,6 +35,7 @@ app.use("/api/rsvp", rsvpRoutes);
 // Use the admin design routes
 app.use("/api/admin", adminRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/songs", songRoutes);
 
 app.listen(process.env.PORT || 4000, () => {
   console.log(`Server running on port ${process.env.PORT}`);

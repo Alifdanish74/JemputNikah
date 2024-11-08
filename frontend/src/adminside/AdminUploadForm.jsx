@@ -3,6 +3,7 @@ import axios from "axios";
 import { FaUpload } from "react-icons/fa";
 import { Button } from "@headlessui/react";
 import { MdCancel } from "react-icons/md";
+import { toast } from "react-toastify";
 
 function AdminUploadForm() {
   const [category, setCategory] = useState("");
@@ -29,7 +30,7 @@ function AdminUploadForm() {
 
       // Generate the design name based on the count
       const nextNumber = (count + 1).toString().padStart(3, "0");
-      setDesignName(`${selectedCategory} ${nextNumber}`);
+      setDesignName(`${selectedCategory}${nextNumber}`);
     } catch (error) {
       console.error("Error fetching design count", error);
       setErrorMessage("Error fetching design count");
@@ -70,12 +71,21 @@ function AdminUploadForm() {
 
       if (response.status === 201) {
         setSuccessMessage("Design uploaded successfully!");
+        toast.success("Design uploaded successfully!", {
+          autoClose: 500,
+          position: "top-center",
+          closeOnClick: true,
+        });
         setErrorMessage("");
       } else {
         throw new Error("Upload failed");
       }
     } catch (error) {
-      setErrorMessage("Error uploading design");
+      setErrorMessage("Error uploading design");      toast.success("Error uploading design", {
+        autoClose: 500,
+        position: "top-center",
+        closeOnClick: true,
+      });
       setSuccessMessage("");
       console.log(error);
     }
@@ -87,6 +97,8 @@ function AdminUploadForm() {
     setImagePreview(null);
     setImagePreviewUrl(null);
     setDesignName("");
+
+   
   };
 
   function removeImage() {

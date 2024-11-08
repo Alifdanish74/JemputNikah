@@ -56,6 +56,7 @@ function RSVPSection({ onPrevious, onNext, formData, handleFormDataChange }) {
             <Datepicker
               title="Tarikh Akhir RSVP"
               minDate={new Date()}
+              maxDate={formData.tarikhMajlis}
               onChange={(date) => handleFormDataChange("maxDate", date)}
             />
           </div>

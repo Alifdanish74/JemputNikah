@@ -4,9 +4,22 @@ const Order = require("../models/Order");
 // Create a new wedding card
 exports.createWeddingCard = async (req, res) => {
   try {
+    let { tarikhMajlis, majlisStart } = req.body;
+
+    // Parse tarikhMajlis as a Date object
+    const localDate = new Date(tarikhMajlis);
+    localDate.setHours(0, 0, 0, 0); // Ensure we start at local midnight
+
+    // Parse majlisStart as hours and minutes
+    if (majlisStart) {
+      const [hours, minutes] = majlisStart.split(":").map(Number);
+      localDate.setHours(hours, minutes, 0, 0); // Set to specified time in local timezone
+    }
+
     // Include the authenticated user's ID in the wedding card data
     const newWeddingCard = new WeddingCard({
       ...req.body,
+      tarikhMajlis: localDate, // Updated tarikhMajlis with combined date and time
       userId: req.user._id,
       userPhone: req.user.phone,
       userName: req.user.name, // Attach the user ID from the authenticated user
