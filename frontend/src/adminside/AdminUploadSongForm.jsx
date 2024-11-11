@@ -6,7 +6,8 @@ import { toast } from "react-toastify";
 import { FaTrash, FaUpload } from "react-icons/fa";
 
 function SongUploadForm() {
-  const [songName, setSongName] = useState("");
+  const [singer, setSinger] = useState("");
+  const [songtitle, setSongtitle] = useState("");
   const [songFile, setSongFile] = useState(null);
   const [songs, setSongs] = useState([]);
 
@@ -30,13 +31,14 @@ function SongUploadForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!songName || !songFile) {
+    if (!songtitle || !singer || !songFile) {
       toast.error("Both song name and file are required");
       return;
     }
 
     const formData = new FormData();
-    formData.append("name", songName);
+    formData.append("singer", singer);
+    formData.append("songtitle", songtitle);
     formData.append("file", songFile);
 
     try {
@@ -51,7 +53,8 @@ function SongUploadForm() {
           closeOnClick: true,
         });
         setSongs([...songs, response.data]); // Add the new song to the list
-        setSongName("");
+        setSinger("");
+        setSongtitle("");
         setSongFile(null);
       }
     } catch (error) {
@@ -69,7 +72,11 @@ function SongUploadForm() {
     try {
       await axios.delete(`/api/songs/${id}`);
       setSongs(songs.filter((song) => song._id !== id));
-      toast.success("Song deleted successfully");
+      toast.error("Song deleted successfully!", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      });
     } catch (error) {
       toast.error("Error deleting song");
       console.error(error);
@@ -77,22 +84,34 @@ function SongUploadForm() {
   };
 
   return (
-    <div className="container mx-auto p-8 bg-gray-50 rounded-lg shadow-lg">
+    <div className="w-full  mx-auto p-8 px-20 bg-gray-50 rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold text-center mb-6 text-blue-600">
-        Song Management
+        Upload background song
       </h2>
 
       {/* Upload Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="container space-y-4">
         <div>
           <label className="block mb-1 font-medium text-gray-700">
-            Song Name
+            Singer
           </label>
           <TextInput
             type="text"
-            value={songName}
-            onChange={(e) => setSongName(e.target.value)}
-            placeholder="Enter song name"
+            value={singer}
+            onChange={(e) => setSinger(e.target.value)}
+            placeholder="Enter singer name"
+            required
+          />
+        </div>
+        <div>
+          <label className="block mb-1 font-medium text-gray-700">
+            Song Title
+          </label>
+          <TextInput
+            type="text"
+            value={songtitle}
+            onChange={(e) => setSongtitle(e.target.value)}
+            placeholder="Enter song title"
             required
           />
         </div>
@@ -115,11 +134,12 @@ function SongUploadForm() {
       </form>
 
       {/* Song List Table */}
-      <div className="mt-10">
+      <div className="m-10">
         <h3 className="text-2xl font-semibold mb-4">Available Songs</h3>
         <Table>
           <Table.Head>
-            <Table.HeadCell>Song Name</Table.HeadCell>
+            <Table.HeadCell>Singer</Table.HeadCell>
+            <Table.HeadCell>Song Title</Table.HeadCell>
             <Table.HeadCell>Music URL</Table.HeadCell>
             <Table.HeadCell>Actions</Table.HeadCell>
           </Table.Head>
@@ -129,7 +149,8 @@ function SongUploadForm() {
                 key={song._id}
                 className="bg-white dark:border-gray-700 dark:bg-gray-800"
               >
-                <Table.Cell>{song.name}</Table.Cell>
+                <Table.Cell>{song.singer}</Table.Cell>
+                <Table.Cell>{song.songtitle}</Table.Cell>
                 <Table.Cell>
                   <a
                     href={song.url}

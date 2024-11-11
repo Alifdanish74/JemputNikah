@@ -13,9 +13,10 @@ import WeddingInfo from "./WeddingInfo";
 import { WeddingCardProvider } from "../customhooks/WeddingCardContext";
 import { ToastContainer } from "react-toastify";
 import { useState } from "react";
+import Entrance from "./Entrance";
 
 function BaseWeddingCard() {
-  // const [showEntrance, setShowEntrance] = useState(true);
+  const [showEntrance, setShowEntrance] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [guestbookUpdated, setGuestbookUpdated] = useState(false);
 
@@ -23,61 +24,68 @@ function BaseWeddingCard() {
     setGuestbookUpdated(true);
   };
 
-  // const handleEntranceClose = () => {
-  //   setShowEntrance(false);
-  //   setIsPlaying(true);
-  // };
+  const handleEntranceClose = () => {
+    setShowEntrance(false);
+    setIsPlaying(true);
+    console.log("audio", isPlaying);
+  };
 
   return (
     <WeddingCardProvider>
       <div className="main-div main-card h-screen overflow-auto overflow-x-hidden overflow-y-scroll no-scrollbar bg-white z-10">
-        <>
-          <section id="navbar" className="z-20">
-            <Navbar onGuestbookUpdate={handleGuestbookUpdate} />
-          </section>
-
-          <ToastContainer />
-
-          <section id="maincontent">
-            <MainContent />
-          </section>
-
-          <section id="audiobar">
-            <AudioBar isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
-          </section>
-
-          <div className="pb-16 background-base">
-            <section id="weddinginfo" className="container mx-auto">
-              <WeddingInfo />
+        {showEntrance ? (
+          <Entrance onClose={handleEntranceClose} setIsPlaying={setIsPlaying} />
+        ) : (
+          // <AudioBar isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
+          <>
+            <section id="navbar" className="z-20">
+              <Navbar onGuestbookUpdate={handleGuestbookUpdate} />
             </section>
 
-            <section id="border">
-              <Border />
+            <ToastContainer />
+
+            <section id="maincontent">
+              <MainContent />
             </section>
 
-            <section id="countdown" className="">
-              <Countdown />
+            <section id="audiobar">
+              <AudioBar isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
+              {/* <AudioBar showEntrance={showEntrance} /> */}
             </section>
 
-            <section id="border">
-              <Border />
-            </section>
+            <div className="pb-16 background-base">
+              <section id="weddinginfo" className="container mx-auto">
+                <WeddingInfo />
+              </section>
 
-            <section id=" guestbook">
-              <Guestbook guestbookUpdated={guestbookUpdated} />
-            </section>
+              <section id="border">
+                <Border />
+              </section>
 
-            <section id="border-1">
-              <Border />
-            </section>
+              <section id="countdown" className="">
+                <Countdown />
+              </section>
 
-            <section id="doa">
-              <DoaPage />
-            </section>
+              <section id="border">
+                <Border />
+              </section>
 
-            <Footer />
-          </div>
-        </>
+              <section id=" guestbook">
+                <Guestbook guestbookUpdated={guestbookUpdated} />
+              </section>
+
+              <section id="border-1">
+                <Border />
+              </section>
+
+              <section id="doa">
+                <DoaPage />
+              </section>
+
+              <Footer />
+            </div>
+          </>
+        )}
       </div>
     </WeddingCardProvider>
   );

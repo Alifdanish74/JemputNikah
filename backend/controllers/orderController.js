@@ -25,7 +25,7 @@ exports.getOrderById = async (req, res) => {
 
 exports.getOrdersByUserId = async (req, res) => {
   try {
-    const orders = await Order.find({ userId: req.params.userId });
+    const orders = await Order.find({ userId: req.params.userId }).populate('weddingCardId');
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching orders for user', error });

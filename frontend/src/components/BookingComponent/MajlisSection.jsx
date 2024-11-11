@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
 import { Datepicker } from "flowbite-react";
-import { HiOutlineArrowNarrowLeft, HiOutlineArrowNarrowRight } from "react-icons/hi";
+import {
+  HiOutlineArrowNarrowLeft,
+  HiOutlineArrowNarrowRight,
+} from "react-icons/hi";
 
 function ClockSVG() {
   return (
@@ -102,6 +105,11 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
               title="Tarikh Majlis Berlangsung"
               minDate={new Date()}
               showTodayButton={false}
+              value={
+                formData.tarikhMajlis
+                  ? new Date(formData.tarikhMajlis)
+                  : new Date()
+              } // Convert to Date object
               onChange={(date) => handleFormDataChange("tarikhMajlis", date)}
             />
           </div>
@@ -503,7 +511,7 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
 
         <div className="grid grid-cols-2">
           <div className="flex space-x-3 justify-start">
-          <button
+            <button
               type="button"
               onClick={onPrevious} // Call the onNext prop when the button is clicked
               className=" text-white bg-gray-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl px-5 py-2.5 sm:py-3.5 text-center"

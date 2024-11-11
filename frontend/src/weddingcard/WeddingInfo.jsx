@@ -1,17 +1,8 @@
 import { motion } from "framer-motion";
-import { useParams } from "react-router-dom";
 import { useWeddingCard } from "../customhooks/WeddingCardContext";
-import { useEffect } from "react";
 
 function WeddingInfo() {
-  const { orderNumber } = useParams();
-  const { weddingCard, loading, fetchWeddingCard } = useWeddingCard();
-
-  useEffect(() => {
-    if (orderNumber) {
-      fetchWeddingCard(orderNumber);
-    }
-  }, [orderNumber]);
+  const { weddingCard, loading } = useWeddingCard();
 
   if (loading) return <p>Loading wedding card details...</p>;
   if (!weddingCard) return <p>Wedding card not found.</p>;
@@ -173,7 +164,7 @@ function WeddingInfo() {
         </p>
         {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
           <p className="text-xs font-light">
-            Anakanda kepada {weddingCard.namaBapaPengantinP} & {" "}
+            Anakanda kepada {weddingCard.namaBapaPengantinP} &{" "}
             {weddingCard.namaIbuPengantinP}
           </p>
         )}

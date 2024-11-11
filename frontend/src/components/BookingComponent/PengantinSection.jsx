@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { FaUpload } from "react-icons/fa";
+// import { FaUpload } from "react-icons/fa";
 import { HiOutlineArrowNarrowLeft, HiOutlineArrowNarrowRight } from "react-icons/hi";
 
 function PengantinSection({ onPrevious, onNext, formData, handleFormDataChange, errors }) {
@@ -670,7 +670,7 @@ function PengantinSection({ onPrevious, onNext, formData, handleFormDataChange, 
           )}
 
           {/* Gambar pasangan */}
-          <div>
+          {/* <div>
             <label className="block text-sm font-medium text-gray-700">
               Gambar Pasangan (tidak wajib)
             </label>
@@ -685,7 +685,7 @@ function PengantinSection({ onPrevious, onNext, formData, handleFormDataChange, 
               />
               <FaUpload className="text-indigo-600 text-xl" />
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="grid grid-cols-2 mt-10">

@@ -1,10 +1,19 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Datepicker, ToggleSwitch } from "flowbite-react";
-import { HiOutlineArrowNarrowLeft, HiOutlineArrowNarrowRight } from "react-icons/hi";
+import {
+  HiOutlineArrowNarrowLeft,
+  HiOutlineArrowNarrowRight,
+} from "react-icons/hi";
 
 // eslint-disable-next-line react/prop-types
-function RSVPSection({ onPrevious, onNext, formData, handleFormDataChange }) {
+function RSVPSection({
+  onPrevious,
+  onNext,
+  formData,
+  handleFormDataChange,
+  // isEditMode,
+}) {
   const [slotMasa, setSlotMasa] = useState(false);
 
   return (
@@ -53,10 +62,31 @@ function RSVPSection({ onPrevious, onNext, formData, handleFormDataChange }) {
             >
               Tarikh Akhir RSVP
             </label>
+            {/* <Datepicker
+              title="Tarikh Akhir RSVP"
+              minDate={new Date()}
+              maxDate={formData.lastDateRSVP}
+              showTodayButton={false}
+              value={formData.lastDateRSVP ? new Date(formData.lastDateRSVP) : new Date()} // Convert to Date object
+              onChange={(date) => handleFormDataChange("lastDateRSVP", date)}
+            /> */}
+            {/* <Datepicker
+              title="Tarikh Akhir RSVP"
+              minDate={new Date()}
+              showTodayButton={false}
+              value={isEditMode ? new Date(formData.lastDateRSVP) : new Date()} // Convert to Date object
+              onChange={(date) => handleFormDataChange("lastDateRSVP", date)}
+            /> */}
             <Datepicker
               title="Tarikh Akhir RSVP"
               minDate={new Date()}
-              maxDate={formData.tarikhMajlis}
+              // maxDate={formData.tarikhMajlis} // Convert to Date if available
+              showTodayButton={false}
+              value={
+                formData.maxDate
+                  ? new Date(formData.maxDate)
+                  : new Date()
+              } // Convert to Date object// Set the selected date if in edit mode
               onChange={(date) => handleFormDataChange("maxDate", date)}
             />
           </div>

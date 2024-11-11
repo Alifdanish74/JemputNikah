@@ -2,20 +2,22 @@
 // components/ModalComponentMoneyGift.js
 
 import { FiCopy, FiDownload } from "react-icons/fi";
-import QRCode from "../../../assets/MaybankQRDanishCrop.jpg";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+// import { useParams } from "react-router-dom";
+import { useWeddingCard } from "../../../customhooks/WeddingCardContext";
+import axios from "axios";
+// import { useState } from "react";
+// import { useEffect } from "react";
 
 const CopyButton = ({ text }) => {
   // const [copied, setCopied] = useState(false);
-  const notify = () => toast.success("Copied to clipboard",
-    {
+  const notify = () =>
+    toast.success("Copied to clipboard", {
       autoClose: 800,
-      position: 'top-center',
+      position: "top-center",
       closeOnClick: true,
-    }
-  );
+    });
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(text);
@@ -23,7 +25,7 @@ const CopyButton = ({ text }) => {
     // setTimeout(() => {
     //   setCopied(false);
     // }, 800);
-    notify()
+    notify();
   };
 
   return (
@@ -35,11 +37,31 @@ const CopyButton = ({ text }) => {
         </span>
       ) : null} */}
     </button>
-    
   );
 };
 
 const ModalComponentMoneyGift = () => {
+  const { weddingCard } = useWeddingCard();
+  //   const [downloadUrl, setDownloadUrl] = useState("");
+  const fetchAndDownloadImage = async () => {
+  try {
+    const response = await axios.get(`/api/wedding-cards/download-image/${weddingCard._id}`, {
+      responseType: 'blob', // Set the response type to blob for binary data
+    });
+
+    // Create a download link and click it to start the download
+    const blob = response.data;
+    const downloadUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = `QR_${weddingCard.hashtag || "WeddingCard"}.png`;
+    link.click();
+    URL.revokeObjectURL(downloadUrl);
+  } catch (error) {
+    console.error("Error downloading image:", error);
+  }
+};
+
 
   return (
     <>
@@ -54,7 +76,7 @@ const ModalComponentMoneyGift = () => {
 
         <div className="px-10 py-2 flex items-center justify-center bg-slate-100 h-full">
           <h2 className="text-lg text-center font-normal text-gray-700">
-            Maybank Berhad
+            {weddingCard.bankName}
           </h2>
         </div>
 
@@ -64,7 +86,7 @@ const ModalComponentMoneyGift = () => {
 
         <div className="px-10 py-2 flex items-center justify-center bg-slate-100 h-full">
           <h2 className="text-lg text-center font-normal text-gray-700">
-            162013119145
+            {weddingCard.accountNumber}
           </h2>
           <CopyButton text="162013183456" />
           {/* <ToastContainer /> */}
@@ -76,7 +98,7 @@ const ModalComponentMoneyGift = () => {
 
         <div className="border-8 border-gray-300 p-1 rounded-md flex items-center justify-center mx-auto">
           <img
-            src={QRCode}
+            src={weddingCard.qrCode}
             width={160}
             alt="background prayer"
             loading="lazy"
@@ -84,14 +106,13 @@ const ModalComponentMoneyGift = () => {
         </div>
 
         <div className="flex justify-center mt-4">
-          <a
+          <button
             className="flex items-center text-black bg-transparent px-3 py-2 rounded hover:bg-blue-300 transition-colors"
-            href="/QRCodeIqkriany.jpg"
-            download="QRCodeIqkriany"
+            onClick={fetchAndDownloadImage}
           >
             <FiDownload className="mr-1" />
             Download QR
-          </a>
+          </button>
         </div>
       </div>
     </>

@@ -19,6 +19,7 @@ import { HiOutlineCheckCircle } from "react-icons/hi";
 
 function BookingPage() {
   const { designName } = useParams(); // Get the design name from the URL
+  const { weddingCardId } = useParams(); // Get ID from URL if present
   const { ready, user } = useContext(UserContext);
   const [design, setDesign] = useState(null); // To store the fetched design data
   const [loading, setLoading] = useState(true); // To show a loading state
@@ -26,8 +27,44 @@ function BookingPage() {
   const [errors, setErrors] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const [selectedPakej, setSelectedPakej] = useState("Istanbul");
+  const [isEditMode, setIsEditMode] = useState(false); // Track edit mode
+  // const [qrCodeFile, setQrCodeFile] = useState(null); // New state for QR code file
 
   const navigate = useNavigate();
+
+  // EDIT MODE//
+
+  useEffect(() => {
+    // If in edit mode, set the active section to "Pengantin" when the component mounts
+    if (isEditMode) {
+      setActiveSection("Pengantin");
+    }
+  }, [isEditMode]);
+
+  useEffect(() => {
+    if (weddingCardId) {
+      setIsEditMode(true);
+      fetchWeddingCardData(weddingCardId); // Fetch existing data if editing
+    } else {
+      setLoading(false); // Skip loading if creating a new card
+    }
+  }, [weddingCardId]);
+
+  console.log("Is Edit Mode:", isEditMode);
+
+  // Function to fetch wedding card data if in edit mode
+  const fetchWeddingCardData = async (id) => {
+    try {
+      const response = await axios.get(`/api/wedding-cards/${id}`);
+      setFormData(response.data); // Populate formData with fetched data
+    } catch (error) {
+      console.error("Error fetching wedding card data:", error);
+    } finally {
+      setLoading(false); // End loading after fetching
+    }
+  };
+
+  // EDIT MODE//
 
   // Fetch design details based on designName
   useEffect(() => {
@@ -64,8 +101,8 @@ function BookingPage() {
     pakej: "Istanbul",
     designId: "",
     designName: "",
-    image:"",
-    price: "59", 
+    image: "",
+    price: "59",
     // Pengantin Section
     pihakMajlis: "L",
     jenisFont: "font-CinzelDecorative",
@@ -83,7 +120,7 @@ function BookingPage() {
     namaIbuPengantinL: "",
     namaBapaPengantinP: "",
     namaIbuPengantinP: "",
-    gambarPengantin: null,
+    // gambarPengantin: null,
     // Majlis Sections
     tajukMajlis: "Walimatulurus",
     mukadimah: "Assalamualaikum Wbt & Salam Sejahtera",
@@ -117,7 +154,7 @@ function BookingPage() {
     // Money gift info
     bankName: "",
     accountNumber: "",
-    qrCode: "",
+    qrCodeFile: "",
     // RSVP info
     maxInvitations: "",
     maxInvitationsDewasa: "",
@@ -134,6 +171,7 @@ function BookingPage() {
     toSlot3: "",
     // Lain-lain info
     bgSong: "",
+    bgSongTitle: "",
     gallery1: "",
     gallery2: "",
     gallery3: "",
@@ -247,18 +285,49 @@ function BookingPage() {
   };
 
   // Handle final form submission
-  async function handleSubmit(ev) {
-    ev.preventDefault();
-    console.log("Final form data:", formData);
-    try {
-      // Submit the final data
-      await axios.post("/api/wedding-cards", formData);
-      setOpenModal(true); // Show modal after successful submission
-    } catch (error) {
-      console.error("Error during submission:", error);
-      navigate("/");
+
+  // Function to handle QR code file selection
+  const handleQrCodeFileChange = (file) => {
+    setFormData({
+      ...formData,
+      qrCodeFile: file,
+    });
+  };
+
+  // Handle final form submission
+  // BookingPage.jsx
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formDataObj = new FormData();
+
+    // Append all other form data
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key !== "qrCodeFile") {
+        formDataObj.append(key, value);
+      }
+    });
+
+    // Append QR code file if it exists
+    if (formData.qrCodeFile) {
+      formDataObj.append("image", formData.qrCodeFile);
     }
-  }
+
+    try {
+      if (isEditMode) {
+        await axios.put(`/api/wedding-cards/${weddingCardId}`, formDataObj, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        setOpenModal(true);
+      } else {
+        await axios.post("/api/wedding-cards", formDataObj, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        setOpenModal(true);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
 
   function NavigateToTempahan() {
     if (openModal) {
@@ -267,15 +336,6 @@ function BookingPage() {
       navigate("/tempahan");
     }
   }
-
-  // async function handleSubmit(ev) {
-  //   ev.preventDefault();
-  //   console.log("Final form data:", formData);
-  //   // Submit the final data
-  //   await axios.post("/api/wedding-cards", formData);
-  //   alert("BOOKING IS DONE! PLEASE COMPLETE YOUR PAYMENT!");
-  //   navigate("/tempahan");
-  // }
 
   //   console.log("Design: ", design);
   if (ready && !user) {
@@ -343,6 +403,7 @@ function BookingPage() {
             onNext={() => handleSectionChange("RSVP")}
             formData={formData}
             handleFormDataChange={handleFormDataChange}
+            handleQrCodeFileChange={handleQrCodeFileChange} // Pass QR code handler
           />
         ); // Pass onNext prop to change section
       case "RSVP":
@@ -352,6 +413,7 @@ function BookingPage() {
             onNext={() => handleSectionChange("Lain-lain")}
             formData={formData}
             handleFormDataChange={handleFormDataChange}
+            isEditMode={isEditMode}
           />
         );
       case "Lain-lain":
@@ -361,6 +423,7 @@ function BookingPage() {
             formData={formData}
             handleFormDataChange={handleFormDataChange}
             submit={handleSubmit}
+            isEditMode={isEditMode}
           />
         );
       default:
@@ -385,6 +448,9 @@ function BookingPage() {
     ) {
       return false; // Exclude MoneyGift and RSVP when Bali is selected
     }
+    if (isEditMode && section.name === "Pakej") {
+      return false; // Exclude MoneyGift and RSVP when Bali is selected
+    }
     return true; // Include all other sections
   });
 
@@ -405,13 +471,32 @@ function BookingPage() {
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">
-            <HiOutlineCheckCircle className="mx-auto mb-4 h-24 w-24 text-green-600 " />
-            <h3 className=" text-lg font-normal text-gray-500 ">
-              Tempahan anda telah berjaya!
-            </h3>
-            <h3 className="mb-5 text-lg font-normal text-gray-500 ">
-              Klik BAYAR untuk lakukan pembayaran
-            </h3>
+            {/* <HiOutlineCheckCircle className="mx-auto mb-4 h-24 w-24  text-green-600 " /> */}
+            <HiOutlineCheckCircle
+              className={`mx-auto mb-4 h-24 w-24 ${
+                isEditMode ? "text-yellow-400" : "text-green-600"
+              }`}
+            />
+            {isEditMode ? (
+              <>
+                <h3 className=" text-lg font-normal text-gray-500 ">
+                  Update successful!
+                </h3>
+                <h3 className="mb-5 text-lg font-normal text-gray-500 ">
+                  Klik BAYAR untuk lakukan pembayaran
+                </h3>
+              </>
+            ) : (
+              <>
+                <h3 className=" text-lg font-normal text-gray-500 ">
+                  Tempahan anda telah berjaya!
+                </h3>
+                <h3 className="mb-5 text-lg font-normal text-gray-500 ">
+                  Klik BAYAR untuk lakukan pembayaran
+                </h3>
+              </>
+            )}
+
             <div className="flex justify-center gap-4">
               <Button color="success" onClick={NavigateToTempahan}>
                 {"Okey"}
@@ -458,8 +543,10 @@ function BookingPage() {
                 <p>Selected Package: {selectedPakej}</p>{" "}
                 {/* Display the selected package */}
                 <p>Pihak Majlis: {formData.pihakMajlis}</p>{" "}
-                <p>ID: {design._id}</p> <p>price: {formData.price}</p>{" "}
-                {/* <p>Tarikh Majlis: {formData.tarikhMajlis} </p> */}
+                {/* <p>Tarikh akhir {formData.maxDate}</p>{" "} */}
+                <p>price: {formData.price}</p>{" "}
+                <p>Bg Song: {formData.bgSong} </p>
+                <p>Bg Song Title: {formData.bgSongTitle} </p>
                 {/* <p>user: {user._id}</p> <p>price: {formData.price}</p>{" "} */}
               </div>
             </div>

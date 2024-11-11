@@ -2,20 +2,11 @@
 import { motion } from "framer-motion";
 import "../fonts.css";
 import { useWeddingCard } from "../customhooks/WeddingCardContext";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 
 function MainContent() {
-  const { orderNumber } = useParams();
-  const { weddingCard, loading, fetchWeddingCard } = useWeddingCard();
+  const { weddingCard } = useWeddingCard();
 
-  useEffect(() => {
-    if (orderNumber) {
-      fetchWeddingCard(orderNumber);
-    }
-  }, [orderNumber]);
-
-  if (loading) return <p>Loading wedding card details...</p>;
+  // if (loading) return <p>Loading wedding card details...</p>;
   if (!weddingCard) return <p>Wedding card not found.</p>;
 
   const dateString = weddingCard.tarikhMajlis.split("T")[0]; // Extract the date part only
@@ -36,7 +27,7 @@ function MainContent() {
 
   return (
     <div
-      className="flex flex-col z-10 pb-14 text-center min-h-screen main-card text-black justify-center items-center"
+      className="flex flex-col z-10 px-4 pb-14 text-center min-h-screen main-card text-black justify-center items-center"
       style={{
         backgroundImage: `url(${weddingCard.designUrl})`,
         backgroundSize: "cover",
@@ -60,7 +51,8 @@ function MainContent() {
           {weddingCard.tajukMajlis}
         </p>
       </motion.div>
-      <div className="mb-5 text-7xl font-Tangerine">
+      {/* NAMA PENGANTIN */}
+      <div className={`mb-5 text-6xl ${weddingCard.jenisFont}`}>
         <motion.p
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}

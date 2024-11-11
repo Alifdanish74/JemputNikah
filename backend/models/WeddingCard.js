@@ -37,7 +37,7 @@ const WeddingCardSchema = new mongoose.Schema(
     namaIbuPengantinL: { type: String },
     namaBapaPengantinP: { type: String },
     namaIbuPengantinP: { type: String },
-    gambarPengantin: { type: String }, // File path or URL for the image
+    // gambarPengantin: { type: String }, // File path or URL for the image
     // Majlis Section
     tajukMajlis: { type: String, default: "Walimatulurus" },
     mukadimah: { type: String },
@@ -89,6 +89,7 @@ const WeddingCardSchema = new mongoose.Schema(
     toSlot3: { type: String },
 
     // Lain-lain Info
+    bgSongTitle: { type: String },
     bgSong: { type: String },
     gallery: [
       { type: String }, // File path or URL for gallery images

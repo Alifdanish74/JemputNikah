@@ -4,7 +4,7 @@
 import { useContext, useEffect, useState } from "react";
 import HeaderBackground from "../components/HeaderBackground";
 import { UserContext } from "../customhooks/UserContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Badge } from "flowbite-react";
 import { Button } from "flowbite-react";
@@ -20,7 +20,7 @@ function RekodTempahanPage() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-//   const navigate = useNavigate();
+    const navigate = useNavigate();
 
   //   console.log("USER ID:", user._id);
   useEffect(() => {
@@ -49,23 +49,20 @@ function RekodTempahanPage() {
   }, [ready, user]);
 
   // Function to handle the navigation
-const navigateToPreviewCard = async (weddingCardId, orderNumber) => {
+  const navigateToPreviewCard = async (weddingCardId, orderNumber) => {
     try {
       // Fetch the wedding card details using the weddingCardId
       const response = await axios.get(`/api/wedding-cards/${weddingCardId}`);
       const { designName, tajukMajlis } = response.data;
-  
       // Construct the URL for the WeddingCardPage with designName, tajukMajlis, and orderNumber
       const url = `/weddingcardpreview/${designName}/${tajukMajlis}/${orderNumber}`;
-  
+
       // Open the URL in a new tab
       window.open(url, "_blank");
-      
     } catch (error) {
       console.error("Error fetching wedding card details:", error);
     }
   };
-  
 
   // If user is not ready or not logged in, redirect to login
   if (ready && !user) {
@@ -87,7 +84,7 @@ const navigateToPreviewCard = async (weddingCardId, orderNumber) => {
                 <div className="w-full md:w-1/2">
                   <form className="flex items-center">
                     <label htmlFor="simple-search" className="sr-only">
-                      Search
+                      Search 
                     </label>
                     <div className="relative w-full">
                       <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -152,6 +149,7 @@ const navigateToPreviewCard = async (weddingCardId, orderNumber) => {
                             className="px-4 py-3 border font-medium text-gray-900 whitespace-nowrap dark:text-white"
                           >
                             {order.orderNumber}
+                            
                           </th>
                           <td className="px-4 py-3 border">
                             {new Date(order.createdAt).toLocaleDateString()}
@@ -192,7 +190,7 @@ const navigateToPreviewCard = async (weddingCardId, orderNumber) => {
                               <Button
                                 onClick={() =>
                                   navigateToPreviewCard(
-                                    order.weddingCardId,
+                                    order.weddingCardId._id,
                                     order.orderNumber
                                   )
                                 }
@@ -225,7 +223,16 @@ const navigateToPreviewCard = async (weddingCardId, orderNumber) => {
                                 </Button>
                               </div>
                               <div className="mx-auto items-center justify-center">
-                                <Button size="xs" color="warning">
+                                <Button
+                                  size="xs"
+                                  color="warning"
+                                  onClick={() =>
+                                    navigate(
+                                      `/kad-digital/tempah/${order.weddingCardId.designName}/${order.weddingCardId._id}`,
+                                      { state: { order } }
+                                    )
+                                  } // Pass order to BookingPage
+                                >
                                   {" "}
                                   <FaRegEdit className="mr-2 h-5 w-5" /> Update
                                 </Button>

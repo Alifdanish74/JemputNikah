@@ -48,10 +48,17 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="/preview-card" element={<BaseWeddingCard />} />
             <Route path="/kad-digital" element={<KadDigitalPage />} />
+            {/* Route for creating a new wedding card booking */}
             <Route
               path="/kad-digital/tempah/:designName"
               element={<BookingPage />}
             />
+             {/* Route for editing an existing wedding card booking */}
+            <Route
+              path="/kad-digital/tempah/:designName/:weddingCardId"
+              element={<BookingPage />}
+            />
+
             <Route path="/pakej" element={<PakejPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/login" element={<LoginPage />} />

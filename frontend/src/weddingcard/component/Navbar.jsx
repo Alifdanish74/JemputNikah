@@ -40,15 +40,17 @@ function Navbar({ onGuestbookUpdate }) {
   };
 
   useEffect(() => {
-    if (newModal && activeModal) {
-      setActiveModal(null); // Close the current modal first
-      setNewModal(null); // Reset the new modal
-      setTimeout(() => {
-        setActiveModal(newModal); // Open the new modal after a delay
-      }, 200); // Adjust the delay to match the closing animation duration
-    } else if (newModal) {
-      setActiveModal(newModal); // Open the new modal if no current modal is open
-      setNewModal(null); // Reset the new modal
+    // Only run when there's a new modal to open
+    if (newModal) {
+      if (activeModal) {
+        setActiveModal(null); // Close the current modal first
+        setTimeout(() => {
+          setActiveModal(newModal); // Open the new modal after a delay
+        }, 200);
+      } else {
+        setActiveModal(newModal); // Open the new modal if no modal is currently open
+      }
+      setNewModal(null); // Reset newModal after handling
     }
   }, [newModal, activeModal]);
 
@@ -151,7 +153,8 @@ function Navbar({ onGuestbookUpdate }) {
       </motion.div>
 
       <Modal
-        isOpen={activeModal !== null}
+        // isOpen={activeModal !== null}
+        isOpen={activeModal}
         onClose={closeModal}
         modalType={activeModal || ""}
         onConfirm={handleConfirm}

@@ -11,7 +11,7 @@ export function UserContextProvider({ children }) {
   const location = useLocation();
 
   // Define public paths that don't require user profile data
-  const publicPaths = ["/", "/register","/login"];
+  const publicPaths = ["/", "/register","/login", "/weddingcardpreview"];
 
   useEffect(() => {
     const fetchProfile = async () => {
