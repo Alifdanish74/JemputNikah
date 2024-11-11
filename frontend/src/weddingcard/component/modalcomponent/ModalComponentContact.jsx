@@ -1,8 +1,13 @@
 // components/ModalComponentContact.js
+import { useWeddingCard } from "../../../customhooks/WeddingCardContext";
 import Contact from "./ContactComponent";
 import "react-toastify/dist/ReactToastify.css";
 
 const ModalComponentContact = () => {
+  const { weddingCard } = useWeddingCard();
+
+  // if (loading) return <p>Loading wedding card details...</p>;
+  if (!weddingCard) return <p>Wedding card not found.</p>;
   return (
     <>
       <div className="flex flex-col mb-5 min-h-[30vh]">
@@ -11,40 +16,37 @@ const ModalComponentContact = () => {
         </h2>
         {/* Contact 1 */}
         <Contact
-          contactName="Arshad"
-          phoneNumber="0123157930"
-          gelaran="Bapa-Lelaki"
-          wsLink="http://wasap.my/60123157930/WalimatulurusDanish&Iqkriany"
+          contactName={weddingCard.emergencyContacts1}
+          phoneNumber={weddingCard.emergencyNumber1}
+        //   wsLink="http://wasap.my/60123157930/WalimatulurusDanish&Iqkriany"
+          wsLink={`http://wasap.my/6${weddingCard.emergencyContacts1}`}
         />
 
         {/* Contact 2 */}
-        <Contact
-          contactName="Rohayu"
-          phoneNumber="0196224566"
-          gelaran="Ibu-Lelaki"
-          wsLink="http://wasap.my/60196224566/WalimatulurusDanish&Iqkriany"
-        />
+        {weddingCard.emergencyContacts2 && (
+          <Contact
+            contactName={weddingCard.emergencyContacts2}
+            phoneNumber={weddingCard.emergencyNumber2}
+            wsLink={`http://wasap.my/6${weddingCard.emergencyContacts2}`}
+          />
+        )}
         {/* Contact 3 */}
-        <Contact
-          contactName="Nor Azean"
-          phoneNumber="0193582242"
-          gelaran="Ibu-Perempuan"
-          wsLink="http://wasap.my/60193582242/WalimatulurusDanish&Iqkriany"
-        />
+        {weddingCard.emergencyContacts3 && (
+          <Contact
+            contactName={weddingCard.emergencyContacts3}
+            phoneNumber={weddingCard.emergencyNumber3}
+            wsLink={`http://wasap.my/6${weddingCard.emergencyContacts3}`}
+          />
+        )}
         {/* Contact 4 */}
-        <Contact
-          contactName="Alif Danish"
-          phoneNumber="01127877926"
-          gelaran="Pengantin-L"
-          wsLink="http://wasap.my/601127877926/WalimatulurusDanish&Iqkriany"
-        />
-        {/* Contact 5 */}
-        <Contact
-          contactName="Nur Iqkriany"
-          phoneNumber="01123268530"
-          gelaran="Pengantin-P"
-          wsLink="http://wasap.my/601123268530/WalimatulurusDanish&Iqkriany"
-        />
+        {weddingCard.emergencyContacts4 && (
+          <Contact
+            contactName={weddingCard.emergencyContacts4}
+            phoneNumber={weddingCard.emergencyNumber4}
+            wsLink={`http://wasap.my/6${weddingCard.emergencyContacts4}`}
+          />
+        )}
+        
       </div>
     </>
   );

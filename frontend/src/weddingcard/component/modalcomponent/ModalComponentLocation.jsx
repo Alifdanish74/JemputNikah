@@ -2,9 +2,14 @@
 
 import { TbMap2 } from "react-icons/tb";
 import { FaWaze } from "react-icons/fa";
-
+import { useWeddingCard } from "../../../customhooks/WeddingCardContext";
 
 const ModalComponentLocation = () => {
+  const { weddingCard } = useWeddingCard();
+
+  // if (loading) return <p>Loading wedding card details...</p>;
+  if (!weddingCard) return <p>Wedding card not found.</p>;
+
   return (
     <>
       <div className="flex flex-col mb-5 min-h-[70vh]">
@@ -12,10 +17,10 @@ const ModalComponentLocation = () => {
           Location
         </h2>
         <h2 className="text-lg text-center font-semibold text-gray-700">
-          BIZMILLA @ GAMUDA GARDENS
+          {weddingCard.locationMajlis}
         </h2>
         <h2 className="text-md mb-4 text-center font-medium text-gray-700">
-          Persiaran Gamuda Gardens Gamuda Gardens, 48050 Rawang, Selangor
+          {weddingCard.fullLocationMajlis}
         </h2>
 
         <div className="border-2 border-slate-500">
@@ -33,7 +38,7 @@ const ModalComponentLocation = () => {
         <div className="mt-4 flex space-x-4 text-base font-semibold justify-center items-center">
           <button className="flex items-center bg-transparent text-gray-800 px-3 py-2 rounded hover:bg-gray-200 transition-colors">
             <a
-              href="https://maps.app.goo.gl/UYzkgvmfF2KmX6RP8"
+              href={weddingCard.googleMapsLink}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center"
@@ -44,7 +49,7 @@ const ModalComponentLocation = () => {
           </button>
           <button className="flex items-center bg-transparent text-gray-800 px-3 py-2 rounded hover:bg-gray-200 transition-colors">
             <a
-              href="https://ul.waze.com/ul?place=ChIJ5z8E1nlDzDERqVltGI_zJVY&ll=3.28280440%2C101.53816980&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location"
+              href={weddingCard.wazeLink}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center"

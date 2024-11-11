@@ -40,14 +40,14 @@ const CopyButton = ({ text }) => {
   );
 };
 
-const Contact = ({ contactName, phoneNumber, wsLink, gelaran }) => {
+const Contact = ({ contactName, phoneNumber, wsLink }) => {
   return (
     <div className="flex flex-row items-center justify-around border rounded-lg p-2 my-1 bg-white shadow-md">
       {/* <div className="flex flex-row  gap-4"> */}
       <div className="text-center w-24">
         <h3 className="text-base  font-normal text-gray-800">{contactName}</h3>
         <h6 className="text-balance text-center text-xs font-light text-gray-800">
-          {gelaran}
+          {}
         </h6>
       </div>
 

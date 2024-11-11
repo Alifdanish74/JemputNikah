@@ -89,6 +89,8 @@ exports.createWeddingCard = async (req, res) => {
   }
 };
 
+
+
 // Generate a presigned URL for downloading the QR code image
 exports.getPresignedQRCodeUrl = async (req, res) => {
   try {
