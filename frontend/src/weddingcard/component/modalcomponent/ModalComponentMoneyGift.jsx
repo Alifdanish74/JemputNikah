@@ -100,7 +100,7 @@ const ModalComponentMoneyGift = () => {
           <img
             src={weddingCard.qrCode}
             width={160}
-            alt="background prayer"
+            alt={weddingCard.accountNumber}
             loading="lazy"
           />
         </div>

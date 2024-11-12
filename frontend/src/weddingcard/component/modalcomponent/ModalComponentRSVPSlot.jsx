@@ -5,8 +5,11 @@ import { MdOutlineCancel } from "react-icons/md";
 import { CircleLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useWeddingCard } from "../../../customhooks/WeddingCardContext";
 
 const ModalComponentRSVPSlot = ({ onCancel, onGuestbookUpdate }) => {
+  const { weddingCard } = useWeddingCard();
+
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [dewasa, setDewasa] = useState(1);
@@ -78,6 +81,9 @@ const ModalComponentRSVPSlot = ({ onCancel, onGuestbookUpdate }) => {
       console.error("Error submitting form:", error);
     }
   };
+
+  // if (loading) return <p>Loading wedding card details...</p>;
+  if (!weddingCard) return <p>Wedding card not found.</p>;
 
   return (
     <>

@@ -55,8 +55,17 @@ function BookingPage() {
   // Function to fetch wedding card data if in edit mode
   const fetchWeddingCardData = async (id) => {
     try {
-      const response = await axios.get(`/api/wedding-cards/${id}`);
-      setFormData(response.data); // Populate formData with fetched data
+      const response = await axios.get(`/api/wedding-cards/${id}`, {
+        cache: "no-store",
+      });
+
+      // Set formData with fetched data and update selectedPakej based on the current pakej
+      setFormData(response.data);
+
+      // Set selectedPakej based on the `pakej` value from response data
+      if (response.data.pakej) {
+        setSelectedPakej(response.data.pakej);
+      }
     } catch (error) {
       console.error("Error fetching wedding card data:", error);
     } finally {
@@ -295,33 +304,28 @@ function BookingPage() {
   };
 
   // Handle final form submission
-  // BookingPage.jsx
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formDataObj = new FormData();
 
-    // Append all other form data
+    // Append each key/value in formData
     Object.entries(formData).forEach(([key, value]) => {
-      if (key !== "qrCodeFile") {
-        formDataObj.append(key, value);
-      }
+      formDataObj.append(key, value);
     });
 
-    // Append QR code file if it exists
+    // Append the QR code file if it exists
     if (formData.qrCodeFile) {
       formDataObj.append("image", formData.qrCodeFile);
     }
 
     try {
       if (isEditMode) {
-        await axios.put(`/api/wedding-cards/${weddingCardId}`, formDataObj, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        // Let axios handle setting Content-Type for multipart/form-data
+        await axios.put(`/api/wedding-cards/${weddingCardId}`, formDataObj);
         setOpenModal(true);
+        await fetchWeddingCardData(weddingCardId); // Re-fetch data to ensure it's up-to-date
       } else {
-        await axios.post("/api/wedding-cards", formDataObj, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        await axios.post("/api/wedding-cards", formDataObj);
         setOpenModal(true);
       }
     } catch (error) {
@@ -380,6 +384,7 @@ function BookingPage() {
             formData={formData}
             handleFormDataChange={handleFormDataChange}
             errors={errors}
+            isEdit={isEditMode}
           />
         );
       case "Majlis":
@@ -419,7 +424,9 @@ function BookingPage() {
       case "Lain-lain":
         return (
           <LainLainSection
-            onPrevious={() => handleSectionChange("RSVP")}
+            onPrevious={() =>
+              handleSectionChange(formData.pakej === "Bali" ? "Majlis" : "RSVP")
+            }
             formData={formData}
             handleFormDataChange={handleFormDataChange}
             submit={handleSubmit}
@@ -545,8 +552,8 @@ function BookingPage() {
                 <p>Pihak Majlis: {formData.pihakMajlis}</p>{" "}
                 {/* <p>Tarikh akhir {formData.maxDate}</p>{" "} */}
                 <p>price: {formData.price}</p>{" "}
-                <p>Bg Song: {formData.bgSong} </p>
-                <p>Bg Song Title: {formData.bgSongTitle} </p>
+                {/* <p>Bg Song: {formData.bgSong} </p> */}
+                {/* <p>Tarikh Majlis: {formData.tarikhMajlis} </p> */}
                 {/* <p>user: {user._id}</p> <p>price: {formData.price}</p>{" "} */}
               </div>
             </div>

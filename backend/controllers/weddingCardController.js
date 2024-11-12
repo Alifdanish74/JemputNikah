@@ -29,20 +29,30 @@ const uploadToS3 = async (file, filename) => {
 exports.createWeddingCard = async (req, res) => {
   try {
     const { tarikhMajlis, maxDate, majlisStart } = req.body;
-    const qrCodeFile = req.file; // Ensure middleware is configured to handle this
+    const qrCodeFile = req.file;
 
-    // Parse dates
-    const tarikhMajlisLocal = new Date(tarikhMajlis);
-    tarikhMajlisLocal.setHours(0, 0, 0, 0);
-    const maxDateLocal = new Date(maxDate);
-    maxDateLocal.setHours(0, 0, 0, 0);
-
-    if (majlisStart) {
-      const [hours, minutes] = majlisStart.split(":").map(Number);
-      tarikhMajlisLocal.setHours(hours, minutes, 0, 0);
-      maxDateLocal.setHours(hours, minutes, 0, 0);
+    // Parse and set `tarikhMajlisLocal` only if `tarikhMajlis` is provided
+    let tarikhMajlisLocal = null;
+    if (tarikhMajlis) {
+      tarikhMajlisLocal = new Date(tarikhMajlis);
+      tarikhMajlisLocal.setHours(0, 0, 0, 0); // Set time to start of the day
     }
 
+    // Parse and set `maxDateLocal` only if `maxDate` is provided
+    let maxDateLocal = null;
+    if (maxDate) {
+      maxDateLocal = new Date(maxDate);
+      maxDateLocal.setHours(0, 0, 0, 0);
+    }
+
+    // Apply time from `majlisStart` to both dates if `majlisStart` is provided
+    if (majlisStart && tarikhMajlisLocal) {
+      const [hours, minutes] = majlisStart.split(":").map(Number);
+      tarikhMajlisLocal.setHours(hours, minutes, 0, 0);
+      if (maxDateLocal) {
+        maxDateLocal.setHours(hours, minutes, 0, 0);
+      }
+    }
     // Generate custom order number
     const orderCount = await Order.countDocuments();
     const nextOrderNumber = `JK${String(orderCount + 1).padStart(5, "0")}`;
@@ -89,8 +99,6 @@ exports.createWeddingCard = async (req, res) => {
   }
 };
 
-
-
 // Generate a presigned URL for downloading the QR code image
 exports.getPresignedQRCodeUrl = async (req, res) => {
   try {
@@ -99,7 +107,9 @@ exports.getPresignedQRCodeUrl = async (req, res) => {
     // Fetch the wedding card to get the QR code key
     const weddingCard = await WeddingCard.findById(weddingCardId);
     if (!weddingCard || !weddingCard.qrCode) {
-      return res.status(404).json({ message: "Wedding card or QR code not found" });
+      return res
+        .status(404)
+        .json({ message: "Wedding card or QR code not found" });
     }
 
     const qrCodeKey = weddingCard.qrCode.split(".com/")[1]; // Extract the key from the URL
@@ -108,7 +118,7 @@ exports.getPresignedQRCodeUrl = async (req, res) => {
     const params = {
       Bucket: process.env.S3_BUCKET_NAME,
       Key: qrCodeKey,
-      Expires: 6000 // URL expires in 60 seconds
+      Expires: 6000, // URL expires in 60 seconds
     };
 
     // Generate the presigned URL
@@ -116,7 +126,9 @@ exports.getPresignedQRCodeUrl = async (req, res) => {
     res.json({ url: presignedUrl });
   } catch (error) {
     console.error("Error generating presigned QR code URL:", error);
-    res.status(500).json({ message: "Error generating QR code download link", error });
+    res
+      .status(500)
+      .json({ message: "Error generating QR code download link", error });
   }
 };
 
@@ -135,49 +147,67 @@ exports.getWeddingCardById = async (req, res) => {
 
 // Update a wedding card
 // Controller for updating a wedding card
-exports.updateWeddingCard = async (req, res) => {
-  try {
-    const { id } = req.params;
-    let { tarikhMajlis, majlisStart } = req.body;
+// Update a wedding card
+// Update a wedding card
+// Apply multer as middleware to handle multipart/form-data
+exports.updateWeddingCard = [
+  upload.single("image"), // This should match the key used in the FormData (e.g., "image" for QR code file)
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { tarikhMajlis, maxDate, majlisStart, ...otherFields } = req.body;
 
-    // Parse date and time similar to createWeddingCard
-    const localDate = new Date(tarikhMajlis);
-    localDate.setHours(0, 0, 0, 0);
+      console.log("Request body:", req.body); // Log incoming data for debugging
 
-    if (majlisStart) {
-      const [hours, minutes] = majlisStart.split(":").map(Number);
-      localDate.setHours(hours, minutes, 0, 0);
+      let tarikhMajlisLocal = null;
+      if (tarikhMajlis) {
+        tarikhMajlisLocal = new Date(tarikhMajlis);
+        tarikhMajlisLocal.setHours(0, 0, 0, 0);
+      }
+
+      let maxDateLocal = null;
+      if (maxDate) {
+        maxDateLocal = new Date(maxDate);
+        maxDateLocal.setHours(0, 0, 0, 0);
+      }
+
+      if (majlisStart && tarikhMajlisLocal) {
+        const [hours, minutes] = majlisStart.split(":").map(Number);
+        tarikhMajlisLocal.setHours(hours, minutes, 0, 0);
+        if (maxDateLocal) maxDateLocal.setHours(hours, minutes, 0, 0);
+      }
+
+      // Prepare the update object
+      const updateData = {
+        ...otherFields,
+        majlisStart: majlisStart,
+        ...(tarikhMajlis && { tarikhMajlis: tarikhMajlisLocal }),
+        ...(maxDate && { maxDate: maxDateLocal }),
+      };
+
+      // If a new QR code file is provided, upload it to S3
+      if (req.file) {
+        const filename = `QR_${id}.png`;
+        updateData.qrCode = await uploadToS3(req.file, filename);
+      }
+
+      const updatedWeddingCard = await WeddingCard.findByIdAndUpdate(
+        id,
+        updateData,
+        { new: true }
+      );
+
+      if (!updatedWeddingCard) {
+        return res.status(404).json({ message: "Wedding card not found" });
+      }
+
+      res.json(updatedWeddingCard);
+    } catch (error) {
+      console.error("Error updating wedding card:", error);
+      res.status(500).json({ message: "Error updating wedding card", error });
     }
-
-    // Prepare the update object
-    const updateData = {
-      ...req.body,
-      tarikhMajlis: localDate,
-    };
-
-    // If a new QR code is provided, replace the old image in S3
-    if (req.file) {
-      const filename = `QR_${id}.png`; // Generate filename based on ID
-      updateData.qrCode = await uploadToS3(req.file, filename); // Upload new QR code to S3
-    }
-
-    // Update wedding card in DB
-    const updatedWeddingCard = await WeddingCard.findByIdAndUpdate(
-      id,
-      updateData,
-      { new: true }
-    );
-
-    if (!updatedWeddingCard) {
-      return res.status(404).json({ message: "Wedding card not found" });
-    }
-
-    res.json(updatedWeddingCard);
-  } catch (error) {
-    console.error("Error updating wedding card:", error);
-    res.status(500).json({ message: "Error updating wedding card", error });
-  }
-};
+  },
+];
 
 // Delete a wedding card
 exports.deleteWeddingCard = async (req, res) => {

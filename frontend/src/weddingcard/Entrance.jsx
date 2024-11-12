@@ -59,7 +59,7 @@ const Entrance = ({ onClose, setIsPlaying }) => {
             {weddingCard.tajukMajlis}
           </p>
         </motion.div>
-        <div className="mb-5 text-7xl font-Tangerine">
+        <div className={`mb-5 text-6xl ${weddingCard.jenisFont}`}>
           <motion.p
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}

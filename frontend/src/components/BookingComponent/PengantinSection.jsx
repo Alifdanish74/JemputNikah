@@ -1,75 +1,22 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 // import { FaUpload } from "react-icons/fa";
-import { HiOutlineArrowNarrowLeft, HiOutlineArrowNarrowRight } from "react-icons/hi";
+import {
+  HiOutlineArrowNarrowLeft,
+  HiOutlineArrowNarrowRight,
+} from "react-icons/hi";
 
-function PengantinSection({ onPrevious, onNext, formData, handleFormDataChange, errors }) {
+function PengantinSection({
+  onPrevious,
+  onNext,
+  formData,
+  handleFormDataChange,
+  errors,
+  isEdit,
+}) {
   const [selectedFont, setSelectedFont] = useState("font-CinzelDecorative");
   const [pihakMajlis, setPihakMajlis] = useState("L");
 
-  // const [errors, setErrors] = useState({}); // State to hold form errors
-
-  // Validation function to check if required fields are filled
-  // const validateForm = () => {
-  //   const newErrors = {};
-  //   if (!formData.namaPenuhLelaki) {
-  //     newErrors.namaPenuhLelaki = "Nama penuh pengantin lelaki is required";
-  //   }
-  //   if (!formData.namaPendekLelaki) {
-  //     newErrors.namaPendekLelaki = "Nama pendek pengantin lelaki is required";
-  //   }
-  //   if (!formData.namaPenuhPerempuan) {
-  //     newErrors.namaPenuhPerempuan =
-  //       "Nama penuh pengantin perempuan is required";
-  //   }
-  //   if (!formData.namaPendekPerempuan) {
-  //     newErrors.namaPendekPerempuan =
-  //       "Nama pendek pengantin perempuan is required";
-  //   }
-  //   if (pihakMajlis === "P" || pihakMajlis === "L") {
-  //     if (!formData.namaBapaPengantin) {
-  //       newErrors.namaBapaPengantin = "Nama bapa pengantin is required";
-  //     }
-  //     if (!formData.namaIbuPengantin) {
-  //       newErrors.namaIbuPengantin = "Nama ibu pengantin is required";
-  //     }
-  //   }
-  //   // Add more checks here based on your requirements
-  //   if (pihakMajlis === "D") {
-  //     if (!formData.namaPenuhPasangan1) {
-  //       newErrors.namaPenuhPasangan1 = "Nama penuh pasangan is required";
-  //     }
-  //     if (!formData.namaPendekPasangan1) {
-  //       newErrors.namaPendekPasangan1 = "Nama pendek pasangan is required";
-  //     }
-  //     if (!formData.namaPenuhPasangan2) {
-  //       newErrors.namaPenuhPasangan2 = "Nama penuh pasangan is required";
-  //     }
-  //     if (!formData.namaPendekPasangan2) {
-  //       newErrors.namaPendekPasangan2 = "Nama pendek pasangan is required";
-  //     }
-  //   }
-  //   if (pihakMajlis === "LL" || pihakMajlis === "PP") {
-  //     if (!formData.namaBapaPengantinL) {
-  //       newErrors.namaBapaPengantinL = "Nama bapa pengantin is required";
-  //     }
-  //     if (!formData.namaIbuPengantinL) {
-  //       newErrors.namaIbuPengantinL = "Nama ibu pengantin is required";
-  //     }
-  //     if (!formData.namaBapaPengantinP) {
-  //       newErrors.namaBapaPengantinP = "Nama bapa pengantin is required";
-  //     }
-  //     if (!formData.namaIbuPengantinP) {
-  //       newErrors.namaIbuPengantinP = "Nama ibu pengantin is required";
-  //     }
-  //   }
-
-  //   setErrors(newErrors);
-  //   return Object.keys(newErrors).length === 0;
-  // };
-
-  // Function to handle the Next button click
-  
 
   // Function to handle font change
   const handleFontChange = (e) => {
@@ -79,6 +26,8 @@ function PengantinSection({ onPrevious, onNext, formData, handleFormDataChange, 
   const handlePihakMajlis = (e) => {
     setPihakMajlis(e.target.value); // Update selected pihak majlis class based on user selection
   };
+
+  console.log("Pengantin section: " + isEdit);
 
   return (
     <div className="my-8">
@@ -688,27 +637,42 @@ function PengantinSection({ onPrevious, onNext, formData, handleFormDataChange, 
           </div> */}
         </div>
 
-        <div className="grid grid-cols-2 mt-10">
-        <div className="flex space-x-3 justify-start">
-          <button
-              type="button"
-              onClick={onPrevious} // Call the onNext prop when the button is clicked
-              className=" text-white bg-gray-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl px-5 py-2.5 sm:py-3.5 text-center"
-            >
-              {/* Previous: RSVP */}
-              <HiOutlineArrowNarrowLeft />
-            </button>
+        {!isEdit ? (
+          <div className="grid grid-cols-2 mt-10">
+            <div className="flex space-x-3 justify-start">
+              <button
+                type="button"
+                onClick={onPrevious} // Call the onNext prop when the button is clicked
+                className=" text-white bg-gray-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl px-5 py-2.5 sm:py-3.5 text-center"
+              >
+                {/* Previous: RSVP */}
+                <HiOutlineArrowNarrowLeft />
+              </button>
+            </div>
+
+            <div className="flex space-x-3 justify-end">
+              <button
+                type="button"
+                onClick={onNext} // Call the onNext prop when the button is clicked
+                className=" text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl px-5 py-2.5 sm:py-3.5 text-center"
+              >
+                <HiOutlineArrowNarrowRight />
+              </button>
+            </div>
           </div>
-          <div className="flex space-x-3 justify-end">
-            <button
-              type="button"
-              onClick={onNext} // Call the onNext prop when the button is clicked
-              className=" text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl px-5 py-2.5 sm:py-3.5 text-center"
-            >
-              <HiOutlineArrowNarrowRight />
-            </button>
+        ) : (
+          <div className=" mt-10">
+            <div className="flex space-x-3 justify-end">
+              <button
+                type="button"
+                onClick={onNext} // Call the onNext prop when the button is clicked
+                className=" text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl px-5 py-2.5 sm:py-3.5 text-center"
+              >
+                <HiOutlineArrowNarrowRight />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </form>
     </div>
   );

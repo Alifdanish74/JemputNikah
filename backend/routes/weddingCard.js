@@ -35,7 +35,7 @@ router.post("/", authMiddleware, upload.single("image"), createWeddingCard);
 router.get("/:id", getWeddingCardById);
 
 // Update a wedding card
-router.put("/:id", authMiddleware, updateWeddingCard);
+router.put("/:id", updateWeddingCard);
 
 // Delete a wedding card
 router.delete("/:id", authMiddleware, deleteWeddingCard);
