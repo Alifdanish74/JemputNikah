@@ -3,7 +3,10 @@
 import { Button } from "flowbite-react";
 import { useState } from "react";
 import { FaUpload } from "react-icons/fa";
-import { HiOutlineArrowNarrowLeft, HiOutlineArrowNarrowRight } from "react-icons/hi";
+import {
+  HiOutlineArrowNarrowLeft,
+  HiOutlineArrowNarrowRight,
+} from "react-icons/hi";
 import { MdCancel } from "react-icons/md";
 
 function MoneyGiftSection({
@@ -11,17 +14,20 @@ function MoneyGiftSection({
   onNext,
   formData,
   handleFormDataChange,
-  handleQrCodeFileChange, // Prop to pass file to parent
+  handleQrCodeFileChange
 }) {
   const [imageUrl, setImageUrl] = useState(null);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageUrl(URL.createObjectURL(file)); // Generate preview URL
-      handleQrCodeFileChange(file); // Send file to parent component
-    }
-  };
+// MoneyGiftSection.jsx
+const handleImageChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    setImageUrl(URL.createObjectURL(file)); // Generate preview URL
+    handleQrCodeFileChange(file); // Pass file to parent component as `File` object
+  }
+};
+
+
 
   const removeImage = () => {
     setImageUrl(null);
@@ -37,7 +43,10 @@ function MoneyGiftSection({
         {/* Bank name input */}
         <div className="grid gap-5 my-6 sm:grid-cols-2">
           <div>
-            <label htmlFor="pihakmajlis" className="block mb-2 text-sm font-medium text-gray-900">
+            <label
+              htmlFor="pihakmajlis"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
               Nama Bank
             </label>
             <select
@@ -56,7 +65,10 @@ function MoneyGiftSection({
 
           {/* Account number input */}
           <div>
-            <label htmlFor="accountnumber" className="block mb-2 text-sm font-medium text-gray-900">
+            <label
+              htmlFor="accountnumber"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
               Nombor akaun bank
             </label>
             <input
@@ -64,13 +76,17 @@ function MoneyGiftSection({
               id="accountnumber"
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
               value={formData.accountNumber}
-              onChange={(e) => handleFormDataChange("accountNumber", e.target.value)}
+              onChange={(e) =>
+                handleFormDataChange("accountNumber", e.target.value)
+              }
             />
           </div>
 
           {/* QR Code image upload */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Kod QR</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Kod QR
+            </label>
             <div className="flex items-center space-x-3">
               <input
                 type="file"
@@ -88,7 +104,11 @@ function MoneyGiftSection({
               <Button onClick={removeImage}>
                 <MdCancel />
               </Button>
-              <img src={imageUrl} alt="QR Code Preview" className="w-60 h-60 mx-auto" />
+              <img
+                src={imageUrl}
+                alt="QR Code Preview"
+                className="w-60 h-60 mx-auto"
+              />
             </div>
           )}
         </div>

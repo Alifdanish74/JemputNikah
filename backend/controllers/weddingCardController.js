@@ -26,58 +26,88 @@ const uploadToS3 = async (file, filename) => {
 };
 
 // Create a new wedding card
-exports.createWeddingCard = async (req, res) => {
-  try {
-    const { tarikhMajlis, maxDate, majlisStart } = req.body;
-    const qrCodeFile = req.file;
+// weddingCardController.js
+exports.createWeddingCard = [
+  upload.single("qrCodeFile"), // Ensure "qrCodeFile" matches MoneyGiftSection
+  async (req, res) => {
+    try {
+      const { tarikhMajlis, majlisStart } = req.body;
+      const qrCodeFile = req.file;
 
-    // Parse and set `tarikhMajlisLocal` only if `tarikhMajlis` is provided
-    let tarikhMajlisLocal = null;
-    if (tarikhMajlis) {
-      tarikhMajlisLocal = new Date(tarikhMajlis);
-      tarikhMajlisLocal.setHours(0, 0, 0, 0); // Set time to start of the day
-    }
+      console.log("Request body:", req.body); // Log incoming data
 
-    // Parse and set `maxDateLocal` only if `maxDate` is provided
-    let maxDateLocal = null;
-    if (maxDate) {
-      maxDateLocal = new Date(maxDate);
-      maxDateLocal.setHours(0, 0, 0, 0);
-    }
+      const maxInvitations =
+        req.body.maxInvitations === "null"
+          ? null
+          : Number(req.body.maxInvitations);
 
-    // Apply time from `majlisStart` to both dates if `majlisStart` is provided
-    if (majlisStart && tarikhMajlisLocal) {
-      const [hours, minutes] = majlisStart.split(":").map(Number);
-      tarikhMajlisLocal.setHours(hours, minutes, 0, 0);
-      if (maxDateLocal) {
-        maxDateLocal.setHours(hours, minutes, 0, 0);
+      const maxInvitationsDewasa =
+        req.body.maxInvitationsDewasa === "null"
+          ? null
+          : Number(req.body.maxInvitationsDewasa);
+      const maxInvitationsKids =
+        req.body.maxInvitationsKids === "null"
+          ? null
+          : Number(req.body.maxInvitationsKids);
+
+      const maxDate =
+        req.body.maxDate === "null" ? null : new Date(req.body.maxDate);
+
+      // Parse and set `tarikhMajlisLocal` only if `tarikhMajlis` is provided
+      let tarikhMajlisLocal = null;
+      if (tarikhMajlis) {
+        tarikhMajlisLocal = new Date(tarikhMajlis);
+        tarikhMajlisLocal.setHours(0, 0, 0, 0); // Set time to start of the day
       }
-    }
-    // Generate custom order number
-    const orderCount = await Order.countDocuments();
-    const nextOrderNumber = `JK${String(orderCount + 1).padStart(5, "0")}`;
 
-    // Upload QR code to S3 if provided
-    let qrCodeUrl = "";
-    if (qrCodeFile) {
-      qrCodeUrl = await uploadToS3(qrCodeFile, `${nextOrderNumber}/qrCode.png`);
-    }
+      // Parse and set `maxDateLocal` only if `maxDate` is provided
+      let maxDateLocal = null;
+      if (maxDate) {
+        maxDateLocal = new Date(maxDate);
+        maxDateLocal.setHours(0, 0, 0, 0);
+      }
 
-    // Create new wedding card
-    const newWeddingCard = new WeddingCard({
-      ...req.body,
-      tarikhMajlis: tarikhMajlisLocal,
-      maxDate: maxDateLocal,
-      userId: req.user._id,
-      userPhone: req.user.phone,
-      userName: req.user.name,
-      qrCode: qrCodeUrl, // Include uploaded QR code URL
-    });
+      // Apply time from `majlisStart` to both dates if `majlisStart` is provided
+      if (majlisStart && tarikhMajlisLocal) {
+        const [hours, minutes] = majlisStart.split(":").map(Number);
+        tarikhMajlisLocal.setHours(hours, minutes, 0, 0);
+        if (maxDateLocal) {
+          maxDateLocal.setHours(hours, minutes, 0, 0);
+        }
+      }
 
-    // Save the wedding card
-    await newWeddingCard.save();
+      // Generate custom order number
+      const orderCount = await Order.countDocuments();
+      const nextOrderNumber = `JK${String(orderCount + 1).padStart(5, "0")}`;
 
-    // Set order price based on the newWeddingCard price
+      // Upload QR code to S3 if provided
+      let qrCodeUrl = "";
+      if (qrCodeFile) {
+        qrCodeUrl = await uploadToS3(
+          qrCodeFile,
+          `${nextOrderNumber}/qrCode.png`
+        );
+      }
+
+      const newWeddingCard = new WeddingCard({
+        ...req.body,
+        tarikhMajlis: tarikhMajlisLocal,
+        
+        maxInvitations: maxInvitations,
+        maxInvitationsDewasa: maxInvitationsDewasa,
+        maxInvitationsKids: maxInvitationsKids,
+        userId: req.user._id,
+        userPhone: req.user.phone,
+        userName: req.user.name,
+        qrCode: qrCodeUrl, // Store S3 URL
+      });
+
+       // Save the wedding card
+      await newWeddingCard.save();
+      console.log("Created wedding card:", newWeddingCard); // Log updated data
+
+
+      // Set order price based on the newWeddingCard price
     const { price } = newWeddingCard;
 
     // Create order with custom order number
@@ -93,11 +123,13 @@ exports.createWeddingCard = async (req, res) => {
 
     // Respond with created data
     res.status(201).json({ weddingCard: newWeddingCard, order: newOrder });
-  } catch (error) {
-    console.error("Error creating wedding card:", error);
-    res.status(500).json({ message: "Error creating wedding card", error });
-  }
-};
+
+    } catch (error) {
+      console.error("Error creating wedding card:", error);
+      res.status(500).json({ message: "Error creating wedding card", error });
+    }
+  },
+];
 
 // Generate a presigned URL for downloading the QR code image
 exports.getPresignedQRCodeUrl = async (req, res) => {
@@ -147,48 +179,20 @@ exports.getWeddingCardById = async (req, res) => {
 
 // Update a wedding card
 // Controller for updating a wedding card
-// Update a wedding card
-// Update a wedding card
 // Apply multer as middleware to handle multipart/form-data
+// Update wedding card
 exports.updateWeddingCard = [
-  upload.single("image"), // This should match the key used in the FormData (e.g., "image" for QR code file)
+  upload.single("qrCodeFile"),
   async (req, res) => {
     try {
       const { id } = req.params;
-      const { tarikhMajlis, maxDate, majlisStart, ...otherFields } = req.body;
+      let updateData = { ...req.body };
 
-      console.log("Request body:", req.body); // Log incoming data for debugging
-
-      let tarikhMajlisLocal = null;
-      if (tarikhMajlis) {
-        tarikhMajlisLocal = new Date(tarikhMajlis);
-        tarikhMajlisLocal.setHours(0, 0, 0, 0);
-      }
-
-      let maxDateLocal = null;
-      if (maxDate) {
-        maxDateLocal = new Date(maxDate);
-        maxDateLocal.setHours(0, 0, 0, 0);
-      }
-
-      if (majlisStart && tarikhMajlisLocal) {
-        const [hours, minutes] = majlisStart.split(":").map(Number);
-        tarikhMajlisLocal.setHours(hours, minutes, 0, 0);
-        if (maxDateLocal) maxDateLocal.setHours(hours, minutes, 0, 0);
-      }
-
-      // Prepare the update object
-      const updateData = {
-        ...otherFields,
-        majlisStart: majlisStart,
-        ...(tarikhMajlis && { tarikhMajlis: tarikhMajlisLocal }),
-        ...(maxDate && { maxDate: maxDateLocal }),
-      };
-
-      // If a new QR code file is provided, upload it to S3
       if (req.file) {
-        const filename = `QR_${id}.png`;
-        updateData.qrCode = await uploadToS3(req.file, filename);
+        updateData.qrCode = await uploadToS3(
+          req.file,
+          `qr_codes/${id}_qrCode.png`
+        );
       }
 
       const updatedWeddingCard = await WeddingCard.findByIdAndUpdate(
@@ -196,11 +200,6 @@ exports.updateWeddingCard = [
         updateData,
         { new: true }
       );
-
-      if (!updatedWeddingCard) {
-        return res.status(404).json({ message: "Wedding card not found" });
-      }
-
       res.json(updatedWeddingCard);
     } catch (error) {
       console.error("Error updating wedding card:", error);

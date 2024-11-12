@@ -27,9 +27,7 @@ const axios = require("axios");
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Create a new wedding card
-router.post("/", authMiddleware, upload.single("image"), createWeddingCard);
-
-// router.post("/upload/qr-code", upload.single("file"), uploadQRCode);
+router.post("/", authMiddleware, createWeddingCard);
 
 // Get a wedding card by ID
 router.get("/:id", getWeddingCardById);

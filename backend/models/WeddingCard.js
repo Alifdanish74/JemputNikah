@@ -11,15 +11,15 @@ const WeddingCardSchema = new mongoose.Schema(
       type: "String",
       required: true, // This ensures the wedding card is associated with a user
     },
-    userName:{
+    userName: {
       type: "String",
       required: true, // This ensures the wedding card is associated with a user
     },
-    price:{type: "String", required: true},
+    price: { type: "String", required: true },
     pakej: { type: String, default: "Istanbul" },
     designName: { type: String },
     designId: { type: mongoose.Schema.Types.ObjectId, ref: "CardDesign" },
-    designUrl: { type: String},
+    designUrl: { type: String },
     // Pengantin Section
     pihakMajlis: { type: String },
     jenisFont: { type: String },
@@ -74,10 +74,10 @@ const WeddingCardSchema = new mongoose.Schema(
     accountNumber: { type: String },
     qrCode: { type: String }, // File path or URL for QR code image
     // RSVP
-    maxInvitations: { type: Number },
-    maxInvitationsDewasa: { type: Number },
-    maxInvitationsKids: { type: Number },
-    maxDate: { type: Date },
+    maxInvitations: { type: Number, default: null },
+    maxInvitationsDewasa: { type: Number, default: null },
+    maxInvitationsKids: { type: Number, default: null },
+    maxDate: { type: Date , default: null}, // Allows null values if needed},
     labelSlot1: { type: String },
     fromSlot1: { type: String },
     toSlot1: { type: String },

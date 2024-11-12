@@ -78,7 +78,7 @@ function Navbar({ onGuestbookUpdate }) {
           className="main-div bg-white w-full border-t border-gray-200 rounded-t-3xl text-[10px] font-medium flex flex-wrap justify-around items-center p-2 min-h-16"
         >
           {/* BUKAN BALI */}
-          {weddingCard.pakej !== "BALI" && (
+          {weddingCard.pakej !== "Bali" && (
             <>
               <motion.button
                 initial={{ opacity: 0.8 }}

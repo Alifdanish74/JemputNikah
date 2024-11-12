@@ -28,7 +28,6 @@ function BookingPage() {
   const [openModal, setOpenModal] = useState(false);
   const [selectedPakej, setSelectedPakej] = useState("Istanbul");
   const [isEditMode, setIsEditMode] = useState(false); // Track edit mode
-  // const [qrCodeFile, setQrCodeFile] = useState(null); // New state for QR code file
 
   const navigate = useNavigate();
 
@@ -165,10 +164,10 @@ function BookingPage() {
     accountNumber: "",
     qrCodeFile: "",
     // RSVP info
-    maxInvitations: "",
-    maxInvitationsDewasa: "",
-    maxInvitationsKids: "",
-    maxDate: "",
+    maxInvitations: null,
+    maxInvitationsDewasa: null,
+    maxInvitationsKids: null,
+    maxDate: null,
     labelSlot1: "",
     fromSlot1: "",
     toSlot1: "",
@@ -293,8 +292,6 @@ function BookingPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle final form submission
-
   // Function to handle QR code file selection
   const handleQrCodeFileChange = (file) => {
     setFormData({
@@ -303,31 +300,30 @@ function BookingPage() {
     });
   };
 
-  // Handle final form submission
+  // BookingPage.jsx
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formDataObj = new FormData();
 
-    // Append each key/value in formData
+    // Append all other form data and handle the file field `qrCodeFile` explicitly
     Object.entries(formData).forEach(([key, value]) => {
-      formDataObj.append(key, value);
+      if (value !== null && value !== undefined) {
+        formDataObj.append(key, value);
+      }
     });
 
-    // Append the QR code file if it exists
-    if (formData.qrCodeFile) {
-      formDataObj.append("image", formData.qrCodeFile);
-    }
-
     try {
-      if (isEditMode) {
-        // Let axios handle setting Content-Type for multipart/form-data
-        await axios.put(`/api/wedding-cards/${weddingCardId}`, formDataObj);
-        setOpenModal(true);
-        await fetchWeddingCardData(weddingCardId); // Re-fetch data to ensure it's up-to-date
-      } else {
-        await axios.post("/api/wedding-cards", formDataObj);
-        setOpenModal(true);
-      }
+      const url = isEditMode
+        ? `/api/wedding-cards/${weddingCardId}`
+        : "/api/wedding-cards";
+
+      await axios({
+        method: isEditMode ? "PUT" : "POST",
+        url: url,
+        data: formDataObj,
+      });
+
+      setOpenModal(true);
     } catch (error) {
       console.error("Error submitting form:", error);
     }
