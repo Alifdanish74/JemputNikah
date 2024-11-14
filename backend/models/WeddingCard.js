@@ -77,7 +77,7 @@ const WeddingCardSchema = new mongoose.Schema(
     maxInvitations: { type: Number, default: null },
     maxInvitationsDewasa: { type: Number, default: null },
     maxInvitationsKids: { type: Number, default: null },
-    maxDate: { type: Date , default: null}, // Allows null values if needed},
+    maxDate: { type: Date, default: null }, // Allows null values if needed},
     labelSlot1: { type: String },
     fromSlot1: { type: String },
     toSlot1: { type: String },
@@ -99,6 +99,12 @@ const WeddingCardSchema = new mongoose.Schema(
     extraInfo: { type: String },
     hashtag: { type: String },
     orderphone: { type: String },
+    RSVPs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "RSVP",
+      },
+    ],
   },
   { timestamps: true }
 );

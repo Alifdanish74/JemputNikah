@@ -1,15 +1,22 @@
 /* eslint-disable react/prop-types */
 // components/ModalComponentRSVPSlotTidakHadir.js
+import axios from "axios";
 import { useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import { MdOutlineCancel } from "react-icons/md";
 import { CircleLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useWeddingCard } from "../../../customhooks/WeddingCardContext";
 
 const ModalComponentRSVPSlotTidakHadir = ({ onCancel, onGuestbookUpdate }) => {
+  const { weddingCard, order } = useWeddingCard();
   const [name, setName] = useState("");
-
+  const [phone, setPhone] = useState("");
+  const [dewasa, setDewasa] = useState(0);
+  const [kanak, setKanak] = useState(0);
+  const [timeslot, setTimeSlot] = useState("");
+  const [pihak, setPihak] = useState("");
   const [ucapan, setUcapan] = useState("");
   const [status, setStatus] = useState("Tidak Hadir");
   const [loading, setLoading] = useState(false);
@@ -17,52 +24,51 @@ const ModalComponentRSVPSlotTidakHadir = ({ onCancel, onGuestbookUpdate }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const notify = () =>
-      toast.success("Your RSVP has been submitted", {
-        autoClose: 1800,
-        position: "top-center",
-        closeOnClick: true,
-      });
+
     try {
-      const form = {
+      const formData = {
         name,
+        phone,
+        dewasa,
+        kanak,
+        timeslot,
+        pihak,
         ucapan,
         status,
       };
 
-      const response = await fetch("/api/submit-form", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
+      const response = await axios.post("/api/rsvp/submit-form", {
+        weddingCardId: weddingCard._id,
+        orderId: order._id, // Assuming the weddingCard has an associated orderId
+        formData,
       });
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+      if (response.status === 200) {
+        toast.success("Your RSVP has been submitted", {
+          autoClose: 1800,
+          position: "top-center",
+          closeOnClick: true,
+        });
+        setName("");
+        setPhone("");
+        setDewasa(0);
+        setKanak(0);
+        setTimeSlot("");
+        setPihak("");
+        setUcapan("");
+        setStatus("Tidak Hadir");
+        onGuestbookUpdate();
+        onCancel();
       }
-
-      const content = await response.json();
-
-      console.log(content);
-
-      setName("");
-
-      setUcapan("");
-      setStatus("Tidak Hadir");
-      setLoading(false);
-
-      notify();
-
-      // If form submission is successful, trigger guestbook update in Base component
-      onGuestbookUpdate();
-
-      onCancel();
-
-      console.log(form);
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("Error submitting RSVP:", error);
+      toast.error("Failed to submit RSVP.", {
+        autoClose: 1800,
+        position: "top-center",
+        closeOnClick: true,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 

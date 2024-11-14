@@ -11,7 +11,6 @@ function SongUploadForm() {
   const [songFile, setSongFile] = useState(null);
   const [songs, setSongs] = useState([]);
 
-  // Fetch songs on component mount
   useEffect(() => {
     const fetchSongs = async () => {
       try {
@@ -67,7 +66,6 @@ function SongUploadForm() {
     }
   };
 
-  // Delete song function
   const handleDelete = async (id) => {
     try {
       await axios.delete(`/api/songs/${id}`);
@@ -84,13 +82,13 @@ function SongUploadForm() {
   };
 
   return (
-    <div className="w-full  mx-auto p-8 px-20 bg-gray-50 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold text-center mb-6 text-blue-600">
-        Upload background song
+    <div className="w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto p-4 sm:p-6 md:p-8 bg-gray-50 rounded-lg shadow-lg">
+      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4 sm:mb-6 text-blue-600">
+        Upload Background Song
       </h2>
 
       {/* Upload Form */}
-      <form onSubmit={handleSubmit} className="container space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block mb-1 font-medium text-gray-700">
             Singer
@@ -134,46 +132,60 @@ function SongUploadForm() {
       </form>
 
       {/* Song List Table */}
-      <div className="m-10">
-        <h3 className="text-2xl font-semibold mb-4">Available Songs</h3>
-        <Table>
-          <Table.Head>
-            <Table.HeadCell>Singer</Table.HeadCell>
-            <Table.HeadCell>Song Title</Table.HeadCell>
-            <Table.HeadCell>Music URL</Table.HeadCell>
-            <Table.HeadCell>Actions</Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
-            {songs.map((song) => (
-              <Table.Row
-                key={song._id}
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
-              >
-                <Table.Cell>{song.singer}</Table.Cell>
-                <Table.Cell>{song.songtitle}</Table.Cell>
-                <Table.Cell>
-                  <a
-                    href={song.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600"
-                  >
-                    Listen
-                  </a>
-                </Table.Cell>
-                <Table.Cell>
-                  <Button
-                    color="failure"
-                    onClick={() => handleDelete(song._id)}
-                    className="flex items-center"
-                  >
-                    <FaTrash className="mr-2" /> Delete
-                  </Button>
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
+      <div className="mt-8">
+        <h3 className="text-xl sm:text-2xl font-semibold mb-4">Available Songs</h3>
+        <div className="overflow-x-auto">
+          <Table className="min-w-full divide-y divide-gray-200">
+            <Table.Head className="bg-gray-100">
+              <Table.HeadCell className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                Singer
+              </Table.HeadCell>
+              <Table.HeadCell className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                Song Title
+              </Table.HeadCell>
+              <Table.HeadCell className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                Music URL
+              </Table.HeadCell>
+              <Table.HeadCell className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                Actions
+              </Table.HeadCell>
+            </Table.Head>
+            <Table.Body className="bg-white divide-y divide-gray-200">
+              {songs.map((song) => (
+                <Table.Row
+                  key={song._id}
+                  className="text-xs sm:text-sm p-2 sm:p-4 flex flex-col sm:table-row border-b border-gray-200"
+                >
+                  <Table.Cell className="whitespace-nowrap py-2 px-3 text-sm sm:text-base">
+                    {song.singer}
+                  </Table.Cell>
+                  <Table.Cell className="whitespace-nowrap py-2 px-3 text-sm sm:text-base">
+                    {song.songtitle}
+                  </Table.Cell>
+                  <Table.Cell className="whitespace-nowrap py-2 px-3 text-sm sm:text-base">
+                    <a
+                      href={song.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 underline"
+                    >
+                      Listen
+                    </a>
+                  </Table.Cell>
+                  <Table.Cell className="whitespace-nowrap py-2 px-3 text-sm sm:text-base flex sm:table-cell">
+                    <Button
+                      color="failure"
+                      onClick={() => handleDelete(song._id)}
+                      className="flex items-center mx-auto sm:mx-0"
+                    >
+                      <FaTrash className="mr-1" /> Delete
+                    </Button>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </div>
       </div>
     </div>
   );

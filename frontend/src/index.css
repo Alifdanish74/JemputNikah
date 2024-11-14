@@ -77,6 +77,13 @@ html {
     background-position: center;
 }
 
+.sticky-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20; /* Ensure it stays above other content */
+}
+
+
 /* Apply the blur effect to a pseudo-element behind the content */
 .bg-blurred::before {
     content: "";

@@ -1,10 +1,10 @@
 // import React from 'react';
 import { useContext } from 'react';
-import AdminUploadForm from './AdminUploadForm';
+import AdminUploadForm from './AdminUploadDesignForm';
 import { UserContext } from '../customhooks/UserContext';
 import { Navigate } from 'react-router-dom';
 
-function AdminUploadPage() {
+function AdminUploadDesignPage() {
   const { ready, user } = useContext(UserContext);
   // const [redirect, setRedirect] = useState(null);
 
@@ -27,4 +27,4 @@ function AdminUploadPage() {
   );
 }
 
-export default AdminUploadPage;
+export default AdminUploadDesignPage;

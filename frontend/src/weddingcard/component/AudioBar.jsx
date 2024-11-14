@@ -53,7 +53,7 @@ function AudioBar({ isPlaying, setIsPlaying }) {
   if (!weddingCard) return <p>Wedding card not found.</p>;
 
   return (
-    <div className="flex -z-1 sticky justify-center content-center top-0 bg-transparent p-6 pt-10 text-center">
+    <div className="flex z-20  sticky justify-center content-center top-0 bg-transparent p-6 pt-10 text-center">
       <button
         id="music-btn"
         onClick={togglePlayPause} // Handle play/pause functionality

@@ -16,6 +16,8 @@
     "@mui/styled-engine-sc": "^6.1.5",
     "@mui/x-data-grid": "^7.22.0",
     "@mui/x-data-grid-generator": "^7.22.0",
+    "ag-grid-community": "^32.3.3",
+    "ag-grid-react": "^32.3.3",
     "axios": "^1.7.7",
     "color-calendar": "^1.0.7",
     "flowbite-react": "^0.10.2",

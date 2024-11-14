@@ -24,8 +24,8 @@ function Footer() {
       className="flex flex-col text-center content-center justify-center container py-5"
     >
       <h1 className="text-black font-[gormorant] mt-10 text-xl">
-        {/* {weddingCard.hashtag} */}
-        #DanishXIqkriany
+        #{weddingCard.hashtag}
+        {/* #DanishXIqkriany */}
       </h1>
 
       <br></br>

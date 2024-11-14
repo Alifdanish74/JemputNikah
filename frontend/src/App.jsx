@@ -14,13 +14,16 @@ import PakejPage from "./pages/PakejPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { UserContextProvider } from "./customhooks/UserContext";
-import AdminUploadPage from "./adminside/AdminUploadPage";
+import AdminUploadPage from "./adminside/AdminUploadDesignPage";
 import BookingPage from "./pages/BookingPage";
 import RekodTempahanPage from "./pages/RekodTempahanPage";
 import Profile from "./pages/Profile";
 import { ToastContainer } from "react-toastify";
 import AdminUploadSong from "./adminside/AdminUploadSongPage";
 import AdminDashboard from "./adminside/AdminDashboard";
+import AdminViewOrder from "./adminside/AdminViewOrderPage";
+import AdminUpdateOrderPage from "./adminside/AdminUpdateOrderPage";
+import RSVPManagementPage from "./userside/RSVPManagementPage";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
 axios.defaults.baseURL = "http://localhost:4000";
@@ -40,7 +43,6 @@ function App() {
   return (
     <>
       <UserContextProvider>
-        
         {showHeaderFooter && <Header />}
         <ToastContainer />
         <Routes>
@@ -53,7 +55,7 @@ function App() {
               path="/kad-digital/tempah/:designName"
               element={<BookingPage />}
             />
-             {/* Route for editing an existing wedding card booking */}
+            {/* Route for editing an existing wedding card booking */}
             <Route
               path="/kad-digital/tempah/:designName/:weddingCardId"
               element={<BookingPage />}
@@ -63,14 +65,22 @@ function App() {
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/admin/upload" element={<AdminUploadPage />} />
-            <Route path="/admin/uploadsong" element={<AdminUploadSong />} />
             <Route path="/tempahan" element={<RekodTempahanPage />} />
             <Route path="/profile" element={<Profile />} />
             <Route
               path="/weddingcardpreview/:designName/:tajukMajlis/:orderNumber"
               element={<BaseWeddingCard />}
             />
+            {/* ADMIN SIDE */}
+            <Route path="/admin/upload" element={<AdminUploadPage />} />
+            <Route path="/admin/uploadsong" element={<AdminUploadSong />} />
+            <Route path="/admin/vieworder" element={<AdminViewOrder />} />
+            <Route path="/admin/update-order/:weddingCardId" element={<AdminUpdateOrderPage />} />
+            {/* ADMIN SIDE */}
+
+            {/* USER SIDE */}
+            <Route path="/tempahan/rsvp/:orderNumber" element={<RSVPManagementPage />} />
+            {/* USER SIDE */}
           </Route>
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>

@@ -20,7 +20,7 @@ function RekodTempahanPage() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   //   console.log("USER ID:", user._id);
   useEffect(() => {
@@ -84,7 +84,7 @@ function RekodTempahanPage() {
                 <div className="w-full md:w-1/2">
                   <form className="flex items-center">
                     <label htmlFor="simple-search" className="sr-only">
-                      Search 
+                      Search
                     </label>
                     <div className="relative w-full">
                       <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -149,7 +149,6 @@ function RekodTempahanPage() {
                             className="px-4 py-3 border font-medium text-gray-900 whitespace-nowrap dark:text-white"
                           >
                             {order.orderNumber}
-                            
                           </th>
                           <td className="px-4 py-3 border">
                             {new Date(order.createdAt).toLocaleDateString()}
@@ -165,7 +164,7 @@ function RekodTempahanPage() {
                                     ? "success"
                                     : order.paymentStatus === "pending"
                                     ? "warning"
-                                    : order.paymentStatus === "failed"
+                                    : order.paymentStatus === "deleted"
                                     ? "failure"
                                     : "default" // Default color for any other status
                                 }
@@ -209,7 +208,15 @@ function RekodTempahanPage() {
                           <td className=" py-3 border">
                             <div className="grid grid-cols-2 gap-y-2 items-center justify-center">
                               <div className="mx-auto items-center justify-center">
-                                <Button size="xs" color="blue">
+                                <Button
+                                  size="xs"
+                                  color="blue"
+                                  onClick={() =>
+                                    navigate(`/tempahan/rsvp/${order.orderNumber}`, {
+                                      state: { order },
+                                    })
+                                  }
+                                >
                                   {" "}
                                   <FaRegPlayCircle className="mr-2 h-5 w-5" />{" "}
                                   RSVP

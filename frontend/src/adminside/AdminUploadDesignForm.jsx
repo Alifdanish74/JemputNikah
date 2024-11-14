@@ -5,7 +5,7 @@ import { Button } from "@headlessui/react";
 import { MdCancel } from "react-icons/md";
 import { toast } from "react-toastify";
 
-function AdminUploadForm() {
+function AdminUploadDesignForm() {
   const [category, setCategory] = useState("");
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null); // To store preview of design image
@@ -228,4 +228,4 @@ function AdminUploadForm() {
   );
 }
 
-export default AdminUploadForm;
+export default AdminUploadDesignForm;

@@ -197,7 +197,7 @@ function LainLainSection({
           {/* Kod Pemakaian */}
           <div>
             <label
-              htmlFor="dresscode"
+              htmlFor="dressCode"
               className="block mb-2 text-sm font-medium text-gray-900 "
             >
               Kod Pemakaian (jika ada)
@@ -209,7 +209,7 @@ function LainLainSection({
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
               value={formData.dressCode}
               onChange={(e) => {
-                handleFormDataChange("dresscode", e.target.value);
+                handleFormDataChange("dressCode", e.target.value);
               }}
             />
           </div>
@@ -228,7 +228,7 @@ function LainLainSection({
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5  "
               value={formData.extraInfo}
               onChange={(e) => {
-                handleFormDataChange("extrainfo", e.target.value);
+                handleFormDataChange("extraInfo", e.target.value);
               }}
             />
           </div>

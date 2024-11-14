@@ -1,8 +1,18 @@
-const express = require('express');
-const { createRSVP, test } = require('../controllers/rsvpController');
+const express = require("express");
+const {
+  submitRSVP,
+  getRSVPs,
+  getRSVPsByOrderNumber,
+} = require("../controllers/rsvpController");
+
 const router = express.Router();
 
-router.post('/', createRSVP);
-router.get('/test', test);
+// Route to submit RSVP form data
+router.post("/submit-form", submitRSVP);
+
+// Route to fetch RSVP data by weddingCardId
+router.get("/:weddingCardId", getRSVPs);
+
+router.get("/list/:orderNumber", getRSVPsByOrderNumber);
 
 module.exports = router;
