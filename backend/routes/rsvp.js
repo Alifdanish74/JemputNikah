@@ -3,6 +3,7 @@ const {
   submitRSVP,
   getRSVPs,
   getRSVPsByOrderNumber,
+  deleteRSVPSubmission 
 } = require("../controllers/rsvpController");
 
 const router = express.Router();
@@ -14,5 +15,8 @@ router.post("/submit-form", submitRSVP);
 router.get("/:weddingCardId", getRSVPs);
 
 router.get("/list/:orderNumber", getRSVPsByOrderNumber);
+
+// DELETE: Delete an RSVP submission
+router.delete("/delete/:rsvpId/:submissionId", deleteRSVPSubmission);
 
 module.exports = router;

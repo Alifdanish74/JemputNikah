@@ -89,3 +89,29 @@ exports.getRSVPsByOrderNumber = async (req, res) => {
     res.status(500).json({ message: "Error fetching RSVP data", error });
   }
 };
+
+// Delete an RSVP submission
+exports.deleteRSVPSubmission = async (req, res) => {
+  const { rsvpId, submissionId } = req.params;
+
+  try {
+    const rsvp = await RSVP.findById(rsvpId);
+    if (!rsvp) {
+      return res.status(404).json({ message: "RSVP not found" });
+    }
+
+    // Filter out the submission to delete
+    rsvp.submissions = rsvp.submissions.filter(
+      (submission) => submission._id.toString() !== submissionId
+    );
+
+    // Save updated RSVP
+    await rsvp.save();
+
+    res.status(200).json({ message: "RSVP submission deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting RSVP submission:", error);
+    res.status(500).json({ message: "Error deleting RSVP submission", error });
+  }
+};
+

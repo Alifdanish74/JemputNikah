@@ -11,6 +11,7 @@ const adminRoutes = require("./routes/design");
 const orderRoutes = require("./routes/order");
 const rsvpRoutes = require("./routes/rsvp");
 const songRoutes = require("./routes/song");
+const wishlistRoutes = require("./routes/wishlist");
 
 
 
@@ -35,6 +36,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/songs", songRoutes);
 app.use("/api/rsvp", rsvpRoutes);
+app.use("/api/wishlist", wishlistRoutes);
 
 
 app.listen(process.env.PORT || 4000, () => {

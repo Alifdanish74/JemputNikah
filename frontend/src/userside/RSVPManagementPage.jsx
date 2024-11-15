@@ -1,16 +1,18 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useCallback, useMemo, useContext } from "react";
 import axios from "axios";
 import { AgGridReact } from "ag-grid-react";
 import { Spinner } from "flowbite-react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { Modal, Button } from "flowbite-react";
 
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Theme CSS
+import { UserContext } from "../customhooks/UserContext";
 
 const RSVPManagementPage = () => {
   const { orderNumber } = useParams();
+  const { ready, user } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -63,7 +65,7 @@ const RSVPManagementPage = () => {
       headerName: "Pihak",
       sortable: true,
       filter: true,
-      //   flex: 2,
+      width: 150,
     },
     {
       field: "dewasa",
@@ -96,12 +98,26 @@ const RSVPManagementPage = () => {
         color: params.value === "Hadir" ? "green" : "red",
         fontWeight: "bold",
       }),
+      width: 120,
     },
     {
       headerName: "Ucapan",
       cellRenderer: (params) => (
         <Button onClick={() => openModal(params.data.ucapan)} size="xs">
           View
+        </Button>
+      ),
+      width: 95,
+    },
+    {
+      headerName: "Delete",
+      cellRenderer: (params) => (
+        <Button
+          onClick={() => handleDelete(params.data.rsvpId, params.data._id)}
+          size="xs"
+          color="failure"
+        >
+          Delete
         </Button>
       ),
       width: 95,
@@ -120,8 +136,13 @@ const RSVPManagementPage = () => {
       try {
         setLoading(true);
         const response = await axios.get(`/api/rsvp/list/${orderNumber}`);
+        const { submissions, _id: rsvpId } = response.data; // Extract RSVP ID and submissions
         console.log("API Response:", response.data);
-        setRowData(response.data.submissions || []); // Populate grid with submissions
+        const updatedSubmissions = submissions.map((submission) => ({
+          ...submission,
+          rsvpId, // Attach the RSVP ID to each submission
+        }));
+        setRowData(updatedSubmissions); // Populate grid with submissions
       } catch (err) {
         console.error(err);
         setError("Failed to fetch RSVP submissions. Please try again.");
@@ -132,6 +153,26 @@ const RSVPManagementPage = () => {
 
     fetchRSVPs();
   }, [orderNumber]);
+
+  // Delete RSVP Submission
+  const handleDelete = async (rsvpId, submissionId) => {
+    try {
+      const confirmed = window.confirm(
+        "Are you sure you want to delete this RSVP?"
+      );
+      if (!confirmed) return;
+  
+      await axios.delete(`/api/rsvp/delete/${rsvpId}/${submissionId}`);
+      setRowData((prevData) =>
+        prevData.filter((row) => row._id !== submissionId)
+      );
+      alert("RSVP submission deleted successfully.");
+    } catch (err) {
+      console.error("Error deleting RSVP:", err);
+      alert("Failed to delete RSVP submission. Please try again.");
+    }
+  };
+  
 
   // Handle row updates
   const onCellValueChanged = useCallback(async (params) => {
@@ -203,6 +244,11 @@ const RSVPManagementPage = () => {
         <p className="text-red-500 font-semibold">{error}</p>
       </div>
     );
+  }
+
+  // If user is not ready or not logged in, redirect to login
+  if (ready && !user) {
+    return <Navigate to={"/login"} />;
   }
 
   return (

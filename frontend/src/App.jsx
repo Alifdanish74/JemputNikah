@@ -24,6 +24,8 @@ import AdminDashboard from "./adminside/AdminDashboard";
 import AdminViewOrder from "./adminside/AdminViewOrderPage";
 import AdminUpdateOrderPage from "./adminside/AdminUpdateOrderPage";
 import RSVPManagementPage from "./userside/RSVPManagementPage";
+import ViewGuestbookPage from "./userside/ViewGuestbookPage";
+import AddWishlistPage from "./userside/AddWishlistPage";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
 axios.defaults.baseURL = "http://localhost:4000";
@@ -80,6 +82,8 @@ function App() {
 
             {/* USER SIDE */}
             <Route path="/tempahan/rsvp/:orderNumber" element={<RSVPManagementPage />} />
+            <Route path="/tempahan/guestbook/:orderNumber" element={<ViewGuestbookPage />} />
+            <Route path="/tempahan/wishlist/:orderNumber" element={<AddWishlistPage />} />
             {/* USER SIDE */}
           </Route>
           {/* <Route path="*" element={<NotFound />} /> */}

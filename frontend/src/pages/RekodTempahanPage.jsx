@@ -10,6 +10,7 @@ import { Badge } from "flowbite-react";
 import { Button } from "flowbite-react";
 import { MdPayment } from "react-icons/md";
 import { FaRegPlayCircle, FaRegEdit } from "react-icons/fa";
+import { CiGift } from "react-icons/ci";
 import { RiContactsBook3Line } from "react-icons/ri";
 import { MdOutlineDelete } from "react-icons/md";
 import CopyToClipboardButton from "../customhooks/CopyToClipboard";
@@ -127,6 +128,9 @@ function RekodTempahanPage() {
                         Amount
                       </th>
                       <th scope="col" className="px-4 py-3 text-center border">
+                        Package
+                      </th>
+                      <th scope="col" className="px-4 py-3 text-center border">
                         Payment Status
                       </th>
                       <th scope="col" className="px-4 text-center py-3 border">
@@ -154,6 +158,9 @@ function RekodTempahanPage() {
                             {new Date(order.createdAt).toLocaleDateString()}
                           </td>
                           <td className="px-4 py-3 border">RM {order.price}</td>
+                          <td className="px-4 py-3 border">
+                            {order.weddingCardId.pakej}
+                          </td>
 
                           <td>
                             <div className="px-4 py-3 text-lg mx-auto items-center justify-center gap-x-4 flex">
@@ -207,28 +214,46 @@ function RekodTempahanPage() {
                           </td>
                           <td className=" py-3 border">
                             <div className="grid grid-cols-2 gap-y-2 items-center justify-center">
-                              <div className="mx-auto items-center justify-center">
-                                <Button
-                                  size="xs"
-                                  color="blue"
-                                  onClick={() =>
-                                    navigate(`/tempahan/rsvp/${order.orderNumber}`, {
-                                      state: { order },
-                                    })
-                                  }
-                                >
-                                  {" "}
-                                  <FaRegPlayCircle className="mr-2 h-5 w-5" />{" "}
-                                  RSVP
-                                </Button>
-                              </div>
-                              <div className="mx-auto items-center justify-center">
-                                <Button size="xs" color="dark">
-                                  {" "}
-                                  <RiContactsBook3Line className="mr-2 h-5 w-5" />{" "}
-                                  Guestbook
-                                </Button>
-                              </div>
+                              {order.weddingCardId.pakej !== "Bali" && (
+                                <>
+                                  <div className="mx-auto items-center justify-center">
+                                    <Button
+                                      size="xs"
+                                      color="blue"
+                                      onClick={() =>
+                                        navigate(
+                                          `/tempahan/rsvp/${order.orderNumber}`,
+                                          {
+                                            state: { order },
+                                          }
+                                        )
+                                      }
+                                    >
+                                      {" "}
+                                      <FaRegPlayCircle className="mr-2 h-5 w-5" />{" "}
+                                      RSVP
+                                    </Button>
+                                  </div>
+                                  <div className="mx-auto items-center justify-center">
+                                    <Button
+                                      size="xs"
+                                      color="dark"
+                                      onClick={() =>
+                                        navigate(
+                                          `/tempahan/guestbook/${order.orderNumber}`,
+                                          {
+                                            state: { order },
+                                          }
+                                        )
+                                      }
+                                    >
+                                      {" "}
+                                      <RiContactsBook3Line className="mr-2 h-5 w-5" />{" "}
+                                      Guestbook
+                                    </Button>
+                                  </div>
+                                </>
+                              )}
                               <div className="mx-auto items-center justify-center">
                                 <Button
                                   size="xs"
@@ -251,6 +276,25 @@ function RekodTempahanPage() {
                                   Delete
                                 </Button>
                               </div>
+                              {order.weddingCardId.pakej === "Paris" && (
+                                <div className="mx-auto items-center justify-center">
+                                  <Button
+                                    size="xs"
+                                    color="purple"
+                                    onClick={() =>
+                                      navigate(
+                                        `/tempahan/wishlist/${order.orderNumber}`,
+                                        {
+                                          state: { order },
+                                        }
+                                      )
+                                    }
+                                  >
+                                    {" "}
+                                    <CiGift className="mr-2 h-5 w-5" /> Wishlist
+                                  </Button>
+                                </div>
+                              )}
                             </div>
                           </td>
                         </tr>
