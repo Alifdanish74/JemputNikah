@@ -15,18 +15,19 @@ const Modal = ({
   isOpen,
   onClose,
   modalType,
+  setModalType, // Added to manage modal transitions
   onConfirm,
   onCancel,
   onGuestbookUpdate,
 }) => {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
-  //   const [isBooked, setIsBooked] = useState(false);
 
+  // Handles the transition to the "Booking" modal
   const onConfirmBook = (nextModal, title, image) => {
     setTitle(title);
     setImage(image);
-    onConfirm(nextModal);
+    setModalType(nextModal); // Dynamically switch the modal type
   };
 
   const renderModalContent = () => {
@@ -36,7 +37,13 @@ const Modal = ({
       case "Money Gift":
         return <ModalComponentMoneyGift />;
       case "Wishlist":
-        return <ModalComponentWishlist onConfirmBook={onConfirmBook} />;
+        return (
+          <ModalComponentWishlist
+            onConfirmBook={(nextModal, title, image) =>
+              onConfirmBook(nextModal, title, image)
+            }
+          />
+        );
       case "Contact":
         return <ModalComponentContact />;
       case "Location":
@@ -62,7 +69,7 @@ const Modal = ({
       case "Booking":
         return (
           <ModalComponentBooking
-            onCancel={onCancel}
+            onCancel={() => setModalType("Wishlist")} // Return to Wishlist on cancel
             title={title}
             image={image}
           />

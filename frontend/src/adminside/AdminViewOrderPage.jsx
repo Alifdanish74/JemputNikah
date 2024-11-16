@@ -1,32 +1,31 @@
-// AdminViewOrder.jsx
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
-import {
-  Button,
-  Table,
-  TextInput,
-  Pagination,
-  Badge,
-  Modal,
-} from "flowbite-react";
-import { FaTrash, FaEdit } from "react-icons/fa"; // Import FaEdit for the Update icon
+import { AgGridReact } from "ag-grid-react";
+import { Button, Modal, TextInput, Pagination } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { toast } from "react-toastify";
+import { FaTrash, FaEdit } from "react-icons/fa";
+import axios from "axios";
 import { UserContext } from "../customhooks/UserContext";
-import { Navigate, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Navigate, useNavigate } from "react-router-dom";
+
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
 
 function AdminViewOrder() {
   const [orders, setOrders] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const itemsPerPage = 10;
+  const [itemsPerPage] = useState(10);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderToDelete, setOrderToDelete] = useState(null);
 
   const { ready, user } = useContext(UserContext);
-  const navigate = useNavigate(); // Initialize navigate for redirecting
+  const navigate = useNavigate();
 
+  // const [gridApi, setGridApi] = useState(null);
+
+  // Fetch orders from API
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -37,42 +36,117 @@ function AdminViewOrder() {
         setTotalPages(response.data.totalPages || 1);
       } catch (error) {
         console.error("Error fetching orders:", error);
-        toast.error("Error fetching orders");
-        setOrders([]);
+        toast.error("Error fetching orders", {
+          autoClose: 2000,
+          position: "top-center",
+          closeOnClick: true,
+        });
       }
     };
     fetchOrders();
   }, [searchQuery, currentPage]);
 
+  // Handle search input change
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
     setCurrentPage(1);
   };
 
+  // Confirm delete modal
   const confirmDelete = (id) => {
     setOrderToDelete(id);
     setIsModalOpen(true);
   };
 
+  // Delete order
   const handleDelete = async () => {
     if (!orderToDelete) return;
-
     try {
       await axios.delete(`/api/orders/${orderToDelete}`);
       setOrders(orders.filter((order) => order._id !== orderToDelete));
-      toast.success("Order deleted successfully");
+      toast.success("Order deleted successfully", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      });
     } catch (error) {
       console.error("Error deleting order:", error);
-      toast.error("Error deleting order");
+      toast.error("Error deleting order", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      });
     } finally {
       setIsModalOpen(false);
       setOrderToDelete(null);
     }
   };
 
+  // Redirect to update order page
   const handleUpdate = (weddingCardId) => {
-    // Redirect to AdminUpdateOrderPage with the weddingCardId
     navigate(`/admin/update-order/${weddingCardId}`);
+  };
+
+  // Define column definitions for ag-grid
+  const columnDefs = [
+    { headerName: "#", valueGetter: "node.rowIndex + 1", width: 50 },
+    { field: "orderNumber", headerName: "Order Number", sortable: true },
+    { field: "userId.name", headerName: "User Name", sortable: true },
+    { field: "userId.phone", headerName: "User Contact", sortable: true },
+    {
+      field: "price",
+      headerName: "Price",
+      sortable: true,
+      valueFormatter: (params) => `RM${params.value.toFixed(2)}`,
+    },
+    {
+      field: "paymentStatus",
+      headerName: "Status",
+      cellRenderer: (params) => (
+        <span
+          className={`px-3 py-1 rounded-full text-white ${
+            params.value === "paid"
+              ? "bg-green-400"
+              : params.value === "failed"
+              ? "bg-red-400"
+              : "bg-yellow-400"
+          }`}
+        >
+          {params.value}
+        </span>
+      ),
+    },
+    {
+      field: "createdAt",
+      headerName: "Created At",
+      valueFormatter: (params) =>
+        new Date(params.value).toLocaleDateString("en-GB"),
+    },
+    {
+      headerName: "Actions",
+      cellRenderer: (params) => (
+        <div className="flex space-x-2">
+          <Button
+            size="xs"
+            color="warning"
+            onClick={() => handleUpdate(params.data.weddingCardId)}
+          >
+            <FaEdit className="mr-2" /> Update
+          </Button>
+          <Button
+            size="xs"
+            color="failure"
+            onClick={() => confirmDelete(params.data._id)}
+          >
+            <FaTrash className="mr-2" /> Delete
+          </Button>
+        </div>
+      ),
+    },
+  ];
+
+  const defaultColDef = {
+    resizable: true,
   };
 
   if (!ready) return "Loading";
@@ -97,69 +171,26 @@ function AdminViewOrder() {
       </div>
 
       {/* Orders Table */}
-      <div className="overflow-x-auto">
-        <Table className="min-w-full">
-          <Table.Head>
-            <Table.HeadCell>Order Number</Table.HeadCell>
-            <Table.HeadCell>User Name</Table.HeadCell>
-            <Table.HeadCell>User Contact</Table.HeadCell>
-            <Table.HeadCell>Price</Table.HeadCell>
-            <Table.HeadCell>Status</Table.HeadCell>
-            <Table.HeadCell>Created At</Table.HeadCell>
-            <Table.HeadCell>Actions</Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
-            {orders.map((order) => (
-              <Table.Row key={order._id}>
-                <Table.Cell>{order.orderNumber}</Table.Cell>
-                <Table.Cell>{order.userId?.name || "Unknown"}</Table.Cell>
-                <Table.Cell>{order.userId?.phone || "Unknown"}</Table.Cell>
-                <Table.Cell>RM{order.price.toFixed(2)}</Table.Cell>
-                <Table.Cell>
-                  <Badge
-                    className="w-fit px-3 py-2 text-md uppercase font-bold"
-                    color={
-                      order.paymentStatus === "paid"
-                        ? "success"
-                        : order.paymentStatus === "failed"
-                        ? "failure"
-                        : "warning"
-                    }
-                  >
-                    {order.paymentStatus}
-                  </Badge>
-                </Table.Cell>
-                <Table.Cell>
-                  {new Date(order.createdAt).toLocaleDateString()}
-                </Table.Cell>
-                <Table.Cell>
-                  <Button
-                    color="warning"
-                    onClick={() => handleUpdate(order.weddingCardId)}
-                  >
-                    <FaEdit className="mr-2" /> Update
-                  </Button>
-                  <Button
-                    color="failure"
-                    onClick={() => confirmDelete(order._id)}
-                  >
-                    <FaTrash className="mr-2" /> Delete
-                  </Button>
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
+      <div
+        className="ag-theme-alpine"
+        style={{ height: 500, width: "100%", marginBottom: "1rem" }}
+      >
+        <AgGridReact
+          rowData={orders}
+          columnDefs={columnDefs}
+          defaultColDef={defaultColDef}
+          pagination={true}
+          paginationPageSize={itemsPerPage}
+        />
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center mt-4">
-        <Pagination
-          currentPage={currentPage}
-          onPageChange={(page) => setCurrentPage(page)}
-          totalPages={totalPages}
-        />
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        onPageChange={(page) => setCurrentPage(page)}
+        totalPages={totalPages}
+        className="flex justify-center"
+      />
 
       {/* Delete Confirmation Modal */}
       <Modal
@@ -171,13 +202,13 @@ function AdminViewOrder() {
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500">
               Are you sure you want to delete this order?
             </h3>
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={handleDelete}>
-                {"Yes, I'm sure"}
+                Yes, I&apos;m sure
               </Button>
               <Button color="gray" onClick={() => setIsModalOpen(false)}>
                 No, cancel

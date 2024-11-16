@@ -31,7 +31,11 @@ function SongUploadForm() {
     e.preventDefault();
 
     if (!songtitle || !singer || !songFile) {
-      toast.error("Both song name and file are required");
+      toast.error("Both song name and file are required", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      });
       return;
     }
 
@@ -76,7 +80,11 @@ function SongUploadForm() {
         closeOnClick: true,
       });
     } catch (error) {
-      toast.error("Error deleting song");
+      toast.error("Error deleting song", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      });
       console.error(error);
     }
   };
@@ -90,9 +98,7 @@ function SongUploadForm() {
       {/* Upload Form */}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block mb-1 font-medium text-gray-700">
-            Singer
-          </label>
+          <label className="block mb-1 font-medium text-gray-700">Singer</label>
           <TextInput
             type="text"
             value={singer}
@@ -133,7 +139,9 @@ function SongUploadForm() {
 
       {/* Song List Table */}
       <div className="mt-8">
-        <h3 className="text-xl sm:text-2xl font-semibold mb-4">Available Songs</h3>
+        <h3 className="text-xl sm:text-2xl font-semibold mb-4">
+          Available Songs
+        </h3>
         <div className="overflow-x-auto">
           <Table className="min-w-full divide-y divide-gray-200">
             <Table.Head className="bg-gray-100">

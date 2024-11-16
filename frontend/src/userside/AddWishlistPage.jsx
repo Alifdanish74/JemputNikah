@@ -1,9 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
+import { AgGridReact } from "ag-grid-react";
+import { Button, Modal, TextInput } from "flowbite-react";
 import { useParams, Navigate } from "react-router-dom";
-import { Button, TextInput } from "flowbite-react";
 import { UserContext } from "../customhooks/UserContext";
+import axios from "axios";
+
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
 
 const AddWishlistPage = () => {
   const { orderNumber } = useParams(); // Get orderNumber from route params
@@ -11,69 +15,78 @@ const AddWishlistPage = () => {
 
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [wishlist, setWishlist] = useState([
-    { productName: "", productUrl: "" },
-  ]);
-  const [error, setError] = useState("");
+  const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [isWishlistModalOpen, setIsWishlistModalOpen] = useState(false);
+  const [newWishlistItem, setNewWishlistItem] = useState({
+    productName: "",
+    productUrl: "",
+  });
 
+  // Fetch existing wishlist data
   useEffect(() => {
-    // Fetch existing wishlist data by orderNumber
     const fetchWishlist = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(`/api/wishlist/order/${orderNumber}`);
         const { address, phone, wishlist } = response.data || {};
-        setAddress(address || ""); // Populate address field
-        setPhone(phone || ""); // Populate phone field
-        setWishlist(
-          wishlist?.length > 0 ? wishlist : [{ productName: "", productUrl: "" }]
-        ); // Populate wishlist or set default
+        setAddress(address || "");
+        setPhone(phone || "");
+        setWishlist(wishlist || []);
       } catch (err) {
         console.error("Error fetching wishlist data:", err);
-        setError("Failed to fetch existing wishlist data.");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchWishlist();
   }, [orderNumber]);
 
-  const handleWishlistChange = (index, field, value) => {
-    const updatedWishlist = [...wishlist];
-    updatedWishlist[index][field] = value;
-    setWishlist(updatedWishlist);
+  // Add wishlist item
+  const handleAddWishlistItem = () => {
+    setWishlist((prev) => [...prev, newWishlistItem]);
+    setNewWishlistItem({ productName: "", productUrl: "" });
+    setIsWishlistModalOpen(false);
   };
 
-  const addWishlistItem = () => {
-    if (wishlist.length < 10) {
-      setWishlist([...wishlist, { productName: "", productUrl: "" }]);
-    }
+  // Handle saving address and phone
+  const handleSaveAddress = () => {
+    setIsAddressModalOpen(false);
   };
 
-  const removeWishlistItem = (index) => {
-    const updatedWishlist = wishlist.filter((_, i) => i !== index);
-    setWishlist(updatedWishlist);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Submit wishlist
+  const handleSubmitWishlist = async () => {
     setLoading(true);
-
     try {
-      const response = await axios.post(`/api/wishlist/submit`, {
+      await axios.post(`/api/wishlist/submit`, {
         orderNumber,
         address,
         phone,
         wishlist,
       });
-      console.log("Wishlist submission successful:", response.data);
       alert("Wishlist submitted successfully!");
     } catch (err) {
       console.error("Error submitting wishlist:", err);
-      setError("Failed to submit wishlist. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+
+  // Column definitions for ag-grid
+  const columnDefs = [
+    { headerName: "#", valueGetter: "node.rowIndex + 1", width: 50 },
+    { field: "productName", headerName: "Product Name", sortable: true },
+    { field: "productUrl", headerName: "Product URL", sortable: true },
+    { field: "bookingName", headerName: "Reserver", sortable: true },
+    {
+      field: "bookingPhoneNumber",
+      headerName: "Reserver's phone",
+      sortable: true,
+    },
+    { field: "bookingStatus", headerName: "Status", sortable: true },
+  ];
 
   // Redirect to login if user is not logged in
   if (ready && !user) {
@@ -82,93 +95,141 @@ const AddWishlistPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-10">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold text-gray-900 text-center mb-6">
-          Add Wishlist
+          Wishlist Management
         </h1>
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        <div className="flex justify-center mb-4 space-x-4">
+          <Button onClick={() => setIsAddressModalOpen(true)}>
+            Address Details
+          </Button>
+          <Button onClick={() => setIsWishlistModalOpen(true)}>
+            Add Wishlist
+          </Button>
+        </div>
+        {/* Submit Button */}
+        <div className="flex justify-end mb-4">
+          <Button color="warning" onClick={handleSubmitWishlist} disabled={loading}>
+            {loading ? "Submitting..." : "Submit Wishlist"}
+          </Button>
+        </div>
+
+        {/* Wishlist Table */}
+        <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
+          <AgGridReact
+            rowData={wishlist}
+            columnDefs={columnDefs}
+            // defaultColDef={defaultColDef}
+            pagination={true}
+            paginationPageSize={10}
+          />
+        </div>
+
+        {/* Address Modal */}
+        <Modal
+          show={isAddressModalOpen}
+          onClose={() => setIsAddressModalOpen(false)}
         >
-          <div className="mb-6">
-            <label
-              htmlFor="address"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Address
-            </label>
-            <TextInput
-              id="address"
-              type="text"
-              placeholder="Enter your address"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="mb-6">
-            <label
-              htmlFor="phone"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Phone Number
-            </label>
-            <TextInput
-              id="phone"
-              type="text"
-              placeholder="Enter your phone number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="mb-6">
-            <h3 className="text-lg font-bold text-gray-700 mb-4">Wishlist</h3>
-            {wishlist.map((item, index) => (
-              <div key={index} className="flex items-center space-x-4 mb-4">
-                <TextInput
-                  type="text"
-                  placeholder="Product Name"
-                  value={item.productName}
-                  onChange={(e) =>
-                    handleWishlistChange(index, "productName", e.target.value)
-                  }
-                  required
-                />
-                <TextInput
-                  type="text"
-                  placeholder="Product URL"
-                  value={item.productUrl}
-                  onChange={(e) =>
-                    handleWishlistChange(index, "productUrl", e.target.value)
-                  }
-                />
-                <Button
-                  size="xs"
-                  color="failure"
-                  onClick={() => removeWishlistItem(index)}
+          <Modal.Header>Update Address</Modal.Header>
+          <Modal.Body>
+            <div className="space-y-4">
+              <div>
+                <label
+                  htmlFor="address"
+                  className="block text-sm font-medium text-gray-700"
                 >
-                  Remove
-                </Button>
+                  Address
+                </label>
+                <TextInput
+                  id="address"
+                  type="text"
+                  placeholder="Enter your address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
               </div>
-            ))}
-            {wishlist.length < 10 && (
-              <Button size="sm" onClick={addWishlistItem}>
-                Add Wishlist Item
-              </Button>
-            )}
-          </div>
-
-          {error && <p className="text-red-500 font-semibold">{error}</p>}
-
-          <div className="flex justify-end">
-            <Button type="submit" disabled={loading}>
-              {loading ? "Submitting..." : "Submit Wishlist"}
+              <div>
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Phone Number
+                </label>
+                <TextInput
+                  id="phone"
+                  type="text"
+                  placeholder="Enter your phone number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={handleSaveAddress}>Save</Button>
+            <Button color="gray" onClick={() => setIsAddressModalOpen(false)}>
+              Cancel
             </Button>
-          </div>
-        </form>
+          </Modal.Footer>
+        </Modal>
+
+        {/* Wishlist Modal */}
+        <Modal
+          show={isWishlistModalOpen}
+          onClose={() => setIsWishlistModalOpen(false)}
+        >
+          <Modal.Header>Add Wishlist Item</Modal.Header>
+          <Modal.Body>
+            <div className="space-y-4">
+              <div>
+                <label
+                  htmlFor="productName"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Product Name
+                </label>
+                <TextInput
+                  id="productName"
+                  type="text"
+                  placeholder="Enter product name"
+                  value={newWishlistItem.productName}
+                  onChange={(e) =>
+                    setNewWishlistItem((prev) => ({
+                      ...prev,
+                      productName: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="productUrl"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Product URL
+                </label>
+                <TextInput
+                  id="productUrl"
+                  type="text"
+                  placeholder="Enter product URL"
+                  value={newWishlistItem.productUrl}
+                  onChange={(e) =>
+                    setNewWishlistItem((prev) => ({
+                      ...prev,
+                      productUrl: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={handleAddWishlistItem}>Add</Button>
+            <Button color="gray" onClick={() => setIsWishlistModalOpen(false)}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </div>
   );

@@ -14,4 +14,6 @@ router.get("/order/:orderNumber", wishlistController.getWishlistsByOrderNumber);
 // Delete a Wishlist item
 router.delete("/delete/:wishlistId/:itemId", wishlistController.deleteWishlistItem);
 
+router.post("/book-item/:orderNumber", wishlistController.bookWishlistItem);
+
 module.exports = router;

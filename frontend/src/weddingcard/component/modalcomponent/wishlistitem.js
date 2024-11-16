@@ -1,6 +1,6 @@
 export const wishlistitem = [
     {
-      imageSrc: "/microwave.jpeg",
+      imageSrc: "https://down-my.img.susercontent.com/file/my-11134207-7r98r-lno3jvue8u4df4.webp",
       title: "SHARP Microwave Oven 20L R207EK",
       itemLink:
         "https://shopee.com.my/SHARP-Microwave-Oven-20L-R207EK-R219EK-R2021GK-Mechanical-Dial-Flatbed-R2121FGK-i.19134170.23860216391?sp_atk=439c3212-4d92-43b2-87ae-ea502bd8749b&xptdk=439c3212-4d92-43b2-87ae-ea502bd8749b",

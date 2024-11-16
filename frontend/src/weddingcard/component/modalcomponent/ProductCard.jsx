@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-// components/ProductCard.tsx
 import { FiLink } from "react-icons/fi";
 import { FaRegBookmark } from "react-icons/fa";
 import { SiTicktick } from "react-icons/si";
@@ -14,7 +13,7 @@ const ProductCard = ({
 }) => {
   return (
     <div className="flex items-center border rounded-lg p-4 my-2 bg-white shadow-md">
-      <div className="flex-shrink-0 mr-4 ">
+      <div className="flex-shrink-0 mr-4">
         <img
           src={imageSrc}
           alt="Product Image"
@@ -42,7 +41,7 @@ const ProductCard = ({
                 </a>
               </button>
               <button
-                onClick={() => onConfirmBook("Booking", title, imageSrc)}
+                onClick={() => onConfirmBook(title, imageSrc)} // Pass title and imageSrc
                 className="flex items-center bg-gray-100 text-gray-800 px-3 py-2 rounded hover:bg-green-300 transition-colors"
               >
                 <FaRegBookmark className="mr-2" />

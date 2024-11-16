@@ -122,3 +122,57 @@ exports.deleteWishlistItem = async (req, res) => {
     res.status(500).json({ message: "Error deleting Wishlist item", error });
   }
 };
+
+// Book a Wishlist item
+exports.bookWishlistItem = async (req, res) => {
+    const { orderNumber } = req.params; // Retrieve orderNumber from route params
+    const { productName, bookingName, bookingPhoneNumber } = req.body; // Get booking details
+  
+    try {
+      // Find the order by orderNumber
+      const order = await Order.findOne({ orderNumber }).populate("weddingCardId");
+  
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+  
+      const wishlistEntry = await Wishlist.findOne({
+        weddingCardId: order.weddingCardId,
+        orderId: order._id,
+      });
+  
+      if (!wishlistEntry) {
+        return res.status(404).json({ message: "Wishlist not found" });
+      }
+  
+      // Find the wishlist item to book
+      const wishlistItem = wishlistEntry.wishlist.find(
+        (item) => item.productName === productName
+      );
+  
+      if (!wishlistItem) {
+        return res.status(404).json({ message: "Wishlist item not found" });
+      }
+  
+      if (wishlistItem.bookingStatus === "Booked") {
+        return res.status(400).json({ message: "This item is already booked." });
+      }
+  
+      // Update booking details for the wishlist item
+      wishlistItem.bookingName = bookingName;
+      wishlistItem.bookingPhoneNumber = bookingPhoneNumber;
+      wishlistItem.bookingStatus = "Booked";
+  
+      // Save the updated wishlist
+      await wishlistEntry.save();
+  
+      res.status(200).json({
+        message: "Wishlist item booked successfully",
+        bookedItem: wishlistItem,
+      });
+    } catch (error) {
+      console.error("Error booking Wishlist item:", error);
+      res.status(500).json({ message: "Error booking Wishlist item", error });
+    }
+  };
+  

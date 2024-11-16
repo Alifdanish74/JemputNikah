@@ -99,12 +99,6 @@ const WeddingCardSchema = new mongoose.Schema(
     extraInfo: { type: String },
     hashtag: { type: String },
     orderphone: { type: String },
-    RSVPs: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "RSVP",
-      },
-    ],
   },
   { timestamps: true }
 );

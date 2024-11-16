@@ -266,7 +266,7 @@ function RSVPSection({
                   name="from3"
                   id="from3"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
-                  placeholder="Dari (eg: 2:30 AM)*"
+                  placeholder="Dari (eg: 2:30 PM)*"
                   required={true}
                   value={formData.fromSlot3}
                   onChange={(e) => {

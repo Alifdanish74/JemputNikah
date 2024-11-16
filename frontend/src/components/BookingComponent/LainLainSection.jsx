@@ -20,7 +20,7 @@ function LainLainSection({
   const [doaText, setDoaText] = useState(
     isEditMode
       ? formData.doa
-      : "Ya Allah, berkatilah majlis perkahwinan ini, limpahkan baraqah dan rahmat kepada kedua mempelai ini, Kurniakanlah mereka zuriat yang soleh dan solehah. Kekalkanlah jodoh mereka di dunia dan di akhirat dan sempurnakanlah agama mereka dengan berkat ikatan ini."
+      : "Ya Allah, berkatilah majlis perkahwinan ini, limpahkan baraqah dan rahmat\nkepada kedua mempelai ini. Kurniakanlah mereka zuriat yang soleh dan solehah.\nKekalkanlah jodoh mereka di dunia dan di akhirat dan sempurnakanlah agama mereka dengan berkat ikatan ini."
   );
 
   const doaOptions = {

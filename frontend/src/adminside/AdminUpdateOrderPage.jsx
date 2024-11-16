@@ -20,7 +20,11 @@ function AdminUpdateOrderPage() {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching wedding card data:", error);
-        toast.error("Error fetching wedding card data");
+        toast.error("Error fetching wedding card data", {
+          autoClose: 2000,
+          position: "top-center",
+          closeOnClick: true,
+        });
         setLoading(false);
       }
     };
@@ -41,11 +45,19 @@ function AdminUpdateOrderPage() {
     e.preventDefault();
     try {
       await axios.put(`/api/wedding-cards/${weddingCardId}`, weddingCardData);
-      toast.success("Wedding card updated successfully!");
+      toast.success("Wedding card updated successfully!", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      });
       navigate("/admin/vieworder"); // Redirect to orders page after update
     } catch (error) {
       console.error("Error updating wedding card:", error);
-      toast.error("Error updating wedding card");
+      toast.error("Error updating wedding card", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      });
     }
   };
 
@@ -53,25 +65,31 @@ function AdminUpdateOrderPage() {
 
   return (
     <div className="p-4 bg-white rounded shadow-md max-w-3xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-6">Update Wedding Card Details</h2>
+      <h2 className="text-2xl font-semibold mb-6">
+        Update Wedding Card Details
+      </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Iterate through weddingCardData fields for form inputs */}
-        {Object.entries(weddingCardData).map(([key, value]) => (
-          key !== "qrCode" && // Exclude image field
-          key !== "gallery" && (
-            <div key={key}>
-              <Label htmlFor={key} value={key.replace(/([A-Z])/g, " $1").toUpperCase()} />
-              <TextInput
-                id={key}
-                name={key}
-                value={value}
-                onChange={handleInputChange}
-                placeholder={`Enter ${key}`}
-              />
-            </div>
-          )
-        ))}
-        
+        {Object.entries(weddingCardData).map(
+          ([key, value]) =>
+            key !== "qrCode" && // Exclude image field
+            key !== "gallery" && (
+              <div key={key}>
+                <Label
+                  htmlFor={key}
+                  value={key.replace(/([A-Z])/g, " $1").toUpperCase()}
+                />
+                <TextInput
+                  id={key}
+                  name={key}
+                  value={value}
+                  onChange={handleInputChange}
+                  placeholder={`Enter ${key}`}
+                />
+              </div>
+            )
+        )}
+
         <Button type="submit" color="success" className="w-full">
           Save Changes
         </Button>
