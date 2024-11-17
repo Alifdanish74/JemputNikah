@@ -29,7 +29,7 @@ import AddWishlistPage from "./userside/AddWishlistPage";
 import NotFound from "./pages/NotFound";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
-axios.defaults.baseURL = "http://localhost:4000";
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL
 // axios.defaults.baseURL = "https://jemput-nikah-backend.vercel.app";
 axios.defaults.withCredentials = true;
 function App() {
@@ -37,7 +37,6 @@ function App() {
   const excludeHeaderFooterPaths = [
     "/preview-card",
     "/weddingcardpreview",
-    "/notfound"
     // Base path for weddingcard preview
   ];
 
