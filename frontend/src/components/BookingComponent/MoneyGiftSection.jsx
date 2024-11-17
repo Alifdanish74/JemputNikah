@@ -14,20 +14,18 @@ function MoneyGiftSection({
   onNext,
   formData,
   handleFormDataChange,
-  handleQrCodeFileChange
+  handleQrCodeFileChange,
 }) {
   const [imageUrl, setImageUrl] = useState(null);
 
-// MoneyGiftSection.jsx
-const handleImageChange = (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    setImageUrl(URL.createObjectURL(file)); // Generate preview URL
-    handleQrCodeFileChange(file); // Pass file to parent component as `File` object
-  }
-};
-
-
+  // MoneyGiftSection.jsx
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageUrl(URL.createObjectURL(file)); // Generate preview URL
+      handleQrCodeFileChange(file); // Pass file to parent component as `File` object
+    }
+  };
 
   const removeImage = () => {
     setImageUrl(null);
@@ -56,10 +54,79 @@ const handleImageChange = (e) => {
               onChange={(e) => handleFormDataChange("bankName", e.target.value)}
             >
               <option value="">Pilih bank</option>
-              <option value="Maybank">Maybank</option>
-              <option value="CIMB">CIMB</option>
-              <option value="UOB">UOB</option>
-              <option value="AmBank">AmBank</option>
+              <option value="Affin Bank Berhad">Affin Bank Berhad</option>
+              <option value="Affin Islamic Bank Berhad">
+                Affin Islamic Bank Berhad
+              </option>
+              <option value="Alliance Bank Malaysia Berhad">
+                Alliance Bank Malaysia Berhad
+              </option>
+              <option value="Alliance Islamic Bank Malaysia Berhad">
+                Alliance Islamic Bank Malaysia Berhad
+              </option>
+              <option value="Al-Rajhi Banking &amp; Investment Corporation (Malaysia) Berhad">
+                Al-Rajhi Banking &amp; Investment Corporation (Malaysia) Berhad
+              </option>
+              <option value="AmBank (M) Berhad">AmBank (M) Berhad</option>
+              <option value="Bank Islam Malaysia Berhad">
+                Bank Islam Malaysia Berhad
+              </option>
+              <option value="Bank Kerjasama Rakyat Malaysia Berhad">
+                Bank Kerjasama Rakyat Malaysia Berhad
+              </option>
+              <option value="Bank Muamalat Malaysia Berhad">
+                Bank Muamalat Malaysia Berhad
+              </option>
+              <option value="Bank of China (Malaysia) Berhad">
+                Bank of China (Malaysia) Berhad
+              </option>
+              <option value="Bank Pertanian Malaysia Berhad (Agrobank)">
+                Bank Pertanian Malaysia Berhad (Agrobank)
+              </option>
+              <option value="Bank Simpanan Nasional">
+                Bank Simpanan Nasional
+              </option>
+              <option value="CIMB Bank Berhad">CIMB Bank Berhad</option>
+              <option value="CIMB Islamic Bank Berhad">
+                CIMB Islamic Bank Berhad
+              </option>
+              <option value="Citibank Berhad">Citibank Berhad</option>
+              <option value="Hong Leong Bank Berhad">
+                Hong Leong Bank Berhad
+              </option>
+              <option value="Hong Leong Islamic Bank Berhad">
+                Hong Leong Islamic Bank Berhad
+              </option>
+              <option value="HSBC Amanah Malaysia Berhad">
+                HSBC Amanah Malaysia Berhad
+              </option>
+              <option value="HSBC Bank Malaysia Berhad">
+                HSBC Bank Malaysia Berhad
+              </option>
+              <option value="Industrial and Commercial Bank of China (Malaysia) Berhad">
+                Industrial and Commercial Bank of China (Malaysia) Berhad
+              </option>
+              <option value="Kuwait Finance House">Kuwait Finance House</option>
+              <option value="Maybank Berhad">Maybank Berhad</option>
+              <option value="GX Bank">GX Bank</option>
+              <option value="MBSB Bank Berhad">MBSB Bank Berhad</option>
+              <option value="OCBC Bank (Malaysia) Berhad">
+                OCBC Bank (Malaysia) Berhad
+              </option>
+              <option value="Public Bank Berhad">Public Bank Berhad</option>
+              <option value="RHB Bank Berhad">RHB Bank Berhad</option>
+              <option value="RHB Islamic Bank Berhad">
+                RHB Islamic Bank Berhad
+              </option>
+              <option value="Standard Chartered Bank Malaysia Berhad">
+                Standard Chartered Bank Malaysia Berhad
+              </option>
+              <option value="Sumitomo Mitsui Banking Corporation Malaysia Berhad">
+                Sumitomo Mitsui Banking Corporation Malaysia Berhad
+              </option>
+              <option value="United Overseas Bank (Malaysia) Berhad">
+                United Overseas Bank (Malaysia) Berhad
+              </option>
             </select>
           </div>
 
