@@ -26,16 +26,19 @@ import AdminUpdateOrderPage from "./adminside/AdminUpdateOrderPage";
 import RSVPManagementPage from "./userside/RSVPManagementPage";
 import ViewGuestbookPage from "./userside/ViewGuestbookPage";
 import AddWishlistPage from "./userside/AddWishlistPage";
+import NotFound from "./pages/NotFound";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
-// axios.defaults.baseURL = "http://localhost:4000";
-axios.defaults.baseURL = "https://jemput-nikah-backend.vercel.app";
+axios.defaults.baseURL = "http://localhost:4000";
+// axios.defaults.baseURL = "https://jemput-nikah-backend.vercel.app";
 axios.defaults.withCredentials = true;
 function App() {
   const location = useLocation();
   const excludeHeaderFooterPaths = [
     "/preview-card",
-    "/weddingcardpreview", // Base path for weddingcard preview
+    "/weddingcardpreview",
+    "/notfound"
+    // Base path for weddingcard preview
   ];
 
   // Check if the current pathname starts with any excluded path
@@ -87,7 +90,7 @@ function App() {
             <Route path="/tempahan/wishlist/:orderNumber" element={<AddWishlistPage />} />
             {/* USER SIDE */}
           </Route>
-          {/* <Route path="*" element={<NotFound />} /> */}
+          <Route path="*" element={<NotFound/>} />
         </Routes>
         {showHeaderFooter && <Footer />}
         <ScrollToTopButton />

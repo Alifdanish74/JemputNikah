@@ -72,7 +72,13 @@ const login = async (req, res) => {
           { expiresIn: "1hr" },
           (err, token) => {
             if (err) throw err;
-            res.cookie("token", token).json(user);
+            res.cookie("token", token, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production", // Secure only in production
+              sameSite: "None", // Cross-origin cookie sharing
+              maxAge: 24 * 60 * 60 * 1000, // 1 day
+            }).json(user);
+            // res.cookie("token", token).json(user);
           }
         );
       } else {
