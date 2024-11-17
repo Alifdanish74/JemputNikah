@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaUpload } from "react-icons/fa";
-import { Button } from "@headlessui/react";
+
 import { MdCancel } from "react-icons/md";
 import { toast } from "react-toastify";
+import { Button } from "flowbite-react";
 
 function AdminUploadDesignForm() {
   const [category, setCategory] = useState("");

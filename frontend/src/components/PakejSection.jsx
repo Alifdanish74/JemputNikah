@@ -1,7 +1,7 @@
 // import React from "react";
 import { TbAirBalloon } from "react-icons/tb";
 import Paris from "../assets/paris.png";
-import { Button } from "@headlessui/react";
+
 
 import { IoReceiptOutline } from "react-icons/io5";
 import { BiMoneyWithdraw } from "react-icons/bi";
@@ -14,6 +14,7 @@ import { FaBookOpen } from "react-icons/fa";
 import { MdOutlineLocalPhone } from "react-icons/md";
 import { CiGift } from "react-icons/ci";
 import { FaFilePdf } from "react-icons/fa6";
+import { Button } from "flowbite-react";
 
 function PakejSection() {
   return (

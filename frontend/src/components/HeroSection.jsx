@@ -1,6 +1,7 @@
 // import React from 'react'
 // import { Link } from 'react-router-dom'
-import { Button } from "@headlessui/react";
+
+import { Button } from "flowbite-react";
 import MockupImage from "../assets/phone-mockup.png";
 import { featureicons } from "./featureicons";
 import { useNavigate } from "react-router-dom";

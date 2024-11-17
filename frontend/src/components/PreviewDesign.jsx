@@ -2,8 +2,9 @@
 import DesignCard from "./DesignCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Button } from "@headlessui/react";
+
 import {useNavigate} from "react-router-dom"
+import { Button } from "flowbite-react";
 
 function PreviewDesign() {
   const [designs, setDesigns] = useState([]);
