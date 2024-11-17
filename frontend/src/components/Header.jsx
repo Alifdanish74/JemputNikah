@@ -3,7 +3,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { Button, Dropdown, Modal } from "flowbite-react";
 import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { FaChevronDown } from "react-icons/fa6";
 import { UserContext } from "../customhooks/UserContext";
 import axios from "axios";
 
@@ -69,7 +69,7 @@ function Header() {
           >
             <button className="flex items-center gap-x-1 text-base font-semibold text-gray-900">
               Product
-              <ChevronDownIcon className="h-5 w-5 text-gray-400" />
+              <FaChevronDown className="h-5 w-5 text-gray-400" />
             </button>
             {showProductDropdown && (
               <div className="absolute left-0 z-10 mt-2 w-64 bg-white shadow-lg rounded-lg p-4">
