@@ -28,6 +28,7 @@ import ViewGuestbookPage from "./userside/ViewGuestbookPage";
 import AddWishlistPage from "./userside/AddWishlistPage";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
+// axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.baseURL = "https://jemput-nikah-backend.vercel.app/";
 axios.defaults.withCredentials = true;
 function App() {

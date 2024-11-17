@@ -13,13 +13,16 @@ const rsvpRoutes = require("./routes/rsvp");
 const songRoutes = require("./routes/song");
 const wishlistRoutes = require("./routes/wishlist");
 
+
+
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
+// app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(cors({ credentials: true, origin: "https://jemput-nikah-av8w.vercel.app" }));
 
-// Connect to MongoDB
+//   Connect to MongoDB by mongoose
 mongoose
   .connect(process.env.MONGODB_URL, {})
   .then(() => {
@@ -27,27 +30,17 @@ mongoose
   })
   .catch((err) => console.log(err));
 
-// API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/wedding-cards", weddingCardRoutes);
+// Use the admin design routes
 app.use("/api/admin", adminRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/songs", songRoutes);
 app.use("/api/rsvp", rsvpRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 
-app.get("/test", (req, res) => {
-  res.send("API is working");
+
+app.listen(process.env.PORT || 4000, () => {
+  console.log(`Server running on port ${process.env.PORT}`);
 });
 
-
-// Catch-All Route for 404s
-app.use((req, res) => {
-  res.status(404).json({ message: "Route not found" });
-});
-
-// Start the Server
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
