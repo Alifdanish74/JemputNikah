@@ -17,12 +17,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
-app.use(
-  cors({
-    credentials: true,
-    origin: ["http://localhost:5173", "https://jemput-nikah-av8w.vercel.app"],
-  })
-);
+app.use(cors({ credentials: true, origin: "https://jemput-nikah-av8w.vercel.app" }));
 
 // Connect to MongoDB
 mongoose
@@ -40,11 +35,6 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/songs", songRoutes);
 app.use("/api/rsvp", rsvpRoutes);
 app.use("/api/wishlist", wishlistRoutes);
-
-app.get("/test", (req, res) => {
-  res.send("API is working");
-});
-
 
 // Catch-All Route for 404s
 app.use((req, res) => {
