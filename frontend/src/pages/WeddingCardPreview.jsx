@@ -57,7 +57,7 @@ function WeddingCardPreview() {
           <div className="mt-6">
             <h2 className="text-xl font-semibold">Money Gift</h2>
             <img
-              src={`http://localhost:4000/${weddingCard.qrCode}`}
+              src={`https://jemput-nikah-backend.vercel.app/${weddingCard.qrCode}`}
               alt="QR Code"
               className="w-32 h-32 mx-auto"
             />

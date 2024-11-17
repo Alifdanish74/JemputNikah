@@ -28,14 +28,8 @@ import ViewGuestbookPage from "./userside/ViewGuestbookPage";
 import AddWishlistPage from "./userside/AddWishlistPage";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
-axios.defaults.baseURL =
-  // Use environment variable if set
-  window.location.hostname === "localhost"
-    ? "http://localhost:4000" // Local backend
-    : "https://jemput-nikah-backend.vercel.app/"; // Deployed backend URL
-
+axios.defaults.baseURL = "https://jemput-nikah-backend.vercel.app/";
 axios.defaults.withCredentials = true;
-
 function App() {
   const location = useLocation();
   const excludeHeaderFooterPaths = [
@@ -83,25 +77,13 @@ function App() {
             <Route path="/admin/upload" element={<AdminUploadPage />} />
             <Route path="/admin/uploadsong" element={<AdminUploadSong />} />
             <Route path="/admin/vieworder" element={<AdminViewOrder />} />
-            <Route
-              path="/admin/update-order/:weddingCardId"
-              element={<AdminUpdateOrderPage />}
-            />
+            <Route path="/admin/update-order/:weddingCardId" element={<AdminUpdateOrderPage />} />
             {/* ADMIN SIDE */}
 
             {/* USER SIDE */}
-            <Route
-              path="/tempahan/rsvp/:orderNumber"
-              element={<RSVPManagementPage />}
-            />
-            <Route
-              path="/tempahan/guestbook/:orderNumber"
-              element={<ViewGuestbookPage />}
-            />
-            <Route
-              path="/tempahan/wishlist/:orderNumber"
-              element={<AddWishlistPage />}
-            />
+            <Route path="/tempahan/rsvp/:orderNumber" element={<RSVPManagementPage />} />
+            <Route path="/tempahan/guestbook/:orderNumber" element={<ViewGuestbookPage />} />
+            <Route path="/tempahan/wishlist/:orderNumber" element={<AddWishlistPage />} />
             {/* USER SIDE */}
           </Route>
           {/* <Route path="*" element={<NotFound />} /> */}

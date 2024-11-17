@@ -50,7 +50,7 @@ router.get("/download-image/:id", async (req, res) => {
   try {
     // Step 1: Fetch the presigned URL from S3
     const presignedUrlResponse = await axios.get(
-      `http://localhost:4000/api/wedding-cards/${id}/presigned-url`
+      `https://jemput-nikah-backend.vercel.app/api/wedding-cards/${id}/presigned-url`
     );
     const { url } = presignedUrlResponse.data;
 
