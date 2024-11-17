@@ -39,8 +39,11 @@ app.use("/api/songs", songRoutes);
 app.use("/api/rsvp", rsvpRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 
+app.get("/test", (req, res) => {
+  res.send("API is working");
+});
+
 
 app.listen(process.env.PORT || 4000, () => {
   console.log(`Server running on port ${process.env.PORT}`);
 });
-
