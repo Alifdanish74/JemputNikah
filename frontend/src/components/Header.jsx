@@ -1,10 +1,8 @@
 import { useContext, useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { Button, Dropdown, Modal } from "flowbite-react";
-import {
-  Bars3Icon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { FaBars } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { UserContext } from "../customhooks/UserContext";
 import axios from "axios";
@@ -57,7 +55,7 @@ function Header() {
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
           >
             <span className="sr-only">Open main menu</span>
-            <Bars3Icon aria-hidden="true" className="h-8 w-8" />
+            <FaBars aria-hidden="true" className="h-8 w-8" />
           </button>
         </div>
 
@@ -160,7 +158,7 @@ function Header() {
               />
             </NavLink>
             <button onClick={() => setMobileMenuOpen(false)}>
-              <XMarkIcon className="h-6 w-6 text-gray-700" />
+              <IoMdClose className="h-6 w-6 text-gray-700" />
             </button>
           </div>
         </Modal.Header>
