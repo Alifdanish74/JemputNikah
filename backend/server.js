@@ -42,11 +42,11 @@ app.get("/test", (req, res) => {
   res.send("API is working");
 });
 
-// Serve React app for all other routes
-const buildPath = path.join(__dirname, "build");
-app.use(express.static(buildPath)); // Serve React files
+// Serve React Frontend
+const buildPath = path.join(__dirname, "dist"); // Updated for Vite output
+app.use(express.static(buildPath));
 app.get("/*", (req, res) => {
-  res.sendFile(path.join(buildPath, "index.html")); // Always serve index.html
+  res.sendFile(path.join(buildPath, "index.html"));
 });
 
 app.listen(process.env.PORT || 4000, () => {
