@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
+const path = require("path");
 dotenv.config();
 
 const authRoutes = require("./routes/auth");
@@ -12,8 +13,6 @@ const orderRoutes = require("./routes/order");
 const rsvpRoutes = require("./routes/rsvp");
 const songRoutes = require("./routes/song");
 const wishlistRoutes = require("./routes/wishlist");
-
-
 
 const app = express();
 app.use(express.json());
@@ -43,6 +42,12 @@ app.get("/test", (req, res) => {
   res.send("API is working");
 });
 
+// Serve React app for all other routes
+const buildPath = path.join(__dirname, "build");
+app.use(express.static(buildPath)); // Serve React files
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(buildPath, "index.html")); // Always serve index.html
+});
 
 app.listen(process.env.PORT || 4000, () => {
   console.log(`Server running on port ${process.env.PORT}`);

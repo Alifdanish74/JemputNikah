@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
-import ReactAudioPlayer from "react-audio-player";
+// import ReactAudioPlayer from "react-audio-player";
 import { FileInput, Label } from "flowbite-react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import axios from "axios";
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 
 function LainLainSection({
   onPrevious,
@@ -92,10 +94,11 @@ function LainLainSection({
             >
               Musik Latar Belakang
             </label>
-            <ReactAudioPlayer
+            <AudioPlayer
               className="w-full my-4"
               src={selectedSongUrl}
-              controls
+              autoplay={false}
+              // controls
             />
           </div>
 

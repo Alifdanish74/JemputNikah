@@ -27,6 +27,8 @@ import RSVPManagementPage from "./userside/RSVPManagementPage";
 import ViewGuestbookPage from "./userside/ViewGuestbookPage";
 import AddWishlistPage from "./userside/AddWishlistPage";
 import NotFound from "./pages/NotFound";
+import LoadingWrapper from "./customhooks/LoadingWrapper";
+import { useEffect, useState } from "react";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL
@@ -34,6 +36,7 @@ axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL
 axios.defaults.withCredentials = true;
 function App() {
   const location = useLocation();
+  const [loading, setLoading] = useState(false); // Global loading state
   const excludeHeaderFooterPaths = [
     "/preview-card",
     "/weddingcardpreview",
@@ -45,8 +48,16 @@ function App() {
     location.pathname.startsWith(path)
   );
 
+  useEffect(() => {
+    // Example: Simulate global loading for data fetching
+    setLoading(true);
+    const timer = setTimeout(() => setLoading(false), 1500); // Simulate initial loading
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <>
+    <LoadingWrapper isLoading={loading}>
       <UserContextProvider>
         {showHeaderFooter && <Header />}
         <ToastContainer />
@@ -94,6 +105,7 @@ function App() {
         {showHeaderFooter && <Footer />}
         <ScrollToTopButton />
       </UserContextProvider>
+      </LoadingWrapper>
     </>
   );
 }
