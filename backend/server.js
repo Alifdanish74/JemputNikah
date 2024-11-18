@@ -13,7 +13,7 @@ const orderRoutes = require("./routes/order");
 const rsvpRoutes = require("./routes/rsvp");
 const songRoutes = require("./routes/song");
 const wishlistRoutes = require("./routes/wishlist");
-// hello
+
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -43,12 +43,11 @@ app.get("/test", (req, res) => {
 });
 
 // Serve React Frontend
-// Serve the frontend files
-const buildPath = path.join(__dirname, "../frontend/dist"); // Adjusted to the correct path
-app.use(express.static(buildPath));
+const buildPath = path.join(__dirname, "../frontend/dist");
 
+app.use(express.static(buildPath));
 app.get("/*", (req, res) => {
-  res.sendFile(path.join(buildPath, "index.html")); // Correct path to index.html
+  res.sendFile(path.join(buildPath, "index.html"));
 });
 
 app.listen(process.env.PORT || 4000, () => {
