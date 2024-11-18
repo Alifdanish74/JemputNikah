@@ -43,10 +43,12 @@ app.get("/test", (req, res) => {
 });
 
 // Serve React Frontend
-const buildPath = path.join(__dirname, "frontend", "dist");
-app.use(express.static(buildPath)); // Serve static files from Vite build
+// Serve the frontend files
+const buildPath = path.join(__dirname, "../frontend/dist"); // Adjusted to the correct path
+app.use(express.static(buildPath));
+
 app.get("/*", (req, res) => {
-  res.sendFile(path.join(buildPath, "index.html")); // Handle SPA routing
+  res.sendFile(path.join(buildPath, "index.html")); // Correct path to index.html
 });
 
 app.listen(process.env.PORT || 4000, () => {
