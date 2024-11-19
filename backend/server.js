@@ -18,8 +18,24 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
-app.use(cors({ credentials: true, origin: process.env.FRONTEND_URL }));
-// app.use(cors({ credentials: true, origin: "https://jemput-nikah-av8w.vercel.app" }));
+// Dynamic CORS Configuration
+const allowedOrigins = [
+  "http://localhost:5173", // Local development
+  "https://jemput-nikah-av8w.vercel.app" // Deployed frontend on Vercel
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 
 //   Connect to MongoDB by mongoose
 mongoose
