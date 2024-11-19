@@ -43,12 +43,12 @@ app.get("/test", (req, res) => {
 });
 
 // Serve React Frontend
-const buildPath = path.join(__dirname, "../frontend/dist");
+// const buildPath = path.join(__dirname, "../frontend/dist");
 
-app.use(express.static(buildPath));
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(buildPath, "index.html"));
-});
+// app.use(express.static(buildPath));
+// app.get("/*", (req, res) => {
+//   res.sendFile(path.join(buildPath, "index.html"));
+// });
 
 app.listen(process.env.PORT || 4000, () => {
   console.log(`Server running on port ${process.env.PORT}`);
