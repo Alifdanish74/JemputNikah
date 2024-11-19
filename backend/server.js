@@ -21,7 +21,7 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 // Dynamic CORS Configuration
 const allowedOrigins = [
   "http://localhost:5173", // Local development
-  "https://jemput-kahwin.vercel.app/" // Deployed frontend on Vercel
+  "https://jemput-kahwin.vercel.app" // Deployed frontend on Vercel
 ];
 
 const corsOptions = {
