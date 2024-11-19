@@ -50,7 +50,7 @@ router.get("/download-image/:id", async (req, res) => {
   try {
     // Step 1: Fetch the presigned URL from S3
     const presignedUrlResponse = await axios.get(
-      `${import.meta.env.VITE_API_BASE_URL}/api/wedding-cards/${id}/presigned-url`
+      `https://jemputkahwin-backend.onrender.com/api/wedding-cards/${id}/presigned-url`
     );
     const { url } = presignedUrlResponse.data;
 
