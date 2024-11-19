@@ -55,7 +55,7 @@ function Guestbook() {
   }
 
   if (wishes.length === 0) {
-    return <p className="text-center text-gray-500">No messages in the guestbook yet.</p>;
+    return <p className="text-center text-gray-500">Be the first to wish!</p>;
   }
 
   return (

@@ -1,5 +1,5 @@
 // import React from 'react'
-
+import { useLocation } from "react-router-dom";
 import AudioBar from "./component/AudioBar";
 import Border from "./component/Border";
 import Footer from "./component/Footer";
@@ -14,11 +14,14 @@ import { WeddingCardProvider } from "../customhooks/WeddingCardContext";
 import { ToastContainer } from "react-toastify";
 import { useState } from "react";
 import Entrance from "./Entrance";
+import ParticleComponent from "./component/ParticleComponent";
 
 function BaseWeddingCard() {
   const [showEntrance, setShowEntrance] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [guestbookUpdated, setGuestbookUpdated] = useState(false);
+
+  const location = useLocation(); // Get the current URL
 
   const handleGuestbookUpdate = () => {
     setGuestbookUpdated(true);
@@ -30,6 +33,11 @@ function BaseWeddingCard() {
     console.log("audio", isPlaying);
   };
 
+  const particlesColor = "#f9e4cc"; // Change this value dynamically
+
+  const isPreview = location.pathname.includes("/weddingcardpreview"); // Correct usage of includes
+  console.log("preview", isPreview); // This should log true if "/weddingcardpreview" is in the path
+
   return (
     <WeddingCardProvider>
       <div className="main-div main-card h-screen overflow-auto overflow-x-hidden overflow-y-scroll no-scrollbar bg-white z-10">
@@ -38,6 +46,16 @@ function BaseWeddingCard() {
         ) : (
           // <AudioBar isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
           <>
+            {isPreview && (
+              <section id="preview">
+                <h1>THIS IS PREVIEW ONLY</h1>
+              </section>
+            )}
+
+            <section id="particles">
+              <ParticleComponent particleColor={particlesColor} />
+            </section>
+
             <section id="navbar" className="z-20">
               <Navbar onGuestbookUpdate={handleGuestbookUpdate} />
             </section>

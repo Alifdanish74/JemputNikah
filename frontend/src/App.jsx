@@ -41,6 +41,7 @@ function App() {
   const excludeHeaderFooterPaths = [
     "/preview-card",
     "/weddingcardpreview",
+    "/weddingcard"
     // Base path for weddingcard preview
   ];
 
@@ -85,7 +86,11 @@ function App() {
             <Route path="/tempahan" element={<RekodTempahanPage />} />
             <Route path="/profile" element={<Profile />} />
             <Route
-              path="/weddingcardpreview/:designName/:tajukMajlis/:orderNumber"
+              path="/weddingcardpreview/:orderNumber/:tajukMajlis"
+              element={<BaseWeddingCard />}
+            />
+            <Route
+              path="/weddingcard/:orderNumber/:tajukMajlis"
               element={<BaseWeddingCard />}
             />
             {/* ADMIN SIDE */}

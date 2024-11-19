@@ -360,7 +360,7 @@ function Header() {
 
                       <Dropdown.Item
                         onClick={() => {
-                          logoutUser;
+                          logoutUser();
                         }}
                         className="hover:bg-red-100 text-red-700"
                       >
@@ -390,7 +390,7 @@ function Header() {
 
                       <Dropdown.Item
                         onClick={() => {
-                          logoutUser;
+                          logoutUser();
                         }}
                         className="hover:bg-red-100 text-red-700"
                       >

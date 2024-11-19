@@ -1,14 +1,13 @@
-/* eslint-disable react/prop-types */
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AgGridReact } from "ag-grid-react";
-import { Spinner } from "flowbite-react";
+import { Spinner, Button } from "flowbite-react";
 import { Navigate, useParams } from "react-router-dom";
 
-
-import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS
-import "ag-grid-community/styles/ag-theme-alpine.css"; // Theme CSS
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
 import { UserContext } from "../customhooks/UserContext";
+import { toast } from "react-toastify";
 
 const ViewGuestbookPage = () => {
   const { orderNumber } = useParams();
@@ -17,13 +16,11 @@ const ViewGuestbookPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-
-
   // Column definitions
   const [columnDefs] = useState([
     {
-      headerName: "#", // Index column
-      valueGetter: "node.rowIndex + 1", // Calculate index
+      headerName: "#",
+      valueGetter: "node.rowIndex + 1",
       sortable: false,
       filter: false,
       width: 50,
@@ -33,40 +30,97 @@ const ViewGuestbookPage = () => {
       headerName: "Name",
       sortable: true,
       filter: true,
-      flex:1
+      flex: 1,
     },
     {
-        field: "ucapan",
-        headerName: "Guestbook",
-        filter: true,
-        flex:3
+      field: "ucapan",
+      headerName: "Guestbook",
+      filter: true,
+      flex: 3,
+    },
+    // {
+    //   headerName: "Actions",
+    //   cellRendererFramework: (params) => (
+    //     <Button
+    //       size="xs"
+    //       color="failure"
+    //       onClick={() => handleDelete(params.data)}
+    //     >
+    //       Delete
+    //     </Button>
+    //   ),
+    //   width: 100,
+    // },
+    {
+      headerName: "Delete",
+      cellRenderer: (params) => (
+        <Button
+          onClick={() => handleDelete(params.data)}
+          size="xs"
+          color="failure"
+        >
+          Delete
+        </Button>
+      ),
+      width: 95,
     },
   ]);
 
-  // Default column definitions
   const defaultColDef = {
     resizable: true,
   };
 
   // Fetch RSVP data
   useEffect(() => {
-    const fetchRSVPs = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(`/api/rsvp/list/${orderNumber}`);
-        const { submissions } = response.data; // Extract submissions
-        console.log("API Response:", response.data);
-        setRowData(submissions || []); // Populate grid with submissions
-      } catch (err) {
-        console.error(err);
-        setError("Failed to fetch RSVP submissions. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchRSVPs();
   }, [orderNumber]);
+
+  const fetchRSVPs = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`/api/rsvp/list/${orderNumber}`);
+      const { submissions, _id: rsvpId } = response.data; // Extract RSVP ID and submissions
+      setRowData(
+        submissions.map((submission) => ({
+          ...submission,
+          rsvpId, // Add RSVP ID to each submission for deletion
+        }))
+      );
+    } catch (err) {
+      console.error(err);
+      setError("Failed to fetch RSVP submissions. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (submission) => {
+    try {
+      const confirmed = window.confirm(
+        "Are you sure you want to delete this RSVP?"
+      );
+      if (!confirmed) return;
+      setLoading(true);
+      await axios.delete(
+        `/api/rsvp/delete/${submission.rsvpId}/${submission._id}`
+      );
+      toast.error("RSVP submission deleted successfully.", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      });
+      fetchRSVPs(); // Refresh data after deletion
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to delete submission. Please try again.", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -84,7 +138,6 @@ const ViewGuestbookPage = () => {
     );
   }
 
-  // If user is not ready or not logged in, redirect to login
   if (ready && !user) {
     return <Navigate to={"/login"} />;
   }
@@ -100,19 +153,21 @@ const ViewGuestbookPage = () => {
             View all messages from the RSVP guestbook.
           </p>
         </div>
+        <div>
+          <Button onClick={() => fetchRSVPs()}>Refresh</Button>
+        </div>
         <div
           className="ag-theme-alpine"
           style={{ height: "600px", width: "100%" }}
         >
           <AgGridReact
-            rowData={rowData} // Data for rows
-            columnDefs={columnDefs} // Column definitions
-            defaultColDef={defaultColDef} // Default column properties
-            pagination={true} // Enable pagination
-            paginationPageSize={10} // Rows per page
+            rowData={rowData}
+            columnDefs={columnDefs}
+            defaultColDef={defaultColDef}
+            pagination={true}
+            paginationPageSize={10}
           />
         </div>
-        {/* Modal for Viewing Ucapan */}
       </div>
     </div>
   );

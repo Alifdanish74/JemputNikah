@@ -12,7 +12,9 @@ exports.submitRSVP = async (req, res) => {
     const order = await Order.findById(orderId);
 
     if (!weddingCard || !order) {
-      return res.status(404).json({ message: "WeddingCard or Order not found" });
+      return res
+        .status(404)
+        .json({ message: "WeddingCard or Order not found" });
     }
 
     // Find existing RSVP or create a new one
@@ -44,7 +46,9 @@ exports.getRSVPs = async (req, res) => {
   const { weddingCardId } = req.params;
 
   try {
-    const rsvp = await RSVP.findOne({ weddingCardId }).populate("weddingCardId").populate("orderId");
+    const rsvp = await RSVP.findOne({ weddingCardId })
+      .populate("weddingCardId")
+      .populate("orderId");
 
     if (!rsvp) {
       return res.status(404).json({ message: "RSVP not found" });
@@ -63,7 +67,9 @@ exports.getRSVPsByOrderNumber = async (req, res) => {
 
   try {
     // Find the order by orderNumber
-    const order = await Order.findOne({ orderNumber }).populate("weddingCardId");
+    const order = await Order.findOne({ orderNumber }).populate(
+      "weddingCardId"
+    );
 
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
@@ -73,14 +79,22 @@ exports.getRSVPsByOrderNumber = async (req, res) => {
     const weddingCardId = order.weddingCardId?._id;
 
     if (!weddingCardId) {
-      return res.status(404).json({ message: "Wedding Card ID not found in order" });
+      return res
+        .status(404)
+        .json({ message: "Wedding Card ID not found in order" });
     }
 
     // Find the RSVP for the weddingCardId linked to the order
-    const rsvp = await RSVP.findOne({ weddingCardId }).populate("weddingCardId").populate("orderId");
+    const rsvp = await RSVP.findOne({ weddingCardId })
+      .populate("weddingCardId")
+      .populate("orderId");
 
     if (!rsvp) {
-      return res.status(404).json({ message: "RSVP not found" });
+      // Return default RSVP structure when none exists
+      rsvp = {
+        weddingCardId,
+        submissions: [],
+      };
     }
 
     res.status(200).json(rsvp);
@@ -114,4 +128,3 @@ exports.deleteRSVPSubmission = async (req, res) => {
     res.status(500).json({ message: "Error deleting RSVP submission", error });
   }
 };
-

@@ -9,6 +9,7 @@ import { Modal, Button } from "flowbite-react";
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Theme CSS
 import { UserContext } from "../customhooks/UserContext";
+import { toast } from "react-toastify";
 
 const RSVPManagementPage = () => {
   const { orderNumber } = useParams();
@@ -166,10 +167,18 @@ const RSVPManagementPage = () => {
       setRowData((prevData) =>
         prevData.filter((row) => row._id !== submissionId)
       );
-      alert("RSVP submission deleted successfully.");
+      toast.error("RSVP submission deleted successfully.", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      });
     } catch (err) {
       console.error("Error deleting RSVP:", err);
-      alert("Failed to delete RSVP submission. Please try again.");
+      toast.error("Failed to delete RSVP submission. Please try again.", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      });
     }
   };
   

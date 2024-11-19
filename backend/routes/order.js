@@ -11,7 +11,7 @@ router.get('/', getAllOrders);
 router.get('/orders/:id', authMiddleware, getOrderById);
 
 // GET: Get a single order by user ID
-router.get('/user/:userId', authMiddleware, getOrdersByUserId);
+router.get('/user/:userId', getOrdersByUserId);
 
 // GET: Get a single order by user ID
 router.get('/order/:orderNumber', getOrdersByOrderNumber);

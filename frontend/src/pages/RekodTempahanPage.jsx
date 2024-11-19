@@ -54,9 +54,24 @@ function RekodTempahanPage() {
     try {
       // Fetch the wedding card details using the weddingCardId
       const response = await axios.get(`/api/wedding-cards/${weddingCardId}`);
-      const { designName, tajukMajlis } = response.data;
+      const {  hashtag } = response.data;
       // Construct the URL for the WeddingCardPage with designName, tajukMajlis, and orderNumber
-      const url = `/weddingcardpreview/${designName}/${tajukMajlis}/${orderNumber}`;
+      const url = `/weddingcardpreview/${orderNumber}/${hashtag}`;
+
+      // Open the URL in a new tab
+      window.open(url, "_blank");
+    } catch (error) {
+      console.error("Error fetching wedding card details:", error);
+    }
+  };
+  // Function to handle the navigation
+  const navigateToActualCard = async (weddingCardId, orderNumber) => {
+    try {
+      // Fetch the wedding card details using the weddingCardId
+      const response = await axios.get(`/api/wedding-cards/${weddingCardId}`);
+      const {  hashtag } = response.data;
+      // Construct the URL for the WeddingCardPage with designName, tajukMajlis, and orderNumber
+      const url = `weddingcard/${orderNumber}/${hashtag}`;
 
       // Open the URL in a new tab
       window.open(url, "_blank");
@@ -191,11 +206,32 @@ function RekodTempahanPage() {
                               )}
                             </div>
                           </td>
+                          {/* PREVIEW CARD ONLY */}
                           <td className=" py-3 border">
                             <div className="flex-row lg:flex  gap-x-3 mx-auto items-center justify-center">
                               <Button
                                 onClick={() =>
                                   navigateToPreviewCard(
+                                    order.weddingCardId._id,
+                                    order.orderNumber
+                                  )
+                                }
+                                size="xs"
+                                color="blue"
+                              >
+                                {" "}
+                                <FaRegPlayCircle className="mr-2 h-5 w-5" />{" "}
+                                Preview Card
+                              </Button>
+                              {/* hello {order.weddingCardId} */}
+
+                              <CopyToClipboardButton content={"Hello"} />
+                            </div>
+                            {/* ACTUAL CARD */}
+                            <div className="flex-row lg:flex my-2 gap-x-3 mx-auto items-center justify-center">
+                              <Button
+                                onClick={() =>
+                                  navigateToActualCard(
                                     order.weddingCardId._id,
                                     order.orderNumber
                                   )
@@ -212,6 +248,8 @@ function RekodTempahanPage() {
                               <CopyToClipboardButton content={"Hello"} />
                             </div>
                           </td>
+                          
+                          
                           <td className=" py-3 border">
                             <div className="grid grid-cols-2 gap-y-2 items-center justify-center">
                               {order.weddingCardId.pakej !== "Bali" && (

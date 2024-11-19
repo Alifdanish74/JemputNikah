@@ -22,6 +22,21 @@ html {
 }
 }
 
+.particles-container {
+  width: 100%;
+  max-width: 400px;
+  height: 100%; /* Adjust this to control the height of the particles container */
+  margin: 0 auto; /* Center horizontally */
+  position: relative; /* Ensure particles position correctly */
+  overflow: hidden; /* Avoid overflow outside the container */
+}
+
+#tsparticles {
+  width: 100%;
+  height: 100%;
+}
+
+
 .main-div {
     max-width: 400px;
     margin: auto;
