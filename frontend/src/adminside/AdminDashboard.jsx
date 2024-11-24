@@ -62,6 +62,19 @@ function AdminDashboard() {
             cards.
           </p>
         </div>
+        {/* Card for View Design */}
+        <div
+          className="bg-white shadow-lg rounded-lg p-6 cursor-pointer transform hover:scale-105 transition-transform"
+          onClick={() => navigate("/admin/viewdesign")}
+        >
+          <h2 className="text-2xl font-semibold mb-4 text-yellow-400">
+            View Design
+          </h2>
+          <p className="text-gray-600">
+            Go to the view design page to view and manage wedding
+            cards.
+          </p>
+        </div>
       </div>
     </div>
   );

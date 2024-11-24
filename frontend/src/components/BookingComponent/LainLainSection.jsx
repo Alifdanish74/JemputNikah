@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { FileInput, Label } from "flowbite-react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import axios from "axios";
-import AudioPlayer from 'react-h5-audio-player';
-import 'react-h5-audio-player/lib/styles.css';
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
 
 function LainLainSection({
   onPrevious,
@@ -18,19 +18,16 @@ function LainLainSection({
   const [selectedSongUrl, setSelectedSongUrl] = useState(
     isEditMode ? formData.bgSong : ""
   );
-  // Initialize doa text based on edit mode
-  const [doaText, setDoaText] = useState(
-    isEditMode
-      ? formData.doa
-      : "Ya Allah, berkatilah majlis perkahwinan ini, limpahkan baraqah dan rahmat\nkepada kedua mempelai ini. Kurniakanlah mereka zuriat yang soleh dan solehah.\nKekalkanlah jodoh mereka di dunia dan di akhirat dan sempurnakanlah agama mereka dengan berkat ikatan ini."
-  );
-
   const doaOptions = {
     doa1: "Ya Allah, berkatilah majlis perkahwinan ini, limpahkan baraqah dan rahmat\nkepada kedua mempelai ini. Kurniakanlah mereka zuriat yang soleh dan solehah.\nKekalkanlah jodoh mereka di dunia dan di akhirat dan sempurnakanlah agama mereka dengan berkat ikatan ini.",
     doa2: "Ya Allah, berkatilah satukanlah hati kedua pasangan mempelai ini dengan iman,\nkeyakinan dan tawakal kepadaMu. Panjangkan umur mereka, lapangkanlah rezeki mereka,\ndekatlah mereka menuju kebaikan, jauhkanlah mereka dari keburukan. Kurniakanlah mereka zuriat yang soleh dan solehah.",
     doa3: "Ya Allah, jadikanlah majlis ini majlis yang mendapat keberkatan dan keredhaanMu.\nKekalkanlah ikatan perkahwinan mereka sepanjang hayat, tetapkanlah kasih sayang antara mereka\nselagi tidak melebihi kasih padaMu.",
     doa4: "Ya Allah, kami memohon doa restumu, berkatilah majlis perkahwinan ini, berjalan\nsempurna seperti mana yang Engkau kehendaki. Semoga jodoh perkahwinan ini akan berkekalan\nbuat selama-lamanya hingga ke akhir hayat.",
   };
+  // Initialize doa text based on edit mode
+  const [doaText, setDoaText] = useState(
+    isEditMode ? formData.doa : doaOptions.doa1
+  );
 
   const handleSelectChange = (e) => {
     const selectedDoa = e.target.value;

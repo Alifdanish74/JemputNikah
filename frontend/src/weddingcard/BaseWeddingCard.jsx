@@ -15,6 +15,7 @@ import { ToastContainer } from "react-toastify";
 import { useState } from "react";
 import Entrance from "./Entrance";
 import ParticleComponent from "./component/ParticleComponent";
+import PreviewWatermark from "./component/PreviewWatermark";
 
 function BaseWeddingCard() {
   const [showEntrance, setShowEntrance] = useState(true);
@@ -37,6 +38,7 @@ function BaseWeddingCard() {
 
   const isPreview = location.pathname.includes("/weddingcardpreview"); // Correct usage of includes
   console.log("preview", isPreview); // This should log true if "/weddingcardpreview" is in the path
+  
 
   return (
     <WeddingCardProvider>
@@ -47,9 +49,9 @@ function BaseWeddingCard() {
           // <AudioBar isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
           <>
             {isPreview && (
-              <section id="preview">
-                <h1>THIS IS PREVIEW ONLY</h1>
-              </section>
+              <>
+                <PreviewWatermark />
+              </>
             )}
 
             <section id="particles">
@@ -57,7 +59,10 @@ function BaseWeddingCard() {
             </section>
 
             <section id="navbar" className="z-20">
-              <Navbar onGuestbookUpdate={handleGuestbookUpdate} />
+              <Navbar
+                onGuestbookUpdate={handleGuestbookUpdate}
+                preview={isPreview}
+              />
             </section>
 
             <ToastContainer />

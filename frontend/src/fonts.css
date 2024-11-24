@@ -17,7 +17,15 @@
   
   .font-CinzelDecorative {
     font-family: 'Cinzel Decorative', cursive;
+
   }
+
+  .font-CinzelDecorative > p {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 40px;
+  }
+
+
   
   .font-GreatVibes {
     font-family: 'Great Vibes', cursive;

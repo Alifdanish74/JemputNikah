@@ -138,7 +138,7 @@ function LoginPage() {
                 src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
                 alt="logo"
               />
-              Jemput Nikah
+              Jemput Kahwin
             </a>
           </div>
           <div className="col-span-6 mx-auto w-full rounded-lg bg-white shadow dark:bg-gray-800 sm:max-w-lg md:mt-0 xl:p-0">

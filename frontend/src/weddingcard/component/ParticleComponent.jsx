@@ -6,7 +6,7 @@ import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
 // import { loadBasic } from "@tsparticles/basic"; // if you are going to use `loadBasic`, install the "@tsparticles/basic" package too.
 
-const ParticleComponent = ({ particleColor = "#f70531" }) => {
+const ParticleComponent = ({ particleColor = "#f9e4cc" }) => {
   const [init, setInit] = useState(false);
 
   // this should be run only once per application lifetime
@@ -97,10 +97,10 @@ const ParticleComponent = ({ particleColor = "#f70531" }) => {
           density: {
             enable: true,
           },
-          value: 70,
+          value: 80,
         },
         opacity: {
-          value: 0.3,
+          value: 0.5,
         },
         shape: {
           type: "circle",
@@ -109,7 +109,7 @@ const ParticleComponent = ({ particleColor = "#f70531" }) => {
           value: { min: 1, max: 8 },
         },
       },
-      detectRetina: true,
+      detectRetina: false,
     }),
     [particleColor] // Recompute options when the color changes
   );

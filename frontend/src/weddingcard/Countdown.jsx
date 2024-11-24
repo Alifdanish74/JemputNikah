@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 function Countdown() {
   const { orderNumber } = useParams();
-  const { weddingCard, loading, fetchWeddingCard } = useWeddingCard();
+  const { weddingCard,  fetchWeddingCard } = useWeddingCard();
 
   useEffect(() => {
     if (orderNumber) {
@@ -15,7 +15,7 @@ function Countdown() {
     }
   }, [orderNumber]);
 
-  if (loading) return <p>Loading wedding card details...</p>;
+  // if (loading) return <p>Loading wedding card details...</p>;
   if (!weddingCard) return <p>Wedding card not found.</p>;
 
   // const targetDate = new Date(weddingCard.tarikhMajlis);

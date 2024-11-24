@@ -1,28 +1,42 @@
 // controllers/songController.js
 const Song = require("../models/Song");
-const AWS = require("aws-sdk");
+const { S3Client, PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
+// const AWS = require("aws-sdk");
 const multer = require("multer");
 
 // Configure multer for memory storage
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Configure AWS S3
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
-});
+const s3Client = new S3Client({
+    region: process.env.AWS_REGION,
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    },
+  });
 
 // Function to upload a song to S3
 const uploadSongToS3 = async (file, filename) => {
-  const params = {
-    Bucket: process.env.S3_BUCKET_NAME,
-    Key: `music/${filename}`,
-    Body: file.buffer,
-    ContentType: file.mimetype,
-  };
-  const data = await s3.upload(params).promise();
-  return data.Location; // Return the S3 URL
+    try {
+        const params = {
+          Bucket: process.env.S3_BUCKET_NAME, // S3 Bucket Name
+          Key: `music/${filename}`, // File path in the bucket
+          Body: file.buffer, // File buffer
+          ContentType: file.mimetype, // File MIME type
+        };
+    
+        // Execute the upload command
+        await s3Client.send(new PutObjectCommand(params));
+    
+        // Construct the permanent file URL
+        const fileUrl = `https://${params.Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${params.Key}`;
+    
+        return fileUrl; // Return the permanent file URL
+      } catch (error) {
+        console.error("Error uploading to S3:", error);
+        throw error;
+      }
 };
 
 // Controller to handle song upload
@@ -84,7 +98,7 @@ const deleteSong = async (req, res) => {
       Key: s3Key,
     };
 
-    await s3.deleteObject(params).promise();
+    await s3Client.send(new DeleteObjectCommand(params));
 
     // Delete the song document from the database
     await Song.findByIdAndDelete(id);

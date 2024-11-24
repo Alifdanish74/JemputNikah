@@ -80,7 +80,7 @@ function RSVPSection({
             <Datepicker
               title="Tarikh Akhir RSVP"
               minDate={new Date()}
-              // maxDate={formData.tarikhMajlis} // Convert to Date if available
+              maxDate={formData.tarikhMajlis} // Convert to Date if available
               showTodayButton={false}
               value={
                 formData.maxDate

@@ -2,12 +2,24 @@
 import { motion } from "framer-motion";
 import "../fonts.css";
 import { useWeddingCard } from "../customhooks/WeddingCardContext";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 function MainContent() {
-  const { weddingCard } = useWeddingCard();
+  const { weddingCard, design, fetchDesign} = useWeddingCard();
+  const { designName } = useParams(); // Extract designName from the URL
+
+  useEffect(() => {
+    if (designName) {
+      fetchDesign(designName); // Fetch design info when the component loads
+    }
+  }, [designName, fetchDesign]);
 
   // if (loading) return <p>Loading wedding card details...</p>;
   if (!weddingCard) return <p>Wedding card not found.</p>;
+
+ console.log("DesignName: ", designName);
+ console.log("Design: ", design);
 
   const dateString = weddingCard.tarikhMajlis.split("T")[0]; // Extract the date part only
   const date = new Date(dateString); // Now `date` represents only the date
@@ -29,7 +41,8 @@ function MainContent() {
     <div
       className="flex flex-col z-10 px-4 pb-14 text-center min-h-screen main-card text-black justify-center items-center"
       style={{
-        backgroundImage: `url(${weddingCard.designUrl})`,
+        // backgroundImage: `url(${weddingCard.designUrl})`,
+        backgroundImage: designName && design ? `url(${design.image})` : `url(${weddingCard.designUrl})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -52,34 +65,73 @@ function MainContent() {
         </p>
       </motion.div>
       {/* NAMA PENGANTIN */}
-      <div className={`mb-5 text-6xl ${weddingCard.jenisFont}`}>
-        <motion.p
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
-        >
-          {weddingCard.namaPendekLelaki}
-          {/* {weddingCard.designUrl} */}
-        </motion.p>
-        <motion.p
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.4, duration: 1 }}
-          whileHover={{
-            scale: 1.1,
-            transition: { duration: 0.4, opacity: 1 },
-          }}
-        >
-          &
-        </motion.p>
-        <motion.p
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.6, duration: 1 }}
-        >
-          {weddingCard.namaPendekPerempuan}
-        </motion.p>
-      </div>
+      {!["D"].includes(weddingCard.pihakMajlis) && (
+        <>
+          {/* NAMA PENGANTIN */}
+          <div className={`mb-5 text-6xl ${weddingCard.jenisFont}`}>
+            <motion.p
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1 }}
+            >
+              {weddingCard.namaPendekLelaki}
+              {/* {weddingCard.designUrl} */}
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4, duration: 1 }}
+              whileHover={{
+                scale: 1.1,
+                transition: { duration: 0.4, opacity: 1 },
+              }}
+            >
+              &
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.6, duration: 1 }}
+            >
+              {weddingCard.namaPendekPerempuan}
+            </motion.p>
+          </div>
+        </>
+      )}
+      {/* IF PASANGAN DUA */}
+      {["D"].includes(weddingCard.pihakMajlis) && (
+        <>
+          {/* NAMA PENGANTIN */}
+          <div className={`mb-5 text-5xl ${weddingCard.jenisFont}`}>
+            <motion.p
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1 }}
+            >
+              {weddingCard.namaPendekPasangan1}
+              {/* {weddingCard.designUrl} */}
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4, duration: 1 }}
+              whileHover={{
+                scale: 1.1,
+                transition: { duration: 0.4, opacity: 1 },
+              }}
+            >
+              &
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.6, duration: 1 }}
+            >
+              {weddingCard.namaPendekPasangan2}
+            </motion.p>
+          </div>
+        </>
+      )}
       <motion.p
         initial={{
           y: -30,

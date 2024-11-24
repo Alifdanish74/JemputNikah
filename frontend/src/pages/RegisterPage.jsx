@@ -87,7 +87,7 @@ function RegisterPage() {
                   src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
                   className="mr-2 h-8 w-8"
                 />
-                Jemput Nikah
+                Jemput Kahwin
               </a>
               <div className="flex">
                 <svg

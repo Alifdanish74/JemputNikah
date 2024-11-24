@@ -1,27 +1,40 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-export const UserContext = createContext({});
+const UserContext = createContext({});
 
-export function UserContextProvider({ children }) {
-  const [user, setUser] = useState(null);
+const UserContextProvider = ({ children }) => {
+  const [user, setUser] = useState(() => {
+    // Load user from localStorage on initialization
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
   const [ready, setReady] = useState(false);
   const location = useLocation();
-
-  // Define public paths that don't require user profile data
-  const publicPaths = ["/", "/register","/login", "/weddingcardpreview"];
+  const navigate = useNavigate();
+  const publicPaths = ["/", "/register", "/weddingcardpreview"];
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const { data } = await axios.get("/api/auth/profile");
+        const { data } = await axios.get("/api/auth/profile", {
+          withCredentials: true, // Ensure cookies are sent
+        });
         setUser(data);
+        localStorage.setItem("user", JSON.stringify(data)); // Save user to localStorage
       } catch (err) {
-        // If the error is 401, the user is not logged in; set ready to true
-        if (err.response && err.response.status === 401) {
+        if (err.response?.status === 401) {
           console.warn("User is not authenticated.");
+          localStorage.removeItem("user"); // Clear user if not authenticated
+          setUser(null);
+          // navigate("/login");
+        } else if (err.response?.data?.code === "TOKEN_EXPIRED") {
+          console.warn("Token has expired. Redirecting to login.");
+          localStorage.removeItem("user");
+          setUser(null);
+          navigate("/login");
         } else {
           console.error("Error fetching profile:", err);
         }
@@ -30,19 +43,19 @@ export function UserContextProvider({ children }) {
       }
     };
 
-    // Check if the current path is not in the public paths before fetching
-    if (!publicPaths.includes(location.pathname) && !ready) {
+    if (!publicPaths.includes(location.pathname) && !user && !ready) {
       fetchProfile();
-    } else {
       setReady(true);
     }
-  }, [ready, location.pathname]);
+  }, [user, ready, location.pathname, navigate, publicPaths]);
 
-  console.log("User data from UserContext:", user);
+  console.log("User data from UserContext:", user, ready);
 
   return (
     <UserContext.Provider value={{ user, setUser, ready }}>
       {children}
     </UserContext.Provider>
   );
-}
+};
+
+export { UserContext, UserContextProvider };

@@ -14,6 +14,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 const {
   createWeddingCard,
   getWeddingCardById,
+  getAllWeddingCards,
   updateWeddingCard,
   deleteWeddingCard,
   getWeddingCardInfo,
@@ -31,6 +32,9 @@ router.post("/", authMiddleware, createWeddingCard);
 
 // Get a wedding card by ID
 router.get("/:id", getWeddingCardById);
+
+// get all wedding cards
+router.get("/", getAllWeddingCards);
 
 // Update a wedding card
 router.put("/:id", updateWeddingCard);

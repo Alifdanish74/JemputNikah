@@ -21,14 +21,25 @@ import axios from "axios";
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, setUser } = useContext(UserContext);
-
   const navigate = useNavigate();
-
+  
   async function logoutUser() {
-    await axios.post("/api/auth/logout");
-    setUser(null);
-    navigate("/");
+    try {
+      // Send logout request to the server
+      await axios.post("/api/auth/logout", {}, { withCredentials: true });
+  
+      // Clear user state and localStorage
+      setUser(null);
+      localStorage.removeItem("user");
+  
+      // Navigate to the home page or login page
+      navigate("/");
+    } catch (error) {
+      console.error("Error during logout:", error);
+      // Optionally show an error message to the user
+    }
   }
+  
 
   function navigateTo(path) {
     navigate(path);
@@ -46,7 +57,7 @@ function Header() {
       >
         <div className="flex lg:flex-1">
           <NavLink to={"/"} className="-m-1.5 p-1.5 flex gap-2">
-            <span className="sr-only">JemputNikah</span>
+            <span className="sr-only">Jemput Kahwin</span>
             <img
               alt=""
               src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
@@ -188,7 +199,7 @@ function Header() {
             <div className="hidden lg:flex lg:flex-1 lg:justify-end">
               <Dropdown color="blue" label={user.name} dismissOnClick={false}>
                 <Dropdown.Item
-                  href="/admin"
+                  onClick={() => navigateTo("/admin")}
                   className="hover:bg-blue-100 text-blue-700"
                 >
                   Admin Dashboard
@@ -249,7 +260,7 @@ function Header() {
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
             <NavLink href="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">Jemput Nikah</span>
+              <span className="sr-only">Jemput Kahwin</span>
               <img
                 alt=""
                 src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"

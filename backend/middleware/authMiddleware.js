@@ -1,7 +1,9 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/User"); // Import the User model
+const User = require("../models/User");
 
-// Middleware to handle authentication and token verification
+const jwtSecret = process.env.JWT_SECRET;
+
+// Middleware to verify token and attach user to request
 const authMiddleware = async (req, res, next) => {
   const { token } = req.cookies;
 
@@ -9,40 +11,30 @@ const authMiddleware = async (req, res, next) => {
     return res.status(401).json({ message: "Unauthorized: No token provided" });
   }
 
-  try {
-    // Verify the JWT token
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-      if (err) {
-        if (err.name === "TokenExpiredError") {
-          console.log("Token has expired");
-          return res
-            .status(401)
-            .json({ message: "Token expired", code: "TOKEN_EXPIRED" });
-        } else {
-          console.log("Token verification error:", err.message);
-          return res.status(401).json({ message: "Invalid token" });
-        }
+  jwt.verify(token, jwtSecret, async (err, decoded) => {
+    if (err) {
+      if (err.name === "TokenExpiredError") {
+        console.log("Token has expired");
+        res.clearCookie("token", { httpOnly: true });
+        return res.status(401).json({ message: "Token expired", code: "TOKEN_EXPIRED" });
       }
+      return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    }
 
-      req.userId = decoded.id;
-
-      // Fetch user by ID
-      const user = await User.findById(req.userId);
+    try {
+      const user = await User.findById(decoded.id);
       if (!user) {
-        return res
-          .status(401)
-          .json({ message: "Unauthorized: User not found" });
+        return res.status(401).json({ message: "Unauthorized: User not found" });
       }
 
-      // Attach user to request object
       req.user = user;
-
-      // Proceed to the next middleware or route
       next();
-    });
-  } catch (error) {
-    return res.status(401).json({ message: "Unauthorized: Invalid token" });
-  }
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching user data", error });
+    }
+  });
 };
 
-module.exports = authMiddleware;
+
+
+module.exports =  authMiddleware ;

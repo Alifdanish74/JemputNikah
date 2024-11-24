@@ -14,9 +14,8 @@ function PengantinSection({
   errors,
   isEdit,
 }) {
-  const [selectedFont, setSelectedFont] = useState("font-CinzelDecorative");
+  const [selectedFont, setSelectedFont] = useState("font-Tangerine");
   const [pihakMajlis, setPihakMajlis] = useState("L");
-
 
   // Function to handle font change
   const handleFontChange = (e) => {
@@ -84,12 +83,7 @@ function PengantinSection({
               }} // Trigger handleFontChange when font is selected
             >
               {/* <option value="">Pilih jenis font</option> */}
-              <option
-                className="font-CinzelDecorative"
-                value="font-CinzelDecorative"
-              >
-                Cinzel Decorative
-              </option>
+
               <option className="font-Tangerine" value="font-Tangerine">
                 Tangerine
               </option>
@@ -99,6 +93,9 @@ function PengantinSection({
               </option>
               <option className="font-MarckScript" value="font-MarckScript">
                 Marck Script
+              </option>
+              <option className="" value="font-CinzelDecorative">
+                Cinzel Decorative
               </option>
               <option
                 className="font-LibreCaslonText"

@@ -1,44 +1,61 @@
 // controllers/adminDesignController.js
 const CardDesign = require("../models/CardDesign");
-const sharp = require("sharp");
-const fs = require("fs");
+const { S3Client, PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const multer = require("multer");
-const AWS = require("aws-sdk");
+// const AWS = require("aws-sdk");
 const path = require("path");
 
 // Configure multer for memory storage (no local files)
 const upload = multer({ storage: multer.memoryStorage() });
 
-// Configure AWS S3
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+// Configure AWS S3 Client
+const s3Client = new S3Client({
   region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
 });
+
 
 // Function to upload to S3 and return the file URL
 const uploadToS3 = async (file, filename) => {
-  const params = {
-    Bucket: process.env.S3_BUCKET_NAME,
-    Key: `weddingcard/${filename}`, // Use 'filename' instead of 'key'
-    Body: file.buffer,
-    ContentType: file.mimetype,
-  };
-  const data = await s3.upload(params).promise();
-  return data.Location;
+  try {
+    const params = {
+      Bucket: process.env.S3_BUCKET_NAME, // S3 Bucket Name
+      Key: `weddingcard/${filename}`, // File path in the bucket
+      Body: file.buffer, // File buffer
+      ContentType: file.mimetype, // File MIME type
+    };
+
+    // Execute the upload command
+    await s3Client.send(new PutObjectCommand(params));
+
+    // Construct the permanent file URL
+    const fileUrl = `https://${params.Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${params.Key}`;
+
+    return fileUrl; // Return the permanent file URL
+  } catch (error) {
+    console.error("Error uploading to S3:", error);
+    throw error;
+  }
 };
 
-// Controller for uploading a new wedding card design
+
+
+//////////////////////////////////////////////////
 const uploadDesign = async (req, res) => {
-  const { category } = req.body;
+  const { category, particleColor, fontColor } = req.body;
   const imageFile = req.files.image?.[0];
   const imagePreviewFile = req.files.imagepreview?.[0];
+  const imageBgFile = req.files.imagebg?.[0];
 
   try {
-    if (!imageFile || !imagePreviewFile) {
+    if (!imageFile || !imagePreviewFile || !imageBgFile) {
       return res
         .status(400)
-        .json({ message: "Both image and imagepreview files are required" });
+        .json({ message: "All images files are required" });
     }
 
     // Get current count of designs in the provided category
@@ -46,18 +63,23 @@ const uploadDesign = async (req, res) => {
     const designNumber = String(count + 1).padStart(3, "0");
     const designName = `${category}${designNumber}`;
 
-    // Upload images to S3 with error handling
+    // Upload images to S3
     const imageUrl = await uploadToS3(imageFile, `${designName}.png`);
+    const imageBgUrl = await uploadToS3(imageBgFile, `Background${designName}.png`);
     const imagePreviewUrl = await uploadToS3(
       imagePreviewFile,
       `Preview${designName}.png`
     );
 
+    // Save design in the database
     const newDesign = new CardDesign({
       designName,
       category,
       image: imageUrl,
       imagepreview: imagePreviewUrl,
+      imagebg: imageBgUrl,
+      particleColor: particleColor,
+      fontColor: fontColor,
     });
 
     await newDesign.save();
@@ -65,6 +87,57 @@ const uploadDesign = async (req, res) => {
   } catch (error) {
     console.error("Error in uploadDesign:", error);
     res.status(500).json({ message: "Error uploading design", error });
+  }
+};
+
+// Function to delete an object from S3
+const deleteFromS3 = async (fileKey) => {
+  try {
+    const params = {
+      Bucket: process.env.S3_BUCKET_NAME, // S3 Bucket Name
+      Key: fileKey, // File path in the bucket
+    };
+
+    // Execute the delete command
+    await s3Client.send(new DeleteObjectCommand(params));
+  } catch (error) {
+    console.error("Error deleting from S3:", error);
+    throw error;
+  }
+};
+
+// Delete Design and S3 Images
+const deleteDesign = async (req, res) => {
+  const { designName } = req.params;
+
+  try {
+    // Find the design by name
+    const design = await CardDesign.findOne({ designName });
+
+    if (!design) {
+      return res.status(404).json({ message: "Design not found" });
+    }
+
+    // Extract the S3 file keys from the URLs
+    const imageKey = design.image.split(".com/")[1];
+    const imagePreviewKey = design.imagepreview.split(".com/")[1];
+    const imageBgKey = design.imagebg.split(".com/")[1];
+
+    console.log("Keys to delete:", imageKey, imagePreviewKey, imageBgKey);
+
+
+    // Delete images from S3
+    await deleteFromS3(imageKey);
+    await deleteFromS3(imagePreviewKey);
+    await deleteFromS3(imageBgKey);
+
+    // Delete the design from the database
+    await CardDesign.deleteOne({ designName });
+
+    res.status(200).json({ message: "Design and images deleted successfully" });
+  } catch (error) {
+    console.error("Error in deleteDesign:", error);
+    res.status(500).json({ message: "Error deleting design", error });
   }
 };
 
@@ -111,4 +184,5 @@ module.exports = {
   getDesignCountByCategory,
   getAllDesigns,
   getDesignByName,
+  deleteDesign,
 };

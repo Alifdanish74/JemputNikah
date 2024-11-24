@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 function WeddingCardPreview() {
   const { designName, tajukMajlis, orderNumber } = useParams(); // Get all URL parameters
   const [orderData, setOrderData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     const fetchWeddingCard = async () => {
@@ -17,15 +17,13 @@ function WeddingCardPreview() {
         console.log("Wedding card data:", response.data); // Set the fetched wedding card data
       } catch (error) {
         console.error("Error fetching wedding card:", error);
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
 
     fetchWeddingCard();
   }, [designName, tajukMajlis, orderNumber]);
 
-  if (loading) return <p>Loading wedding card details...</p>;
+//   if (loading) return <p>Loading wedding card details...</p>;
   if (!orderData) return <p>Wedding card not found.</p>;
   // Render wedding card information
 

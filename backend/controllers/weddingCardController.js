@@ -1,28 +1,52 @@
 const WeddingCard = require("../models/WeddingCard");
 const Order = require("../models/Order");
+const { S3Client, PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const multer = require("multer");
-const AWS = require("aws-sdk");
+// const AWS = require("aws-sdk");
 
 // Configure multer for memory storage (no local files)
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Configure AWS S3
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+const s3Client = new S3Client({
   region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
 });
 
 // Function to upload to S3 and return the file URL
+// const uploadToS3 = async (file, filename) => {
+//   const params = {
+//     Bucket: process.env.S3_BUCKET_NAME,
+//     Key: filename,
+//     Body: file.buffer,
+//     ContentType: file.mimetype,
+//   };
+//   const data = await s3.upload(params).promise();
+//   return data.Location;
+// };
 const uploadToS3 = async (file, filename) => {
-  const params = {
-    Bucket: process.env.S3_BUCKET_NAME,
-    Key: filename,
-    Body: file.buffer,
-    ContentType: file.mimetype,
-  };
-  const data = await s3.upload(params).promise();
-  return data.Location;
+  try {
+    const params = {
+      Bucket: process.env.S3_BUCKET_NAME, // S3 Bucket Name
+      Key: filename, // File path in the bucket
+      Body: file.buffer, // File buffer
+      ContentType: file.mimetype, // File MIME type
+    };
+
+    // Execute the upload command
+    await s3Client.send(new PutObjectCommand(params));
+
+    // Construct the permanent file URL
+    const fileUrl = `https://${params.Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${params.Key}`;
+
+    return fileUrl; // Return the permanent file URL
+  } catch (error) {
+    console.error("Error uploading to S3:", error);
+    throw error;
+  }
 };
 
 // Create a new wedding card
@@ -31,7 +55,7 @@ exports.createWeddingCard = [
   upload.single("qrCodeFile"), // Ensure "qrCodeFile" matches MoneyGiftSection
   async (req, res) => {
     try {
-      const { tarikhMajlis, majlisStart } = req.body;
+      const { tarikhMajlis, majlisStart, hashtag } = req.body;
       const qrCodeFile = req.file;
 
       console.log("Request body:", req.body); // Log incoming data
@@ -85,7 +109,7 @@ exports.createWeddingCard = [
       if (qrCodeFile) {
         qrCodeUrl = await uploadToS3(
           qrCodeFile,
-          `${nextOrderNumber}/qrCode.png`
+          `${nextOrderNumber}/${hashtag}/qrCode.png`
         );
       }
 
@@ -207,6 +231,11 @@ exports.updateWeddingCard = [
     }
   },
 ];
+
+// Get All wedding cards
+exports.getAllWeddingCards = async (req, res) => {
+  res.json(await WeddingCard.find());
+};
 
 // Delete a wedding card
 exports.deleteWeddingCard = async (req, res) => {

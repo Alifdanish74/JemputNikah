@@ -29,17 +29,18 @@ import AddWishlistPage from "./userside/AddWishlistPage";
 import NotFound from "./pages/NotFound";
 import LoadingWrapper from "./customhooks/LoadingWrapper";
 import { useEffect, useState } from "react";
+import AdminViewDesign from "./adminside/AdminViewDesign";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
+axios.defaults.withCredentials = true;
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL
 // axios.defaults.baseURL = "https://jemput-nikah-backend.vercel.app";
 // axios.defaults.baseURL = "https://jemput-nikah-backend.vercel.app";
-axios.defaults.withCredentials = true;
 function App() {
   const location = useLocation();
   const [loading, setLoading] = useState(false); // Global loading state
   const excludeHeaderFooterPaths = [
-    "/preview-card",
+    "/preview",
     "/weddingcardpreview",
     "/weddingcard"
     // Base path for weddingcard preview
@@ -66,7 +67,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
-            <Route path="/preview-card" element={<BaseWeddingCard />} />
+            <Route path="/preview/:designName" element={<BaseWeddingCard />} />
             <Route path="/kad-digital" element={<KadDigitalPage />} />
             {/* Route for creating a new wedding card booking */}
             <Route
@@ -86,17 +87,18 @@ function App() {
             <Route path="/tempahan" element={<RekodTempahanPage />} />
             <Route path="/profile" element={<Profile />} />
             <Route
-              path="/weddingcardpreview/:orderNumber/:tajukMajlis"
+              path="/weddingcardpreview/:hashtag/:orderNumber"
               element={<BaseWeddingCard />}
             />
             <Route
-              path="/weddingcard/:orderNumber/:tajukMajlis"
+              path="/weddingcard/:hashtag/:orderNumber"
               element={<BaseWeddingCard />}
             />
             {/* ADMIN SIDE */}
             <Route path="/admin/upload" element={<AdminUploadPage />} />
             <Route path="/admin/uploadsong" element={<AdminUploadSong />} />
             <Route path="/admin/vieworder" element={<AdminViewOrder />} />
+            <Route path="/admin/viewdesign" element={<AdminViewDesign />} />
             <Route path="/admin/update-order/:weddingCardId" element={<AdminUpdateOrderPage />} />
             {/* ADMIN SIDE */}
 

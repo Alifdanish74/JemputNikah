@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Modal from "../Modal";
 import { useWeddingCard } from "../../customhooks/WeddingCardContext";
-function Navbar({ onGuestbookUpdate }) {
+function Navbar({ onGuestbookUpdate, preview }) {
   const [activeModal, setActiveModal] = useState("");
   const [newModal, setNewModal] = useState(""); // To track the new modal to be opened
   const [isClosing, setIsClosing] = useState(false); // To track if modal is closing
@@ -91,7 +91,22 @@ function Navbar({ onGuestbookUpdate }) {
               >
                 <BiMoneyWithdraw className="text-2xl mb-1" /> Money Gift
               </motion.button>
-              {weddingCard.pakej === "Paris" && (
+              {/* IF PARIS */}
+              {/* {weddingCard.pakej === "Paris" && (
+                <motion.button
+                  initial={{ opacity: 0.8 }}
+                  whileHover={{
+                    scale: 1.1,
+                    transition: { duration: 0.4, opacity: 1 },
+                  }}
+                  onClick={() => openModal("Wishlist")}
+                  className={navbarButtonCSS}
+                >
+                  <CiGift className="text-2xl mb-1" /> Wishlist
+                </motion.button>
+              )} */}
+
+              {!preview && weddingCard.pakej === "Paris" && (
                 <motion.button
                   initial={{ opacity: 0.8 }}
                   whileHover={{
@@ -105,17 +120,31 @@ function Navbar({ onGuestbookUpdate }) {
                 </motion.button>
               )}
 
-              <motion.button
-                initial={{ opacity: 0.8 }}
-                whileHover={{
-                  scale: 1.1,
-                  transition: { duration: 0.4, opacity: 1 },
-                }}
-                onClick={() => openModal("RSVP")}
-                className={navbarButtonCSS}
-              >
-                <IoReceiptOutline className="text-2xl mb-1" /> RSVP
-              </motion.button>
+              {preview ? (
+                <motion.button
+                  initial={{ opacity: 0.8 }}
+                  whileHover={{
+                    scale: 1.1,
+                    transition: { duration: 0.4, opacity: 1 },
+                  }}
+                  onClick={() => openModal("RSVP-preview")}
+                  className={navbarButtonCSS}
+                >
+                  <IoReceiptOutline className="text-2xl mb-1" /> RSVP
+                </motion.button>
+              ) : (
+                <motion.button
+                  initial={{ opacity: 0.8 }}
+                  whileHover={{
+                    scale: 1.1,
+                    transition: { duration: 0.4, opacity: 1 },
+                  }}
+                  onClick={() => openModal("RSVP")}
+                  className={navbarButtonCSS}
+                >
+                  <IoReceiptOutline className="text-2xl mb-1" /> RSVP
+                </motion.button>
+              )}
             </>
           )}
 

@@ -2,10 +2,10 @@ import { motion } from "framer-motion";
 import { useWeddingCard } from "../customhooks/WeddingCardContext";
 
 function WeddingInfo() {
-  const { weddingCard, loading } = useWeddingCard();
+  const { weddingCard} = useWeddingCard();
 
-  if (loading) return <p>Loading wedding card details...</p>;
-  if (!weddingCard) return <p>Wedding card not found.</p>;
+  // if (loading) return <p>Loading wedding card details...</p>;
+  // if (!weddingCard) return <p>Wedding card not found.</p>;
 
   const dateString = weddingCard.tarikhMajlis.split("T")[0]; // Extract the date part only
   const date = new Date(dateString); // Now `date` represents only the date
@@ -114,61 +114,118 @@ function WeddingInfo() {
         {weddingCard.ucapanAluan}
       </motion.div>
 
-      <motion.div
-        initial={{
-          y: 100,
-          opacity: 0,
-        }}
-        transition={{ duration: 1.2 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-transform: uppercase"
-      >
-        <p className=" text-xl  font-['Cinzel']">
-          {" "}
-          {weddingCard.namaPenuhLelaki}{" "}
-        </p>
-        {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
-          <p className="text-xs font-light">
-            Anakanda kepada {weddingCard.namaBapaPengantinL} &{" "}
-            {weddingCard.namaIbuPengantinL}
-          </p>
-        )}
-      </motion.div>
+      {!["D"].includes(weddingCard.pihakMajlis) && (
+        <>
+          {/* NAMA PENGANTIN LELAKI */}
+          <motion.div
+            initial={{
+              y: 100,
+              opacity: 0,
+            }}
+            transition={{ duration: 1.2 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-transform: uppercase"
+          >
+            <p className=" text-xl  font-['Cinzel']">
+              {" "}
+              {weddingCard.namaPenuhLelaki}{" "}
+            </p>
+            {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
+              <p className="text-xs font-light">
+                Anakanda kepada {weddingCard.namaBapaPengantinL} &{" "}
+                {weddingCard.namaIbuPengantinL}
+              </p>
+            )}
+          </motion.div>
 
-      <motion.p
-        initial={{
-          y: 100,
-          opacity: 0,
-        }}
-        transition={{ duration: 1.2 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-5xl font-['Tangerine']"
-      >
-        &
-      </motion.p>
+          <motion.p
+            initial={{
+              y: 100,
+              opacity: 0,
+            }}
+            transition={{ duration: 1.2 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-5xl font-['Tangerine']"
+          >
+            &
+          </motion.p>
 
-      <motion.div
-        initial={{
-          y: 100,
-          opacity: 0,
-        }}
-        transition={{ duration: 1.2 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mb-4 text-transform: uppercase"
-      >
-        <p className=" text-xl  font-['Cinzel'] font-">
-          {weddingCard.namaPenuhPerempuan}
-        </p>
-        {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
-          <p className="text-xs font-light">
-            Anakanda kepada {weddingCard.namaBapaPengantinP} &{" "}
-            {weddingCard.namaIbuPengantinP}
-          </p>
-        )}
-      </motion.div>
+          {/* NAMA PENGANTIN PEREMPUAN */}
+          <motion.div
+            initial={{
+              y: 100,
+              opacity: 0,
+            }}
+            transition={{ duration: 1.2 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-4 text-transform: uppercase"
+          >
+            <p className=" text-xl  font-['Cinzel'] font-">
+              {weddingCard.namaPenuhPerempuan}
+            </p>
+            {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
+              <p className="text-xs font-light">
+                Anakanda kepada {weddingCard.namaBapaPengantinP} &{" "}
+                {weddingCard.namaIbuPengantinP}
+              </p>
+            )}
+          </motion.div>
+        </>
+      )}
+      {/* -------------------------------------------------- */}
+      {/* KALAU DUA PENGANTIN */}
+      {["D"].includes(weddingCard.pihakMajlis) && (
+        <>
+          {/* NAMA PENGANTIN 1*/}
+          <motion.div
+            initial={{
+              y: 100,
+              opacity: 0,
+            }}
+            transition={{ duration: 1.2 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-transform: uppercase"
+          >
+            <p className=" text-xl  font-['Cinzel']">
+              {" "}
+              {weddingCard.namaPenuhPasangan1}{" "}
+            </p>
+          </motion.div>
+
+          <motion.p
+            initial={{
+              y: 100,
+              opacity: 0,
+            }}
+            transition={{ duration: 1.2 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-5xl font-['Tangerine']"
+          >
+            &
+          </motion.p>
+
+          {/* NAMA PENGANTIN 2 */}
+          <motion.div
+            initial={{
+              y: 100,
+              opacity: 0,
+            }}
+            transition={{ duration: 1.2 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-4 text-transform: uppercase"
+          >
+            <p className=" text-xl  font-['Cinzel'] font-">
+              {weddingCard.namaPenuhPasangan2}
+            </p>
+          </motion.div>
+        </>
+      )}
 
       <motion.div
         initial={{
@@ -193,46 +250,68 @@ function WeddingInfo() {
           {formatTo12Hour(weddingCard.majlisStart)}-{" "}
           {formatTo12Hour(weddingCard.majlisEnd)}
         </p>
+        {/* LOCATION */}
         <p>
           <b className="text-[#be822b]">Tempat</b>
         </p>
-        {/* <p> BIZMILLA @ GAMUDA GARDENS,</p>
-        <p> Persiaran Gamuda Gardens,</p>
-        <p className="mb-4"> 48050 Rawang, Selangor</p> */}
-        {weddingCard.fullLocationMajlis}
 
-        <p>
-          <b className="text-[#be822b]">Aturan Majlis</b>
-        </p>
-        <p>
-          {" "}
-          {formatTo12Hour(weddingCard.eventTentativeTime1)}-{" "}
-          {weddingCard.eventTentativeTitle1}
-        </p>
-        <p>
-          {" "}
-          {formatTo12Hour(weddingCard.eventTentativeTime2)}-{" "}
-          {weddingCard.eventTentativeTitle2}
-        </p>
-        <p>
-          {" "}
-          {formatTo12Hour(weddingCard.eventTentativeTime3)}-{" "}
-          {weddingCard.eventTentativeTitle3}
-        </p>
-        {weddingCard.eventTentativeTime4 && weddingCard.eventTentativeTime5 && (
-          <>
-            <p>
-              {" "}
-              {formatTo12Hour(weddingCard.eventTentativeTime4)}-{" "}
-              {weddingCard.eventTentativeTitle4}
-            </p>
-            <p>
-              {" "}
-              {formatTo12Hour(weddingCard.eventTentativeTime5)}-{" "}
-              {weddingCard.eventTentativeTitle5}
-            </p>
-          </>
-        )}
+        {weddingCard.fullLocationMajlis}
+        {/* ATURAN MAJLIS */}
+        <div className="my-3">
+          <p>
+            <b className="text-[#be822b]">Aturan Majlis</b>
+          </p>
+          <p>
+            {" "}
+            {formatTo12Hour(weddingCard.eventTentativeTime1)}-{" "}
+            {weddingCard.eventTentativeTitle1}
+          </p>
+          <p>
+            {" "}
+            {formatTo12Hour(weddingCard.eventTentativeTime2)}-{" "}
+            {weddingCard.eventTentativeTitle2}
+          </p>
+          <p>
+            {" "}
+            {formatTo12Hour(weddingCard.eventTentativeTime3)}-{" "}
+            {weddingCard.eventTentativeTitle3}
+          </p>
+          {weddingCard.eventTentativeTime4 &&
+            weddingCard.eventTentativeTime5 && (
+              <>
+                <p>
+                  {" "}
+                  {formatTo12Hour(weddingCard.eventTentativeTime4)}-{" "}
+                  {weddingCard.eventTentativeTitle4}
+                </p>
+                <p>
+                  {" "}
+                  {formatTo12Hour(weddingCard.eventTentativeTime5)}-{" "}
+                  {weddingCard.eventTentativeTitle5}
+                </p>
+              </>
+            )}
+        </div>
+        <div className="my-2">
+          {weddingCard.dressCode && (
+            <>
+              <p>
+                <b className="text-[#be822b]">Kod Pemakaian</b>
+              </p>
+              <p>{weddingCard.dressCode}</p>
+            </>
+          )}
+        </div>
+        <div className="my-2">
+          {weddingCard.extraInfo && (
+            <>
+              <p>
+                <b className="text-[#be822b]">Info Tambahan</b>
+              </p>
+              <p>{weddingCard.extraInfo}</p>
+            </>
+          )}
+        </div>
       </motion.div>
     </div>
   );

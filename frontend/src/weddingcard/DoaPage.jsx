@@ -1,9 +1,9 @@
 import {motion} from 'framer-motion';
 import { useWeddingCard } from '../customhooks/WeddingCardContext';
 function DoaPage() {
-  const { weddingCard, loading } = useWeddingCard();
+  const { weddingCard } = useWeddingCard();
 
-  if (loading) return <p>Loading wedding card details...</p>;
+  // if (loading) return <p>Loading wedding card details...</p>;
   if (!weddingCard) return <p>Wedding card not found.</p>;
   return (
     // <div className="flex flex-col main-card h-[420px] w-[390px] text-black justify-center text-center items-center pt-4 pb-8 bg-doa_bg_image">

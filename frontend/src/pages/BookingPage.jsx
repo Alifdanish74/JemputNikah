@@ -105,15 +105,15 @@ function BookingPage() {
   // To handle form data for all pages
   const [formData, setFormData] = useState({
     // user
+    
     // Pakej
     pakej: "Istanbul",
     designId: "",
     designName: "",
-    image: "",
     price: "59",
     // Pengantin Section
     pihakMajlis: "L",
-    jenisFont: "font-CinzelDecorative",
+    jenisFont: "font-Tangerine",
     namaPenuhLelaki: "",
     namaPendekLelaki: "",
     namaPenuhPerempuan: "",
@@ -337,7 +337,6 @@ function BookingPage() {
     }
   }
 
-  //   console.log("Design: ", design);
   if (ready && !user) {
     return <Navigate to={"/login"} />;
   }

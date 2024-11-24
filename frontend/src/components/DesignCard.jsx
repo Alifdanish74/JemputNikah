@@ -15,7 +15,7 @@ function DesignCard({  itemName, itemImage, itemCategory }) {
         </h5>
         <div className="bg-white border border-gray-200 rounded-2xl shadow-lg">
           <img
-            className="mx-auto w-2/4 rounded-t-lg object-cover"
+            className="mx-auto w-2/4 rounded-t-lg object-cover my-2"
             src={itemImage}
             // src={"http://localhost:4000/uploads/PreviewFloral001.png" }
             alt="product image"
@@ -23,7 +23,7 @@ function DesignCard({  itemName, itemImage, itemCategory }) {
 
           <div className="grid grid-cols-2 rounded-lg  bg-gray-50">
             <div className="border-r py-2 w-full  text-sm rounded-bl-xl border-black hover:bg-black hover:text-white">
-              <a href="/preview-card" target="_blank" className="">
+              <a href={`/preview/${itemName}`} target="_blank" className="">
                 Preview
               </a>
             </div>

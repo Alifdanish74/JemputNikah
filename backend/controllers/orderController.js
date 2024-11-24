@@ -1,4 +1,5 @@
 const Order = require("../models/Order");
+const WeddingCard = require("../models/WeddingCard");
 
 // GET: Fetch all orders
 // GET: Fetch all orders with pagination and search
@@ -75,3 +76,36 @@ exports.deleteOrder = async (req, res) => {
     res.status(500).json({ message: "Error deleting the order", error });
   }
 };
+
+exports.deleteOrderAndWeddingCard = async (req, res) => {
+  try {
+    // Find the order by ID
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // Delete the associated wedding card
+    const weddingCard = await WeddingCard.findByIdAndDelete(order.weddingCardId);
+    if (!weddingCard) {
+      return res
+        .status(404)
+        .json({ message: "Associated Wedding Card not found" });
+    }
+
+    // Update the paymentStatus of the order to "deleted"
+    order.paymentStatus = "deleted";
+    await order.save();
+
+    res.status(200).json({
+      message: "Wedding Card deleted and Order marked as deleted successfully",
+    });
+  } catch (error) {
+    console.error("Error updating Order and deleting Wedding Card:", error);
+    res.status(500).json({
+      message: "Error updating Order and deleting Wedding Card",
+      error,
+    });
+  }
+};
+

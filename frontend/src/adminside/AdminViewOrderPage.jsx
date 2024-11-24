@@ -62,7 +62,7 @@ function AdminViewOrder() {
   const handleDelete = async () => {
     if (!orderToDelete) return;
     try {
-      await axios.delete(`/api/orders/${orderToDelete}`);
+      await axios.delete(`/api/orders/deletebyid/${orderToDelete}`);
       setOrders(orders.filter((order) => order._id !== orderToDelete));
       toast.success("Order deleted successfully", {
         autoClose: 2000,
@@ -106,9 +106,9 @@ function AdminViewOrder() {
         <span
           className={`px-3 py-1 rounded-full text-white ${
             params.value === "paid"
-              ? "bg-green-400"
-              : params.value === "failed"
-              ? "bg-red-400"
+              ? "bg-green-600"
+              : params.value === "deleted"
+              ? "bg-red-600"
               : "bg-yellow-400"
           }`}
         >

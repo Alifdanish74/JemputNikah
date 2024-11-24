@@ -34,6 +34,8 @@ const Modal = ({
     switch (modalType) {
       case "RSVP":
         return <ModalComponentRSVP onConfirm={onConfirm} />;
+      case "RSVP-preview":
+        return <ModalComponentRSVP onConfirm={""} />;
       case "Money Gift":
         return <ModalComponentMoneyGift />;
       case "Wishlist":

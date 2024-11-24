@@ -85,7 +85,7 @@ exports.getRSVPsByOrderNumber = async (req, res) => {
     }
 
     // Find the RSVP for the weddingCardId linked to the order
-    const rsvp = await RSVP.findOne({ weddingCardId })
+    let rsvp = await RSVP.findOne({ weddingCardId })
       .populate("weddingCardId")
       .populate("orderId");
 
