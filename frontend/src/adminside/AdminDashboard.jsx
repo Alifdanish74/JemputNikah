@@ -1,24 +1,10 @@
 // AdminDashboard.js
-import { useContext } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import { UserContext } from "../customhooks/UserContext";
+import {  useNavigate } from "react-router-dom";
+
 
 function AdminDashboard() {
   const navigate = useNavigate();
 
-  const { ready, user } = useContext(UserContext);
-  // const [redirect, setRedirect] = useState(null);
-
-  console.log("test user " + user);
-  console.log("test ready " + ready);
-
-  if (!ready) {
-    return "Loading";
-  }
-
-  if ((ready && !user) || !user?.isAdmin) {
-    return <Navigate to={"/"} />;
-  }
 
   return (
     <div className="min-h-screen flex flex-col items-center  bg-gray-100 p-8">

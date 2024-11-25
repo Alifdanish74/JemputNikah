@@ -1,12 +1,12 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { Button, Modal, TextInput, Pagination } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import axios from "axios";
-import { UserContext } from "../customhooks/UserContext";
-import { Navigate, useNavigate } from "react-router-dom";
+
+import {  useNavigate } from "react-router-dom";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
@@ -16,11 +16,11 @@ function AdminViewOrder() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(20);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderToDelete, setOrderToDelete] = useState(null);
 
-  const { ready, user } = useContext(UserContext);
+
   const navigate = useNavigate();
 
   // const [gridApi, setGridApi] = useState(null);
@@ -149,11 +149,6 @@ function AdminViewOrder() {
     resizable: true,
   };
 
-  if (!ready) return "Loading";
-
-  if ((ready && !user) || !user?.isAdmin) {
-    return <Navigate to={"/"} />;
-  }
 
   return (
     <div className="w-full p-4 sm:p-8 bg-gray-100 rounded-lg">

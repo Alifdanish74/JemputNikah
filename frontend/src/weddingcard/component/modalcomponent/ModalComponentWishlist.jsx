@@ -5,11 +5,14 @@ import ModalComponentBooking from "./ModalComponentBooking"; // Import booking m
 import { BeatLoader } from "react-spinners";
 import axios from "axios";
 import { useWeddingCard } from "../../../customhooks/WeddingCardContext";
+import { toast } from "react-toastify";
 
 export const dynamic = "force-dynamic";
 
 const ModalComponentWishlist = () => {
   const [wishlist, setWishlist] = useState([]);
+  const [address, setAddress] = useState(""); // Store address
+  const [phonenumber, setPhonenumber] = useState(""); // Store address
   const [loading, setLoading] = useState(true);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null); // Store selected item for booking modal
@@ -18,12 +21,21 @@ const ModalComponentWishlist = () => {
   const fetchWishlist = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/wishlist/order/${order.orderNumber}`, {
-        headers: { "Cache-Control": "no-cache" },
-      });
+      const response = await axios.get(
+        `/api/wishlist/order/${order.orderNumber}`,
+        {
+          headers: { "Cache-Control": "no-cache" },
+        }
+      );
 
-      const { wishlist: fetchedWishlist } = response.data || {};
+      const {
+        wishlist: fetchedWishlist,
+        address: fetchedAddress,
+        phone: fetchedPhone,
+      } = response.data || {};
       setWishlist(fetchedWishlist || []);
+      setAddress(fetchedAddress || []);
+      setPhonenumber(fetchedPhone || []);
     } catch (error) {
       console.error("Error fetching wishlist:", error);
     } finally {
@@ -65,11 +77,56 @@ const ModalComponentWishlist = () => {
     );
   }
 
+  const copyAddressToClipboard = () => {
+    navigator.clipboard.writeText(address).then(() => {
+      toast.success("Address copied to clipboard!", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    });
+  };
+
+  const copyPhoneToClipboard = () => {
+    navigator.clipboard.writeText(address).then(() => {
+      toast.success("Address copied to clipboard!", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    });
+  };
+
   return (
-    <div className="flex flex-col mb-5 max-h-[66vh]">
+    <div className="flex flex-col mb-5 max-h-[88vh]">
       <h2 className="text-lg mb-4 text-center font-bold text-gray-500">
         Wishlist
       </h2>
+
+      {/* Address Section */}
+      {address && (
+        <>
+          <h3 className="text-md mb-1 text-center font-bold text-gray-500">Alamat Penghantaran</h3>
+          <div
+            className="bg-gray-200 text-gray-800 rounded-lg p-4 mb-2 cursor-pointer shadow-md hover:bg-gray-300"
+            onClick={copyAddressToClipboard}
+          >
+            <p className="text-center text-sm sm:text-base">{address}</p>
+          </div>
+        </>
+      )}
+
+      {/* Address Section */}
+      {phonenumber && (
+        <>
+         <h3 className="text-md mb-1 text-center font-bold text-gray-500">Nombor Telefon</h3>
+        <div
+          className="bg-gray-200 text-gray-800 rounded-lg p-4 mb-4 cursor-pointer shadow-md hover:bg-gray-300"
+          onClick={copyPhoneToClipboard}
+        >
+          <p className="text-center text-sm sm:text-base">{phonenumber}</p>
+        </div>
+        </>
+      )}
+
       <div className="overflow-y-auto overflow-hidden max-h-[60vh]">
         {wishlist.map((item, index) => (
           <ProductCard

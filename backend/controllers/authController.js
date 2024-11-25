@@ -8,13 +8,14 @@ const bcryptSalt = parseInt(process.env.BCRYPT_SALT) || 10;
 
 // Register user
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, phone, password } = req.body;
 
   try {
     const user = await User.create({
       name,
       email,
-      password: bcrypt.hashSync(password, bcryptSalt),
+      phone,
+      password,
     });
 
     res.status(201).json(user);
@@ -29,6 +30,10 @@ const login = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "Email not registered." });
+    }
+
     if (user && bcrypt.compareSync(password, user.password)) {
       const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: "1hr" });
       res.cookie("token", token, {

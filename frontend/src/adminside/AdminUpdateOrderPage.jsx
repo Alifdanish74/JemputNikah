@@ -9,6 +9,7 @@ function AdminUpdateOrderPage() {
   const { weddingCardId } = useParams(); // Fetch ID from the URL
   const navigate = useNavigate();
   const [weddingCardData, setWeddingCardData] = useState(null);
+  const [editableFields, setEditableFields] = useState({}); // Track editability of fields
   const [loading, setLoading] = useState(true);
 
   // Fetch wedding card details on mount
@@ -17,6 +18,14 @@ function AdminUpdateOrderPage() {
       try {
         const response = await axios.get(`/api/wedding-cards/${weddingCardId}`);
         setWeddingCardData(response.data);
+
+        // Initialize all fields as non-editable
+        const initialEditableState = Object.keys(response.data).reduce(
+          (acc, key) => ({ ...acc, [key]: false }),
+          {}
+        );
+        setEditableFields(initialEditableState);
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching wedding card data:", error);
@@ -37,6 +46,14 @@ function AdminUpdateOrderPage() {
     setWeddingCardData((prevData) => ({
       ...prevData,
       [name]: value,
+    }));
+  };
+
+  // Toggle field editability
+  const toggleEditField = (key) => {
+    setEditableFields((prevState) => ({
+      ...prevState,
+      [key]: !prevState[key], // Toggle the edit state
     }));
   };
 
@@ -74,18 +91,27 @@ function AdminUpdateOrderPage() {
           ([key, value]) =>
             key !== "qrCode" && // Exclude image field
             key !== "gallery" && (
-              <div key={key}>
-                <Label
-                  htmlFor={key}
-                  value={key.replace(/([A-Z])/g, " $1").toUpperCase()}
-                />
-                <TextInput
-                  id={key}
-                  name={key}
-                  value={value}
-                  onChange={handleInputChange}
-                  placeholder={`Enter ${key}`}
-                />
+              <div key={key} className="flex items-center space-x-4">
+                <div className="flex-grow">
+                  <Label
+                    htmlFor={key}
+                    value={key.replace(/([A-Z])/g, " $1").toUpperCase()}
+                  />
+                  <TextInput
+                    id={key}
+                    name={key}
+                    value={value}
+                    onChange={handleInputChange}
+                    placeholder={`Enter ${key}`}
+                    disabled={!editableFields[key]} // Disable input if not editable
+                  />
+                </div>
+                <Button
+                  color={editableFields[key] ? "failure" : "warning"}
+                  onClick={() => toggleEditField(key)}
+                >
+                  {editableFields[key] ? "Lock" : "Edit"}
+                </Button>
               </div>
             )
         )}

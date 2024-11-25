@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
-import { useContext, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { Button, Modal, TextInput } from "flowbite-react";
-import { useParams, Navigate } from "react-router-dom";
-import { UserContext } from "../customhooks/UserContext";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 import "ag-grid-community/styles/ag-grid.css";
@@ -11,7 +10,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 
 const AddWishlistPage = () => {
   const { orderNumber } = useParams(); // Get orderNumber from route params
-  const { ready, user } = useContext(UserContext);
+
 
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
@@ -89,9 +88,7 @@ const AddWishlistPage = () => {
   ];
 
   // Redirect to login if user is not logged in
-  if (ready && !user) {
-    return <Navigate to={"/login"} />;
-  }
+
 
   return (
     <div className="min-h-screen bg-gray-50 py-10">

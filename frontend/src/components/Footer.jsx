@@ -1,9 +1,11 @@
 // import React from 'react'
 import { CiLocationOn } from "react-icons/ci";
 import { MdOutlineMail } from "react-icons/md";
+import WhatsAppButton from "./WhatsappButton";
 
 function Footer() {
   return (
+    <>
     <footer className="p-4 bg-white sm:p-6 dark:bg-gray-800">
       <div className="mx-auto max-w-screen-xl">
         <div className="md:flex md:justify-between">
@@ -91,6 +93,8 @@ function Footer() {
         </div>
       </div>
     </footer>
+    <WhatsAppButton />
+    </>
   );
 }
 

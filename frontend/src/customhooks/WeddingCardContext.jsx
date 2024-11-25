@@ -1,8 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 // WeddingCardContext.js
-import { createContext, useContext, useEffect, useState } from 'react';
-import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const WeddingCardContext = createContext();
 
@@ -22,7 +22,7 @@ export const WeddingCardProvider = ({ children }) => {
       setLoading(true);
       const response = await axios.get(`/api/orders/order/${orderNumber}`);
       setWeddingCard(response.data.weddingCardId);
-      setOrder(response.data) // Assuming the wedding card is in response.data.weddingCardId
+      setOrder(response.data); // Assuming the wedding card is in response.data.weddingCardId
     } catch (error) {
       console.error("Error fetching wedding card:", error);
     } finally {
@@ -30,9 +30,15 @@ export const WeddingCardProvider = ({ children }) => {
     }
   };
   const fetchDesign = async (designName) => {
+    if (!designName || (design && design.designName === designName)) {
+      return; // Avoid redundant API calls
+    }
+
     try {
       setLoading(true);
-      const response = await axios.get(`/api/admin/get-design-byname/${designName}`);
+      const response = await axios.get(
+        `/api/admin/get-design-byname/${designName}`
+      );
       setDesign(response.data);
     } catch (error) {
       console.error("Error fetching design:", error);
@@ -45,12 +51,23 @@ export const WeddingCardProvider = ({ children }) => {
     // If the URL is /preview, fetch wedding card data for order JK0001
     if (location.pathname.includes("/preview")) {
       fetchWeddingCard("JK00001");
+    } else {
+      setLoading(false);
     }
   }, [location.pathname]);
-//   console.log("WeddingCard data from WeddingCardContext:", weddingCard);
-//   console.log("Order data from WeddingCardContext:", order);
+  //   console.log("WeddingCard data from WeddingCardContext:", weddingCard);
+  //   console.log("Order data from WeddingCardContext:", order);
   return (
-    <WeddingCardContext.Provider value={{ weddingCard, order, loading, fetchWeddingCard, design, fetchDesign }}>
+    <WeddingCardContext.Provider
+      value={{
+        weddingCard,
+        order,
+        loading,
+        fetchWeddingCard,
+        design,
+        fetchDesign,
+      }}
+    >
       {children}
     </WeddingCardContext.Provider>
   );

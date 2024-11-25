@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const UserContext = createContext({});
@@ -14,7 +14,9 @@ const UserContextProvider = ({ children }) => {
   const [ready, setReady] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const publicPaths = ["/", "/register", "/weddingcardpreview"];
+
+  // Memoize publicPaths to prevent recreation on each render
+  const publicPaths = useMemo(() => ["/", "/register","/login","/tutorial","contact","pakej", "/weddingcardpreview", "preview"], []);
 
   useEffect(() => {
     const fetchProfile = async () => {

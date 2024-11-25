@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useWeddingCard } from "../customhooks/WeddingCardContext";
 
 function WeddingInfo() {
-  const { weddingCard} = useWeddingCard();
+  const { weddingCard } = useWeddingCard();
 
   // if (loading) return <p>Loading wedding card details...</p>;
   // if (!weddingCard) return <p>Wedding card not found.</p>;
@@ -114,67 +114,132 @@ function WeddingInfo() {
         {weddingCard.ucapanAluan}
       </motion.div>
 
-      {!["D"].includes(weddingCard.pihakMajlis) && (
-        <>
-          {/* NAMA PENGANTIN LELAKI */}
-          <motion.div
-            initial={{
-              y: 100,
-              opacity: 0,
-            }}
-            transition={{ duration: 1.2 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-transform: uppercase"
-          >
-            <p className=" text-xl  font-['Cinzel']">
-              {" "}
-              {weddingCard.namaPenuhLelaki}{" "}
-            </p>
-            {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
-              <p className="text-xs font-light">
-                Anakanda kepada {weddingCard.namaBapaPengantinL} &{" "}
-                {weddingCard.namaIbuPengantinL}
+      {/* IF PENGANTIN BELAH LELAKI */}
+      {!["D"].includes(weddingCard.pihakMajlis) &&
+        ["L"].includes(weddingCard.pihakMajlis) && (
+          <>
+            {/* NAMA PENGANTIN LELAKI */}
+            <motion.div
+              initial={{
+                y: 100,
+                opacity: 0,
+              }}
+              transition={{ duration: 1.2 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-transform: uppercase"
+            >
+              <p className=" text-xl  font-['Cinzel']">
+                {" "}
+                {weddingCard.namaPenuhLelaki}{" "}
               </p>
-            )}
-          </motion.div>
+              {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
+                <p className="text-xs font-light">
+                  Anakanda kepada {weddingCard.namaBapaPengantinL} &{" "}
+                  {weddingCard.namaIbuPengantinL}
+                </p>
+              )}
+            </motion.div>
 
-          <motion.p
-            initial={{
-              y: 100,
-              opacity: 0,
-            }}
-            transition={{ duration: 1.2 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-5xl font-['Tangerine']"
-          >
-            &
-          </motion.p>
+            <motion.p
+              initial={{
+                y: 100,
+                opacity: 0,
+              }}
+              transition={{ duration: 1.2 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-5xl font-['Tangerine']"
+            >
+              &
+            </motion.p>
 
-          {/* NAMA PENGANTIN PEREMPUAN */}
-          <motion.div
-            initial={{
-              y: 100,
-              opacity: 0,
-            }}
-            transition={{ duration: 1.2 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-4 text-transform: uppercase"
-          >
-            <p className=" text-xl  font-['Cinzel'] font-">
-              {weddingCard.namaPenuhPerempuan}
-            </p>
-            {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
-              <p className="text-xs font-light">
-                Anakanda kepada {weddingCard.namaBapaPengantinP} &{" "}
-                {weddingCard.namaIbuPengantinP}
+            {/* NAMA PENGANTIN PEREMPUAN */}
+            <motion.div
+              initial={{
+                y: 100,
+                opacity: 0,
+              }}
+              transition={{ duration: 1.2 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mb-4 text-transform: uppercase"
+            >
+              <p className=" text-xl  font-['Cinzel'] font-">
+                {weddingCard.namaPenuhPerempuan}
               </p>
-            )}
-          </motion.div>
-        </>
-      )}
+              {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
+                <p className="text-xs font-light">
+                  Anakanda kepada {weddingCard.namaBapaPengantinP} &{" "}
+                  {weddingCard.namaIbuPengantinP}
+                </p>
+              )}
+            </motion.div>
+          </>
+        )}
+      {/* IF PENGANTIN BELAH PEREMPUAN */}
+      {!["D"].includes(weddingCard.pihakMajlis) &&
+        ["P"].includes(weddingCard.pihakMajlis) && (
+          <>
+            {/* NAMA PENGANTIN PEREMPUAN */}
+            <motion.div
+              initial={{
+                y: 100,
+                opacity: 0,
+              }}
+              transition={{ duration: 1.2 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className=" text-transform: uppercase"
+            >
+              <p className=" text-xl  font-['Cinzel'] font-">
+                {weddingCard.namaPenuhPerempuan}
+              </p>
+              {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
+                <p className="text-xs font-light">
+                  Anakanda kepada {weddingCard.namaBapaPengantinP} &{" "}
+                  {weddingCard.namaIbuPengantinP}
+                </p>
+              )}
+            </motion.div>
+
+            <motion.p
+              initial={{
+                y: 100,
+                opacity: 0,
+              }}
+              transition={{ duration: 1.2 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-5xl font-['Tangerine']"
+            >
+              &
+            </motion.p>
+
+            {/* NAMA PENGANTIN LELAKI */}
+            <motion.div
+              initial={{
+                y: 100,
+                opacity: 0,
+              }}
+              transition={{ duration: 1.2 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mb-4 text-transform: uppercase"
+            >
+              <p className=" text-xl  font-['Cinzel']">
+                {" "}
+                {weddingCard.namaPenuhLelaki}{" "}
+              </p>
+              {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
+                <p className="text-xs font-light">
+                  Anakanda kepada {weddingCard.namaBapaPengantinL} &{" "}
+                  {weddingCard.namaIbuPengantinL}
+                </p>
+              )}
+            </motion.div>
+          </>
+        )}
       {/* -------------------------------------------------- */}
       {/* KALAU DUA PENGANTIN */}
       {["D"].includes(weddingCard.pihakMajlis) && (

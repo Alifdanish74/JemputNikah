@@ -25,13 +25,18 @@ function LainLainSection({
     doa4: "Ya Allah, kami memohon doa restumu, berkatilah majlis perkahwinan ini, berjalan\nsempurna seperti mana yang Engkau kehendaki. Semoga jodoh perkahwinan ini akan berkekalan\nbuat selama-lamanya hingga ke akhir hayat.",
   };
   // Initialize doa text based on edit mode
-  const [doaText, setDoaText] = useState(
-    isEditMode ? formData.doa : doaOptions.doa1
-  );
+  // Initialize doa text and update formData if not already set
+  const [doaText, setDoaText] = useState(() => {
+    const initialDoa = isEditMode && formData.doa ? formData.doa : doaOptions.doa1;
+    if (!formData.doa) {
+      handleFormDataChange("doa", initialDoa);
+    }
+    return initialDoa;
+  });
 
   const handleSelectChange = (e) => {
     const selectedDoa = e.target.value;
-    const selectedDoaText = doaOptions[selectedDoa] || "";
+    const selectedDoaText = doaOptions[selectedDoa] || doaOptions.doa1;
     setDoaText(selectedDoaText); // Set the displayed doa text
     handleFormDataChange("doa", selectedDoaText); // Store the selected doa in formData
   };
@@ -118,7 +123,7 @@ function LainLainSection({
 
           {/* Lagu background */}
           <div>
-            <h1>Song url: {selectedSongUrl}</h1>
+            
             <h1 className="font-medium">Galeri (tidak wajib)</h1>
             {/* Gambar 1 */}
             <div className="text-start mb-2">

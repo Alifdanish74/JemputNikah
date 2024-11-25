@@ -1,17 +1,17 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState} from "react";
 import axios from "axios";
 import { AgGridReact } from "ag-grid-react";
 import { Spinner, Button } from "flowbite-react";
-import { Navigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { UserContext } from "../customhooks/UserContext";
+
 import { toast } from "react-toastify";
 
 const ViewGuestbookPage = () => {
   const { orderNumber } = useParams();
-  const { ready, user } = useContext(UserContext);
+
   const [rowData, setRowData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -138,9 +138,7 @@ const ViewGuestbookPage = () => {
     );
   }
 
-  if (ready && !user) {
-    return <Navigate to={"/login"} />;
-  }
+ 
 
   return (
     <div className="min-h-screen bg-gray-50 py-10">

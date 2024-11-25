@@ -4,14 +4,17 @@ import { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { UserContext } from "../customhooks/UserContext";
 import { toast } from "react-toastify";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 // import React from "react";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // Manage password visibility
 
   const { setUser } = useContext(UserContext);
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
   async function handleLoginUser(e) {
     e.preventDefault();
@@ -225,14 +228,28 @@ function LoginPage() {
                   >
                     Password
                   </Label>
+                  <div className="flex">
                   <TextInput
                     id="password"
                     placeholder="••••••••"
                     required
-                    type="password"
+                    type={showPassword ? "text" : "password"} // Toggle type based on state
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    className="flex-grow pr-5" // Add padding to avoid icon overlap
                   />
+                  <button
+                    type="button"
+                    className=" flex items-center pr-3 text-gray-500"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? (
+                      <AiOutlineEyeInvisible size={20} />
+                    ) : (
+                      <AiOutlineEye size={20} />
+                    )}
+                  </button>
+                  </div>
                 </div>
 
                 <Button type="submit" color="blue" className="w-full">

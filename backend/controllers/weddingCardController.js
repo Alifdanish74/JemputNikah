@@ -1,7 +1,8 @@
 const WeddingCard = require("../models/WeddingCard");
 const Order = require("../models/Order");
-const { S3Client, PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const multer = require("multer");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 // const AWS = require("aws-sdk");
 
 // Configure multer for memory storage (no local files)
@@ -170,15 +171,16 @@ exports.getPresignedQRCodeUrl = async (req, res) => {
 
     const qrCodeKey = weddingCard.qrCode.split(".com/")[1]; // Extract the key from the URL
 
-    // Set up S3 parameters for the presigned URL
+    // Prepare S3 parameters for the presigned URL
     const params = {
       Bucket: process.env.S3_BUCKET_NAME,
       Key: qrCodeKey,
-      Expires: 6000, // URL expires in 60 seconds
     };
 
     // Generate the presigned URL
-    const presignedUrl = s3.getSignedUrl("getObject", params);
+    const command = new GetObjectCommand(params);
+    const presignedUrl = await getSignedUrl(s3Client, command, { expiresIn: 600 }); // Expires in 600 seconds (10 minutes)
+
     res.json({ url: presignedUrl });
   } catch (error) {
     console.error("Error generating presigned QR code URL:", error);

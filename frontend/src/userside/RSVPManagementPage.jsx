@@ -1,19 +1,18 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState, useCallback, useMemo, useContext } from "react";
+import { useEffect, useState, useCallback, useMemo} from "react";
 import axios from "axios";
 import { AgGridReact } from "ag-grid-react";
 import { Spinner } from "flowbite-react";
-import { Navigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { Modal, Button } from "flowbite-react";
 
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Theme CSS
-import { UserContext } from "../customhooks/UserContext";
+
 import { toast } from "react-toastify";
 
 const RSVPManagementPage = () => {
   const { orderNumber } = useParams();
-  const { ready, user } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -255,10 +254,8 @@ const RSVPManagementPage = () => {
     );
   }
 
-  // If user is not ready or not logged in, redirect to login
-  if (ready && !user) {
-    return <Navigate to={"/login"} />;
-  }
+
+  
 
   return (
     <div className="min-h-screen bg-gray-50 py-10">

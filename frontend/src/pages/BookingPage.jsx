@@ -141,6 +141,7 @@ function BookingPage() {
     fullLocationMajlis: "",
     googleMapsLink: "",
     wazeLink: "",
+    mapEmbeddedLink: "",
     emergencyContacts1: "",
     emergencyNumber1: "",
     emergencyContacts2: "",
@@ -214,7 +215,10 @@ function BookingPage() {
         ...prevFormData,
         designId: design._id,
         designName: design.designName, // Set design._id once the design is fetched
-        designUrl: design.image, //
+        designUrl: design.image,
+        designBgUrl: design.imagebg, //
+        designParticleColor: design.particleColor, //
+        designFontColor: design.fontColor, //
       }));
     }
   }, [design]); // This effect runs when `design` changes

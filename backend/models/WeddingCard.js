@@ -20,6 +20,9 @@ const WeddingCardSchema = new mongoose.Schema(
     designName: { type: String },
     designId: { type: mongoose.Schema.Types.ObjectId, ref: "CardDesign" },
     designUrl: { type: String },
+    designBgUrl: { type: String },
+    designParticleColor: { type: String },
+    designFontColor: { type: String },
     // Pengantin Section
     pihakMajlis: { type: String },
     jenisFont: { type: String },
@@ -49,6 +52,7 @@ const WeddingCardSchema = new mongoose.Schema(
     fullLocationMajlis: { type: String },
     googleMapsLink: { type: String },
     wazeLink: { type: String },
+    mapEmbeddedLink: { type: String },
     emergencyContacts1: { type: String },
     emergencyNumber1: { type: String },
     emergencyContacts2: { type: String },

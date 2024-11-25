@@ -3,6 +3,7 @@ import { Button, Label, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 function RegisterPage() {
   const [name, setName] = useState("");
@@ -10,8 +11,11 @@ function RegisterPage() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // Manage password visibility
   const [isAdmin, setIsAdmin] = useState(false); // Detect if name is "ADMIN"
   const [errorMessage, setErrorMessage] = useState("");
+
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
   const navigate = useNavigate();
 
@@ -276,29 +280,57 @@ function RegisterPage() {
                   <Label htmlFor="password" className="">
                     Password
                   </Label>
+                  <div className="flex">
                   <TextInput
                     id="password"
                     name="password"
                     placeholder="••••••••"
                     required
                     value={password}
-                    type="password"
+                    type={showPassword ? "text" : "password"} // Toggle type based on state
                     onChange={(e) => setPassword(e.target.value)}
+                    className="flex-grow pr-5" // Add padding to avoid icon overlap
                   />
+                  <button
+                    type="button"
+                    className=" flex items-center pr-3 text-gray-500"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? (
+                      <AiOutlineEyeInvisible size={20} />
+                    ) : (
+                      <AiOutlineEye size={20} />
+                    )}
+                  </button>
+                  </div>
                 </div>
                 <div className="grid grid-cols-1 gap-2">
                   <Label htmlFor="password" className="">
                     Confirm Password
                   </Label>
+                  <div className="flex">
                   <TextInput
                     id="confirmPassword"
                     name="password"
                     placeholder="••••••••"
                     value={confirmPassword}
                     required
-                    type="password"
+                    type={showPassword ? "text" : "password"} // Toggle type based on state
                     onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="flex-grow pr-5" // Add padding to avoid icon overlap
                   />
+                  <button
+                    type="button"
+                    className="justify-end items-center pr-3 text-gray-500"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? (
+                      <AiOutlineEyeInvisible size={20} />
+                    ) : (
+                      <AiOutlineEye size={20} />
+                    )}
+                  </button>
+                  </div>
                 </div>
 
                 <Button type="submit" color="blue" className="w-full">

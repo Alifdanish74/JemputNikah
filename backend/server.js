@@ -1,4 +1,5 @@
 const express = require("express");
+const serverless = require("@netlify/functions");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -69,3 +70,5 @@ app.get("/test", (req, res) => {
 app.listen(process.env.PORT || 4000, () => {
   console.log(`Server running on port ${process.env.PORT}`);
 });
+
+module.exports.handler = serverless(app);

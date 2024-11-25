@@ -30,10 +30,12 @@ import NotFound from "./pages/NotFound";
 import LoadingWrapper from "./customhooks/LoadingWrapper";
 import { useEffect, useState } from "react";
 import AdminViewDesign from "./adminside/AdminViewDesign";
+import ProtectedRoute from "./customhooks/ProtectedRoute";
+import { WeddingCardProvider } from "./customhooks/WeddingCardContext";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 // axios.defaults.baseURL = "https://jemput-nikah-backend.vercel.app";
 // axios.defaults.baseURL = "https://jemput-nikah-backend.vercel.app";
 function App() {
@@ -42,7 +44,7 @@ function App() {
   const excludeHeaderFooterPaths = [
     "/preview",
     "/weddingcardpreview",
-    "/weddingcard"
+    "/weddingcard",
     // Base path for weddingcard preview
   ];
 
@@ -60,59 +62,147 @@ function App() {
 
   return (
     <>
-    <LoadingWrapper isLoading={loading}>
-      <UserContextProvider>
-        {showHeaderFooter && <Header />}
-        <ToastContainer />
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="/preview/:designName" element={<BaseWeddingCard />} />
-            <Route path="/kad-digital" element={<KadDigitalPage />} />
-            {/* Route for creating a new wedding card booking */}
-            <Route
-              path="/kad-digital/tempah/:designName"
-              element={<BookingPage />}
-            />
-            {/* Route for editing an existing wedding card booking */}
-            <Route
-              path="/kad-digital/tempah/:designName/:weddingCardId"
-              element={<BookingPage />}
-            />
+      <LoadingWrapper isLoading={loading}>
+        <UserContextProvider>
+          <WeddingCardProvider>
+            {showHeaderFooter && <Header />}
+            <ToastContainer />
+            <Routes>
+              {/* PUBLIC ROUTES */}
+              <Route path="/" element={<Layout />}>
+                <Route index element={<HomePage />} />
+                <Route
+                  path="/preview/:designName"
+                  element={<BaseWeddingCard />}
+                />
+                <Route path="/kad-digital" element={<KadDigitalPage />} />
+                <Route path="/pakej" element={<PakejPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/login" element={<LoginPage />} />
 
-            <Route path="/pakej" element={<PakejPage />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/tempahan" element={<RekodTempahanPage />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route
-              path="/weddingcardpreview/:hashtag/:orderNumber"
-              element={<BaseWeddingCard />}
-            />
-            <Route
-              path="/weddingcard/:hashtag/:orderNumber"
-              element={<BaseWeddingCard />}
-            />
-            {/* ADMIN SIDE */}
-            <Route path="/admin/upload" element={<AdminUploadPage />} />
-            <Route path="/admin/uploadsong" element={<AdminUploadSong />} />
-            <Route path="/admin/vieworder" element={<AdminViewOrder />} />
-            <Route path="/admin/viewdesign" element={<AdminViewDesign />} />
-            <Route path="/admin/update-order/:weddingCardId" element={<AdminUpdateOrderPage />} />
-            {/* ADMIN SIDE */}
+                <Route
+                  path="/weddingcardpreview/:hashtag/:orderNumber"
+                  element={<BaseWeddingCard />}
+                />
+                <Route
+                  path="/weddingcard/:hashtag/:orderNumber"
+                  element={<BaseWeddingCard />}
+                />
 
-            {/* USER SIDE */}
-            <Route path="/tempahan/rsvp/:orderNumber" element={<RSVPManagementPage />} />
-            <Route path="/tempahan/guestbook/:orderNumber" element={<ViewGuestbookPage />} />
-            <Route path="/tempahan/wishlist/:orderNumber" element={<AddWishlistPage />} />
-            {/* USER SIDE */}
-          </Route>
-          <Route path="*" element={<NotFound/>} />
-        </Routes>
-        {showHeaderFooter && <Footer />}
-        <ScrollToTopButton />
-      </UserContextProvider>
+                {/* PROTECTED ROUTE -----------------------------------------------------------------------*/}
+
+                {/* Route for creating a new wedding card booking */}
+                <Route
+                  path="/kad-digital/tempah/:designName"
+                  element={
+                    <ProtectedRoute>
+                      <BookingPage />
+                    </ProtectedRoute>
+                  }
+                />
+                {/* Route for editing an existing wedding card booking */}
+                <Route
+                  path="/kad-digital/tempah/:designName/:weddingCardId"
+                  element={
+                    <ProtectedRoute>
+                      <BookingPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminDashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="/tempahan" element={<RekodTempahanPage />} />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* ADMIN SIDE */}
+                <Route
+                  path="/admin/upload"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminUploadPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/uploadsong"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminUploadSong />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/vieworder"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminViewOrder />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/viewdesign"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminViewDesign />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/update-order/:weddingCardId"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminUpdateOrderPage />
+                    </ProtectedRoute>
+                  }
+                />
+                {/* ADMIN SIDE */}
+
+                {/* USER SIDE */}
+                <Route
+                  path="/tempahan/rsvp/:orderNumber"
+                  element={
+                    <ProtectedRoute>
+                      <RSVPManagementPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/tempahan/guestbook/:orderNumber"
+                  element={
+                    <ProtectedRoute>
+                      <ViewGuestbookPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/tempahan/wishlist/:orderNumber"
+                  element={
+                    <ProtectedRoute>
+                      <AddWishlistPage />
+                    </ProtectedRoute>
+                  }
+                />
+                {/* USER SIDE */}
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            {showHeaderFooter && <Footer />}
+            <ScrollToTopButton />
+          </WeddingCardProvider>
+        </UserContextProvider>
       </LoadingWrapper>
     </>
   );
