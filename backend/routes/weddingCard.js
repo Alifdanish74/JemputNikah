@@ -54,8 +54,8 @@ router.get("/download-image/:id", async (req, res) => {
   try {
     // Step 1: Fetch the presigned URL from S3
     const presignedUrlResponse = await axios.get(
-      // `https://jemputkahwin-backend.onrender.com/api/wedding-cards/${id}/presigned-url`
-      `http://localhost:4000/api/wedding-cards/${id}/presigned-url`
+      `https://jemputkahwin-backend.onrender.com/api/wedding-cards/${id}/presigned-url`
+      // `http://localhost:4000/api/wedding-cards/${id}/presigned-url`
     );
     const { url } = presignedUrlResponse.data;
 
