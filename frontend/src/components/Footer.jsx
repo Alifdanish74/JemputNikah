@@ -2,6 +2,7 @@
 import { CiLocationOn } from "react-icons/ci";
 import { MdOutlineMail } from "react-icons/md";
 import WhatsAppButton from "./WhatsappButton";
+import JemputKahwinLogo from "../assets/JemputKahwinLogo.png";
 
 function Footer() {
   return (
@@ -12,7 +13,7 @@ function Footer() {
           <div className="mb-6 md:mb-0">
             <a href="https://flowbite.com" className="flex items-center">
               <img
-                src="https://flowbite.com/docs/images/logo.svg"
+                src={JemputKahwinLogo}
                 className="mr-3 h-8"
                 alt="FlowBite Logo"
               />

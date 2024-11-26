@@ -5,6 +5,7 @@ import { Navigate } from "react-router-dom";
 import { UserContext } from "../customhooks/UserContext";
 import { toast } from "react-toastify";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import JemputKahwinLogo from "../assets/JemputKahwinLogo.png";
 // import React from "react";
 
 function LoginPage() {
@@ -56,7 +57,7 @@ function LoginPage() {
               >
                 <img
                   className="mr-2 h-8 w-8"
-                  src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+                  src={JemputKahwinLogo}
                   alt="logo"
                 />
                 Jemput Kahwin
@@ -138,7 +139,7 @@ function LoginPage() {
             >
               <img
                 className="mr-2 h-8 w-8"
-                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+                src={JemputKahwinLogo}
                 alt="logo"
               />
               Jemput Kahwin

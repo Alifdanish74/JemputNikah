@@ -175,7 +175,7 @@ function MainContent() {
         transition={{ delay: 0.8, duration: 1.2 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-2xl mb-5 font-medium text-transform: uppercase font-Libre"
+        className="text-2xl mb-5 font-medium text-transform: uppercase font-['Cinzel']"
       >
         {/* <br />
         <span>Sabtu</span>
@@ -194,7 +194,7 @@ function MainContent() {
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1, duration: 1 }}
-        className="text-lg font-Libre font-normal"
+        className={`text-4xl mt-4 font-Libre font-normal ${weddingCard.jenisFont}`}
       >
         {weddingCard.locationMajlis}
       </motion.p>

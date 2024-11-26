@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { Button, Dropdown } from "flowbite-react";
+import JemputKahwinLogo from "../assets/JemputKahwinLogo.png";
 import {
   Dialog,
   DialogPanel,
@@ -60,7 +61,7 @@ function Header() {
             <span className="sr-only">Jemput Kahwin</span>
             <img
               alt=""
-              src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+              src={JemputKahwinLogo}
               className="h-8 w-auto"
             />
             <span className="flex justify-center items-center text-lg text-gray-700">
@@ -263,7 +264,7 @@ function Header() {
               <span className="sr-only">Jemput Kahwin</span>
               <img
                 alt=""
-                src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+                src={JemputKahwinLogo}
                 className="h-8 w-auto"
               />
             </NavLink>

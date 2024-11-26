@@ -1,5 +1,5 @@
 import { FaWhatsapp } from "react-icons/fa";
-import ImageLogo from "../../assets/LogoJomKahwinFullBlack_clear.png";
+import JemputKahwinLogo from "../../assets/JemputKahwinLogo.png";
 import { useParams } from "react-router-dom";
 import { useWeddingCard } from "../../customhooks/WeddingCardContext";
 import { useEffect } from "react";
@@ -34,10 +34,11 @@ function Footer() {
         <h1 className="text-black my-1 text-xs">Dizahirkan penuh ❤️ oleh</h1>
         <a href="http://wasap.my/601127877926/Hi! Nak tempah kad jemputan digital.">
           <img
-            src={ImageLogo}
-            width={150}
-            height={150}
+            src={JemputKahwinLogo}
+            width={50}
+            height={50}
             alt="Logo Jemput Kahwin"
+            className="mx-auto"
           />
         </a>
       </div>
@@ -45,7 +46,7 @@ function Footer() {
       <div className="mt-4">
         <h1 className="text-black my-2">Lebih lanjut</h1>
         <a
-          href={"http://wasap.my/601127877926/Tempah-E-kad-jemputan"}
+          href={"http://wasap.my/601127877926/Hi! Nak tempah kad jemputan digital."}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center text-3xl justify-center text-black"
