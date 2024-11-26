@@ -38,6 +38,7 @@ function RekodTempahanPage() {
             const response = await axios.get(`/api/orders/user/${user_id}`); // Fetch orders by userId
             setOrders(response.data); // Set the fetched orders
             console.log("Orders fetched: ", response.data);
+            setLoading(false); // Stop loading
           } catch (error) {
             console.error("Error fetching orders:", error);
           } finally {

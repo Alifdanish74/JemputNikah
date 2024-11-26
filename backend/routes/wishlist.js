@@ -1,19 +1,36 @@
 const express = require("express");
 const router = express.Router();
-const wishlistController = require("../controllers/wishlistController");
+const {
+  upload,
+  uploadWishlist,
+  getWishlists,
+  getWishlistsByOrderNumber,
+  deleteWishlistItem,
+  bookWishlistItem,
+} = require("../controllers/wishlistController");
 
-// Submit Wishlist
-router.post("/submit", wishlistController.submitWishlist);
+// Route to upload Wishlist with images
+router.post(
+  "/upload-wishlist",
+  upload.fields([
+    { name: "wishlistImage1", maxCount: 1 }, // First wishlist product image
+    { name: "wishlistImage2", maxCount: 1 }, // Second wishlist product image
+    { name: "wishlistImage3", maxCount: 1 }, // Third wishlist product image
+  ]),
+  uploadWishlist
+);
 
-// Get Wishlist by weddingCardId
-router.get("/list/:weddingCardId", wishlistController.getWishlists);
+// Route to fetch Wishlist by weddingCardId
+// router.get("/list/:weddingCardId", getWishlists);
 
-// Get Wishlist by orderNumber
-router.get("/order/:orderNumber", wishlistController.getWishlistsByOrderNumber);
+// Route to fetch Wishlist by orderNumber
+router.get("/order/:orderNumber", getWishlistsByOrderNumber);
 
-// Delete a Wishlist item
-router.delete("/delete/:wishlistId/:itemId", wishlistController.deleteWishlistItem);
+// Route to delete a specific Wishlist item by orderNumber and index
+router.delete("/delete/:orderNumber/:productIndex", deleteWishlistItem);
 
-router.post("/book-item/:orderNumber", wishlistController.bookWishlistItem);
+
+// Route to book a Wishlist item
+router.post("/book-item/:orderNumber", bookWishlistItem);
 
 module.exports = router;

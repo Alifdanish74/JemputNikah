@@ -10,9 +10,9 @@ import { toast } from "react-toastify";
 export const dynamic = "force-dynamic";
 
 const ModalComponentWishlist = () => {
-  const [wishlist, setWishlist] = useState([]);
+  const [wishlist, setWishlist] = useState([]); // Array of wishlist products
   const [address, setAddress] = useState(""); // Store address
-  const [phonenumber, setPhonenumber] = useState(""); // Store address
+  const [phonenumber, setPhonenumber] = useState(""); // Store phone number
   const [loading, setLoading] = useState(true);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null); // Store selected item for booking modal
@@ -29,13 +29,21 @@ const ModalComponentWishlist = () => {
       );
 
       const {
-        wishlist: fetchedWishlist,
+        wishlistProduct1,
+        wishlistProduct2,
+        wishlistProduct3,
         address: fetchedAddress,
         phone: fetchedPhone,
       } = response.data || {};
+
+      // Map wishlist products into an array
+      const fetchedWishlist = [wishlistProduct1, wishlistProduct2, wishlistProduct3].filter(
+        (product) => product && product.productName
+      );
+
       setWishlist(fetchedWishlist || []);
-      setAddress(fetchedAddress || []);
-      setPhonenumber(fetchedPhone || []);
+      setAddress(fetchedAddress || "");
+      setPhonenumber(fetchedPhone || "");
     } catch (error) {
       console.error("Error fetching wishlist:", error);
     } finally {
@@ -87,8 +95,8 @@ const ModalComponentWishlist = () => {
   };
 
   const copyPhoneToClipboard = () => {
-    navigator.clipboard.writeText(address).then(() => {
-      toast.success("Address copied to clipboard!", {
+    navigator.clipboard.writeText(phonenumber).then(() => {
+      toast.success("Phone number copied to clipboard!", {
         position: "top-center",
         autoClose: 2000,
       });
@@ -96,7 +104,7 @@ const ModalComponentWishlist = () => {
   };
 
   return (
-    <div className="flex flex-col mb-5 max-h-[88vh]">
+    <div className="flex flex-col mb-5 max-h-[85vh]">
       <h2 className="text-lg mb-4 text-center font-bold text-gray-500">
         Wishlist
       </h2>
@@ -104,35 +112,35 @@ const ModalComponentWishlist = () => {
       {/* Address Section */}
       {address && (
         <>
-          <h3 className="text-md mb-1 text-center font-bold text-gray-500">Alamat Penghantaran</h3>
+          <h3 className="text-sm mb-1 text-center font-bold text-gray-500">Alamat Penghantaran</h3>
           <div
             className="bg-gray-200 text-gray-800 rounded-lg p-4 mb-2 cursor-pointer shadow-md hover:bg-gray-300"
             onClick={copyAddressToClipboard}
           >
-            <p className="text-center text-sm sm:text-base">{address}</p>
+            <p className="text-center text-xs sm:text-xs">{address}</p>
           </div>
         </>
       )}
 
-      {/* Address Section */}
+      {/* Phone Number Section */}
       {phonenumber && (
         <>
-         <h3 className="text-md mb-1 text-center font-bold text-gray-500">Nombor Telefon</h3>
-        <div
-          className="bg-gray-200 text-gray-800 rounded-lg p-4 mb-4 cursor-pointer shadow-md hover:bg-gray-300"
-          onClick={copyPhoneToClipboard}
-        >
-          <p className="text-center text-sm sm:text-base">{phonenumber}</p>
-        </div>
+          <h3 className="text-sm mb-1 text-center font-bold text-gray-500">Nombor Telefon</h3>
+          <div
+            className="bg-gray-200 text-gray-800 rounded-lg p-4 mb-4 cursor-pointer shadow-md hover:bg-gray-300"
+            onClick={copyPhoneToClipboard}
+          >
+            <p className="text-center text-xs sm:text-xs">{phonenumber}</p>
+          </div>
         </>
       )}
 
       <div className="overflow-y-auto overflow-hidden max-h-[60vh]">
         {wishlist.map((item, index) => (
           <ProductCard
-            key={item.productUrl}
+            key={index} // Use index as fallback key
             number={index + 1}
-            imageSrc={item.imageSrc || ""}
+            imageSrc={item.productImage || ""}
             title={item.productName}
             itemLink={item.productUrl}
             onConfirmBook={handleConfirmBook} // Trigger booking modal

@@ -1,71 +1,131 @@
 /* eslint-disable react/prop-types */
-import {  useEffect, useState } from "react";
-import { AgGridReact } from "ag-grid-react";
+import { useEffect, useState } from "react";
 import { Button, Modal, TextInput } from "flowbite-react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
+import { IoMdRemoveCircleOutline } from "react-icons/io";
 
 const AddWishlistPage = () => {
-  const { orderNumber } = useParams(); // Get orderNumber from route params
-
+  const { orderNumber } = useParams();
 
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [wishlist, setWishlist] = useState([]);
+  const [wishlistItems, setWishlistItems] = useState([
+    { productName: "", productUrl: "", productImage: null, bookingStatus: "Available" },
+  ]);
   const [loading, setLoading] = useState(false);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
-  const [isWishlistModalOpen, setIsWishlistModalOpen] = useState(false);
-  const [newWishlistItem, setNewWishlistItem] = useState({
-    productName: "",
-    productUrl: "",
-  });
 
   // Fetch existing wishlist data
-  useEffect(() => {
-    const fetchWishlist = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(`/api/wishlist/order/${orderNumber}`);
-        const { address, phone, wishlist } = response.data || {};
-        setAddress(address || "");
-        setPhone(phone || "");
-        setWishlist(wishlist || []);
-      } catch (err) {
-        console.error("Error fetching wishlist data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchWishlist = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`/api/wishlist/order/${orderNumber}`);
+      const {
+        address,
+        phone,
+        wishlistProduct1,
+        wishlistProduct2,
+        wishlistProduct3,
+      } = response.data || {};
 
+      setAddress(address || "");
+      setPhone(phone || "");
+
+      const items = [];
+      if (wishlistProduct1) items.push(wishlistProduct1);
+      if (wishlistProduct2) items.push(wishlistProduct2);
+      if (wishlistProduct3) items.push(wishlistProduct3);
+
+      setWishlistItems(
+        items.length > 0
+          ? items.map((item) => ({
+              ...item,
+              productImage: item.productImage || null, // Retain the URL if productImage is a URL
+            }))
+          : [{ productName: "", productUrl: "", productImage: null, bookingStatus: "Available" }]
+      );
+    } catch (err) {
+      console.error("Error fetching wishlist data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchWishlist();
   }, [orderNumber]);
 
-  // Add wishlist item
+  // Handle input changes
+  const handleWishlistChange = (index, field, value) => {
+    setWishlistItems((prev) =>
+      prev.map((item, i) => (i === index ? { ...item, [field]: value } : item))
+    );
+  };
+
+  // Add a new wishlist item
   const handleAddWishlistItem = () => {
-    setWishlist((prev) => [...prev, newWishlistItem]);
-    setNewWishlistItem({ productName: "", productUrl: "" });
-    setIsWishlistModalOpen(false);
+    if (wishlistItems.length < 10) {
+      setWishlistItems((prev) => [
+        ...prev,
+        { productName: "", productUrl: "", productImage: null, bookingStatus: "Available" },
+      ]);
+    } else {
+      alert("You can only add up to 10 wishlist items.");
+    }
   };
 
-  // Handle saving address and phone
-  const handleSaveAddress = () => {
-    setIsAddressModalOpen(false);
+  // Delete a wishlist item
+  const handleDeleteWishlistItem = async (index) => {
+    const productIndex = index + 1; // 1-based index for API
+    try {
+      await axios.delete(`/api/wishlist/delete/${orderNumber}/${productIndex}`);
+      setWishlistItems((prev) =>
+        prev
+          .filter((_, i) => i !== index)
+          .map((item, idx) => ({
+            ...item,
+            id: `wishlistProduct${idx + 1}`, // Reassign consistent ids after deletion
+          }))
+      );
+    } catch (error) {
+      console.error("Error deleting wishlist item:", error);
+    }
+  };
+  
+
+  // Remove an unsaved wishlist item
+  const handleRemoveWishlistItem = (index) => {
+    setWishlistItems((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // Submit wishlist
+  // Submit or update wishlist
   const handleSubmitWishlist = async () => {
     setLoading(true);
     try {
-      await axios.post(`/api/wishlist/submit`, {
-        orderNumber,
-        address,
-        phone,
-        wishlist,
+      const formData = new FormData();
+      formData.append("orderNumber", orderNumber);
+      formData.append("address", address);
+      formData.append("phone", phone);
+  
+      wishlistItems.forEach((item, index) => {
+        const productIndex = index + 1; // Ensure positional mapping
+        formData.append(`wishlistproductname${productIndex}`, item.productName);
+        formData.append(`wishlistproducturl${productIndex}`, item.productUrl);
+  
+        if (item.productImage instanceof File) {
+          formData.append(`wishlistImage${productIndex}`, item.productImage);
+        } else if (typeof item.productImage === "string" && item.productImage) {
+          formData.append(`existingImage${productIndex}`, item.productImage);
+        }
       });
+  
+      await axios.post(`/api/wishlist/upload-wishlist`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+  
       alert("Wishlist submitted successfully!");
+      fetchWishlist(); // Refresh data after submission
     } catch (err) {
       console.error("Error submitting wishlist:", err);
     } finally {
@@ -73,36 +133,17 @@ const AddWishlistPage = () => {
     }
   };
 
-  // Column definitions for ag-grid
-  const columnDefs = [
-    { headerName: "#", valueGetter: "node.rowIndex + 1", width: 50 },
-    { field: "productName", headerName: "Product Name", sortable: true },
-    { field: "productUrl", headerName: "Product URL", sortable: true },
-    { field: "bookingName", headerName: "Reserver", sortable: true },
-    {
-      field: "bookingPhoneNumber",
-      headerName: "Reserver's phone",
-      sortable: true,
-    },
-    { field: "bookingStatus", headerName: "Status", sortable: true },
-  ];
-
-  // Redirect to login if user is not logged in
-
-
   return (
     <div className="min-h-screen bg-gray-50 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 text-center mb-6">
-          Wishlist Management
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-900 text-center mb-6">Wishlist Management</h1>
+
         <div className="flex justify-center mb-4 space-x-4">
-          <Button onClick={() => setIsAddressModalOpen(true)}>
-            Address Details
-          </Button>
-          <Button onClick={() => setIsWishlistModalOpen(true)}>
-            Add Wishlist
-          </Button>
+          <Button onClick={() => setIsAddressModalOpen(true)}>Address Details</Button>
+          <Button onClick={handleAddWishlistItem}>+ Add Wishlist Item</Button>
+        </div>
+        <div>
+          <Button onClick={() => fetchWishlist()}>Refresh</Button>
         </div>
         {/* Submit Button */}
         <div className="flex justify-end mb-4">
@@ -111,30 +152,98 @@ const AddWishlistPage = () => {
           </Button>
         </div>
 
-        {/* Wishlist Table */}
-        <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
-          <AgGridReact
-            rowData={wishlist}
-            columnDefs={columnDefs}
-            // defaultColDef={defaultColDef}
-            pagination={true}
-            paginationPageSize={10}
-          />
+        {/* Wishlist Form */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {wishlistItems.map((item, index) => (
+            <div key={index} className="p-4 border rounded-md shadow-md relative">
+              <h2 className="text-lg font-semibold mb-4">Wishlist Item {index + 1}</h2>
+              <div>
+                <label
+                  htmlFor={`wishlistproductname${index}`}
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Product Name
+                </label>
+                <TextInput
+                  id={`wishlistproductname${index}`}
+                  type="text"
+                  placeholder="Enter product name"
+                  value={item.productName}
+                  onChange={(e) => handleWishlistChange(index, "productName", e.target.value)}
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor={`wishlistproducturl${index}`}
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Product URL
+                </label>
+                <TextInput
+                  id={`wishlistproducturl${index}`}
+                  type="text"
+                  placeholder="Enter product URL"
+                  value={item.productUrl}
+                  onChange={(e) => handleWishlistChange(index, "productUrl", e.target.value)}
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor={`wishlistImage${index}`}
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Product Image
+                </label>
+                {typeof item.productImage === "string" && item.productImage && (
+                  <img
+                    src={item.productImage}
+                    alt="Wishlist Item"
+                    className="w-40 h-auto mx-auto mb-2 rounded-md"
+                  />
+                )}
+                <input
+                  id={`wishlistImage${index}`}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleWishlistChange(index, "productImage", e.target.files[0])}
+                />
+              </div>
+              <div className="mt-4">
+                <p className="text-sm">
+                  <strong>Status:</strong> {item.bookingStatus}
+                </p>
+                {item.bookingStatus === "Booked" && (
+                  <>
+                    <p className="text-sm">
+                      <strong>Booked By:</strong> {item.bookingName}
+                    </p>
+                    <p className="text-sm">
+                      <strong>Phone:</strong> {item.bookingPhoneNumber}
+                    </p>
+                  </>
+                )}
+              </div>
+              <div className="absolute top-2 left-2 flex space-x-2">
+                <Button size="xs" color="failure" onClick={() => handleRemoveWishlistItem(index)}>
+                  <IoMdRemoveCircleOutline />
+                </Button>
+              </div>
+              <div className="absolute top-2 right-2 flex space-x-2">
+                <Button size="xs" color="failure" onClick={() => handleDeleteWishlistItem(index)}>
+                  Delete
+                </Button>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* Address Modal */}
-        <Modal
-          show={isAddressModalOpen}
-          onClose={() => setIsAddressModalOpen(false)}
-        >
+        <Modal show={isAddressModalOpen} onClose={() => setIsAddressModalOpen(false)}>
           <Modal.Header>Update Address</Modal.Header>
           <Modal.Body>
             <div className="space-y-4">
               <div>
-                <label
-                  htmlFor="address"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="address" className="block text-sm font-medium text-gray-700">
                   Address
                 </label>
                 <TextInput
@@ -146,10 +255,7 @@ const AddWishlistPage = () => {
                 />
               </div>
               <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                   Phone Number
                 </label>
                 <TextInput
@@ -163,68 +269,7 @@ const AddWishlistPage = () => {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={handleSaveAddress}>Save</Button>
-            <Button color="gray" onClick={() => setIsAddressModalOpen(false)}>
-              Cancel
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        {/* Wishlist Modal */}
-        <Modal
-          show={isWishlistModalOpen}
-          onClose={() => setIsWishlistModalOpen(false)}
-        >
-          <Modal.Header>Add Wishlist Item</Modal.Header>
-          <Modal.Body>
-            <div className="space-y-4">
-              <div>
-                <label
-                  htmlFor="productName"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Product Name
-                </label>
-                <TextInput
-                  id="productName"
-                  type="text"
-                  placeholder="Enter product name"
-                  value={newWishlistItem.productName}
-                  onChange={(e) =>
-                    setNewWishlistItem((prev) => ({
-                      ...prev,
-                      productName: e.target.value,
-                    }))
-                  }
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="productUrl"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Product URL
-                </label>
-                <TextInput
-                  id="productUrl"
-                  type="text"
-                  placeholder="Enter product URL"
-                  value={newWishlistItem.productUrl}
-                  onChange={(e) =>
-                    setNewWishlistItem((prev) => ({
-                      ...prev,
-                      productUrl: e.target.value,
-                    }))
-                  }
-                />
-              </div>
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={handleAddWishlistItem}>Add</Button>
-            <Button color="gray" onClick={() => setIsWishlistModalOpen(false)}>
-              Cancel
-            </Button>
+            <Button onClick={() => setIsAddressModalOpen(false)}>Save</Button>
           </Modal.Footer>
         </Modal>
       </div>

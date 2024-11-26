@@ -16,7 +16,10 @@ const UserContextProvider = ({ children }) => {
   const navigate = useNavigate();
 
   // Memoize publicPaths to prevent recreation on each render
-  const publicPaths = useMemo(() => ["/", "/register","/login","/tutorial","contact","pakej", "/weddingcardpreview", "preview"], []);
+  const publicPaths = useMemo(
+    () => ["/", "/register", "/login", "/tutorial", "/contact", "/pakej", "/weddingcardpreview", "/preview"],
+    []
+  );
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -31,22 +34,25 @@ const UserContextProvider = ({ children }) => {
           console.warn("User is not authenticated.");
           localStorage.removeItem("user"); // Clear user if not authenticated
           setUser(null);
-          // navigate("/login");
         } else if (err.response?.data?.code === "TOKEN_EXPIRED") {
           console.warn("Token has expired. Redirecting to login.");
           localStorage.removeItem("user");
           setUser(null);
           navigate("/login");
+          window.location.reload(); // Reload the page
         } else {
           console.error("Error fetching profile:", err);
         }
       } finally {
-        setReady(true); // Set ready to true regardless of success or error
+        setReady(true); // Set ready to true once fetchProfile completes
       }
     };
 
+    // Only fetch profile if the path is not public and the user is not already set
     if (!publicPaths.includes(location.pathname) && !user && !ready) {
       fetchProfile();
+    } else {
+      // If on a public path or user is already set, set ready to true
       setReady(true);
     }
   }, [user, ready, location.pathname, navigate, publicPaths]);

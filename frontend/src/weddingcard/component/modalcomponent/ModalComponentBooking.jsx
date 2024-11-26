@@ -22,9 +22,9 @@ const ModalComponentBooking = ({ onCancel, title, image }) => {
       await axios.post(
         `/api/wishlist/book-item/${order.orderNumber}`,
         {
-          productName: title,
-          bookingName: name,
-          bookingPhoneNumber: phone,
+          productName: title, // The name of the product to book
+          bookingName: name, // The name of the person booking
+          bookingPhoneNumber: phone, // The phone number of the person booking
         },
         {
           headers: {
@@ -74,7 +74,7 @@ const ModalComponentBooking = ({ onCancel, title, image }) => {
         >
           <div>
             <label className="block text-center mt-2 text-gray-700 font-bold">
-              Nama
+              Name
             </label>
             <input
               type="text"
@@ -86,7 +86,7 @@ const ModalComponentBooking = ({ onCancel, title, image }) => {
           </div>
           <div className="mb-2">
             <label className="block text-center text-gray-700 font-bold">
-              Nombor Telefon
+              Phone Number
             </label>
             <input
               type="text"
