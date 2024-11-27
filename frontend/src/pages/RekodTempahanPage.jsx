@@ -295,7 +295,7 @@ function RekodTempahanPage() {
 
                                 <CopyToClipboardButton content={"Hello"} />
                               </div>
-                              {order.paymentStatus === "Paid" && (
+                              {order.paymentStatus === "paid" && (
                                 <>
                                   {/* ACTUAL CARD */}
                                   <div className="flex-row lg:flex my-2 gap-x-3 mx-auto items-center justify-center">
