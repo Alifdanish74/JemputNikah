@@ -2,14 +2,14 @@
 
 import { useEffect } from "react";
 import { useWeddingCard } from "../../../customhooks/WeddingCardContext";
-// import CalendarComponent from "./CalendarComponent";
 import { FaGoogle, FaApple } from "react-icons/fa";
 import Calendar from "color-calendar";
 import "color-calendar/dist/css/theme-glass.css";
 
-
 const ModalComponentCalendar = () => {
   const { weddingCard } = useWeddingCard();
+
+  if (!weddingCard) return <p>Wedding card not found.</p>;
 
   const dateString = weddingCard.tarikhMajlis.split("T")[0]; // Extract the date part only
   const date = new Date(dateString); // Now `date` represents only the date
@@ -27,8 +27,54 @@ const ModalComponentCalendar = () => {
     date
   );
 
-  // if (loading) return <p>Loading wedding card details...</p>;
-  if (!weddingCard) return <p>Wedding card not found.</p>;
+  const handleIcsDownload = () => {
+    const event = {
+      title: `${weddingCard.tajukMajlis} ${weddingCard.hashtag}`,
+      description: `${weddingCard.tajukMajlis} ${weddingCard.hashtag}`,
+      location: `${weddingCard.locationMajlis} ${weddingCard.fullLocationMajlis}`,
+      startDate: weddingCard.tarikhMajlis.replace(/[-:]/g, "").slice(0, 15),
+      endDate: weddingCard.tarikhMajlis.replace(/[-:]/g, "").slice(0, 15),
+    };
+
+    const icsContent = `
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:${event.title}
+DESCRIPTION:${event.description}
+DTSTART:${event.startDate}
+DTEND:${event.endDate}
+LOCATION:${event.location}
+END:VEVENT
+END:VCALENDAR
+    `.trim();
+
+    const blob = new Blob([icsContent], { type: "text/calendar" });
+    const url = URL.createObjectURL(blob);
+
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `${weddingCard.hashtag}.ics`;
+    anchor.click();
+
+    URL.revokeObjectURL(url);
+  };
+
+  const googleCalendarLink = () => {
+    const event = {
+      title: `${weddingCard.tajukMajlis} ${weddingCard.hashtag}`,
+      description: `${weddingCard.tajukMajlis} ${weddingCard.hashtag}`,
+      location: `${weddingCard.locationMajlis} ${weddingCard.fullLocationMajlis}`,
+      startDate: weddingCard.tarikhMajlis.replace(/[-:]/g, "").slice(0, 15), // Google Calendar format
+      endDate: weddingCard.tarikhMajlis.replace(/[-:]/g, "").slice(0, 15), // Use the same value if it's an all-day event
+    };
+
+    return `https://calendar.google.com/calendar/event?action=TEMPLATE&text=${encodeURIComponent(
+      event.title
+    )}&dates=${event.startDate}/${event.endDate}&details=${encodeURIComponent(
+      event.description
+    )}&location=${encodeURIComponent(event.location)}`;
+  };
 
   const CalendarComponent = () => {
     useEffect(() => {
@@ -43,18 +89,15 @@ const ModalComponentCalendar = () => {
         eventsData: [
           {
             id: 1,
-            name: "Walimatulurus Danish & Iqkriany",
-            // start: "2024-08-10T20:00:00",
             start: weddingCard.tarikhMajlis,
             end: weddingCard.tarikhMajlis,
           },
         ],
       });
-  
-    //   const initialDate = new Date(2024, 7, 10); // Note: Months are zero-indexed (0 = January, 7 = August)
+
       calendar.setDate(weddingCard.tarikhMajlis);
-    }, []); // Empty dependency array to run once on mount
-  
+    }, [weddingCard.tarikhMajlis]);
+
     return <div id="myCal"></div>;
   };
 
@@ -66,17 +109,17 @@ const ModalComponentCalendar = () => {
         </h2>
 
         <h2 className="text-lg pb-5 text-center font-semibold text-gray-600">
-          {dayNumber} {month} {year} , {dayName}
+          {dayNumber} {month} {year}, {dayName}
         </h2>
 
         <div className="pb-4 flex flex-col items-center justify-center">
           <CalendarComponent />
         </div>
 
-        <div className=" flex flex-col text-base text-center font-semibold justify-center items-center">
+        <div className="flex flex-col text-base text-center font-semibold justify-center items-center">
           <button className="flex items-center bg-transparent text-gray-800 px-3 py-2 rounded hover:bg-gray-200 transition-colors">
             <a
-              href="https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=MTIxNGZodG42Z2xsYmcwNTdtcXQwcWY2YmwgYWxpZmRhbmlzaDc0QG0&tmsrc=alifdanish74%40gmail.com"
+              href={googleCalendarLink()}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center"
@@ -86,16 +129,12 @@ const ModalComponentCalendar = () => {
             </a>
           </button>
 
-          <button className="flex items-center bg-transparent text-gray-800 px-3 py-2 rounded hover:bg-gray-200 transition-colors">
-            <a
-              href="/DanishIqkrianyWeddingInvitation.ics"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center"
-            >
-              <FaApple className="mr-2 text-3xl" />
-              Add to Apple Calendar
-            </a>
+          <button
+            onClick={handleIcsDownload}
+            className="flex items-center bg-transparent text-gray-800 px-3 py-2 rounded hover:bg-gray-200 transition-colors"
+          >
+            <FaApple className="mr-2 text-3xl" />
+            Add to Apple Calendar
           </button>
         </div>
       </div>

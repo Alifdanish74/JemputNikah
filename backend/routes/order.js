@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllOrders, getOrderById, deleteOrder, getOrdersByUserId, getOrdersByOrderNumber, deleteOrderAndWeddingCard } = require('../controllers/orderController');
+const { getAllOrders, getOrderById, deleteOrder, getOrdersByUserId,updateOrder, getOrdersByOrderNumber, deleteOrderAndWeddingCard } = require('../controllers/orderController');
 const authMiddleware = require('../middleware/authMiddleware'); // Use authMiddleware for protected routes
 const adminMiddleware = require('../middleware/adminMiddleware');
 const router = express.Router();
@@ -16,6 +16,8 @@ router.get('/user/:userId', getOrdersByUserId);
 // GET: Get a single order by user ID
 router.get('/order/:orderNumber', getOrdersByOrderNumber);
 
+// Update an order (PUT)
+router.put("/update/:id", updateOrder);
 
 // DELETE: Delete an order by ID
 router.delete('/deletebyid/:id', authMiddleware, deleteOrder);

@@ -62,31 +62,21 @@ function RSVPSection({
             >
               Tarikh Akhir RSVP
             </label>
-            {/* <Datepicker
-              title="Tarikh Akhir RSVP"
-              minDate={new Date()}
-              maxDate={formData.lastDateRSVP}
-              showTodayButton={false}
-              value={formData.lastDateRSVP ? new Date(formData.lastDateRSVP) : new Date()} // Convert to Date object
-              onChange={(date) => handleFormDataChange("lastDateRSVP", date)}
-            /> */}
-            {/* <Datepicker
-              title="Tarikh Akhir RSVP"
-              minDate={new Date()}
-              showTodayButton={false}
-              value={isEditMode ? new Date(formData.lastDateRSVP) : new Date()} // Convert to Date object
-              onChange={(date) => handleFormDataChange("lastDateRSVP", date)}
-            /> */}
+
             <Datepicker
               title="Tarikh Akhir RSVP"
-              minDate={new Date()}
-              maxDate={formData.tarikhMajlis} // Convert to Date if available
+              minDate={new Date()} // Ensures minDate is always the current date
+              maxDate={
+                formData.tarikhMajlis
+                  ? new Date(formData.tarikhMajlis) // Convert ISO string to Date object
+                  : undefined // Fallback if tarikhMajlis is not set
+              }
               showTodayButton={false}
               value={
                 formData.maxDate
-                  ? new Date(formData.maxDate)
-                  : new Date()
-              } // Convert to Date object// Set the selected date if in edit mode
+                  ? new Date(formData.maxDate) // Convert maxDate to Date if present
+                  : new Date() // Default to today's date
+              }
               onChange={(date) => handleFormDataChange("maxDate", date)}
             />
           </div>

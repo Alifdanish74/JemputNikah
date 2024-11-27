@@ -77,6 +77,40 @@ exports.deleteOrder = async (req, res) => {
   }
 };
 
+// PATCH: Update an order by ID
+// PUT: Update an order by ID
+exports.updateOrder = async (req, res) => {
+  try {
+    const { id } = req.params; // Get the order ID from the request params
+    const { paymentStatus } = req.body; // Get updated paymentStatus from the request body
+
+    // Validate required fields
+    if (!paymentStatus) {
+      return res.status(400).json({ message: "Payment status is required" });
+    }
+
+    // Find and update the order
+    const updatedOrder = await Order.findByIdAndUpdate(
+      id,
+      { paymentStatus }, // Replace the entire paymentStatus field
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.status(200).json({
+      message: "Order updated successfully",
+      updatedOrder,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating the order", error });
+  }
+};
+
+
+
 exports.deleteOrderAndWeddingCard = async (req, res) => {
   try {
     // Find the order by ID

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
-import { Button, Modal, TextInput, Pagination } from "flowbite-react";
+import { Button, Modal, TextInput, Pagination, Select } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { FaTrash, FaEdit } from "react-icons/fa";
@@ -19,6 +19,9 @@ function AdminViewOrder() {
   const [itemsPerPage] = useState(20);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderToDelete, setOrderToDelete] = useState(null);
+  const [paymentStatus, setPaymentStatus] = useState("");
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [currentOrder, setCurrentOrder] = useState(null);
 
 
   const navigate = useNavigate();
@@ -82,6 +85,44 @@ function AdminViewOrder() {
     }
   };
 
+  const handleEdit = (order) => {
+    setCurrentOrder(order);
+    setPaymentStatus(order.paymentStatus);
+    setIsEditModalOpen(true);
+  };
+
+  const handleEditSubmit = async () => {
+    try {
+      await axios.put(`/api/orders/update/${currentOrder._id}`, {
+        paymentStatus,
+      });
+
+      // Update the state to reflect the change
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order._id === currentOrder._id
+            ? { ...order, paymentStatus }
+            : order
+        )
+      );
+
+      toast.success("Order updated successfully", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      });
+    } catch (error) {
+      console.error("Error updating order:", error);
+      toast.error("Error updating order", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      });
+    } finally {
+      setIsEditModalOpen(false);
+    }
+  };
+
   // Redirect to update order page
   const handleUpdate = (weddingCardId) => {
     navigate(`/admin/update-order/${weddingCardId}`);
@@ -95,6 +136,7 @@ function AdminViewOrder() {
     { field: "userId.phone", headerName: "User Contact", sortable: true },
     {
       field: "price",
+      width: 150,
       headerName: "Price",
       sortable: true,
       valueFormatter: (params) => `RM${params.value.toFixed(2)}`,
@@ -102,6 +144,7 @@ function AdminViewOrder() {
     {
       field: "paymentStatus",
       headerName: "Status",
+      width: 150,
       cellRenderer: (params) => (
         <span
           className={`px-3 py-1 rounded-full text-white ${
@@ -118,14 +161,23 @@ function AdminViewOrder() {
     },
     {
       field: "createdAt",
+      width: 150,
       headerName: "Created At",
       valueFormatter: (params) =>
         new Date(params.value).toLocaleDateString("en-GB"),
     },
     {
       headerName: "Actions",
+      width: 330,
       cellRenderer: (params) => (
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 ">
+          <Button
+            size="xs"
+            color="success"
+            onClick={() => handleEdit(params.data)}
+          >
+            <FaEdit className="mr-2" /> Payment
+          </Button>
           <Button
             size="xs"
             color="warning"
@@ -167,7 +219,7 @@ function AdminViewOrder() {
 
       {/* Orders Table */}
       <div
-        className="ag-theme-alpine"
+        className="ag-theme-alpine "
         style={{ height: 500, width: "100%", marginBottom: "1rem" }}
       >
         <AgGridReact
@@ -176,6 +228,7 @@ function AdminViewOrder() {
           defaultColDef={defaultColDef}
           pagination={true}
           paginationPageSize={itemsPerPage}
+          rowHeight={70} // Fixed height for all rows
         />
       </div>
 
@@ -211,6 +264,36 @@ function AdminViewOrder() {
             </div>
           </div>
         </Modal.Body>
+      </Modal>
+      {/* Edit Modal */}
+      <Modal
+        show={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        size="md"
+      >
+        <Modal.Header>Edit Payment Status</Modal.Header>
+        <Modal.Body>
+          <div className="space-y-4">
+            <Select
+              id="paymentStatus"
+              value={paymentStatus}
+              onChange={(e) => setPaymentStatus(e.target.value)}
+              className="w-full"
+            >
+              <option value="paid">Paid</option>
+              <option value="pending">Pending</option>
+              <option value="deleted">Deleted</option>
+            </Select>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button color="success" onClick={handleEditSubmit}>
+            Save Changes
+          </Button>
+          <Button color="gray" onClick={() => setIsEditModalOpen(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
       </Modal>
     </div>
   );

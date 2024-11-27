@@ -129,7 +129,7 @@ function WeddingInfo() {
               viewport={{ once: true }}
               className="text-transform: uppercase"
             >
-              <p className=" text-xl  font-['Cinzel']">
+              <p className=" text-xl  font-['Cinzel'] whitespace-pre-line">
                 {" "}
                 {weddingCard.namaPenuhLelaki}{" "}
               </p>
@@ -165,7 +165,7 @@ function WeddingInfo() {
               viewport={{ once: true }}
               className="mb-4 text-transform: uppercase"
             >
-              <p className=" text-xl  font-['Cinzel'] font-">
+              <p className=" text-xl  font-['Cinzel'] whitespace-pre-line">
                 {weddingCard.namaPenuhPerempuan}
               </p>
               {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
@@ -192,7 +192,7 @@ function WeddingInfo() {
               viewport={{ once: true }}
               className=" text-transform: uppercase"
             >
-              <p className=" text-xl  font-['Cinzel'] font-">
+              <p className=" text-xl  font-['Cinzel'] whitespace-pre-line">
                 {weddingCard.namaPenuhPerempuan}
               </p>
               {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
@@ -227,7 +227,7 @@ function WeddingInfo() {
               viewport={{ once: true }}
               className="mb-4 text-transform: uppercase"
             >
-              <p className=" text-xl  font-['Cinzel']">
+              <p className=" text-xl  font-['Cinzel'] whitespace-pre-line">
                 {" "}
                 {weddingCard.namaPenuhLelaki}{" "}
               </p>
@@ -255,7 +255,7 @@ function WeddingInfo() {
             viewport={{ once: true }}
             className="text-transform: uppercase"
           >
-            <p className=" text-xl  font-['Cinzel']">
+            <p className=" text-xl  font-['Cinzel'] whitespace-pre-line">
               {" "}
               {weddingCard.namaPenuhPasangan1}{" "}
             </p>
@@ -285,7 +285,7 @@ function WeddingInfo() {
             viewport={{ once: true }}
             className="mb-4 text-transform: uppercase"
           >
-            <p className=" text-xl  font-['Cinzel'] font-">
+            <p className=" text-xl  font-['Cinzel'] whitespace-pre-line">
               {weddingCard.namaPenuhPasangan2}
             </p>
           </motion.div>

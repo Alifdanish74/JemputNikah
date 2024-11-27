@@ -295,26 +295,30 @@ function RekodTempahanPage() {
 
                                 <CopyToClipboardButton content={"Hello"} />
                               </div>
-                              {/* ACTUAL CARD */}
-                              <div className="flex-row lg:flex my-2 gap-x-3 mx-auto items-center justify-center">
-                                <Button
-                                  onClick={() =>
-                                    navigateToActualCard(
-                                      order.weddingCardId._id,
-                                      order.orderNumber
-                                    )
-                                  }
-                                  size="xs"
-                                  color="blue"
-                                >
-                                  {" "}
-                                  <FaRegPlayCircle className="mr-2 h-5 w-5" />{" "}
-                                  Digital Card
-                                </Button>
-                                {/* hello {order.weddingCardId} */}
+                              {order.paymentStatus === "Paid" && (
+                                <>
+                                  {/* ACTUAL CARD */}
+                                  <div className="flex-row lg:flex my-2 gap-x-3 mx-auto items-center justify-center">
+                                    <Button
+                                      onClick={() =>
+                                        navigateToActualCard(
+                                          order.weddingCardId._id,
+                                          order.orderNumber
+                                        )
+                                      }
+                                      size="xs"
+                                      color="blue"
+                                    >
+                                      {" "}
+                                      <FaRegPlayCircle className="mr-2 h-5 w-5" />{" "}
+                                      Digital Card
+                                    </Button>
+                                    {/* hello {order.weddingCardId} */}
 
-                                <CopyToClipboardButton content={"Hello"} />
-                              </div>
+                                    <CopyToClipboardButton content={"Hello"} />
+                                  </div>
+                                </>
+                              )}
                             </td>
 
                             <td className=" py-3 border">

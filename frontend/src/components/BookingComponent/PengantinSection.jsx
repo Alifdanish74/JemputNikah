@@ -133,11 +133,11 @@ function PengantinSection({
                 >
                   Nama Penuh Pasangan Pertama
                 </label>
-                <input
+                <textarea
                   type="text"
                   name="full-name-pair1"
                   id="full-name-pair1"
-                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-lg rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
+                  className={`bg-gray-50 border resize-none border-gray-300 text-gray-900 sm:text-lg rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
                   placeholder="Ahmad Ali bin Abu & Siti binti Rahman"
                   required={true}
                   value={formData.namaPenuhPasangan1}
@@ -159,11 +159,11 @@ function PengantinSection({
                 >
                   Nama Pendek Pasangan Pertama
                 </label>
-                <input
+                <textarea
                   type="text"
                   name="short-name-pair1"
                   id="short-name-pair1"
-                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
+                  className={`bg-gray-50 border resize-none border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
                   placeholder="Ali & Siti"
                   required={true}
                   value={formData.namaPendekPasangan1}
@@ -185,11 +185,11 @@ function PengantinSection({
                 >
                   Nama Penuh Pasangan Kedua
                 </label>
-                <input
+                <textarea
                   type="text"
                   name="full-name-pair2"
                   id="full-name-pair2"
-                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
+                  className={`bg-gray-50 border resize-none border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
                   placeholder="Ahmad Abu bin Ali & Aminah binti Salman"
                   required={true}
                   value={formData.namaPenuhPasangan2}
@@ -211,11 +211,11 @@ function PengantinSection({
                 >
                   Nama Pendek Pasangan Kedua
                 </label>
-                <input
+                <textarea
                   type="text"
                   name="short-name-pair2"
                   id="short-name-pair2"
-                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
+                  className={`bg-gray-50 border resize-none border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
                   placeholder="Ahmad & Aminah"
                   required={true}
                   value={formData.namaPendekPasangan2}
@@ -240,11 +240,11 @@ function PengantinSection({
                 >
                   Nama Penuh Pengantin Lelaki
                 </label>
-                <input
+                <textarea
                   type="text"
                   name="full-name-lelaki"
                   id="full-name-lelaki"
-                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
+                  className={`bg-gray-50 border resize-none border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
                   placeholder="Nama penuh"
                   required={true}
                   value={formData.namaPenuhLelaki}
@@ -266,11 +266,11 @@ function PengantinSection({
                 >
                   Nama Pendek Pengantin Lelaki
                 </label>
-                <input
+                <textarea
                   type="text"
                   name="short-name-lelaki"
                   id="short-name-lelaki"
-                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
+                  className={`bg-gray-50 border resize-none border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
                   placeholder="Nama pendek"
                   required={true}
                   value={formData.namaPendekLelaki}
@@ -292,11 +292,11 @@ function PengantinSection({
                 >
                   Nama Penuh Pengantin Perempuan
                 </label>
-                <input
+                <textarea
                   type="text"
                   name="full-name-Perempuan"
                   id="full-name-Perempuan"
-                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
+                  className={`bg-gray-50 border resize-none border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
                   placeholder="Nama penuh"
                   required={true}
                   value={formData.namaPenuhPerempuan}
@@ -318,11 +318,11 @@ function PengantinSection({
                 >
                   Nama Pendek Pengantin Perempuan
                 </label>
-                <input
+                <textarea
                   type="text"
                   name="short-name-Perempuan"
                   id="short-name-Perempuan"
-                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
+                  className={`bg-gray-50 border resize-none border-gray-300 text-gray-900 sm:text-xl rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 ${selectedFont} `}
                   placeholder="Nama pendek"
                   required={true}
                   value={formData.namaPendekPerempuan}

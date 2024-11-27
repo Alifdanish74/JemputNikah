@@ -322,6 +322,11 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                 id="nama3"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full   "
                 placeholder="Nama"
+                required={true}
+                value={formData.emergencyContacts3}
+                onChange={(e) => {
+                  handleFormDataChange("emergencyContacts3", e.target.value);
+                }}
               />
               <input
                 type="text"
@@ -329,9 +334,9 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                 id="phone3"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  focus:ring-blue-600 focus:border-blue-600 block h-3/4 w-full"
                 placeholder="Nombor Telefon (Tanpa '-')"
-                value={formData.emergencyContacts3}
+                value={formData.emergencyNumber3}
                 onChange={(e) => {
-                  handleFormDataChange("emergencyContacts3", e.target.value);
+                  handleFormDataChange("emergencyNumber3", e.target.value);
                 }}
               />
             </div>
