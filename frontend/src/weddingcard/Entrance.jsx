@@ -15,7 +15,7 @@ const Entrance = ({ onClose, setIsPlaying }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const { orderNumber } = useParams();
-  const { weddingCard, loading, fetchWeddingCard } = useWeddingCard();
+  const { weddingCard,  fetchWeddingCard } = useWeddingCard();
 
   useEffect(() => {
     if (orderNumber) {
@@ -23,7 +23,7 @@ const Entrance = ({ onClose, setIsPlaying }) => {
     }
   }, [orderNumber]);
 
-  if (loading) return <p>Loading wedding card details...</p>;
+//   if (loading) return <p>Loading wedding card details...</p>;
   if (!weddingCard) return <p>Wedding card not found.</p>;
 
   const handleClick = () => {

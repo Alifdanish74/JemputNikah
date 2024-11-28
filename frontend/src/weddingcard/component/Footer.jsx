@@ -5,7 +5,6 @@ import { useWeddingCard } from "../../customhooks/WeddingCardContext";
 import { useEffect } from "react";
 
 function Footer() {
-
   const { orderNumber } = useParams();
   const { weddingCard, fetchWeddingCard } = useWeddingCard();
 
@@ -32,7 +31,7 @@ function Footer() {
       {/* Logo */}
       <div className="flex flex-col my-4 mx-auto">
         <h1 className="text-black my-1 text-xs">Dizahirkan penuh ❤️ oleh</h1>
-        <a href="http://wasap.my/601127877926/Hi! Nak tempah kad jemputan digital.">
+        <a href="https://www.jemputkahwin.com.my" target="_blank">
           <img
             src={JemputKahwinLogo}
             width={50}
@@ -46,7 +45,9 @@ function Footer() {
       <div className="mt-4">
         <h1 className="text-black my-2">Lebih lanjut</h1>
         <a
-          href={"http://wasap.my/601127877926/Hi! Nak tempah kad jemputan digital."}
+          href={
+            "http://wasap.my/601127877926/Hi! Nak tempah kad jemputan digital."
+          }
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center text-3xl justify-center text-black"

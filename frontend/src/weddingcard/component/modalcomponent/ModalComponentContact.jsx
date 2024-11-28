@@ -19,7 +19,7 @@ const ModalComponentContact = () => {
           contactName={weddingCard.emergencyContacts1}
           phoneNumber={weddingCard.emergencyNumber1}
         //   wsLink="http://wasap.my/60123157930/WalimatulurusDanish&Iqkriany"
-          wsLink={`http://wasap.my/6${weddingCard.emergencyContacts1}`}
+          wsLink={`http://wasap.my/6${weddingCard.emergencyNumber1}`}
         />
 
         {/* Contact 2 */}
@@ -27,7 +27,7 @@ const ModalComponentContact = () => {
           <Contact
             contactName={weddingCard.emergencyContacts2}
             phoneNumber={weddingCard.emergencyNumber2}
-            wsLink={`http://wasap.my/6${weddingCard.emergencyContacts2}`}
+            wsLink={`http://wasap.my/6${weddingCard.emergencyNumber2}`}
           />
         )}
         {/* Contact 3 */}
@@ -35,7 +35,7 @@ const ModalComponentContact = () => {
           <Contact
             contactName={weddingCard.emergencyContacts3}
             phoneNumber={weddingCard.emergencyNumber3}
-            wsLink={`http://wasap.my/6${weddingCard.emergencyContacts3}`}
+            wsLink={`http://wasap.my/6${weddingCard.emergencyNumber3}`}
           />
         )}
         {/* Contact 4 */}
@@ -43,7 +43,7 @@ const ModalComponentContact = () => {
           <Contact
             contactName={weddingCard.emergencyContacts4}
             phoneNumber={weddingCard.emergencyNumber4}
-            wsLink={`http://wasap.my/6${weddingCard.emergencyContacts4}`}
+            wsLink={`http://wasap.my/6${weddingCard.emergencyNumber4}`}
           />
         )}
         
