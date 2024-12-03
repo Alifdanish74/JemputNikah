@@ -195,7 +195,7 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
             >
               Alamat Penuh Lokasi Majlis
             </label>
-            <input
+            <textarea
               type="text"
               name="alamat"
               id="alamat"

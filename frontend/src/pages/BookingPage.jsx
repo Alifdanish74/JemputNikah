@@ -105,7 +105,7 @@ function BookingPage() {
   // To handle form data for all pages
   const [formData, setFormData] = useState({
     // user
-    
+
     // Pakej
     pakej: "Istanbul",
     designId: "",
@@ -219,6 +219,12 @@ function BookingPage() {
         designBgUrl: design.imagebg, //
         designParticleColor: design.particleColor, //
         designFontColor: design.fontColor, //
+        designAnimatedKiriAtas: design.animatedKiriAtas,
+        designAnimatedKiriTengah: design.animatedKiriTengah,
+        designAnimatedKiriBawah: design.animatedKiriBawah,
+        designAnimatedKananAtas: design.animatedKananAtas,
+        designAnimatedKananTengah: design.animatedKananTengah,
+        designAnimatedKananBawah: design.animatedKananBawah,
       }));
     }
   }, [design]); // This effect runs when `design` changes

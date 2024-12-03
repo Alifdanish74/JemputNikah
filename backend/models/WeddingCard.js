@@ -23,6 +23,12 @@ const WeddingCardSchema = new mongoose.Schema(
     designBgUrl: { type: String },
     designParticleColor: { type: String },
     designFontColor: { type: String },
+    designAnimatedKiriAtas: { type: String},           // Animated image
+    designAnimatedKiriTengah: { type: String},           // Animated image
+    designAnimatedKiriBawah: { type: String},           // Animated image
+    designAnimatedKananAtas: { type: String},           // Animated image
+    designAnimatedKananTengah: { type: String},           // Animated image
+    designAnimatedKananBawah: { type: String},           // Animated image
     // Pengantin Section
     pihakMajlis: { type: String },
     jenisFont: { type: String },

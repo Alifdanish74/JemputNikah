@@ -17,7 +17,17 @@ const UserContextProvider = ({ children }) => {
 
   // Memoize publicPaths to prevent recreation on each render
   const publicPaths = useMemo(
-    () => ["/", "/register", "/login", "/tutorial", "/contact", "/pakej", "/weddingcardpreview", "/preview"],
+    () => [
+      "/",
+      "/register",
+      "/login",
+      "/tutorial",
+      "/contact",
+      "/pakej",
+      "/weddingcardpreview",
+      "/preview",
+      "/weddingcard",
+    ],
     []
   );
 
@@ -48,8 +58,15 @@ const UserContextProvider = ({ children }) => {
       }
     };
 
+    // Match dynamic paths like "/weddingcard/anything/anything"
+    const isPublicPath =
+      publicPaths.includes(location.pathname) ||
+      location.pathname.startsWith("/weddingcard") ||
+      location.pathname.startsWith("/weddingcardpreview") ||
+      location.pathname.startsWith("/preview");
+
     // Only fetch profile if the path is not public and the user is not already set
-    if (!publicPaths.includes(location.pathname) && !user && !ready) {
+    if (!isPublicPath && !user && !ready) {
       fetchProfile();
     } else {
       // If on a public path or user is already set, set ready to true

@@ -13,7 +13,13 @@ router.post(
   upload.fields([
     { name: 'image', maxCount: 1 }, // Main image
     { name: 'imagepreview', maxCount: 1 }, // Secondary image
-    { name: 'imagebg', maxCount: 1 } // third image
+    { name: 'imagebg', maxCount: 1 }, // third image
+    { name: "animatedKiriAtas", maxCount: 1 },
+    { name: "animatedKiriTengah", maxCount: 1 },
+    { name: "animatedKiriBawah", maxCount: 1 },
+    { name: "animatedKananAtas", maxCount: 1 },
+    { name: "animatedKananTengah", maxCount: 1 },
+    { name: "animatedKananBawah", maxCount: 1 },
   ]),
   uploadDesign
 );

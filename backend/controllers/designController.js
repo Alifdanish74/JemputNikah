@@ -1,6 +1,10 @@
 // controllers/adminDesignController.js
 const CardDesign = require("../models/CardDesign");
-const { S3Client, PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
+const {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectCommand,
+} = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const multer = require("multer");
 // const AWS = require("aws-sdk");
@@ -17,7 +21,6 @@ const s3Client = new S3Client({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
 });
-
 
 // Function to upload to S3 and return the file URL
 const uploadToS3 = async (file, filename) => {
@@ -42,20 +45,32 @@ const uploadToS3 = async (file, filename) => {
   }
 };
 
-
-
 //////////////////////////////////////////////////
 const uploadDesign = async (req, res) => {
   const { category, particleColor, fontColor } = req.body;
   const imageFile = req.files.image?.[0];
   const imagePreviewFile = req.files.imagepreview?.[0];
   const imageBgFile = req.files.imagebg?.[0];
+  const imageMotionKiriAtasFile = req.files.animatedKiriAtas?.[0];
+  const imageMotionKiriTengahFile = req.files.animatedKiriTengah?.[0];
+  const imageMotionKiriBawahFile = req.files.animatedKiriBawah?.[0];
+  const imageMotionKananAtasFile = req.files.animatedKananAtas?.[0];
+  const imageMotionKananTengahFile = req.files.animatedKananTengah?.[0];
+  const imageMotionKananBawahFile = req.files.animatedKananBawah?.[0];
 
   try {
-    if (!imageFile || !imagePreviewFile || !imageBgFile) {
-      return res
-        .status(400)
-        .json({ message: "All images files are required" });
+    if (
+      !imageFile ||
+      !imagePreviewFile ||
+      !imageBgFile ||
+      !imageMotionKiriBawahFile ||
+      !imageMotionKananAtasFile ||
+      !imageMotionKananTengahFile ||
+      !imageMotionKananBawahFile ||
+      !imageMotionKiriAtasFile ||
+      !imageMotionKiriTengahFile
+    ) {
+      return res.status(400).json({ message: "All images files are required" });
     }
 
     // Get current count of designs in the provided category
@@ -65,10 +80,37 @@ const uploadDesign = async (req, res) => {
 
     // Upload images to S3
     const imageUrl = await uploadToS3(imageFile, `${designName}.png`);
-    const imageBgUrl = await uploadToS3(imageBgFile, `Background${designName}.png`);
+    const imageBgUrl = await uploadToS3(
+      imageBgFile,
+      `Background${designName}.png`
+    );
     const imagePreviewUrl = await uploadToS3(
       imagePreviewFile,
       `Preview${designName}.png`
+    );
+    const imageMotionKiriAtasUrl = await uploadToS3(
+      imageMotionKiriAtasFile,
+      `MotionKiriAtas${designName}.png`
+    );
+    const imageMotionKiriTengahUrl = await uploadToS3(
+      imageMotionKiriTengahFile,
+      `MotionKiriTengah${designName}.png`
+    );
+    const imageMotionKiriBawahUrl = await uploadToS3(
+      imageMotionKiriBawahFile,
+      `MotionKiriBawah${designName}.png`
+    );
+    const imageMotionKananAtasUrl = await uploadToS3(
+      imageMotionKananAtasFile,
+      `MotionKananAtas${designName}.png`
+    );
+    const imageMotionKananTengahUrl = await uploadToS3(
+      imageMotionKananTengahFile,
+      `MotionKananTengah${designName}.png`
+    );
+    const imageMotionKananBawahUrl = await uploadToS3(
+      imageMotionKananBawahFile,
+      `MotionKananBawah${designName}.png`
     );
 
     // Save design in the database
@@ -80,6 +122,12 @@ const uploadDesign = async (req, res) => {
       imagebg: imageBgUrl,
       particleColor: particleColor,
       fontColor: fontColor,
+      animatedKiriAtas: imageMotionKiriAtasUrl,
+      animatedKiriTengah: imageMotionKiriTengahUrl,
+      animatedKiriBawah: imageMotionKiriBawahUrl,
+      animatedKananAtas: imageMotionKananAtasUrl,
+      animatedKananTengah: imageMotionKananTengahUrl,
+      animatedKananBawah: imageMotionKananBawahUrl,
     });
 
     await newDesign.save();
@@ -122,14 +170,36 @@ const deleteDesign = async (req, res) => {
     const imageKey = design.image.split(".com/")[1];
     const imagePreviewKey = design.imagepreview.split(".com/")[1];
     const imageBgKey = design.imagebg.split(".com/")[1];
+    const animatedKiriAtaskey = design.animatedKiriAtas.split(".com/")[1];
+    const animatedKiriTengahkey = design.animatedKiriTengah.split(".com/")[1];
+    const animatedKiriBawahkey = design.animatedKiriBawah.split(".com/")[1];
+    const animatedKananAtaskey = design.animatedKananAtas.split(".com/")[1];
+    const animatedKananTengahkey = design.animatedKananTengah.split(".com/")[1];
+    const animatedKananBawahkey = design.animatedKananBawah.split(".com/")[1];
 
-    console.log("Keys to delete:", imageKey, imagePreviewKey, imageBgKey);
-
+    console.log(
+      "Keys to delete:",
+      imageKey,
+      imagePreviewKey,
+      imageBgKey,
+      animatedKiriAtaskey,
+      animatedKiriTengahkey,
+      animatedKiriBawahkey,
+      animatedKananAtaskey,
+      animatedKananTengahkey,
+      animatedKananBawahkey
+    );
 
     // Delete images from S3
     await deleteFromS3(imageKey);
     await deleteFromS3(imagePreviewKey);
     await deleteFromS3(imageBgKey);
+    await deleteFromS3(animatedKiriAtaskey);
+    await deleteFromS3(animatedKiriTengahkey);
+    await deleteFromS3(animatedKiriBawahkey);
+    await deleteFromS3(animatedKananAtaskey);
+    await deleteFromS3(animatedKananTengahkey);
+    await deleteFromS3(animatedKananBawahkey);
 
     // Delete the design from the database
     await CardDesign.deleteOne({ designName });

@@ -90,8 +90,9 @@ function BaseWeddingCard() {
 
           <ToastContainer />
 
-          <section id="maincontent">
+          <section id="maincontent" className="relative">
             <MainContent />
+            {/* <AnimatedComponent/> */}
           </section>
           <div className="pb-16" style={backgroundStyle}>
             <section id="audiobar">

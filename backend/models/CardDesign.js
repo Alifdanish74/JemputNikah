@@ -8,6 +8,13 @@ const CardDesignSchema = new mongoose.Schema({
   imagepreview: { type: String, required: true },           // Image file path or URL
   particleColor: { type: String, required: true },           // Image file path or URL
   fontColor: { type: String, required: true },           // Image file path or URL
+  animatedKiriAtas: { type: String},           // Animated image
+  animatedKiriTengah: { type: String},           // Animated image
+  animatedKiriBawah: { type: String},           // Animated image
+  animatedKananAtas: { type: String},           // Animated image
+  animatedKananTengah: { type: String},           // Animated image
+  animatedKananBawah: { type: String},           // Animated image
+  
   createdAt: { type: Date, default: Date.now },
 });
 

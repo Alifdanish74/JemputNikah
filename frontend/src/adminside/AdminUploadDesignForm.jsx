@@ -20,7 +20,28 @@ function AdminUploadDesignForm() {
   const [fontColor, setFontColor] = useState("#000000");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const categories = ["Floral", "Luxury", "Tradisional", "Khat", "Minimalist"];
+  const categories = [
+    "Floral",
+    "Luxury",
+    "Tradisional",
+    "Khat",
+    "Minimalist",
+    "Motion",
+  ];
+
+  // New states for motion category images
+  const [animatedKiriAtas, setAnimatedKiriAtas] = useState(null);
+  const [animatedKiriAtasUrl, setAnimatedKiriAtasUrl] = useState(null);
+  const [animatedKiriTengah, setAnimatedKiriTengah] = useState(null);
+  const [animatedKiriTengahUrl, setAnimatedKiriTengahUrl] = useState(null);
+  const [animatedKiriBawah, setAnimatedKiriBawah] = useState(null);
+  const [animatedKiriBawahUrl, setAnimatedKiriBawahUrl] = useState(null);
+  const [animatedKananAtas, setAnimatedKananAtas] = useState(null);
+  const [animatedKananAtasUrl, setAnimatedKananAtasUrl] = useState(null);
+  const [animatedKananTengah, setAnimatedKananTengah] = useState(null);
+  const [animatedKananTengahUrl, setAnimatedKananTengahUrl] = useState(null);
+  const [animatedKananBawah, setAnimatedKananBawah] = useState(null);
+  const [animatedKananBawahUrl, setAnimatedKananBawahUrl] = useState(null);
 
   useEffect(() => {
     if (category) {
@@ -68,6 +89,56 @@ function AdminUploadDesignForm() {
       setImagePreviewUrl(URL.createObjectURL(file)); // Generate the image preview URL
     }
   };
+  // Handle animated image file selection and preview
+  const handleAnimatedKiriAtasChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAnimatedKiriAtas(file);
+      setAnimatedKiriAtasUrl(URL.createObjectURL(file)); // Generate the image preview URL
+    }
+  };
+  // Handle animated image file selection and preview
+  const handleAnimatedKiriTengahChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAnimatedKiriTengah(file);
+      setAnimatedKiriTengahUrl(URL.createObjectURL(file)); // Generate the image preview URL
+    }
+  };
+  // Handle animated image file selection and preview
+  const handleAnimatedKiriBawahChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAnimatedKiriBawah(file);
+      setAnimatedKiriBawahUrl(URL.createObjectURL(file)); // Generate the image preview URL
+    }
+  };
+  // Handle animated image file selection and preview
+  const handleAnimatedKananAtasChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAnimatedKananAtas(file);
+      setAnimatedKananAtasUrl(URL.createObjectURL(file)); // Generate the image preview URL
+    }
+  };
+  // Handle animated image file selection and preview
+  const handleAnimatedKananTengahChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAnimatedKananTengah(file);
+      setAnimatedKananTengahUrl(URL.createObjectURL(file)); // Generate the image preview URL
+    }
+  };
+  // Handle animated image file selection and preview
+  const handleAnimatedKananBawahChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAnimatedKananBawah(file);
+      setAnimatedKananBawahUrl(URL.createObjectURL(file)); // Generate the image preview URL
+    }
+  };
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,6 +151,15 @@ function AdminUploadDesignForm() {
     formData.append("imagepreview", imagepreview);
     formData.append("particleColor", particleColor);
     formData.append("fontColor", fontColor);
+
+    // if (category === "Motion") {
+      formData.append("animatedKiriAtas", animatedKiriAtas);
+      formData.append("animatedKiriTengah", animatedKiriTengah);
+      formData.append("animatedKiriBawah", animatedKiriBawah);
+      formData.append("animatedKananAtas", animatedKananAtas);
+      formData.append("animatedKananTengah", animatedKananTengah);
+      formData.append("animatedKananBawah", animatedKananBawah);
+    // }
 
     try {
       const response = await axios.post("/api/admin/upload-design", formData, {
@@ -117,17 +197,32 @@ function AdminUploadDesignForm() {
     setImagePreview(null);
     setImagePreviewUrl(null);
     setDesignName("");
+    setAnimatedKananAtas(null);
+    setAnimatedKananAtasUrl(null);
+    setAnimatedKananTengah(null);
+    setAnimatedKananTengahUrl(null);
+    setAnimatedKananBawah(null);
+    setAnimatedKananBawahUrl(null);
+    setAnimatedKiriAtas(null);
+    setAnimatedKiriAtasUrl(null);
+    setAnimatedKiriTengah(null);
+    setAnimatedKiriTengahUrl(null);
+    setAnimatedKiriBawah(null);
+    setAnimatedKiriBawahUrl(null);
   };
 
   function removeImage() {
     setImageUrl(null);
-  }
-  function removeImageBg() {
     setImageBgUrl(null);
-  }
-  function removeimagepreview() {
     setImagePreviewUrl(null);
+    setAnimatedKiriAtasUrl(null);
+    setAnimatedKiriTengahUrl(null);
+    setAnimatedKiriBawahUrl(null);
+    setAnimatedKananAtasUrl(null);
+    setAnimatedKananTengahUrl(null);
+    setAnimatedKananBawahUrl(null);
   }
+
 
   return (
     <div className="w-[90%] max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
@@ -220,7 +315,7 @@ function AdminUploadDesignForm() {
             </div>
             {imageBgUrl && (
               <div className="mt-4">
-                <Button className="mx-auto" onClick={removeImageBg}>
+                <Button className="mx-auto" onClick={removeImage}>
                   <MdCancel />
                 </Button>
                 <img
@@ -250,7 +345,7 @@ function AdminUploadDesignForm() {
             </div>
             {imagepreviewUrl && (
               <div className="mt-4">
-                <Button className="mx-auto" onClick={removeimagepreview}>
+                <Button className="mx-auto" onClick={removeImage}>
                   <MdCancel />
                 </Button>
                 <img
@@ -285,6 +380,184 @@ function AdminUploadDesignForm() {
               />
             </div>
           </div>
+          {category === "Motion" && (
+            <>
+              {/* Upload Animated Kiri Atas */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  Upload Animated Kiri Atas
+                </label>
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="imagepreview"
+                    onChange={handleAnimatedKiriAtasChange}
+                    required
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200"
+                  />
+                  <FaUpload className="text-indigo-600 text-xl" />
+                </div>
+                {animatedKiriAtasUrl && (
+                  <div className="mt-4">
+                    <Button className="mx-auto" onClick={removeImage}>
+                      <MdCancel />
+                    </Button>
+                    <img
+                      src={animatedKiriAtasUrl}
+                      alt="Preview Image"
+                      className="w-60 mx-auto h-96"
+                    />
+                  </div>
+                )}
+              </div>
+              {/* Upload Animated Kiri Tengah */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  Upload Animated Kiri Tengah
+                </label>
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="imagepreview"
+                    onChange={handleAnimatedKiriTengahChange}
+                    required
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200"
+                  />
+                  <FaUpload className="text-indigo-600 text-xl" />
+                </div>
+                {animatedKiriTengahUrl && (
+                  <div className="mt-4">
+                    <Button className="mx-auto" onClick={removeImage}>
+                      <MdCancel />
+                    </Button>
+                    <img
+                      src={animatedKiriTengahUrl}
+                      alt="Preview Image"
+                      className="w-60 mx-auto h-96"
+                    />
+                  </div>
+                )}
+              </div>
+              {/* Upload Animated Kiri Bawah */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  Upload Animated Kiri Bawah
+                </label>
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="imagepreview"
+                    onChange={handleAnimatedKiriBawahChange}
+                    required
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200"
+                  />
+                  <FaUpload className="text-indigo-600 text-xl" />
+                </div>
+                {animatedKiriBawahUrl && (
+                  <div className="mt-4">
+                    <Button className="mx-auto" onClick={removeImage}>
+                      <MdCancel />
+                    </Button>
+                    <img
+                      src={animatedKiriBawahUrl}
+                      alt="Preview Image"
+                      className="w-60 mx-auto h-96"
+                    />
+                  </div>
+                )}
+              </div>
+              {/* Upload Animated Kiri Atas */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  Upload Animated Kanan Atas
+                </label>
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="imagepreview"
+                    onChange={handleAnimatedKananAtasChange}
+                    required
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200"
+                  />
+                  <FaUpload className="text-indigo-600 text-xl" />
+                </div>
+                {animatedKananAtasUrl && (
+                  <div className="mt-4">
+                    <Button className="mx-auto" onClick={removeImage}>
+                      <MdCancel />
+                    </Button>
+                    <img
+                      src={animatedKananAtasUrl}
+                      alt="Preview Image"
+                      className="w-60 mx-auto h-96"
+                    />
+                  </div>
+                )}
+              </div>
+              {/* Upload Animated Kiri Tengah */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  Upload Animated Kanan Tengah
+                </label>
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="imagepreview"
+                    onChange={handleAnimatedKananTengahChange}
+                    required
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200"
+                  />
+                  <FaUpload className="text-indigo-600 text-xl" />
+                </div>
+                {animatedKananTengahUrl && (
+                  <div className="mt-4">
+                    <Button className="mx-auto" onClick={removeImage}>
+                      <MdCancel />
+                    </Button>
+                    <img
+                      src={animatedKananTengahUrl}
+                      alt="Preview Image"
+                      className="w-60 mx-auto h-96"
+                    />
+                  </div>
+                )}
+              </div>
+              {/* Upload Animated Kiri Bawah */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  Upload Animated Kanan Bawah
+                </label>
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="imagepreview"
+                    onChange={handleAnimatedKananBawahChange}
+                    required
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200"
+                  />
+                  <FaUpload className="text-indigo-600 text-xl" />
+                </div>
+                {animatedKananBawahUrl && (
+                  <div className="mt-4">
+                    <Button className="mx-auto" onClick={removeImage}>
+                      <MdCancel />
+                    </Button>
+                    <img
+                      src={animatedKananBawahUrl}
+                      alt="Preview Image"
+                      className="w-60 mx-auto h-96"
+                    />
+                  </div>
+                )}
+              </div>
+            </>
+          )}
         </div>
 
         {/* Success/Error Messages */}
