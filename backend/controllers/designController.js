@@ -82,30 +82,25 @@ const uploadDesign = async (req, res) => {
       imagePreviewFile,
       `Preview${designName}.png`
     );
-    const imageMotionKiriAtasUrl = await uploadToS3(
-      imageMotionKiriAtasFile,
-      `MotionKiriAtas${designName}.png`
-    );
-    const imageMotionKiriTengahUrl = await uploadToS3(
-      imageMotionKiriTengahFile,
-      `MotionKiriTengah${designName}.png`
-    );
-    const imageMotionKiriBawahUrl = await uploadToS3(
-      imageMotionKiriBawahFile,
-      `MotionKiriBawah${designName}.png`
-    );
-    const imageMotionKananAtasUrl = await uploadToS3(
-      imageMotionKananAtasFile,
-      `MotionKananAtas${designName}.png`
-    );
-    const imageMotionKananTengahUrl = await uploadToS3(
-      imageMotionKananTengahFile,
-      `MotionKananTengah${designName}.png`
-    );
-    const imageMotionKananBawahUrl = await uploadToS3(
-      imageMotionKananBawahFile,
-      `MotionKananBawah${designName}.png`
-    );
+    // Upload optional motion images only if they are provided
+    const imageMotionKiriAtasUrl = imageMotionKiriAtasFile
+      ? await uploadToS3(imageMotionKiriAtasFile, `MotionKiriAtas${designName}.png`)
+      : null;
+    const imageMotionKiriTengahUrl = imageMotionKiriTengahFile
+      ? await uploadToS3(imageMotionKiriTengahFile, `MotionKiriTengah${designName}.png`)
+      : null;
+    const imageMotionKiriBawahUrl = imageMotionKiriBawahFile
+      ? await uploadToS3(imageMotionKiriBawahFile, `MotionKiriBawah${designName}.png`)
+      : null;
+    const imageMotionKananAtasUrl = imageMotionKananAtasFile
+      ? await uploadToS3(imageMotionKananAtasFile, `MotionKananAtas${designName}.png`)
+      : null;
+    const imageMotionKananTengahUrl = imageMotionKananTengahFile
+      ? await uploadToS3(imageMotionKananTengahFile, `MotionKananTengah${designName}.png`)
+      : null;
+    const imageMotionKananBawahUrl = imageMotionKananBawahFile
+      ? await uploadToS3(imageMotionKananBawahFile, `MotionKananBawah${designName}.png`)
+      : null;
 
     // Save design in the database
     const newDesign = new CardDesign({

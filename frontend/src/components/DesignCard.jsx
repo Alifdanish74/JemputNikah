@@ -12,9 +12,9 @@ function DesignCard({ itemName, itemImage, itemCategory }) {
       <h5 className="hidden text-lg md:text-xl mb-2 font-semibold tracking-tight text-gray-900 text-center">
         {itemCategory}
       </h5>
-      <div className="bg-white border border-gray-200 rounded-2xl min-h-[250px] min-w-[244px] shadow-lg">
+      <div className="bg-white border border-gray-200 rounded-2xl md:min-h-[250px] md:min-w-[244px] shadow-lg">
         <img
-          className="mx-auto w-2/4 min-h-[190px] rounded-t-lg object-cover my-2"
+          className="mx-auto w-2/4 md:min-h-[190px] rounded-t-lg object-cover my-2"
           src={itemImage}
           // src={"http://localhost:4000/uploads/PreviewFloral001.png" }
           alt="product image"
