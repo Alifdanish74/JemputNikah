@@ -25,7 +25,7 @@ function AnimatedComponent002() {
           // src={E3} // Replace with your flower image path
           src={weddingCard.designAnimatedKiriBawah} // Replace with your flower image path
           alt="Flower"
-          className="w-[180px] h-auto  top-14 absolute right-[320px]"
+          className="w-[180px] h-auto  top-14 absolute right-[280px]"
           animate={{
             rotate: [0, 3, -3, 0], // Slight rotations to simulate wind
             x: [0, 4, -4, 0], // Horizontal sway
@@ -44,7 +44,7 @@ function AnimatedComponent002() {
         <motion.img
           src={weddingCard.designAnimatedKiriAtas} // Replace with your flower image path
           alt="Flower"
-          className="w-[320px] h-auto -top-28 absolute right-[80px] "
+          className="w-[320px] h-auto -top-24 absolute right-[120px] "
           animate={{
             rotate: [0, 3, -3, 0], // Slight rotations to simulate wind
             x: [0, 4, -4, 0], // Horizontal sway
@@ -82,7 +82,7 @@ function AnimatedComponent002() {
         <motion.img
           src={weddingCard.designAnimatedKananBawah} // Replace with your flower image path
           alt="Flower"
-          className="w-[250px] h-auto -bottom-24 absolute left-[150px]"
+          className="w-[250px] h-auto -bottom-28 absolute left-[180px]"
           animate={{
             rotate: [0, 3, -3, 0], // Slight rotations to simulate wind
             x: [0, 4, -4, 0], // Horizontal sway

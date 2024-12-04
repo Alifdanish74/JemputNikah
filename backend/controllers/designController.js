@@ -62,13 +62,7 @@ const uploadDesign = async (req, res) => {
     if (
       !imageFile ||
       !imagePreviewFile ||
-      !imageBgFile ||
-      !imageMotionKiriBawahFile ||
-      !imageMotionKananAtasFile ||
-      !imageMotionKananTengahFile ||
-      !imageMotionKananBawahFile ||
-      !imageMotionKiriAtasFile ||
-      !imageMotionKiriTengahFile
+      !imageBgFile
     ) {
       return res.status(400).json({ message: "All images files are required" });
     }

@@ -48,7 +48,12 @@ function MainContent() {
     <div
       className="relative flex flex-col overflow-hidden z-0 px-4 pb-14 text-center min-h-screen main-card  text-black justify-center items-center"
       style={{
-        backgroundImage: designName && design ? `url(${design.image})` : `url(${weddingCard.designUrl})`,
+        backgroundImage:
+        designName?.includes("Motion") || weddingCard?.designName?.includes("Motion")
+          ? `url(${weddingCard.designBgUrl})`
+          : designName && design
+          ? `url(${design.image})`
+          : `url(${weddingCard.designUrl})`,
         // backgroundImage: `url(${BgTest})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
