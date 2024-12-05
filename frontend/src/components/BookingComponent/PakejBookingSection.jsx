@@ -24,7 +24,7 @@ function PakejSection({ onPakejChange, handleFormDataChange }) {
           <div className=" mt-4 lg:mt-6 ">
             <ul
               role="list"
-              className=" gap-y-3 grid grid-cols-4  justify-center"
+              className=" gap-y-3 grid grid-cols-3 md:grid-cols-4  justify-center"
             >
               <div className=" flex mx-auto">
                 <li className="flex items-center  gap-2">
@@ -104,7 +104,7 @@ function PakejSection({ onPakejChange, handleFormDataChange }) {
           <div>
             <ul
               role="list"
-              className=" gap-y-3 grid grid-cols-4  justify-center"
+              className=" gap-y-3 grid grid-cols-3 md:grid-cols-4  justify-center"
             >
               <div className=" flex mx-auto">
                 <li className="flex items-center  gap-2">
@@ -202,7 +202,7 @@ function PakejSection({ onPakejChange, handleFormDataChange }) {
           <div>
             <ul
               role="list"
-              className=" gap-y-3 grid grid-cols-4  justify-center"
+              className=" gap-y-3 grid grid-cols-3 md:grid-cols-4  justify-center"
             >
               <div className=" flex mx-auto">
                 <li className="flex items-center  gap-2">

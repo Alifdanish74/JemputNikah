@@ -293,8 +293,39 @@ function BookingPage() {
     // Add validations for other sections as necessary
     if (activeSection === "Majlis") {
       // Example: Add validation for Majlis section fields
-      if (!formData.tajukMajlis)
+      if (!formData.tajukMajlis){
         newErrors.tajukMajlis = "Tajuk Majlis is required";
+      }
+      if (!formData.mukadimah){
+        newErrors.mukadimah = "Mukadimah is required";
+      }
+      if (!formData.ucapanAluan){
+        newErrors.ucapanAluan = "Ucapan aluan is required";
+      }
+      if (!formData.tarikhMajlis){
+        newErrors.tarikhMajlis = "Tarikh Majlis is required";
+      }
+      if (!formData.majlisStart){
+        newErrors.majlisStart = "Waktu majlis mula is required";
+      }
+      if (!formData.majlisEnd){
+        newErrors.majlisEnd = "Waktu majlis tamat is required";
+      }
+      if (!formData.locationMajlis){
+        newErrors.locationMajlis = "Lokasi Majlis is required";
+      }
+      if (!formData.fullLocationMajlis){
+        newErrors.fullLocationMajlis = "Alamat Penuh Lokasi Majlis is required";
+      }
+      if (!formData.googleMapsLink){
+        newErrors.googleMapsLink = "GoogleMaps link is required";
+      }
+      if (!formData.emergencyContacts1 || !formData.emergencyNumber1 || !formData.emergencyContacts2 || !formData.emergencyNumber2 ){
+        newErrors.emergencyContacts = "At least 2 Emergency Contact is required";
+      }
+      if (!formData.eventTentativeTime1 || !formData.eventTentativeTitle1 || !formData.eventTentativeTime2 || !formData.eventTentativeTitle2 || !formData.eventTentativeTime3 || !formData.eventTentativeTitle3){
+        newErrors.eventTentative = "At least 3 tentative event is required";
+      }
       // Add more Majlis validation logic here...
     }
 
@@ -404,6 +435,7 @@ function BookingPage() {
             }}
             formData={formData}
             handleFormDataChange={handleFormDataChange}
+            errors={errors}
           />
         );
       case "MoneyGift":
@@ -551,16 +583,11 @@ function BookingPage() {
               <p className="mb-4 font-light text-black sm:text-lg">
                 Category: {design.category}
               </p>
-              <div className="grid grid-cols-2">
+              {/* <div className="grid grid-cols-2">
                 <p>Selected Package: {selectedPakej}</p>{" "}
-                {/* Display the selected package */}
                 <p>Pihak Majlis: {formData.pihakMajlis}</p>{" "}
-                {/* <p>Tarikh akhir {formData.maxDate}</p>{" "} */}
                 <p>price: {formData.price}</p>{" "}
-                {/* <p>Bg Song: {formData.bgSong} </p> */}
-                {/* <p>Tarikh Majlis: {formData.tarikhMajlis} </p> */}
-                {/* <p>user: {user._id}</p> <p>price: {formData.price}</p>{" "} */}
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -568,7 +595,7 @@ function BookingPage() {
           <div className="flex bg-white rounded-2xl items-start mx-auto  px-4 md:px-8 xl:px-10">
             <div className="w-full">
               {/* Navigation */}
-              <ol className="flex items-center my-6 text-sm font-medium text-center text-gray-500 lg:mb-4 sm:text-base">
+              <ol className="flex items-center overflow-auto my-6 text-sm font-medium text-center text-gray-500 lg:mb-4 sm:text-base">
                 {filteredSections.map((section) => (
                   <li
                     key={section.name}

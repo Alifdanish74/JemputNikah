@@ -27,6 +27,7 @@ function AdminUploadDesignForm() {
     "Khat",
     "Minimalist",
     "Motion",
+    "Custom",
   ];
 
   // New states for motion category images

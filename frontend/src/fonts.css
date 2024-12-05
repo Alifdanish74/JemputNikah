@@ -42,6 +42,10 @@
   .font-KaushanScript {
     font-family: 'Kaushan Script', cursive;
   }
+  .font-KaushanScript > p {
+    font-family: 'Kaushan Script', cursive;
+    font-size: 35px;
+  }
   
   .font-LaGraziela {
     font-family: 'La Graziela', cursive;

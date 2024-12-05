@@ -102,7 +102,7 @@ function MainContent() {
       </motion.div>
       {/* NAMA PENGANTIN */}
       {!["D"].includes(weddingCard.pihakMajlis) &&
-        ["L"].includes(weddingCard.pihakMajlis) && (
+        ["L","LL"].includes(weddingCard.pihakMajlis) && (
           <>
             {/* NAMA PENGANTIN */}
             <div className={`mb-5 text-6xl ${weddingCard.jenisFont}`}>
@@ -136,7 +136,7 @@ function MainContent() {
           </>
         )}
       {!["D"].includes(weddingCard.pihakMajlis) &&
-        ["P"].includes(weddingCard.pihakMajlis) && (
+        ["P","PP"].includes(weddingCard.pihakMajlis) && (
           <>
             {/* NAMA PENGANTIN */}
             <div className={`mb-5 text-6xl ${weddingCard.jenisFont}`}>
@@ -230,7 +230,7 @@ function MainContent() {
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1, duration: 1 }}
-        className={`text-4xl mt-4 font-Libre font-normal ${weddingCard.jenisFont}`}
+        className={`text-3xl mt-4 font-Libre font-normal ${weddingCard.jenisFont}`}
       >
         {weddingCard.locationMajlis}
       </motion.p>

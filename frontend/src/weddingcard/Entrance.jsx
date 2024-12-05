@@ -61,7 +61,7 @@ const Entrance = ({ onClose, setIsPlaying }) => {
         </motion.div>
         {/* NAMA PENGANTIN */}
         {!["D"].includes(weddingCard.pihakMajlis) &&
-          ["L"].includes(weddingCard.pihakMajlis) && (
+          ["L","LL"].includes(weddingCard.pihakMajlis) && (
             <>
               {/* NAMA PENGANTIN */}
               <div className={`mb-5 text-6xl ${weddingCard.jenisFont}`}>
@@ -95,7 +95,7 @@ const Entrance = ({ onClose, setIsPlaying }) => {
             </>
           )}
         {!["D"].includes(weddingCard.pihakMajlis) &&
-          ["P"].includes(weddingCard.pihakMajlis) && (
+          ["P","PP"].includes(weddingCard.pihakMajlis) && (
             <>
               {/* NAMA PENGANTIN */}
               <div className={`mb-5 text-6xl ${weddingCard.jenisFont}`}>

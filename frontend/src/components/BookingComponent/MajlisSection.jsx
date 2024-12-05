@@ -24,7 +24,7 @@ function ClockSVG() {
 }
 
 // eslint-disable-next-line react/prop-types
-function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
+function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange, errors }) {
   return (
     <div className="my-8">
       <h1 className="mb-4 text-xl font-extrabold tracking-tight text-gray-900 sm:mb-6 leding-tight ">
@@ -51,6 +51,11 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                 handleFormDataChange("tajukMajlis", e.target.value);
               }}
             />
+            {errors.tajukMajlis && (
+                  <p className="text-red-500 text-sm">
+                    {errors.tajukMajlis}
+                  </p>
+                )}
           </div>
 
           {/* Mukadimah */}
@@ -72,6 +77,11 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                 handleFormDataChange("mukadimah", e.target.value);
               }}
             />
+            {errors.mukadimah && (
+                  <p className="text-red-500 text-sm">
+                    {errors.mukadimah}
+                  </p>
+                )}
           </div>
 
           {/* Ucapan Aluan */}
@@ -92,6 +102,11 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                 handleFormDataChange("ucapanAluan", e.target.value);
               }}
             />
+             {errors.ucapanAluan && (
+                  <p className="text-red-500 text-sm">
+                    {errors.ucapanAluan}
+                  </p>
+                )}
           </div>
           {/* Tarikh majlis */}
           <div>
@@ -112,6 +127,11 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
               } // Convert to Date object
               onChange={(date) => handleFormDataChange("tarikhMajlis", date)}
             />
+            {errors.tarikhMajlis && (
+                  <p className="text-red-500 text-sm">
+                    {errors.tarikhMajlis}
+                  </p>
+                )}
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2">
@@ -137,6 +157,11 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                     handleFormDataChange("majlisStart", e.target.value);
                   }}
                 />
+                {errors.majlisStart && (
+                  <p className="text-red-500 text-sm">
+                    {errors.majlisStart}
+                  </p>
+                )}
               </div>
             </div>
             {/* Waktu majlis akhir */}
@@ -161,6 +186,11 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                     handleFormDataChange("majlisEnd", e.target.value);
                   }}
                 />
+                {errors.majlisEnd && (
+                  <p className="text-red-500 text-sm">
+                    {errors.majlisEnd}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -185,6 +215,11 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                 handleFormDataChange("locationMajlis", e.target.value);
               }}
             />
+            {errors.locationMajlis && (
+                  <p className="text-red-500 text-sm">
+                    {errors.locationMajlis}
+                  </p>
+                )}
           </div>
 
           {/* Alamat penuh  */}
@@ -207,6 +242,11 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                 handleFormDataChange("fullLocationMajlis", e.target.value);
               }}
             />
+            {errors.fullLocationMajlis && (
+                  <p className="text-red-500 text-sm">
+                    {errors.fullLocationMajlis}
+                  </p>
+                )}
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2">
@@ -230,6 +270,11 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                   handleFormDataChange("googleMapsLink", e.target.value);
                 }}
               />
+              {errors.googleMapsLink && (
+                  <p className="text-red-500 text-sm">
+                    {errors.googleMapsLink}
+                  </p>
+                )}
             </div>
             {/* Waze */}
             <div>
@@ -364,6 +409,11 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
                 }}
               />
             </div>
+              {errors.emergencyContacts && (
+                  <p className="text-red-500 text-sm">
+                    {errors.emergencyContacts}
+                  </p>
+                )}
           </div>
           {/* Aturcara */}
           <label
@@ -512,6 +562,11 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange }) {
               />
             </div>
           </div>
+          {errors.eventTentative && (
+                  <p className="text-red-500 text-sm">
+                    {errors.eventTentative}
+                  </p>
+                )}
         </div>
 
         <div className="grid grid-cols-2">

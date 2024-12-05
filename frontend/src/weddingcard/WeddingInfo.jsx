@@ -116,7 +116,7 @@ function WeddingInfo() {
 
       {/* IF PENGANTIN BELAH LELAKI */}
       {!["D"].includes(weddingCard.pihakMajlis) &&
-        ["L"].includes(weddingCard.pihakMajlis) && (
+        ["L", "LL"].includes(weddingCard.pihakMajlis) && (
           <>
             {/* NAMA PENGANTIN LELAKI */}
             <motion.div
@@ -179,7 +179,7 @@ function WeddingInfo() {
         )}
       {/* IF PENGANTIN BELAH PEREMPUAN */}
       {!["D"].includes(weddingCard.pihakMajlis) &&
-        ["P"].includes(weddingCard.pihakMajlis) && (
+        ["P", "PP"].includes(weddingCard.pihakMajlis) && (
           <>
             {/* NAMA PENGANTIN PEREMPUAN */}
             <motion.div

@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const CardDesignSchema = new mongoose.Schema({
   designName: { type: String, required: true },      // eg: Floral 002
-  category: { type: String, required: true },        // eg: Floral design
+  category: { type: String, required: true },    
+  status: { type: String, enum: ['public', 'hidden'], default: 'public' }, // status
   image: { type: String, required: true },           // Image file path or URL
   imagebg: { type: String, required: true },           // Image file path or URL
   imagepreview: { type: String, required: true },           // Image file path or URL

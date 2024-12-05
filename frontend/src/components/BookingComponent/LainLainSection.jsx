@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 // import ReactAudioPlayer from "react-audio-player";
-import { FileInput, Label } from "flowbite-react";
+// import { FileInput, Label } from "flowbite-react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import axios from "axios";
 import AudioPlayer from "react-h5-audio-player";
@@ -27,7 +27,8 @@ function LainLainSection({
   // Initialize doa text based on edit mode
   // Initialize doa text and update formData if not already set
   const [doaText, setDoaText] = useState(() => {
-    const initialDoa = isEditMode && formData.doa ? formData.doa : doaOptions.doa1;
+    const initialDoa =
+      isEditMode && formData.doa ? formData.doa : doaOptions.doa1;
     if (!formData.doa) {
       handleFormDataChange("doa", initialDoa);
     }
@@ -121,11 +122,11 @@ function LainLainSection({
             </select>
           </div>
 
-          {/* Lagu background */}
-          <div>
-            
+          {/* Image pengantin */}
+
+          {/* <div>
             <h1 className="font-medium">Galeri (tidak wajib)</h1>
-            {/* Gambar 1 */}
+
             <div className="text-start mb-2">
               <Label
                 htmlFor="file-upload-helper-text"
@@ -137,7 +138,7 @@ function LainLainSection({
               accept="image/*"
               helperText="PNG or JPG  (MAX. 800x400px)."
             />
-            {/* Gambar 2 */}
+
             <div className="text-start mb-2">
               <Label
                 htmlFor="file-upload-helper-text"
@@ -149,7 +150,7 @@ function LainLainSection({
               accept="image/*"
               helperText="PNG or JPG  (MAX. 800x400px)."
             />
-            {/* Gambar 3 */}
+
             <div className="text-start mb-2">
               <Label
                 htmlFor="file-upload-helper-text"
@@ -161,7 +162,7 @@ function LainLainSection({
               accept="image/*"
               helperText="PNG or JPG  (MAX. 800x400px)."
             />
-          </div>
+          </div> */}
         </div>
         {/* Doa */}
         <div>
