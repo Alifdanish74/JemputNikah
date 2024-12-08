@@ -32,6 +32,7 @@ import { useEffect, useState } from "react";
 import AdminViewDesign from "./adminside/AdminViewDesign";
 import ProtectedRoute from "./customhooks/ProtectedRoute";
 import { WeddingCardProvider } from "./customhooks/WeddingCardContext";
+// import ContactUs from "./pages/ContactUs";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
 axios.defaults.withCredentials = true;
@@ -79,6 +80,7 @@ function App() {
                 <Route path="/pakej" element={<PakejPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/login" element={<LoginPage />} />
+                {/* <Route path="/contact" element={<ContactUs />} /> */}
 
                 <Route
                   path="/weddingcardpreview/:hashtag/:orderNumber"

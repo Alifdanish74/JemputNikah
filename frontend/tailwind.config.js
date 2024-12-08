@@ -1,25 +1,43 @@
-import flowbite from "flowbite-react/tailwind"
-
+import defaultTheme from "tailwindcss/defaultTheme";
+import colors from "tailwindcss/colors";
+import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette.js";
+import flowbite from "flowbite-react/tailwind";
 
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}",
     flowbite.content(),
   ],
+  darkMode: "class", // Enables dark mode with 'class'
   theme: {
     extend: {
       colors: {
-        primary: '#E01760',
+        primary: "#E01760",
+        ...colors, // Include Tailwind default colors
       },
       fontFamily: {
-        sans: ['YourCustomFont', 'ui-sans-serif', 'system-ui'],
-        // or change other font families like serif or mono
+        sans: ["YourCustomFont", ...defaultTheme.fontFamily.sans],
       },
     },
   },
   plugins: [
     flowbite.plugin(),
-]
+    addVariablesForColors, // Adds Tailwind colors as CSS variables
+  ],
+};
+
+/**
+ * This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
+ */
+function addVariablesForColors({ addBase, theme }) {
+  let allColors = flattenColorPalette(theme("colors"));
+  let newVars = Object.fromEntries(
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+  );
+
+  addBase({
+    ":root": newVars,
+  });
 }

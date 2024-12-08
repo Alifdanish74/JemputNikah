@@ -46,7 +46,7 @@ function WeddingInfo() {
         {/* <p className="text-xl">
           اَلسَلامُ عَلَيْكُم وَرَحْمَةُ اَللهِ وَبَرَكاتُهُ
         </p> */}
-        <p className="text-base">{weddingCard.mukadimah}</p>
+        <p className="text-base whitespace-pre-line">{weddingCard.mukadimah}</p>
       </motion.div>
 
       {!["LL", "PP"].includes(weddingCard.pihakMajlis) && (
@@ -97,7 +97,7 @@ function WeddingInfo() {
         </div>
       )}
 
-      <motion.div
+      <motion.p
         initial={{
           y: 100,
           opacity: 0,
@@ -105,14 +105,14 @@ function WeddingInfo() {
         transition={{ duration: 1.2 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mb-7 text-base font-['Libre']"
+        className="mb-7 text-base font-['Libre'] whitespace-pre-line"
       >
         {/* <p>Dengan penuh kesyukuran kehadrat Illahi,</p>
         <p>kami mempersilakan</p>
         <p>Dato/Datin/Dr/Tuan/Puan/Encik/Cik</p>
         <p>ke walimatulurus anakanda kesayangan kami</p> */}
         {weddingCard.ucapanAluan}
-      </motion.div>
+      </motion.p>
 
       {/* IF PENGANTIN BELAH LELAKI */}
       {!["D"].includes(weddingCard.pihakMajlis) &&

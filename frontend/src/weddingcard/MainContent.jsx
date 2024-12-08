@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import AnimatedComponent from "./component/AnimatedComponent_Motion001";
 import ParticleComponent from "./component/ParticleComponent";
 import AnimatedComponent002 from "./component/AnimatedComponent_Motion002";
+import AnimatedComponentPreview from "./component/AnimatedComponent_Motion001_preview";
 
 function MainContent() {
   const { weddingCard, design, fetchDesign } = useWeddingCard();
@@ -49,11 +50,12 @@ function MainContent() {
       className="relative flex flex-col overflow-hidden z-0 px-4 pb-14 text-center min-h-screen main-card  text-black justify-center items-center"
       style={{
         backgroundImage:
-        designName?.includes("Motion") || weddingCard?.designName?.includes("Motion")
-          ? `url(${weddingCard.designBgUrl})`
-          : designName && design
-          ? `url(${design.image})`
-          : `url(${weddingCard.designUrl})`,
+          designName?.includes("Motion") ||
+          weddingCard?.designName?.includes("Motion")
+            ? `url(${weddingCard.designBgUrl})`
+            : designName && design
+            ? `url(${design.image})`
+            : `url(${weddingCard.designUrl})`,
         // backgroundImage: `url(${BgTest})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -63,18 +65,24 @@ function MainContent() {
         // overflow: "hidden",
       }}
     >
-      {(weddingCard?.designName?.includes("Motion001") || designName?.includes("Motion001")) && (
+      {(weddingCard?.designName?.includes("Motion001") ||
+        designName?.includes("Motion001")) && (
         <>
           <section id="particles" className="">
             <ParticleComponent particleColor={particlesColor} />
           </section>
 
-          <section id="animated" className="-z-10">
+          {designName?.includes("Motion001") ? (
+            <section id="animated" className="-z-10">
+              <AnimatedComponentPreview />
+            </section>
+          ) : (
             <AnimatedComponent />
-          </section>
+          )}
         </>
       )}
-      {(weddingCard?.designName?.includes("Motion002") || designName?.includes("Motion002")) && (
+      {(weddingCard?.designName?.includes("Motion002") ||
+        designName?.includes("Motion002")) && (
         <>
           <section id="particles" className="">
             <ParticleComponent particleColor={particlesColor} />
@@ -102,7 +110,7 @@ function MainContent() {
       </motion.div>
       {/* NAMA PENGANTIN */}
       {!["D"].includes(weddingCard.pihakMajlis) &&
-        ["L","LL"].includes(weddingCard.pihakMajlis) && (
+        ["L", "LL"].includes(weddingCard.pihakMajlis) && (
           <>
             {/* NAMA PENGANTIN */}
             <div className={`mb-5 text-6xl ${weddingCard.jenisFont}`}>
@@ -136,7 +144,7 @@ function MainContent() {
           </>
         )}
       {!["D"].includes(weddingCard.pihakMajlis) &&
-        ["P","PP"].includes(weddingCard.pihakMajlis) && (
+        ["P", "PP"].includes(weddingCard.pihakMajlis) && (
           <>
             {/* NAMA PENGANTIN */}
             <div className={`mb-5 text-6xl ${weddingCard.jenisFont}`}>

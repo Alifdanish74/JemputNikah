@@ -30,7 +30,7 @@ export const WeddingCardProvider = ({ children }) => {
     }
   };
   const fetchDesign = async (designName) => {
-    if (!designName || (design && design.designName === designName)) {
+    if ( (design && design.designName === designName)) {
       return; // Avoid redundant API calls
     }
 
