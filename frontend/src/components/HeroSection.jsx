@@ -3,35 +3,36 @@
 
 // import { Button } from "flowbite-react";
 import MockupImage from "../assets/phone-mockup.png";
-import { featureicons } from "./featureicons";
+// import { featureicons } from "./featureicons";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/moving-border";
 import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
+import { AnimatedTooltipPreview } from "./AnimatedToolTip";
 
 const words = [
   {
     text: "Kad",
   },
   {
-    text: "Jemputan",
+    text: "jemputan",
   },
   {
-    text: "Alaf",
+    text: "alaf",
   },
   {
-    text: "Baru!",
+    text: "baru!",
   },
   {
     text: "Kini",
   },
   {
-    text: "Lebih",
+    text: "lebih",
   },
   {
-    text: "Mudah",
+    text: "mudah",
   },
   {
-    text: "Dengan",
+    text: "dengan",
   },
   {
     text: "JemputKahwin.my",
@@ -61,8 +62,8 @@ function HeroSection() {
                 <div className="text-base">
                   <TypewriterEffectSmooth words={words} />
                 </div>
-                <div className="mx-auto p-6">
-                  <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
+                <div className="mx-auto pb-6">
+                  {/* <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
                     {featureicons.map((feature, index) => (
                       <div key={index} className="">
                         <div
@@ -75,7 +76,8 @@ function HeroSection() {
                         </span>
                       </div>
                     ))}
-                  </div>
+                  </div> */}
+                  <AnimatedTooltipPreview/>
                 </div>
                 <Button
                   target="blank"

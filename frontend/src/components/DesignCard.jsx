@@ -1,35 +1,42 @@
 /* eslint-disable react/prop-types */
-// import React from "react";
-
 import { Link } from "react-router-dom";
 
 function DesignCard({ itemName, itemImage, itemCategory }) {
   return (
-    <div className=" sm:max-w-xs mx-auto">
-      <h5 className="text-lg md:text-xl mb-2 font-semibold tracking-tight text-gray-900 text-center">
+    <div className="sm:max-w-xs mx-auto w-full px-4">
+      {/* Item Name */}
+      <h5 className="text-base sm:text-lg md:text-xl mb-2 font-semibold tracking-tight text-gray-900 text-center">
         {itemName}
       </h5>
-      <h5 className="hidden text-lg md:text-xl mb-2 font-semibold tracking-tight text-gray-900 text-center">
+      {/* Item Category */}
+      <h5 className="hidden sm:block text-sm sm:text-base md:text-lg mb-2 font-medium tracking-tight text-gray-500 text-center">
         {itemCategory}
       </h5>
-      <div className="bg-white border border-gray-200 rounded-2xl md:min-h-[250px] md:min-w-[244px] shadow-lg">
-        <img
-          className="mx-auto w-2/4 md:min-h-[190px] rounded-t-lg object-cover my-2"
-          src={itemImage}
-          // src={"http://localhost:4000/uploads/PreviewFloral001.png" }
-          alt="product image"
-        />
+      {/* Card */}
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-lg flex flex-col justify-between max-h-[240px]">
+        {/* Image */}
+        <div className="flex items-center justify-center max-h-[190px]">
+          <img
+            className="w-3/4 sm:w-2/4  rounded-t-lg"
+            src={itemImage}
+            alt="product image"
+          />
+        </div>
 
-        <div className="grid grid-cols-2 rounded-lg  bg-gray-50">
-          <div className="border-r py-2 w-full  text-sm rounded-bl-xl border-black hover:bg-black hover:text-white">
-            <a href={`/preview/${itemName}`} target="_blank" className="">
-              Preview
-            </a>
-          </div>
-          <Link to={`/kad-digital/tempah/${itemName}`} className="">
-            <div className="border-l py-2 rounded-br-xl text-sm text-white border-black bg-sky-500  hover:bg-black ">
-              Tempah
-            </div>
+        {/* Buttons */}
+        <div className="grid grid-cols-2 rounded-lg bg-gray-50">
+          <a
+            href={`/preview/${itemName}`}
+            target="_blank"
+            className="border-r py-2 text-sm sm:text-base text-center border-black rounded-bl-xl hover:bg-black hover:text-white"
+          >
+            Preview
+          </a>
+          <Link
+            to={`/kad-digital/tempah/${itemName}`}
+            className="border-l py-2 text-sm sm:text-base text-center text-white rounded-br-xl border-black bg-sky-500 hover:bg-black"
+          >
+            Tempah
           </Link>
         </div>
       </div>
