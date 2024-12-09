@@ -6,7 +6,7 @@ import MockupImage from "../assets/phone-mockup.png";
 import { featureicons } from "./featureicons";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/moving-border";
-import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
+// import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
 // import { AnimatedTooltipPreview } from "./AnimatedToolTip";
 
 const words = [
@@ -39,6 +39,7 @@ const words = [
     className: "text-blue-500 dark:text-blue-500",
   },
 ];
+console.log (words)
 function HeroSection() {
   const navigate = useNavigate();
 
@@ -56,11 +57,11 @@ function HeroSection() {
                   Kahwin Digital
                 </h1>
 
-                {/* <p className="mt-6 text-base text-black sm:text-xl">
+                <p className="mt-6 text-base text-black sm:text-xl">
                   Jemputan majlis alaf baru! Kini lebih mudah dan teratur
-                </p> */}
+                </p>
 
-                <TypewriterEffectSmooth words={words} />
+                {/* <TypewriterEffectSmooth words={words} /> */}
 
                 <div className="mx-auto pb-6">
                   <div className="grid grid-cols-4 md:grid-cols-8 gap-2">

@@ -13,7 +13,7 @@ function DesignCard({ itemName, itemImage, itemCategory }) {
         {itemCategory}
       </h5>
       {/* Card */}
-      <div className="bg-white border border-gray-200 rounded-2xl shadow-lg flex flex-col justify-between max-h-[240px]">
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-lg flex flex-col justify-between max-h-[240px] min-w-[120px]">
         {/* Image */}
         <div className="flex items-center justify-center max-h-[190px] min-h-[190px]">
           <img
