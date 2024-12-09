@@ -1,8 +1,9 @@
-import { useEffect, useState} from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { AgGridReact } from "ag-grid-react";
 import { Spinner, Button } from "flowbite-react";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
@@ -38,19 +39,6 @@ const ViewGuestbookPage = () => {
       filter: true,
       flex: 3,
     },
-    // {
-    //   headerName: "Actions",
-    //   cellRendererFramework: (params) => (
-    //     <Button
-    //       size="xs"
-    //       color="failure"
-    //       onClick={() => handleDelete(params.data)}
-    //     >
-    //       Delete
-    //     </Button>
-    //   ),
-    //   width: 100,
-    // },
     {
       headerName: "Delete",
       cellRenderer: (params) => (
@@ -67,7 +55,7 @@ const ViewGuestbookPage = () => {
   ]);
 
   const defaultColDef = {
-    resizable: true,
+    resizable: false,
   };
 
   // Fetch RSVP data
@@ -138,8 +126,6 @@ const ViewGuestbookPage = () => {
     );
   }
 
- 
-
   return (
     <div className="min-h-screen bg-gray-50 py-10">
       <div className="max-w-screen mx-auto px-4 sm:px-6 lg:px-8">
@@ -154,17 +140,19 @@ const ViewGuestbookPage = () => {
         <div>
           <Button onClick={() => fetchRSVPs()}>Refresh</Button>
         </div>
-        <div
-          className="ag-theme-alpine"
-          style={{ height: "600px", width: "100%" }}
-        >
-          <AgGridReact
-            rowData={rowData}
-            columnDefs={columnDefs}
-            defaultColDef={defaultColDef}
-            pagination={true}
-            paginationPageSize={10}
-          />
+        <div className="overflow-x-auto">
+          <div
+            className="ag-theme-alpine"
+            style={{ height: "600px", minWidth: "600px" }}
+          >
+            <AgGridReact
+              rowData={rowData}
+              columnDefs={columnDefs}
+              defaultColDef={defaultColDef}
+              pagination={true}
+              paginationPageSize={10}
+            />
+          </div>
         </div>
       </div>
     </div>

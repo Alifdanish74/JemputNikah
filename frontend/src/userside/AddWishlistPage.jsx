@@ -11,7 +11,12 @@ const AddWishlistPage = () => {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [wishlistItems, setWishlistItems] = useState([
-    { productName: "", productUrl: "", productImage: null, bookingStatus: "Available" },
+    {
+      productName: "",
+      productUrl: "",
+      productImage: null,
+      bookingStatus: "Available",
+    },
   ]);
   const [loading, setLoading] = useState(false);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
@@ -43,7 +48,14 @@ const AddWishlistPage = () => {
               ...item,
               productImage: item.productImage || null, // Retain the URL if productImage is a URL
             }))
-          : [{ productName: "", productUrl: "", productImage: null, bookingStatus: "Available" }]
+          : [
+              {
+                productName: "",
+                productUrl: "",
+                productImage: null,
+                bookingStatus: "Available",
+              },
+            ]
       );
     } catch (err) {
       console.error("Error fetching wishlist data:", err);
@@ -68,7 +80,12 @@ const AddWishlistPage = () => {
     if (wishlistItems.length < 10) {
       setWishlistItems((prev) => [
         ...prev,
-        { productName: "", productUrl: "", productImage: null, bookingStatus: "Available" },
+        {
+          productName: "",
+          productUrl: "",
+          productImage: null,
+          bookingStatus: "Available",
+        },
       ]);
     } else {
       alert("You can only add up to 10 wishlist items.");
@@ -92,7 +109,6 @@ const AddWishlistPage = () => {
       console.error("Error deleting wishlist item:", error);
     }
   };
-  
 
   // Remove an unsaved wishlist item
   const handleRemoveWishlistItem = (index) => {
@@ -107,23 +123,23 @@ const AddWishlistPage = () => {
       formData.append("orderNumber", orderNumber);
       formData.append("address", address);
       formData.append("phone", phone);
-  
+
       wishlistItems.forEach((item, index) => {
         const productIndex = index + 1; // Ensure positional mapping
         formData.append(`wishlistproductname${productIndex}`, item.productName);
         formData.append(`wishlistproducturl${productIndex}`, item.productUrl);
-  
+
         if (item.productImage instanceof File) {
           formData.append(`wishlistImage${productIndex}`, item.productImage);
         } else if (typeof item.productImage === "string" && item.productImage) {
           formData.append(`existingImage${productIndex}`, item.productImage);
         }
       });
-  
+
       await axios.post(`/api/wishlist/upload-wishlist`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-  
+
       alert("Wishlist submitted successfully!");
       fetchWishlist(); // Refresh data after submission
     } catch (err) {
@@ -136,10 +152,14 @@ const AddWishlistPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 text-center mb-6">Wishlist Management</h1>
+        <h1 className="text-3xl font-bold text-gray-900 text-center mb-6">
+          Wishlist Management
+        </h1>
 
         <div className="flex justify-center mb-4 space-x-4">
-          <Button onClick={() => setIsAddressModalOpen(true)}>Address Details</Button>
+          <Button onClick={() => setIsAddressModalOpen(true)}>
+            Address Details
+          </Button>
           <Button onClick={handleAddWishlistItem}>+ Add Wishlist Item</Button>
         </div>
         <div>
@@ -147,7 +167,11 @@ const AddWishlistPage = () => {
         </div>
         {/* Submit Button */}
         <div className="flex justify-end mb-4">
-          <Button color="warning" onClick={handleSubmitWishlist} disabled={loading}>
+          <Button
+            color="warning"
+            onClick={handleSubmitWishlist}
+            disabled={loading}
+          >
             {loading ? "Submitting..." : "Submit Wishlist"}
           </Button>
         </div>
@@ -155,8 +179,15 @@ const AddWishlistPage = () => {
         {/* Wishlist Form */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {wishlistItems.map((item, index) => (
-            <div key={index} className="p-4 border rounded-md shadow-md relative">
-              <h2 className="text-lg font-semibold mb-4">Wishlist Item {index + 1}</h2>
+            <div
+              key={index}
+              className={`p-4 border rounded-md shadow-md relative ${
+                item.bookingStatus === "Booked" ? "bg-green-300" : "bg-white"
+              }`}
+            >
+              <h2 className="text-lg font-semibold mb-4">
+                Wishlist Item {index + 1}
+              </h2>
               <div>
                 <label
                   htmlFor={`wishlistproductname${index}`}
@@ -169,7 +200,9 @@ const AddWishlistPage = () => {
                   type="text"
                   placeholder="Enter product name"
                   value={item.productName}
-                  onChange={(e) => handleWishlistChange(index, "productName", e.target.value)}
+                  onChange={(e) =>
+                    handleWishlistChange(index, "productName", e.target.value)
+                  }
                 />
               </div>
               <div>
@@ -184,7 +217,9 @@ const AddWishlistPage = () => {
                   type="text"
                   placeholder="Enter product URL"
                   value={item.productUrl}
-                  onChange={(e) => handleWishlistChange(index, "productUrl", e.target.value)}
+                  onChange={(e) =>
+                    handleWishlistChange(index, "productUrl", e.target.value)
+                  }
                 />
               </div>
               <div>
@@ -205,7 +240,13 @@ const AddWishlistPage = () => {
                   id={`wishlistImage${index}`}
                   type="file"
                   accept="image/*"
-                  onChange={(e) => handleWishlistChange(index, "productImage", e.target.files[0])}
+                  onChange={(e) =>
+                    handleWishlistChange(
+                      index,
+                      "productImage",
+                      e.target.files[0]
+                    )
+                  }
                 />
               </div>
               <div className="mt-4">
@@ -224,12 +265,20 @@ const AddWishlistPage = () => {
                 )}
               </div>
               <div className="absolute top-2 left-2 flex space-x-2">
-                <Button size="xs" color="failure" onClick={() => handleRemoveWishlistItem(index)}>
+                <Button
+                  size="xs"
+                  color="failure"
+                  onClick={() => handleRemoveWishlistItem(index)}
+                >
                   <IoMdRemoveCircleOutline />
                 </Button>
               </div>
               <div className="absolute top-2 right-2 flex space-x-2">
-                <Button size="xs" color="failure" onClick={() => handleDeleteWishlistItem(index)}>
+                <Button
+                  size="xs"
+                  color="failure"
+                  onClick={() => handleDeleteWishlistItem(index)}
+                >
                   Delete
                 </Button>
               </div>
@@ -238,12 +287,18 @@ const AddWishlistPage = () => {
         </div>
 
         {/* Address Modal */}
-        <Modal show={isAddressModalOpen} onClose={() => setIsAddressModalOpen(false)}>
+        <Modal
+          show={isAddressModalOpen}
+          onClose={() => setIsAddressModalOpen(false)}
+        >
           <Modal.Header>Update Address</Modal.Header>
           <Modal.Body>
             <div className="space-y-4">
               <div>
-                <label htmlFor="address" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="address"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Address
                 </label>
                 <TextInput
@@ -255,7 +310,10 @@ const AddWishlistPage = () => {
                 />
               </div>
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Phone Number
                 </label>
                 <TextInput
