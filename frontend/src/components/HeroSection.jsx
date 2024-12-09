@@ -3,11 +3,11 @@
 
 // import { Button } from "flowbite-react";
 import MockupImage from "../assets/phone-mockup.png";
-// import { featureicons } from "./featureicons";
+import { featureicons } from "./featureicons";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/moving-border";
 import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
-import { AnimatedTooltipPreview } from "./AnimatedToolTip";
+// import { AnimatedTooltipPreview } from "./AnimatedToolTip";
 
 const words = [
   {
@@ -59,11 +59,11 @@ function HeroSection() {
                 {/* <p className="mt-6 text-base text-black sm:text-xl">
                   Jemputan majlis alaf baru! Kini lebih mudah dan teratur
                 </p> */}
-                <div className="text-base">
-                  <TypewriterEffectSmooth words={words} />
-                </div>
+
+                <TypewriterEffectSmooth words={words} />
+
                 <div className="mx-auto pb-6">
-                  {/* <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
+                  <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
                     {featureicons.map((feature, index) => (
                       <div key={index} className="">
                         <div
@@ -76,8 +76,8 @@ function HeroSection() {
                         </span>
                       </div>
                     ))}
-                  </div> */}
-                  <AnimatedTooltipPreview/>
+                  </div>
+                  {/* <AnimatedTooltipPreview/> */}
                 </div>
                 <Button
                   target="blank"

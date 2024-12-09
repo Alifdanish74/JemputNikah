@@ -16,7 +16,7 @@ const ModalComponentRSVPSlot = ({ onCancel, onGuestbookUpdate }) => {
   const [dewasa, setDewasa] = useState(1);
   const [kanak, setKanak] = useState(0);
   const [ucapan, setUcapan] = useState("");
-  const [timeslot, setTimeSlot] = useState("7:30 PM - 9:00 PM | Saudara-mara");
+  const [timeslot, setTimeSlot] = useState("");
   const [pihak, setPihak] = useState("");
   const [status, setStatus] = useState("Hadir");
   const [loading, setLoading] = useState(false);
@@ -54,7 +54,7 @@ const ModalComponentRSVPSlot = ({ onCancel, onGuestbookUpdate }) => {
         setPhone("");
         setDewasa(1);
         setKanak(0);
-        setTimeSlot("7:30 PM - 9:00 PM | Saudara-mara");
+        setTimeSlot("");
         setPihak("");
         setUcapan("");
         setStatus("Hadir");
@@ -74,6 +74,17 @@ const ModalComponentRSVPSlot = ({ onCancel, onGuestbookUpdate }) => {
   };
 
   if (!weddingCard) return <p>Wedding card not found.</p>;
+
+  // Dynamically generate timeslot options from weddingCard data
+  const timeslotOptions = [];
+  for (let i = 1; i <= 3; i++) {
+    const label = weddingCard[`labelSlot${i}`];
+    const from = weddingCard[`fromSlot${i}`];
+    const to = weddingCard[`toSlot${i}`];
+    if (label && from && to) {
+      timeslotOptions.push(`${from} - ${to} | ${label}`);
+    }
+  }
 
   return (
     <div className="flex flex-col mb-2 min-h-[66vh]">
@@ -119,7 +130,7 @@ const ModalComponentRSVPSlot = ({ onCancel, onGuestbookUpdate }) => {
           />
         </div>
 
-        {/* Time Slot */}
+        {/* Time Slot
         <div className="mb-2">
           <label
             htmlFor="timeslot"
@@ -143,34 +154,59 @@ const ModalComponentRSVPSlot = ({ onCancel, onGuestbookUpdate }) => {
               </option>
             ))}
           </select>
-        </div>
-
-        {/* Pihak */}
-        {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
+        </div> */}
+        {/* Time Slot */}
         <div className="mb-2">
           <label
-            htmlFor="pihak"
+            htmlFor="timeslot"
             className="block text-center text-gray-700 font-bold mb-2"
           >
-            Jemputan Dari
+            Masa Kehadiran
           </label>
           <select
-            id="pihak"
-            value={pihak}
-            onChange={(e) => setPihak(e.target.value)}
+            id="timeslot"
+            value={timeslot}
+            onChange={(e) => setTimeSlot(e.target.value)}
             className="w-full p-1 border border-gray-300 rounded-md text-sm"
             required
           >
             <option value="" disabled>
-              Pihak..
+              Pilih Masa Kehadiran
             </option>
-            {["Pihak Perempuan", "Pihak Lelaki"].map((pihakOption) => (
-              <option key={pihakOption} value={pihakOption}>
-                {pihakOption}
+            {timeslotOptions.map((time) => (
+              <option key={time} value={time}>
+                {time}
               </option>
             ))}
           </select>
         </div>
+
+        {/* Pihak */}
+        {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
+          <div className="mb-2">
+            <label
+              htmlFor="pihak"
+              className="block text-center text-gray-700 font-bold mb-2"
+            >
+              Jemputan Dari
+            </label>
+            <select
+              id="pihak"
+              value={pihak}
+              onChange={(e) => setPihak(e.target.value)}
+              className="w-full p-1 border border-gray-300 rounded-md text-sm"
+              required
+            >
+              <option value="" disabled>
+                Pihak..
+              </option>
+              {["Pihak Perempuan", "Pihak Lelaki"].map((pihakOption) => (
+                <option key={pihakOption} value={pihakOption}>
+                  {pihakOption}
+                </option>
+              ))}
+            </select>
+          </div>
         )}
 
         {/* Jumlah Dewasa */}

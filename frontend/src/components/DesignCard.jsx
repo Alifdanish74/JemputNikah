@@ -5,17 +5,17 @@ function DesignCard({ itemName, itemImage, itemCategory }) {
   return (
     <div className="sm:max-w-xs mx-auto w-full px-4">
       {/* Item Name */}
-      <h5 className="text-base sm:text-lg md:text-xl mb-2 font-semibold tracking-tight text-gray-900 text-center">
+      <h5 className="text-base sm:text-lg md:text-xl font-semibold tracking-tight text-gray-900 text-center">
         {itemName}
       </h5>
       {/* Item Category */}
-      <h5 className="hidden sm:block text-sm sm:text-base md:text-lg mb-2 font-medium tracking-tight text-gray-500 text-center">
+      <h5 className="hidden sm:block text-sm sm:text-base md:text-lg font-medium tracking-tight text-gray-500 text-center">
         {itemCategory}
       </h5>
       {/* Card */}
       <div className="bg-white border border-gray-200 rounded-2xl shadow-lg flex flex-col justify-between max-h-[240px]">
         {/* Image */}
-        <div className="flex items-center justify-center max-h-[190px]">
+        <div className="flex items-center justify-center max-h-[190px] min-h-[190px]">
           <img
             className="w-3/4 sm:w-2/4  rounded-t-lg"
             src={itemImage}

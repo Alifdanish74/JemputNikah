@@ -15,10 +15,10 @@
         {/* Section header */}
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-800">
-            Our Amazing Features
+            8 Fungsi Kad Kahwin Digital
           </h2>
           <p className="text-lg text-gray-600 mt-4">
-            Explore the unique features we offer to enhance your experience.
+            Kad kahwin digital kami dilengkapi dengan pelbagai fungsi yang menarik
           </p>
         </div>
   

@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState, useCallback, useMemo} from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
 import { AgGridReact } from "ag-grid-react";
 import { Spinner } from "flowbite-react";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Modal, Button } from "flowbite-react";
 
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS
@@ -161,7 +161,7 @@ const RSVPManagementPage = () => {
         "Are you sure you want to delete this RSVP?"
       );
       if (!confirmed) return;
-  
+
       await axios.delete(`/api/rsvp/delete/${rsvpId}/${submissionId}`);
       setRowData((prevData) =>
         prevData.filter((row) => row._id !== submissionId)
@@ -180,7 +180,6 @@ const RSVPManagementPage = () => {
       });
     }
   };
-  
 
   // Handle row updates
   const onCellValueChanged = useCallback(async (params) => {
@@ -212,22 +211,21 @@ const RSVPManagementPage = () => {
     rowData.forEach((row) => {
       const { pihak, dewasa = 0, kanak = 0 } = row;
 
-      // Skip rows where pihak is null or undefined
-      if (!pihak) return;
-
       // Accumulate totals for adults and kids
       adults += dewasa;
       kids += kanak;
 
-      // Group guests by 'pihak'
-      if (!byPihak[pihak]) {
-        byPihak[pihak] = { adults: 0, kids: 0, total: 0 };
-      }
+      // Group guests by 'pihak', if available
+      if (pihak) {
+        if (!byPihak[pihak]) {
+          byPihak[pihak] = { adults: 0, kids: 0, total: 0 };
+        }
 
-      // Add counts to the respective 'pihak'
-      byPihak[pihak].adults += dewasa;
-      byPihak[pihak].kids += kanak;
-      byPihak[pihak].total += dewasa + kanak;
+        // Add counts to the respective 'pihak'
+        byPihak[pihak].adults += dewasa;
+        byPihak[pihak].kids += kanak;
+        byPihak[pihak].total += dewasa + kanak;
+      }
     });
 
     return {
@@ -253,9 +251,6 @@ const RSVPManagementPage = () => {
       </div>
     );
   }
-
-
-  
 
   return (
     <div className="min-h-screen bg-gray-50 py-10">
