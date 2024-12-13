@@ -73,7 +73,7 @@ const ModalComponentRSVPSlot = ({ onCancel, onGuestbookUpdate }) => {
     }
   };
 
-  if (!weddingCard) return <p>Wedding card not found.</p>;
+  // if (!weddingCard) return <p>Wedding card not found.</p>;
 
   // Dynamically generate timeslot options from weddingCard data
   const timeslotOptions = [];

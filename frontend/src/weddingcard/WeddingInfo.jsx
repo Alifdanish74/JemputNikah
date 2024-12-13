@@ -5,7 +5,7 @@ function WeddingInfo() {
   const { weddingCard } = useWeddingCard();
 
   // if (loading) return <p>Loading wedding card details...</p>;
-  // if (!weddingCard) return <p>Wedding card not found.</p>;
+  // // if (!weddingCard) return <p>Wedding card not found.</p>;
 
   const dateString = weddingCard.tarikhMajlis.split("T")[0]; // Extract the date part only
   const date = new Date(dateString); // Now `date` represents only the date

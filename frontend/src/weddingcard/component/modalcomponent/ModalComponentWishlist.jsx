@@ -32,14 +32,30 @@ const ModalComponentWishlist = () => {
         wishlistProduct1,
         wishlistProduct2,
         wishlistProduct3,
+        wishlistProduct4,
+        wishlistProduct5,
+        wishlistProduct6,
+        wishlistProduct7,
+        wishlistProduct8,
+        wishlistProduct9,
+        wishlistProduct10,
         address: fetchedAddress,
         phone: fetchedPhone,
       } = response.data || {};
 
       // Map wishlist products into an array
-      const fetchedWishlist = [wishlistProduct1, wishlistProduct2, wishlistProduct3].filter(
-        (product) => product && product.productName
-      );
+      const fetchedWishlist = [
+        wishlistProduct1,
+        wishlistProduct2,
+        wishlistProduct3,
+        wishlistProduct4,
+        wishlistProduct5,
+        wishlistProduct6,
+        wishlistProduct7,
+        wishlistProduct8,
+        wishlistProduct9,
+        wishlistProduct10,
+      ].filter((product) => product && product.productName);
 
       setWishlist(fetchedWishlist || []);
       setAddress(fetchedAddress || "");
@@ -68,7 +84,7 @@ const ModalComponentWishlist = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[66vh]">
+      <div className="flex justify-center items-center min-h-[66vh] max-h-[70vh]">
         <BeatLoader color={"#123abc"} loading={loading} size={15} />
       </div>
     );
@@ -104,17 +120,19 @@ const ModalComponentWishlist = () => {
   };
 
   return (
-    <div className="flex flex-col mb-5 max-h-[85vh]">
-      <h2 className="text-lg mb-4 text-center font-bold text-gray-500">
+    <div className="flex flex-col mb-2 max-h-[80vh]">
+      <h2 className="text-lg text-center font-bold text-gray-500">
         Wishlist
       </h2>
 
       {/* Address Section */}
       {address && (
         <>
-          <h3 className="text-sm mb-1 text-center font-bold text-gray-500">Alamat Penghantaran</h3>
+          <h3 className="text-sm mb-1 text-center font-bold text-gray-500">
+            Alamat Penghantaran
+          </h3>
           <div
-            className="bg-gray-200 text-gray-800 rounded-lg p-4 mb-2 cursor-pointer shadow-md hover:bg-gray-300"
+            className="bg-gray-200 text-gray-800 rounded-lg p-2 mb-2 cursor-pointer shadow-md hover:bg-gray-300"
             onClick={copyAddressToClipboard}
           >
             <p className="text-center text-xs sm:text-xs">{address}</p>
@@ -125,9 +143,11 @@ const ModalComponentWishlist = () => {
       {/* Phone Number Section */}
       {phonenumber && (
         <>
-          <h3 className="text-sm mb-1 text-center font-bold text-gray-500">Nombor Telefon</h3>
+          <h3 className="text-sm mb-1 text-center font-bold text-gray-500">
+            Nombor Telefon
+          </h3>
           <div
-            className="bg-gray-200 text-gray-800 rounded-lg p-4 mb-4 cursor-pointer shadow-md hover:bg-gray-300"
+            className="bg-gray-200 text-gray-800 rounded-lg p-2 mb-4 cursor-pointer shadow-md hover:bg-gray-300"
             onClick={copyPhoneToClipboard}
           >
             <p className="text-center text-xs sm:text-xs">{phonenumber}</p>

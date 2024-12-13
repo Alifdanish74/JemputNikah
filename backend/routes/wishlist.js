@@ -16,6 +16,13 @@ router.post(
     { name: "wishlistImage1", maxCount: 1 }, // First wishlist product image
     { name: "wishlistImage2", maxCount: 1 }, // Second wishlist product image
     { name: "wishlistImage3", maxCount: 1 }, // Third wishlist product image
+    { name: "wishlistImage4", maxCount: 1 }, // Third wishlist product image
+    { name: "wishlistImage5", maxCount: 1 }, // Third wishlist product image
+    { name: "wishlistImage6", maxCount: 1 }, // Third wishlist product image
+    { name: "wishlistImage7", maxCount: 1 }, // Third wishlist product image
+    { name: "wishlistImage8", maxCount: 1 }, // Third wishlist product image
+    { name: "wishlistImage9", maxCount: 1 }, // Third wishlist product image
+    { name: "wishlistImage10", maxCount: 1 }, // Third wishlist product image
   ]),
   uploadWishlist
 );

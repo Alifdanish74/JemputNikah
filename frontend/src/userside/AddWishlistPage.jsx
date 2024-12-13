@@ -32,6 +32,13 @@ const AddWishlistPage = () => {
         wishlistProduct1,
         wishlistProduct2,
         wishlistProduct3,
+        wishlistProduct4,
+        wishlistProduct5,
+        wishlistProduct6,
+        wishlistProduct7,
+        wishlistProduct8,
+        wishlistProduct9,
+        wishlistProduct10,
         // Add more keys if needed
       } = response.data || {};
 
@@ -42,6 +49,13 @@ const AddWishlistPage = () => {
       if (wishlistProduct1) items.push(wishlistProduct1);
       if (wishlistProduct2) items.push(wishlistProduct2);
       if (wishlistProduct3) items.push(wishlistProduct3);
+      if (wishlistProduct4) items.push(wishlistProduct4);
+      if (wishlistProduct5) items.push(wishlistProduct5);
+      if (wishlistProduct6) items.push(wishlistProduct6);
+      if (wishlistProduct7) items.push(wishlistProduct7);
+      if (wishlistProduct8) items.push(wishlistProduct8);
+      if (wishlistProduct9) items.push(wishlistProduct9);
+      if (wishlistProduct10) items.push(wishlistProduct10);
 
       setWishlistItems(
         items.map((item) => ({
@@ -78,19 +92,57 @@ const AddWishlistPage = () => {
   };
 
   // Save the wishlist item and close the modal
-  const handleSaveWishlistItem = () => {
+  const handleSaveWishlistItem = async () => {
+    let updatedWishlistItems;
+
     if (currentWishlistItem.index !== undefined) {
-      // Update existing item
-      setWishlistItems((prev) =>
-        prev.map((item, idx) =>
-          idx === currentWishlistItem.index ? currentWishlistItem : item
-        )
+      // Update existing item in a temporary array
+      updatedWishlistItems = wishlistItems.map((item, idx) =>
+        idx === currentWishlistItem.index ? currentWishlistItem : item
       );
     } else {
-      // Add new item
-      setWishlistItems((prev) => [...prev, currentWishlistItem]);
+      // Add new item to a temporary array
+      updatedWishlistItems = [...wishlistItems, currentWishlistItem];
     }
+
+    // Close the modal
     setIsWishlistModalOpen(false);
+
+    // Submit wishlist to backend
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("orderNumber", orderNumber);
+      formData.append("address", address);
+      formData.append("phone", phone);
+
+      // Use updatedWishlistItems to ensure correct data submission
+      updatedWishlistItems.forEach((item, index) => {
+        const productIndex = index + 1;
+        formData.append(`wishlistproductname${productIndex}`, item.productName);
+        formData.append(`wishlistproducturl${productIndex}`, item.productUrl);
+
+        if (item.productImage instanceof File) {
+          formData.append(`wishlistImage${productIndex}`, item.productImage);
+        } else if (typeof item.productImage === "string" && item.productImage) {
+          formData.append(`existingImage${productIndex}`, item.productImage);
+        }
+      });
+
+      await axios.post(`/api/wishlist/upload-wishlist`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      alert("Wishlist submitted successfully!");
+
+      // Update state after successful submission
+      setWishlistItems(updatedWishlistItems);
+      fetchWishlist(); // Refresh data
+    } catch (err) {
+      console.error("Error submitting wishlist:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Delete a wishlist item
@@ -178,7 +230,7 @@ const AddWishlistPage = () => {
         </div>
 
         {/* Wishlist Form */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-2  gap-6 md:grid-cols-2 lg:grid-cols-4">
           {wishlistItems.map((item, index) => (
             <div
               key={index}
@@ -186,7 +238,7 @@ const AddWishlistPage = () => {
                 item.bookingStatus === "Booked" ? "bg-green-300" : "bg-white"
               }`}
             >
-              <h2 className="text-lg font-semibold mb-4">
+              <h2 className="text-lg font-semibold mt-6 mb-4">
                 Wishlist Item {index + 1}
               </h2>
               <div>
@@ -299,7 +351,6 @@ const AddWishlistPage = () => {
           <Modal.Footer>
             <Button
               onClick={() => {
-                // handleSubmitWishlist(); // Trigger the submission
                 setIsAddressModalOpen(false); // Close the modal
               }}
             >
@@ -370,7 +421,13 @@ const AddWishlistPage = () => {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={handleSaveWishlistItem}>Save</Button>
+            <Button
+              onClick={() => {
+                handleSaveWishlistItem();
+              }}
+            >
+              Save
+            </Button>
           </Modal.Footer>
         </Modal>
         {/* Delete Confirmation Modal */}

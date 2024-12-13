@@ -16,7 +16,7 @@ function Countdown() {
   }, [orderNumber]);
 
   // if (loading) return <p>Loading wedding card details...</p>;
-  if (!weddingCard) return <p>Wedding card not found.</p>;
+  // if (!weddingCard) return <p>Wedding card not found.</p>;
 
   // const targetDate = new Date(weddingCard.tarikhMajlis);
   const currentDate = new Date();
