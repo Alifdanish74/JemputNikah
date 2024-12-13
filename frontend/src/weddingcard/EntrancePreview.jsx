@@ -19,7 +19,10 @@ const EntrancePreview = ({ onClose, setIsPlaying }) => {
   // Function to fetch design data
   const fetchDesign = async (designName) => {
     try {
-      const response = await axios.get(`/api/admin/get-design-byname/${designName}`);
+      const response = await axios.get(
+        `/api/admin/get-design-byname/${designName}`
+      );
+      console.log(designName);
       setDesign(response.data); // Store fetched design data
     } catch (error) {
       console.error("Error fetching design:", error);
@@ -95,12 +98,21 @@ const EntrancePreview = ({ onClose, setIsPlaying }) => {
           </motion.p>
         </div>
 
-        <button
+        <motion.button
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4, duration: 1 }}
+          whileHover={{
+            scale: 1.1,
+            transition: { duration: 0.4, opacity: 1 },
+          }}
           onClick={handleClick}
-          className="bg-sky-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+          className="border border-black hover:bg-blue-400 text-black hover:text-white
+              font-bold py-2 px-4 rounded-full"
         >
+          {" "}
           Buka
-        </button>
+        </motion.button>
       </div>
     </motion.div>
   );

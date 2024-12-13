@@ -2,7 +2,6 @@
 import { TbAirBalloon } from "react-icons/tb";
 import Paris from "../assets/paris.png";
 
-
 import { IoReceiptOutline } from "react-icons/io5";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { PiClockCountdownBold } from "react-icons/pi";
@@ -14,7 +13,7 @@ import { FaBookOpen } from "react-icons/fa";
 import { MdOutlineLocalPhone } from "react-icons/md";
 import { CiGift } from "react-icons/ci";
 import { FaFilePdf } from "react-icons/fa6";
-import { Button } from "flowbite-react";
+// import { Button } from "flowbite-react";
 
 function PakejSection() {
   return (
@@ -70,12 +69,14 @@ function PakejSection() {
                   <span>Countdown</span>
                 </li>
               </ul>
-              <Button
-                href="#"
-                className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+              <a
+                href={"/pakejpreview/Bali"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-5 text-center "
               >
                 Preview
-              </Button>
+              </a>
             </div>
             {/* Pakej 2 */}
             <div className="flex flex-col py-5 px-20  mx-auto text-center border-x-4 border-y-8 border-red-400 text-gray-900 bg-white rounded-lg  shadow ">
@@ -135,12 +136,14 @@ function PakejSection() {
                   </li>
                 </ul>
               </ul>
-              <Button
-                href="#"
-                className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+              <a
+                href={"/pakejpreview/Istanbul"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-5 text-center "
               >
                 Preview
-              </Button>
+              </a>
             </div>
             {/* Pakej 3 */}
             <div className="flex flex-col py-5 px-20 border-x-4 border-y-8 border-yellow-400  mx-auto text-center text-gray-900 bg-white rounded-lg shadow ">
@@ -205,12 +208,14 @@ function PakejSection() {
                   </li>
                 </ul>
               </ul>
-              <Button
-                href="#"
-                className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+              <a
+                href={"/pakejpreview/Paris"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-5 text-center "
               >
                 Preview
-              </Button>
+              </a>
             </div>
           </div>
         </div>

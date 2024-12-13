@@ -148,39 +148,39 @@ const AddWishlistPage = () => {
   // Delete a wishlist item
 
   // Submit all wishlist items
-  const handleSubmitWishlist = async () => {
-    setLoading(true);
-    try {
-      const formData = new FormData();
-      formData.append("orderNumber", orderNumber);
-      formData.append("address", address);
-      formData.append("phone", phone);
+  // const handleSubmitWishlist = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("orderNumber", orderNumber);
+  //     formData.append("address", address);
+  //     formData.append("phone", phone);
 
-      // Ensure only valid items are submitted
-      wishlistItems.forEach((item, index) => {
-        const productIndex = index + 1; // Maintain 1-based indexing
-        formData.append(`wishlistproductname${productIndex}`, item.productName);
-        formData.append(`wishlistproducturl${productIndex}`, item.productUrl);
+  //     // Ensure only valid items are submitted
+  //     wishlistItems.forEach((item, index) => {
+  //       const productIndex = index + 1; // Maintain 1-based indexing
+  //       formData.append(`wishlistproductname${productIndex}`, item.productName);
+  //       formData.append(`wishlistproducturl${productIndex}`, item.productUrl);
 
-        if (item.productImage instanceof File) {
-          formData.append(`wishlistImage${productIndex}`, item.productImage);
-        } else if (typeof item.productImage === "string" && item.productImage) {
-          formData.append(`existingImage${productIndex}`, item.productImage);
-        }
-      });
+  //       if (item.productImage instanceof File) {
+  //         formData.append(`wishlistImage${productIndex}`, item.productImage);
+  //       } else if (typeof item.productImage === "string" && item.productImage) {
+  //         formData.append(`existingImage${productIndex}`, item.productImage);
+  //       }
+  //     });
 
-      await axios.post(`/api/wishlist/upload-wishlist`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+  //     await axios.post(`/api/wishlist/upload-wishlist`, formData, {
+  //       headers: { "Content-Type": "multipart/form-data" },
+  //     });
 
-      alert("Wishlist submitted successfully!");
-      fetchWishlist(); // Refresh data
-    } catch (err) {
-      console.error("Error submitting wishlist:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     alert("Wishlist submitted successfully!");
+  //     fetchWishlist(); // Refresh data
+  //   } catch (err) {
+  //     console.error("Error submitting wishlist:", err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   // Open the confirmation modal for deletion
   const handleDeleteConfirmation = (index) => {
@@ -219,7 +219,7 @@ const AddWishlistPage = () => {
         </div>
 
         {/* Submit Button */}
-        <div className="flex justify-end mb-4">
+        {/* <div className="flex justify-end mb-4">
           <Button
             color="warning"
             onClick={handleSubmitWishlist}
@@ -227,7 +227,7 @@ const AddWishlistPage = () => {
           >
             {loading ? "Submitting..." : "Submit Wishlist"}
           </Button>
-        </div>
+        </div> */}
 
         {/* Wishlist Form */}
         <div className="grid grid-cols-2  gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -426,7 +426,7 @@ const AddWishlistPage = () => {
                 handleSaveWishlistItem();
               }}
             >
-              Save
+              {loading ? "Submitting..." : "Submit Wishlist"}
             </Button>
           </Modal.Footer>
         </Modal>

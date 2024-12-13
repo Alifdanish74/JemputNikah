@@ -172,7 +172,7 @@ const Entrance = ({ onClose, setIsPlaying }) => {
                 transition: { duration: 0.4, opacity: 1 },
               }}
               onClick={handleClick}
-              className="border border-black hover:bg-blue-700 text-black
+              className="border border-black hover:bg-blue-400 text-black hover:text-white
               font-bold py-2 px-4 rounded-full"
             >
               {" "}

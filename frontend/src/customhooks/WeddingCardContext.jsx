@@ -30,7 +30,7 @@ export const WeddingCardProvider = ({ children }) => {
     }
   };
   const fetchDesign = async (designName) => {
-    if ( (design && design.designName === designName)) {
+    if (design && design.designName === designName) {
       return; // Avoid redundant API calls
     }
 
@@ -50,6 +50,13 @@ export const WeddingCardProvider = ({ children }) => {
   useEffect(() => {
     // If the URL is /preview, fetch wedding card data for order JK0001
     if (location.pathname.includes("/preview")) {
+      fetchWeddingCard("JK00001");
+    }
+    if (location.pathname.includes("/pakejpreview/Bali")) {
+      fetchWeddingCard("JK00001");
+    } if (location.pathname.includes("/pakejpreview/Istanbul")) {
+      fetchWeddingCard("JK00001");
+    } if (location.pathname.includes("/pakejpreview/Paris")) {
       fetchWeddingCard("JK00001");
     } else {
       setLoading(false);

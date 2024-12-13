@@ -48,7 +48,7 @@ function BaseWeddingCard() {
   const particlesColor = "#f9e4cc"; // Change this value dynamically
 
   const isPreview = location.pathname.includes("/weddingcardpreview"); // Correct usage of includes
-  const isPreviewGeneral = location.pathname.includes("/preview"); // Correct usage of includes
+  const isPreviewGeneral = location.pathname.includes("/preview", "/preview/Bali"); // Correct usage of includes
 
   // Dynamic background style
   const backgroundStyle = {
@@ -95,7 +95,7 @@ function BaseWeddingCard() {
             {/* <AnimatedComponent/> */}
           </section>
           <div className="pb-16" style={backgroundStyle}>
-            <section id="audiobar" className="sticky -top-5 z-50 ">
+            <section id="audiobar" className="sticky -top-5 z-30 ">
               <AudioBar isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
             </section>
 

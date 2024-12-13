@@ -91,20 +91,6 @@ function Navbar({ onGuestbookUpdate, preview }) {
               >
                 <BiMoneyWithdraw className="text-2xl mb-1" /> Money Gift
               </motion.button>
-              {/* IF PARIS */}
-              {/* {weddingCard.pakej === "Paris" && (
-                <motion.button
-                  initial={{ opacity: 0.8 }}
-                  whileHover={{
-                    scale: 1.1,
-                    transition: { duration: 0.4, opacity: 1 },
-                  }}
-                  onClick={() => openModal("Wishlist")}
-                  className={navbarButtonCSS}
-                >
-                  <CiGift className="text-2xl mb-1" /> Wishlist
-                </motion.button>
-              )} */}
 
               {!preview && weddingCard.pakej === "Paris" && (
                 <motion.button
@@ -147,16 +133,6 @@ function Navbar({ onGuestbookUpdate, preview }) {
               )}
             </>
           )}
-
-          {/* BUKAN BALI END */}
-
-          {/* <div>
-            <button className="relative inline-flex flex-col items-center text-xs font-medium text-white pb-6 px-6 flex-grow">
-              <div className="absolute bottom-5 p-3 rounded-full border-4 border-white bg-blue-600">
-                <IoReceiptOutline className="text-2xl mb-1" /> RSVP
-              </div>
-            </button>
-          </div> */}
 
           <motion.button
             initial={{ opacity: 0.8 }}

@@ -46,6 +46,7 @@ function App() {
     "/preview",
     "/weddingcardpreview",
     "/weddingcard",
+    "/pakejpreview",
     // Base path for weddingcard preview
   ];
 
@@ -88,6 +89,10 @@ function App() {
                 />
                 <Route
                   path="/weddingcard/:hashtag/:orderNumber"
+                  element={<BaseWeddingCard />}
+                />
+                <Route
+                  path="/pakejpreview/:pakej"
                   element={<BaseWeddingCard />}
                 />
 

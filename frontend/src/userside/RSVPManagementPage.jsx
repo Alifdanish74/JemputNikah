@@ -5,11 +5,11 @@ import { AgGridReact } from "ag-grid-react";
 import { Spinner } from "flowbite-react";
 import { useParams } from "react-router-dom";
 import { Modal, Button } from "flowbite-react";
+import { toast } from "react-toastify";
+import Papa from "papaparse";
 
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Theme CSS
-
-import { toast } from "react-toastify";
 
 const RSVPManagementPage = () => {
   const { orderNumber } = useParams();
@@ -39,26 +39,13 @@ const RSVPManagementPage = () => {
       filter: false,
       width: 50,
     },
-    {
-      field: "name",
-      headerName: "Name",
-      sortable: true,
-      filter: true,
-      //   flex: 2,
-    },
-    {
-      field: "phone",
-      headerName: "Phone",
-      sortable: true,
-      filter: true,
-      //   flex: 2,
-    },
+    { field: "name", headerName: "Name", sortable: true, filter: true },
+    { field: "phone", headerName: "Phone", sortable: true, filter: true },
     {
       field: "timeslot",
       headerName: "Time Slot",
       sortable: true,
       filter: true,
-      //   flex: 2,
     },
     {
       field: "pihak",
@@ -93,7 +80,6 @@ const RSVPManagementPage = () => {
       headerName: "Status",
       sortable: true,
       filter: true,
-      //   flex: 1,
       cellStyle: (params) => ({
         color: params.value === "Hadir" ? "green" : "red",
         fontWeight: "bold",
@@ -124,11 +110,7 @@ const RSVPManagementPage = () => {
     },
   ]);
 
-  // Default column definitions
-  const defaultColDef = {
-    resizable: true,
-    // flex: 1,
-  };
+  const defaultColDef = { resizable: true };
 
   // Fetch RSVP data
   useEffect(() => {
@@ -136,13 +118,12 @@ const RSVPManagementPage = () => {
       try {
         setLoading(true);
         const response = await axios.get(`/api/rsvp/list/${orderNumber}`);
-        const { submissions, _id: rsvpId } = response.data; // Extract RSVP ID and submissions
-        console.log("API Response:", response.data);
+        const { submissions, _id: rsvpId } = response.data;
         const updatedSubmissions = submissions.map((submission) => ({
           ...submission,
-          rsvpId, // Attach the RSVP ID to each submission
+          rsvpId,
         }));
-        setRowData(updatedSubmissions); // Populate grid with submissions
+        setRowData(updatedSubmissions);
       } catch (err) {
         console.error(err);
         setError("Failed to fetch RSVP submissions. Please try again.");
@@ -154,7 +135,6 @@ const RSVPManagementPage = () => {
     fetchRSVPs();
   }, [orderNumber]);
 
-  // Delete RSVP Submission
   const handleDelete = async (rsvpId, submissionId) => {
     try {
       const confirmed = window.confirm(
@@ -181,25 +161,15 @@ const RSVPManagementPage = () => {
     }
   };
 
-  // Handle row updates
   const onCellValueChanged = useCallback(async (params) => {
-    try {
-      const updatedRow = params.data;
-      console.log("Updated Row:", updatedRow);
-
-      // Make an API call to save the updated row (if required)
-      // await axios.put(`/api/rsvp/update/${updatedRow._id}`, updatedRow);
-    } catch (err) {
-      console.error("Error updating RSVP:", err);
-    }
+    const updatedRow = params.data;
+    console.log("Updated Row:", updatedRow);
   }, []);
 
-  // Handle row selection
   const onRowSelected = useCallback((event) => {
     console.log("Selected Row:", event.node.data);
   }, []);
 
-  // Calculate totals for Adults, Kids, Total Guests, and guests by Pihak
   const totals = useMemo(() => {
     if (!rowData || rowData.length === 0)
       return { adults: 0, kids: 0, total: 0, byPihak: {} };
@@ -210,31 +180,41 @@ const RSVPManagementPage = () => {
 
     rowData.forEach((row) => {
       const { pihak, dewasa = 0, kanak = 0 } = row;
-
-      // Accumulate totals for adults and kids
       adults += dewasa;
       kids += kanak;
 
-      // Group guests by 'pihak', if available
       if (pihak) {
-        if (!byPihak[pihak]) {
-          byPihak[pihak] = { adults: 0, kids: 0, total: 0 };
-        }
-
-        // Add counts to the respective 'pihak'
+        if (!byPihak[pihak]) byPihak[pihak] = { adults: 0, kids: 0, total: 0 };
         byPihak[pihak].adults += dewasa;
         byPihak[pihak].kids += kanak;
         byPihak[pihak].total += dewasa + kanak;
       }
     });
 
-    return {
-      adults,
-      kids,
-      total: adults + kids,
-      byPihak,
-    };
-  }, [rowData]); // Dependency: only recompute when `rowData` changes
+    return { adults, kids, total: adults + kids, byPihak };
+  }, [rowData]);
+
+  const handleGenerateCSV = () => {
+    if (!rowData.length) {
+      toast.error("No data available to export.", {
+        autoClose: 2000,
+        position: "top-center",
+        closeOnClick: true,
+      });
+      return;
+    }
+
+    const csv = Papa.unparse(rowData);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `RSVP_${orderNumber}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   if (loading) {
     return (
@@ -283,22 +263,26 @@ const RSVPManagementPage = () => {
             ))}
           </div>
         </div>
+        <div className="mb-4 text-right">
+          <Button onClick={handleGenerateCSV} color="info">
+            Generate .csv
+          </Button>
+        </div>
         <div
           className="ag-theme-alpine"
           style={{ height: "600px", width: "100%" }}
         >
           <AgGridReact
-            rowData={rowData} // Data for rows
-            columnDefs={columnDefs} // Column definitions
-            defaultColDef={defaultColDef} // Default column properties
-            pagination={true} // Enable pagination
-            paginationPageSize={10} // Rows per page
-            rowSelection="single" // Row selection type
-            onRowSelected={onRowSelected} // Handle row selection
-            onCellValueChanged={onCellValueChanged} // Handle cell editing
+            rowData={rowData}
+            columnDefs={columnDefs}
+            defaultColDef={defaultColDef}
+            pagination
+            paginationPageSize={20}
+            rowSelection="single"
+            onRowSelected={onRowSelected}
+            onCellValueChanged={onCellValueChanged}
           />
         </div>
-        {/* Modal for Viewing Ucapan */}
         <Modal show={isModalOpen} onClose={closeModal}>
           <Modal.Header>Ucapan</Modal.Header>
           <Modal.Body>

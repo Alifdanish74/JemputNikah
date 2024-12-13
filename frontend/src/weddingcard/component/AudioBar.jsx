@@ -44,7 +44,7 @@ function AudioBar({ isPlaying, setIsPlaying }) {
   };
 
   return (
-    <div className="flex z-100 sticky justify-center content-center top-0 bg-transparent p-6 pt-10 text-center">
+    <div className="flex z-50 sticky justify-center content-center top-0 bg-transparent p-6 pt-10 text-center">
       <button
         id="music-btn"
         onClick={togglePlayPause}

@@ -21,7 +21,7 @@ function PakejPage() {
 
               <div className="flex justify-center items-baseline mb-4">
                 <span className="mr-2 text-3xl font-extrabold whitespace-nowrap">
-                  + RM39
+                  + RM10
                 </span>
               </div>
               <Button
@@ -42,7 +42,7 @@ function PakejPage() {
 
               <div className="flex justify-center items-baseline mb-4">
                 <span className="mr-2 text-3xl font-extrabold whitespace-nowrap">
-                  + RM39
+                + RM10
                 </span>
               </div>
               <Button
@@ -63,7 +63,7 @@ function PakejPage() {
 
               <div className="flex justify-center items-baseline mb-4">
                 <span className="mr-2 text-3xl font-extrabold whitespace-nowrap">
-                  + RM39
+                  + RM15
                 </span>
               </div>
               <Button
