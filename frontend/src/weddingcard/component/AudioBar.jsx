@@ -1,28 +1,15 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from "react";
 import { FaRegPlayCircle, FaRegPauseCircle } from "react-icons/fa";
-// import { useParams } from "react-router-dom";
 import { useWeddingCard } from "../../customhooks/WeddingCardContext";
 
 function AudioBar({ isPlaying, setIsPlaying }) {
-  // const [audioInitialized, setAudioInitialized] = useState(false); // Track audio initialization
-  // const [isPlaying, setIsPlaying] = useState(false); // Track play state
-
-  // const { orderNumber } = useParams();
   const { weddingCard } = useWeddingCard();
-
-  // useEffect(() => {
-  //   if (orderNumber) {
-  //     fetchWeddingCard(orderNumber);
-  //   }
-  // }, [orderNumber]);
-
-  // if (loading) return <p>Loading wedding card details...</p>;
 
   useEffect(() => {
     const audioElement = document.getElementById("audio-element");
 
-    // Start playing the audio when `isPlaying` is true
+    // Start or pause the audio based on `isPlaying`
     if (audioElement) {
       if (isPlaying) {
         audioElement.play();
@@ -30,53 +17,54 @@ function AudioBar({ isPlaying, setIsPlaying }) {
         audioElement.pause();
       }
     }
-  }, [isPlaying]); // Trigger this effect when `isPlaying` changes
+  }, [isPlaying]);
 
-  // Toggle play/pause functionality
-  // const togglePlayPause = () => {
-  //   const audioElement = document.getElementById("audio-element");
-  //   if (audioElement) {
-  //     if (isPlaying) {
-  //       audioElement.pause(); // Pause the audio
-  //       setIsPlaying(false);
-  //     } else {
-  //       audioElement.play(); // Play the audio
-  //       setIsPlaying(true);
-  //     }
-  //   }
-  // };
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      const audioElement = document.getElementById("audio-element");
+
+      if (document.hidden && isPlaying && audioElement) {
+        // Pause audio when the tab is hidden
+        audioElement.pause();
+        setIsPlaying(false); // Update the state to reflect the paused state
+      }
+    };
+
+    // Attach the visibility change event listener
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      // Cleanup the event listener on component unmount
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [isPlaying, setIsPlaying]);
 
   const togglePlayPause = () => {
-    setIsPlaying((prevIsPlaying) => !prevIsPlaying); // Toggle play/pause
+    setIsPlaying((prevIsPlaying) => !prevIsPlaying);
   };
 
-  // if (!weddingCard) return <p>Wedding card not found.</p>;
-
   return (
-    <div className="flex z-20  sticky justify-center content-center top-0 bg-transparent p-6 pt-10 text-center">
+    <div className="flex z-100 sticky justify-center content-center top-0 bg-transparent p-6 pt-10 text-center">
       <button
         id="music-btn"
-        onClick={togglePlayPause} // Handle play/pause functionality
-        className="text-black font-bold py-2 px-4 bg-gray-100 rounded-full flex"
+        onClick={togglePlayPause}
+        className="text-black font-bold py-2 px-4 border border-gray-400 bg-gray-100 rounded-full flex"
       >
         <div className="music-player play text-blue-700">
-          {isPlaying ? <FaRegPauseCircle /> : <FaRegPlayCircle />}{" "}
-          {/* Toggle between play/pause icons */}
+          {isPlaying ? <FaRegPauseCircle /> : <FaRegPlayCircle />}
         </div>
         <span className="text-xs ml-2 text-left whitespace-nowrap overflow-hidden text-ellipsis">
-          {/* Kisah Cinta Kita - Hafiz Suip (Instrumental) */}
           {weddingCard.bgSongTitle}
         </span>
       </button>
 
       {/* Audio Element */}
       <audio
-        id="audio-element" // Access audio element by ID
-        // src="https://l4lp5z4mhbcqycfi.public.blob.vercel-storage.com/Kisahcintakita-rLEvlErlgGc2SaWcG5ZxlmhfpZ8c4i.mp3"
+        id="audio-element"
         src={weddingCard.bgSong}
         controlsList="nodownload"
         loop
-        className="hidden" // Keep audio element hidden
+        className="hidden"
       />
     </div>
   );

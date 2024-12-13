@@ -15,9 +15,9 @@ function DesignCard({ itemName, itemImage, itemCategory }) {
       {/* Card */}
       <div className="bg-white border border-gray-200 rounded-2xl shadow-lg flex flex-col justify-between max-h-[240px] min-w-[120px]">
         {/* Image */}
-        <div className="flex items-center justify-center sm:max-h-[150px] min-h-[150px]">
+        <div className="flex items-center justify-center sm:max-h-[170px] min-h-[170px]">
           <img
-            className="w-3/4 md:w-2/4 sm:h-[150px] rounded-t-lg"
+            className="w-3/4 md:w-2/4 sm:h-[160px] rounded-t-lg"
             src={itemImage}
             alt="product image"
           />

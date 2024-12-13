@@ -163,12 +163,21 @@ const Entrance = ({ onClose, setIsPlaying }) => {
               </>
             )}
 
-            <button
+            <motion.button
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4, duration: 1 }}
+              whileHover={{
+                scale: 1.1,
+                transition: { duration: 0.4, opacity: 1 },
+              }}
               onClick={handleClick}
-              className="bg-sky-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              className="border border-black hover:bg-blue-700 text-black
+              font-bold py-2 px-4 rounded-full"
             >
+              {" "}
               Buka
-            </button>
+            </motion.button>
           </div>
         </motion.div>
       ) : (

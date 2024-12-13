@@ -65,7 +65,7 @@ const ModalComponentMoneyGift = () => {
 
   return (
     <>
-      <div className="flex flex-col mb-5 min-h-[66vh]">
+      <div className="flex flex-col mb-5 min-h-[66vh] max-h-[66vh]">
         <h2 className="text-lg mb-4 text-center font-bold text-gray-700">
           Money Gift
         </h2>

@@ -57,7 +57,7 @@ function App() {
   useEffect(() => {
     // Example: Simulate global loading for data fetching
     setLoading(true);
-    const timer = setTimeout(() => setLoading(false), 1500); // Simulate initial loading
+    const timer = setTimeout(() => setLoading(false), 500); // Simulate initial loading
     return () => clearTimeout(timer);
   }, []);
 

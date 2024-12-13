@@ -120,7 +120,7 @@ const ModalComponentWishlist = () => {
   };
 
   return (
-    <div className="flex flex-col mb-2 max-h-[80vh]">
+    <div className="flex flex-col mb-2 max-h-[70vh]">
       <h2 className="text-lg text-center font-bold text-gray-500">
         Wishlist
       </h2>

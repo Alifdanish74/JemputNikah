@@ -95,7 +95,7 @@ function BaseWeddingCard() {
             {/* <AnimatedComponent/> */}
           </section>
           <div className="pb-16" style={backgroundStyle}>
-            <section id="audiobar">
+            <section id="audiobar" className="sticky -top-5 z-50 ">
               <AudioBar isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
             </section>
 
