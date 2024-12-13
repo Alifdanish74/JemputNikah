@@ -8,7 +8,7 @@ const ModalComponentLocation = () => {
   const { weddingCard } = useWeddingCard();
 
   // if (loading) return <p>Loading wedding card details...</p>;
-  // if (!weddingCard) return <p>Wedding card not found.</p>;
+  if (!weddingCard) return <p>Wedding card not found.</p>;
 
   return (
     <>

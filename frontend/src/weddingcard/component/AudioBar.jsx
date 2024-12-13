@@ -50,7 +50,7 @@ function AudioBar({ isPlaying, setIsPlaying }) {
     setIsPlaying((prevIsPlaying) => !prevIsPlaying); // Toggle play/pause
   };
 
-  // // if (!weddingCard) return <p>Wedding card not found.</p>;
+  // if (!weddingCard) return <p>Wedding card not found.</p>;
 
   return (
     <div className="flex z-20  sticky justify-center content-center top-0 bg-transparent p-6 pt-10 text-center">
