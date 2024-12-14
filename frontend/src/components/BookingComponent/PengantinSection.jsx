@@ -33,6 +33,7 @@ function PengantinSection({
       <h1 className="mb-4 text-xl font-extrabold tracking-tight text-gray-900 sm:mb-6 leding-tight ">
         Maklumat Pengantin
       </h1>
+      <p>{formData.pihakMajlis}</p>
       <form action="#">
         <div className="grid gap-5 my-6 sm:grid-cols-2">
           {/* Pihak Majlis */}
@@ -339,7 +340,7 @@ function PengantinSection({
             </>
           )}
 
-          {pihakMajlis === "LL" ? (
+          {pihakMajlis === "LL" || formData.pihakMajlis === 'LL' ? (
             <>
               {/* Nama bapa (pihak lelaki) */}
               <div>
@@ -448,7 +449,7 @@ function PengantinSection({
                 )}
               </div>
             </>
-          ) : pihakMajlis === "PP" ? (
+          ) : pihakMajlis === "PP" || formData.pihakMajlis === 'PP' ? (
             <>
               {/* Nama bapa (pihak perempuan) */}
               <div>

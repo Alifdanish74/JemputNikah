@@ -13,6 +13,7 @@ function MoneyGiftSection({
   onPrevious,
   onNext,
   formData,
+  errors,
   handleFormDataChange,
   handleQrCodeFileChange,
 }) {
@@ -42,13 +43,13 @@ function MoneyGiftSection({
         <div className="grid gap-5 my-6 sm:grid-cols-2">
           <div>
             <label
-              htmlFor="pihakmajlis"
+              htmlFor="namabank"
               className="block mb-2 text-sm font-medium text-gray-900"
             >
               Nama Bank
             </label>
             <select
-              id="pihakmajlis"
+              id="namabank"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               value={formData.bankName}
               onChange={(e) => handleFormDataChange("bankName", e.target.value)}
@@ -128,6 +129,9 @@ function MoneyGiftSection({
                 United Overseas Bank (Malaysia) Berhad
               </option>
             </select>
+            {errors.bankName && (
+              <p className="text-red-500 text-sm">{errors.bankName}</p>
+            )}
           </div>
 
           {/* Account number input */}
@@ -147,6 +151,9 @@ function MoneyGiftSection({
                 handleFormDataChange("accountNumber", e.target.value)
               }
             />
+            {errors.accountNumber && (
+              <p className="text-red-500 text-sm">{errors.accountNumber}</p>
+            )}
           </div>
 
           {/* QR Code image upload */}
@@ -163,7 +170,11 @@ function MoneyGiftSection({
               />
               <FaUpload className="text-indigo-600 text-xl" />
             </div>
+            {errors.qrCodeFile && (
+              <p className="text-red-500 text-sm">{errors.qrCodeFile}</p>
+            )}
           </div>
+         
 
           {/* QR Code image preview */}
           {imageUrl && (
@@ -178,7 +189,9 @@ function MoneyGiftSection({
               />
             </div>
           )}
+          
         </div>
+        
 
         {/* Navigation buttons */}
         <div className="grid grid-cols-2">

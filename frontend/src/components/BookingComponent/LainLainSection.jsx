@@ -12,6 +12,7 @@ function LainLainSection({
   formData,
   handleFormDataChange,
   submit,
+  errors,
   isEditMode,
 }) {
   const [songs, setSongs] = useState([]);
@@ -120,6 +121,9 @@ function LainLainSection({
                 </option>
               ))}
             </select>
+            {errors.bgSong && (
+              <p className="text-red-500 text-sm">{errors.bgSong}</p>
+            )}
           </div>
 
           {/* Image pengantin */}
@@ -198,6 +202,9 @@ function LainLainSection({
           <div className="text-sm text-gray-500 mt-1">
             {doaText.length} / 350
           </div>
+          {errors.doa && (
+              <p className="text-red-500 text-sm">{errors.doa}</p>
+            )}
         </div>
         <div className="grid gap-5 my-6 sm:grid-cols-2">
           {/* Kod Pemakaian */}
@@ -258,6 +265,9 @@ function LainLainSection({
                 handleFormDataChange("hashtag", e.target.value);
               }}
             />
+            {errors.hashtag && (
+              <p className="text-red-500 text-sm">{errors.hashtag}</p>
+            )}
           </div>
           {/* orderphone */}
           <div>
@@ -278,6 +288,9 @@ function LainLainSection({
                 handleFormDataChange("orderphone", e.target.value);
               }}
             />
+            {errors.orderphone && (
+              <p className="text-red-500 text-sm">{errors.orderphone}</p>
+            )}
           </div>
         </div>
 

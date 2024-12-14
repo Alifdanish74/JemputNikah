@@ -131,7 +131,9 @@ function BookingPage() {
     // gambarPengantin: null,
     // Majlis Sections
     tajukMajlis: "Walimatulurus",
-    mukadimah: "Assalamualaikum Wbt & Salam Sejahtera",
+    // mukadimah: "Assalamualaikum Wbt & Salam Sejahtera",
+    mukadimah:
+      "اَلسَلامُ عَلَيْكُم وَرَحْمَةُ اَللهِ وَبَرَكاتُهُ\n& Salam Sejahtera",
     ucapanAluan:
       "Dengan penuh kesyukuran kehadrat Ilahi,\n kami mempersilakan Dato'/Datin/Dr/Tuan/Puan/Encik/Cik \nke walimatulurus anakanda kesayangan kami",
     tarikhMajlis: "",
@@ -293,40 +295,94 @@ function BookingPage() {
     // Add validations for other sections as necessary
     if (activeSection === "Majlis") {
       // Example: Add validation for Majlis section fields
-      if (!formData.tajukMajlis){
+      if (!formData.tajukMajlis) {
         newErrors.tajukMajlis = "Tajuk Majlis is required";
       }
-      if (!formData.mukadimah){
+      if (!formData.mukadimah) {
         newErrors.mukadimah = "Mukadimah is required";
       }
-      if (!formData.ucapanAluan){
+      if (!formData.ucapanAluan) {
         newErrors.ucapanAluan = "Ucapan aluan is required";
       }
-      if (!formData.tarikhMajlis){
+      if (!formData.tarikhMajlis) {
         newErrors.tarikhMajlis = "Tarikh Majlis is required";
       }
-      if (!formData.majlisStart){
+      if (!formData.majlisStart) {
         newErrors.majlisStart = "Waktu majlis mula is required";
       }
-      if (!formData.majlisEnd){
+      if (!formData.majlisEnd) {
         newErrors.majlisEnd = "Waktu majlis tamat is required";
       }
-      if (!formData.locationMajlis){
+      if (!formData.locationMajlis) {
         newErrors.locationMajlis = "Lokasi Majlis is required";
       }
-      if (!formData.fullLocationMajlis){
+      if (!formData.fullLocationMajlis) {
         newErrors.fullLocationMajlis = "Alamat Penuh Lokasi Majlis is required";
       }
-      if (!formData.googleMapsLink){
+      if (!formData.googleMapsLink) {
         newErrors.googleMapsLink = "GoogleMaps link is required";
       }
-      if (!formData.emergencyContacts1 || !formData.emergencyNumber1 || !formData.emergencyContacts2 || !formData.emergencyNumber2 ){
-        newErrors.emergencyContacts = "At least 2 Emergency Contact is required";
+      if (
+        !formData.emergencyContacts1 ||
+        !formData.emergencyNumber1 ||
+        !formData.emergencyContacts2 ||
+        !formData.emergencyNumber2
+      ) {
+        newErrors.emergencyContacts =
+          "At least 2 Emergency Contact is required";
       }
-      if (!formData.eventTentativeTime1 || !formData.eventTentativeTitle1 || !formData.eventTentativeTime2 || !formData.eventTentativeTitle2 || !formData.eventTentativeTime3 || !formData.eventTentativeTitle3){
+      if (
+        !formData.eventTentativeTime1 ||
+        !formData.eventTentativeTitle1 ||
+        !formData.eventTentativeTime2 ||
+        !formData.eventTentativeTitle2 ||
+        !formData.eventTentativeTime3 ||
+        !formData.eventTentativeTitle3
+      ) {
         newErrors.eventTentative = "At least 3 tentative event is required";
       }
       // Add more Majlis validation logic here...
+    }
+    if (activeSection === "MoneyGift") {
+      // Example: Add validation for Majlis section fields
+      if (!formData.bankName) {
+        newErrors.bankName = "Bank name is required";
+      }
+      if (!formData.accountNumber) {
+        newErrors.accountNumber = "Account number is required";
+      }
+      if (!formData.qrCodeFile) {
+        newErrors.qrCodeFile = "QR Code image is required";
+      }
+    }
+
+    if (activeSection === "RSVP") {
+      // Example: Add validation for Majlis section fields
+      if (!formData.maxInvitations) {
+        newErrors.maxInvitations = "Max invitation is required";
+      }
+      if (!formData.maxInvitationsDewasa) {
+        newErrors.maxInvitationsDewasa = "Max invitation dewasa is required";
+      }
+      if (!formData.maxInvitationsKids) {
+        newErrors.maxInvitationsKids = "Max invitation kanak-kanak is required";
+      }
+    }
+
+    if (activeSection === "Lain-lain") {
+      // Example: Add validation for Majlis section fields
+      if (!formData.bgSong) {
+        newErrors.bgSong = "Background song is required";
+      }
+      if (!formData.doa) {
+        newErrors.doa = "Doa is required";
+      }
+      if (!formData.hashtag) {
+        newErrors.hashtag = "Hashtag is required";
+      }
+      if (!formData.orderphone) {
+        newErrors.orderphone = "Order phone is required";
+      }
     }
 
     setErrors(newErrors);
@@ -445,6 +501,7 @@ function BookingPage() {
             onNext={() => handleSectionChange("RSVP")}
             formData={formData}
             handleFormDataChange={handleFormDataChange}
+            errors={errors}
             handleQrCodeFileChange={handleQrCodeFileChange} // Pass QR code handler
           />
         ); // Pass onNext prop to change section
@@ -455,6 +512,7 @@ function BookingPage() {
             onNext={() => handleSectionChange("Lain-lain")}
             formData={formData}
             handleFormDataChange={handleFormDataChange}
+            errors={errors}
             isEditMode={isEditMode}
           />
         );
@@ -467,6 +525,7 @@ function BookingPage() {
             formData={formData}
             handleFormDataChange={handleFormDataChange}
             submit={handleSubmit}
+            errors={errors}
             isEditMode={isEditMode}
           />
         );

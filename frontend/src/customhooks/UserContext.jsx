@@ -44,6 +44,7 @@ const UserContextProvider = ({ children }) => {
           console.warn("User is not authenticated.");
           localStorage.removeItem("user"); // Clear user if not authenticated
           setUser(null);
+          navigate("/login");
         } else if (err.response?.data?.code === "TOKEN_EXPIRED") {
           console.warn("Token has expired. Redirecting to login.");
           localStorage.removeItem("user");

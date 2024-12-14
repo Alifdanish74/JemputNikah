@@ -11,6 +11,7 @@ function RSVPSection({
   onPrevious,
   onNext,
   formData,
+  errors,
   handleFormDataChange,
   // isEditMode,
 }) {
@@ -53,6 +54,9 @@ function RSVPSection({
                 handleFormDataChange("maxInvitations", e.target.value);
               }}
             />
+            {errors.maxInvitations && (
+              <p className="text-red-500 text-sm">{errors.maxInvitations}</p>
+            )}
           </div>
           {/* Tarikh last rsvp */}
           <div>
@@ -102,6 +106,9 @@ function RSVPSection({
                 handleFormDataChange("maxInvitationsDewasa", e.target.value);
               }}
             />
+            {errors.maxInvitationsDewasa && (
+              <p className="text-red-500 text-sm">{errors.maxInvitationsDewasa}</p>
+            )}
           </div>
           {/* Had kehadiran per tetamu kanak kanak */}
           <div>
@@ -123,6 +130,9 @@ function RSVPSection({
                 handleFormDataChange("maxInvitationsKids", e.target.value);
               }}
             />
+            {errors.maxInvitationsKids && (
+              <p className="text-red-500 text-sm">{errors.maxInvitationsKids}</p>
+            )}
           </div>
         </div>
         {slotMasa && (
