@@ -70,25 +70,19 @@ const uploadWishlist = async (req, res) => {
         address,
         phone,
       });
+
+      // Initialize empty wishlist products
+      for (let i = 1; i <= 10; i++) {
+        wishlistEntry[`wishlistProduct${i}`] = {
+          productName: "",
+          productUrl: "",
+          productImage: null,
+          bookingName: null,
+          bookingPhoneNumber: null,
+          bookingStatus: "Available",
+        };
+      }
     }
-
-    // Initialize empty wishlist products with uniqueIds
-    // for (let i = 1; i <= 10; i++) {
-    //   wishlistEntry[`wishlistProduct${i}`] = {
-    //     productName: "",
-    //     productUrl: "",
-    //     productImage: null,
-    //     bookingName: null,
-    //     bookingPhoneNumber: null,
-    //     bookingStatus: "Available",
-    //     uniqueId: new mongoose.Types.ObjectId().toString(),
-    //   };
-    // }
-
-    // Clear all existing wishlist keys to avoid stale data
-    // for (let i = 1; i <= 10; i++) {
-    //   delete wishlistEntry[`wishlistProduct${i}`];
-    // }
 
     // Handle each wishlist product from the frontend
     for (let i = 1; i <= 10; i++) {
@@ -97,30 +91,32 @@ const uploadWishlist = async (req, res) => {
       const productImageFile = files[`wishlistImage${i}`]?.[0];
       const existingImage = req.body[`existingImage${i}`];
 
+      // Skip empty items
       if (!productName && !productUrl && !productImageFile && !existingImage) {
-        continue; // Skip empty items
+        continue;
       }
 
-      // const uniqueId = new mongoose.Types.ObjectId().toString();
-      let productImage = null;
+      // Get the existing product if it exists
+      const existingProduct = wishlistEntry[`wishlistProduct${i}`] || {};
 
+      let productImage = existingProduct.productImage || null;
       if (productImageFile) {
         productImage = await uploadToS3(
           productImageFile,
-          `${orderNumber}/wishlist_${uuidv4()}.png`
+          `${orderNumber}/wishlist_${i}_${uuidv4()}.png`
         );
       } else if (existingImage) {
         productImage = existingImage;
       }
 
+      // Update or preserve existing product data
       wishlistEntry[`wishlistProduct${i}`] = {
-        productName,
-        productUrl,
+        productName: productName || existingProduct.productName || "",
+        productUrl: productUrl || existingProduct.productUrl || "",
         productImage,
-        bookingName: null,
-        bookingPhoneNumber: null,
-        bookingStatus: "Available",
-        // uniqueId,
+        bookingName: existingProduct.bookingName || null, // Preserve existing value
+        bookingPhoneNumber: existingProduct.bookingPhoneNumber || null, // Preserve existing value
+        bookingStatus: existingProduct.bookingStatus || "Available", // Preserve existing value
       };
     }
 
@@ -136,6 +132,7 @@ const uploadWishlist = async (req, res) => {
     res.status(500).json({ message: "Error uploading Wishlist", error });
   }
 };
+
 
 // Update Wishlist Item
 const updateWishlist = async (req, res) => {
