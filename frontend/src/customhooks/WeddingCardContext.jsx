@@ -53,9 +53,9 @@ export const WeddingCardProvider = ({ children }) => {
       fetchWeddingCard("JK00001");
     }
     if (location.pathname.includes("/pakejpreview/Bali")) {
-      fetchWeddingCard("JK00001");
+      fetchWeddingCard("JK00005");
     } if (location.pathname.includes("/pakejpreview/Istanbul")) {
-      fetchWeddingCard("JK00001");
+      fetchWeddingCard("JK00006");
     } if (location.pathname.includes("/pakejpreview/Paris")) {
       fetchWeddingCard("JK00001");
     } else {
