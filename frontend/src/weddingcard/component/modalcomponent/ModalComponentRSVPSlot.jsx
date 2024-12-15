@@ -156,30 +156,34 @@ const ModalComponentRSVPSlot = ({ onCancel, onGuestbookUpdate }) => {
           </select>
         </div> */}
         {/* Time Slot */}
-        {/* <div className="mb-2">
-          <label
-            htmlFor="timeslot"
-            className="block text-center text-gray-700 font-bold mb-2"
-          >
-            Masa Kehadiran
-          </label>
-          <select
-            id="timeslot"
-            value={timeslot}
-            onChange={(e) => setTimeSlot(e.target.value)}
-            className="w-full p-1 border border-gray-300 rounded-md text-sm"
-            required
-          >
-            <option value="" disabled>
-              Pilih Masa Kehadiran
-            </option>
-            {timeslotOptions.map((time) => (
-              <option key={time} value={time}>
-                {time}
+        {weddingCard.labelSlot1 ? (
+          <div className="mb-2">
+            <label
+              htmlFor="timeslot"
+              className="block text-center text-gray-700 font-bold mb-2"
+            >
+              Masa Kehadiran
+            </label>
+            <select
+              id="timeslot"
+              value={timeslot}
+              onChange={(e) => setTimeSlot(e.target.value)}
+              className="w-full p-1 border border-gray-300 rounded-md text-sm"
+              required
+            >
+              <option value="" disabled>
+                Pilih Masa Kehadiran
               </option>
-            ))}
-          </select>
-        </div> */}
+              {timeslotOptions.map((time) => (
+                <option key={time} value={time}>
+                  {time}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : (
+          <></>
+        )}
 
         {/* Pihak */}
         {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
@@ -223,9 +227,18 @@ const ModalComponentRSVPSlot = ({ onCancel, onGuestbookUpdate }) => {
             onChange={(e) => setDewasa(parseInt(e.target.value))}
             className="w-full p-1 border border-gray-300 rounded-md"
           >
-            {[1, 2, 3, 4, 5].map((num1) => (
+            {/* {[1, 2, 3, 4, 5].map((num1) => (
               <option key={num1} value={num1}>
                 {num1}
+              </option>
+            ))} */}
+            {/* Dynamically generate options based on weddingCard.maxDewasa */}
+            {Array.from(
+              { length: weddingCard.maxInvitationsDewasa },
+              (_, i) => i + 1
+            ).map((num) => (
+              <option key={num} value={num}>
+                {num}
               </option>
             ))}
           </select>
@@ -245,9 +258,19 @@ const ModalComponentRSVPSlot = ({ onCancel, onGuestbookUpdate }) => {
             onChange={(e) => setKanak(parseInt(e.target.value))}
             className="w-full p-1 border border-gray-300 rounded-md"
           >
-            {[0, 1, 2, 3, 4].map((num2) => (
+            {/* {[0, 1, 2, 3, 4].map((num2) => (
               <option key={num2} value={num2}>
                 {num2}
+              </option>
+            ))} */}
+
+            {/* Dynamically generate options starting from 0 */}
+            {Array.from(
+              { length: weddingCard.maxInvitationsKids + 1 },
+              (_, i) => i
+            ).map((num) => (
+              <option key={num} value={num}>
+                {num}
               </option>
             ))}
           </select>
