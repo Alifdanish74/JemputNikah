@@ -2,13 +2,10 @@ const mongoose = require("mongoose");
 
 // Schema for individual wishlist product
 const WishlistProductSchema = new mongoose.Schema({
-  uniqueId: {
-    type: String,
-    default: () => new mongoose.Types.ObjectId().toString(), // Generate a unique ID
-    required: true,
-    unique: true,
-  },
-  productName: { type: String, required: true }, // Name of the product
+  // uniqueId: {
+  //   type: String,
+  // },
+  productName: { type: String}, // Name of the product
   productUrl: { type: String }, // URL of the product
   productImage: { type: String }, // Image URL of the product
   bookingName: { type: String, default: null }, // Name of the person who booked
@@ -32,8 +29,8 @@ const WishlistMainSchema = new mongoose.Schema({
     ref: "Order",
     required: true,
   },
-  address: { type: String, required: true }, // Address associated with the wishlist
-  phone: { type: String, required: true }, // Phone number associated with the wishlist
+  address: { type: String }, // Address associated with the wishlist
+  phone: { type: String }, // Phone number associated with the wishlist
 
   // Separate fields for three wishlist products
   wishlistProduct1: { type: WishlistProductSchema },

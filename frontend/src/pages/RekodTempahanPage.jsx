@@ -55,33 +55,33 @@ function RekodTempahanPage() {
   }, [ready, user]);
 
   // Function to handle the navigation
-//   const navigateToPreviewCard = async (weddingCardId, orderNumber) => {
-//     try {
-//       const response = await axios.get(`/api/wedding-cards/${weddingCardId}`);
-//       const { hashtag } = response.data;
-//       const url = `/weddingcardpreview/${hashtag}/${orderNumber}`;
+  //   const navigateToPreviewCard = async (weddingCardId, orderNumber) => {
+  //     try {
+  //       const response = await axios.get(`/api/wedding-cards/${weddingCardId}`);
+  //       const { hashtag } = response.data;
+  //       const url = `/weddingcardpreview/${hashtag}/${orderNumber}`;
 
-//       // Return the dynamically generated URL
-//       return url;
-//     } catch (error) {
-//       console.error("Error fetching wedding card details:", error);
-//       return null; // Return null if there's an error
-//     }
-//   };
+  //       // Return the dynamically generated URL
+  //       return url;
+  //     } catch (error) {
+  //       console.error("Error fetching wedding card details:", error);
+  //       return null; // Return null if there's an error
+  //     }
+  //   };
 
-//   const navigateToActualCard = async (weddingCardId, orderNumber) => {
-//     try {
-//       const response = await axios.get(`/api/wedding-cards/${weddingCardId}`);
-//       const { hashtag } = response.data;
-//       const url = `/weddingcard/${hashtag}/${orderNumber}`;
+  //   const navigateToActualCard = async (weddingCardId, orderNumber) => {
+  //     try {
+  //       const response = await axios.get(`/api/wedding-cards/${weddingCardId}`);
+  //       const { hashtag } = response.data;
+  //       const url = `/weddingcard/${hashtag}/${orderNumber}`;
 
-//       // Return the dynamically generated URL
-//       return url;
-//     } catch (error) {
-//       console.error("Error fetching wedding card details:", error);
-//       return null; // Return null if there's an error
-//     }
-//   };
+  //       // Return the dynamically generated URL
+  //       return url;
+  //     } catch (error) {
+  //       console.error("Error fetching wedding card details:", error);
+  //       return null; // Return null if there's an error
+  //     }
+  //   };
 
   // Function to delete the selected order
   const handleDelete = async () => {
@@ -276,38 +276,36 @@ function RekodTempahanPage() {
                             {/* PREVIEW CARD ONLY */}
                             <td className=" py-3 border">
                               <div className="flex-row lg:flex  gap-x-3 mx-auto items-center justify-center">
-                                <div className="bg-blue-600 border rounded-xl mx-auto flex">
-
-                                <a
-                                  href={`/weddingcardpreview/${order.weddingCardId.hashtag}/${order.orderNumber}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-white text-center hover:underline p-2 flex"
-                                >
-                                  {" "}
-                                  <FaRegPlayCircle className="mx-auto h-5 w-5" />{" "}
-                                  Preview Card
-                                </a>
-                                </div>
-                                {/* hello {order.weddingCardId} */}
-
-                                <CopyToClipboardButton content={"Hello"} />
+                                {order.paymentStatus !== "paid" && (
+                                  <div className="bg-blue-600 border rounded-xl mx-auto flex">
+                                    <a
+                                      href={`/weddingcardpreview/${order.weddingCardId.hashtag}/${order.orderNumber}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-white text-center hover:underline p-2 flex"
+                                    >
+                                      {" "}
+                                      <FaRegPlayCircle className="mx-auto h-5 w-5" />{" "}
+                                      Preview Card
+                                    </a>
+                                  </div>
+                                )}
                               </div>
                               {order.paymentStatus === "paid" && (
                                 <>
                                   {/* ACTUAL CARD */}
                                   <div className="flex-row lg:flex my-2 gap-x-3 mx-auto items-center justify-center">
-                                  <div className="bg-blue-600 border rounded-xl mx-auto flex">
-                                    <a
-                                      href={`/weddingcard/${order.weddingCardId.hashtag}/${order.orderNumber}`}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="flex text-white text-center hover:underline p-2"
-                                    >
-                                      {" "}
-                                      <FaRegPlayCircle className="mx-auto h-5 w-5 " />{" "}
-                                      Digital Card
-                                    </a>
+                                    <div className="bg-blue-600 border rounded-xl mx-auto flex">
+                                      <a
+                                        href={`/weddingcard/${order.weddingCardId.hashtag}/${order.orderNumber}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex text-white text-center hover:underline p-2"
+                                      >
+                                        {" "}
+                                        <FaRegPlayCircle className="mx-auto h-5 w-5 " />{" "}
+                                        Digital Card
+                                      </a>
                                     </div>
                                     {/* hello {order.weddingCardId} */}
 
@@ -319,46 +317,47 @@ function RekodTempahanPage() {
 
                             <td className=" py-3 border min-w-[250px] ">
                               <div className="grid grid-cols-2 gap-y-2 items-center justify-center">
-                                {order.weddingCardId.pakej !== "Bali" && (
-                                  <>
-                                    <div className="mx-auto items-center justify-center">
-                                      <Button
-                                        size="xs"
-                                        color="blue"
-                                        onClick={() =>
-                                          navigate(
-                                            `/tempahan/rsvp/${order.orderNumber}`,
-                                            {
-                                              state: { order },
-                                            }
-                                          )
-                                        }
-                                      >
-                                        {" "}
-                                        <IoPeople className="mr-2 h-5 w-5" />{" "}
-                                        RSVP
-                                      </Button>
-                                    </div>
-                                    <div className="mx-auto items-center justify-center">
-                                      <Button
-                                        size="xs"
-                                        color="dark"
-                                        onClick={() =>
-                                          navigate(
-                                            `/tempahan/guestbook/${order.orderNumber}`,
-                                            {
-                                              state: { order },
-                                            }
-                                          )
-                                        }
-                                      >
-                                        {" "}
-                                        <RiContactsBook3Line className="mr-2 h-5 w-5" />{" "}
-                                        Guestbook
-                                      </Button>
-                                    </div>
-                                  </>
-                                )}
+                                {order.weddingCardId.pakej !== "Bali" &&
+                                  order.paymentStatus === "paid" && (
+                                    <>
+                                      <div className="mx-auto items-center justify-center">
+                                        <Button
+                                          size="xs"
+                                          color="blue"
+                                          onClick={() =>
+                                            navigate(
+                                              `/tempahan/rsvp/${order.orderNumber}`,
+                                              {
+                                                state: { order },
+                                              }
+                                            )
+                                          }
+                                        >
+                                          {" "}
+                                          <IoPeople className="mr-2 h-5 w-5" />{" "}
+                                          RSVP
+                                        </Button>
+                                      </div>
+                                      <div className="mx-auto items-center justify-center">
+                                        <Button
+                                          size="xs"
+                                          color="dark"
+                                          onClick={() =>
+                                            navigate(
+                                              `/tempahan/guestbook/${order.orderNumber}`,
+                                              {
+                                                state: { order },
+                                              }
+                                            )
+                                          }
+                                        >
+                                          {" "}
+                                          <RiContactsBook3Line className="mr-2 h-5 w-5" />{" "}
+                                          Guestbook
+                                        </Button>
+                                      </div>
+                                    </>
+                                  )}
                                 <div className="mx-auto items-center justify-center">
                                   <Button
                                     size="xs"
@@ -386,7 +385,7 @@ function RekodTempahanPage() {
                                     Delete
                                   </Button>
                                 </div>
-                                {order.weddingCardId.pakej === "Paris" && (
+                                {order.weddingCardId.pakej === "Paris" && order.paymentStatus === "paid" && (
                                   <div className="mx-auto items-center justify-center">
                                     <Button
                                       size="xs"

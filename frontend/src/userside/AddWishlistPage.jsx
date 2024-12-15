@@ -205,13 +205,33 @@ const AddWishlistPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10">
+    <div className="min-h-screen bg-gray-50 pt-2 pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 text-center mb-6">
+        <h1 className="text-3xl font-bold text-gray-900 text-center mb-4">
           Wishlist Management
         </h1>
 
-        <div className="flex justify-center mb-4 space-x-4">
+        <div className="flex space-x-10 mx-auto items-center justify-center">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Address
+            </label>
+
+            <p className="border border-gray-500 p-2 min-w-56 min-h-7 rounded-lg text-wrap">
+              {address}
+            </p>
+          </div>
+          <div>
+            <label className="block text-sm font-medium  text-gray-700">
+              Phone Number
+            </label>
+
+            <p className="border border-gray-500 p-2 px-4 min-w-44 min-h-7 rounded-lg text-wrap">
+              {phone}
+            </p>
+          </div>
+        </div>
+        <div className="flex justify-center my-4 space-x-4">
           <Button onClick={() => setIsAddressModalOpen(true)}>
             Address Details
           </Button>

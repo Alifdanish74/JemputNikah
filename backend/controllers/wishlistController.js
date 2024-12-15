@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const Wishlist = require("../models/Wishlist");
 const Order = require("../models/Order");
+const { v4: uuidv4 } = require('uuid'); // Install uuid library for unique IDs
 
 // Configure multer for memory storage (no local files)
 const upload = multer({ storage: multer.memoryStorage() });
@@ -71,10 +72,23 @@ const uploadWishlist = async (req, res) => {
       });
     }
 
+    // Initialize empty wishlist products with uniqueIds
+    // for (let i = 1; i <= 10; i++) {
+    //   wishlistEntry[`wishlistProduct${i}`] = {
+    //     productName: "",
+    //     productUrl: "",
+    //     productImage: null,
+    //     bookingName: null,
+    //     bookingPhoneNumber: null,
+    //     bookingStatus: "Available",
+    //     uniqueId: new mongoose.Types.ObjectId().toString(),
+    //   };
+    // }
+
     // Clear all existing wishlist keys to avoid stale data
-    for (let i = 1; i <= 10; i++) {
-      delete wishlistEntry[`wishlistProduct${i}`];
-    }
+    // for (let i = 1; i <= 10; i++) {
+    //   delete wishlistEntry[`wishlistProduct${i}`];
+    // }
 
     // Handle each wishlist product from the frontend
     for (let i = 1; i <= 10; i++) {
@@ -87,13 +101,13 @@ const uploadWishlist = async (req, res) => {
         continue; // Skip empty items
       }
 
-      const uniqueId = new mongoose.Types.ObjectId().toString();
+      // const uniqueId = new mongoose.Types.ObjectId().toString();
       let productImage = null;
 
       if (productImageFile) {
         productImage = await uploadToS3(
           productImageFile,
-          `${orderNumber}/wishlist_${uniqueId}.png`
+          `${orderNumber}/wishlist_${uuidv4()}.png`
         );
       } else if (existingImage) {
         productImage = existingImage;
@@ -106,7 +120,7 @@ const uploadWishlist = async (req, res) => {
         bookingName: null,
         bookingPhoneNumber: null,
         bookingStatus: "Available",
-        uniqueId,
+        // uniqueId,
       };
     }
 
@@ -122,7 +136,6 @@ const uploadWishlist = async (req, res) => {
     res.status(500).json({ message: "Error uploading Wishlist", error });
   }
 };
-
 
 // Update Wishlist Item
 const updateWishlist = async (req, res) => {

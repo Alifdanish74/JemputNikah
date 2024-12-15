@@ -84,9 +84,9 @@ const WeddingCardSchema = new mongoose.Schema(
     accountNumber: { type: String },
     qrCode: { type: String }, // File path or URL for QR code image
     // RSVP
-    maxInvitations: { type: Number, default: null },
-    maxInvitationsDewasa: { type: Number, default: null },
-    maxInvitationsKids: { type: Number, default: null },
+    maxInvitations: { type: Number, default: 0 },
+    maxInvitationsDewasa: { type: Number, default: 0 },
+    maxInvitationsKids: { type: Number, default: 0 },
     maxDate: { type: Date, default: null }, // Allows null values if needed},
     labelSlot1: { type: String },
     fromSlot1: { type: String },

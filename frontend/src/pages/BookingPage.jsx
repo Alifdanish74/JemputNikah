@@ -167,9 +167,9 @@ function BookingPage() {
     accountNumber: "",
     qrCodeFile: "",
     // RSVP info
-    maxInvitations: 0,
-    maxInvitationsDewasa: 0,
-    maxInvitationsKids: 0,
+    maxInvitations: null,
+    maxInvitationsDewasa: null,
+    maxInvitationsKids: null,
     maxDate: null,
     labelSlot1: "",
     fromSlot1: "",

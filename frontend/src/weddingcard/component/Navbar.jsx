@@ -105,6 +105,17 @@ function Navbar({ onGuestbookUpdate, preview }) {
                   <CiGift className="text-2xl mb-1" /> Wishlist
                 </motion.button>
               )}
+              <motion.button
+                initial={{ opacity: 0.8 }}
+                whileHover={{
+                  scale: 1.1,
+                  transition: { duration: 0.4, opacity: 1 },
+                }}
+                onClick={() => openModal("Contact")}
+                className={navbarButtonCSS}
+              >
+                <MdOutlineLocalPhone className="text-2xl mb-1" /> Contact
+              </motion.button>
 
               {preview ? (
                 <motion.button
@@ -134,17 +145,6 @@ function Navbar({ onGuestbookUpdate, preview }) {
             </>
           )}
 
-          <motion.button
-            initial={{ opacity: 0.8 }}
-            whileHover={{
-              scale: 1.1,
-              transition: { duration: 0.4, opacity: 1 },
-            }}
-            onClick={() => openModal("Contact")}
-            className={navbarButtonCSS}
-          >
-            <MdOutlineLocalPhone className="text-2xl mb-1" /> Contact
-          </motion.button>
           <motion.button
             initial={{ opacity: 0.8 }}
             whileHover={{
