@@ -326,7 +326,7 @@ function RekodTempahanPage() {
                                           color="blue"
                                           onClick={() =>
                                             navigate(
-                                              `/tempahan/rsvp/${order.orderNumber}`,
+                                              `/tempahan/rsvp/${order.orderNumber}/${order._id}`,
                                               {
                                                 state: { order },
                                               }
@@ -344,7 +344,7 @@ function RekodTempahanPage() {
                                           color="dark"
                                           onClick={() =>
                                             navigate(
-                                              `/tempahan/guestbook/${order.orderNumber}`,
+                                              `/tempahan/guestbook/${order.orderNumber}/${order._id}`,
                                               {
                                                 state: { order },
                                               }
@@ -392,7 +392,7 @@ function RekodTempahanPage() {
                                       color="purple"
                                       onClick={() =>
                                         navigate(
-                                          `/tempahan/wishlist/${order.orderNumber}`,
+                                          `/tempahan/wishlist/${order.orderNumber}/${order._id}`,
                                           {
                                             state: { order },
                                           }

@@ -179,7 +179,7 @@ function App() {
 
                 {/* USER SIDE */}
                 <Route
-                  path="/tempahan/rsvp/:orderNumber"
+                  path="/tempahan/rsvp/:orderNumber/:_id"
                   element={
                     <ProtectedRoute>
                       <RSVPManagementPage />
@@ -187,7 +187,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/tempahan/guestbook/:orderNumber"
+                  path="/tempahan/guestbook/:orderNumber/:_id"
                   element={
                     <ProtectedRoute>
                       <ViewGuestbookPage />
@@ -195,7 +195,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/tempahan/wishlist/:orderNumber"
+                  path="/tempahan/wishlist/:orderNumber/:_id"
                   element={
                     <ProtectedRoute>
                       <AddWishlistPage />
