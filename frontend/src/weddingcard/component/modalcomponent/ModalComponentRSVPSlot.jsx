@@ -156,7 +156,7 @@ const ModalComponentRSVPSlot = ({ onCancel, onGuestbookUpdate }) => {
           </select>
         </div> */}
         {/* Time Slot */}
-        <div className="mb-2">
+        {/* <div className="mb-2">
           <label
             htmlFor="timeslot"
             className="block text-center text-gray-700 font-bold mb-2"
@@ -179,7 +179,7 @@ const ModalComponentRSVPSlot = ({ onCancel, onGuestbookUpdate }) => {
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
 
         {/* Pihak */}
         {["LL", "PP"].includes(weddingCard.pihakMajlis) && (
