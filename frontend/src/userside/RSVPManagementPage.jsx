@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { Modal, Button } from "flowbite-react";
 import { toast } from "react-toastify";
 import Papa from "papaparse";
+import { Badge } from "../components/ui/badge";
 
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Theme CSS
@@ -242,23 +243,25 @@ const RSVPManagementPage = () => {
           <p className="text-gray-500">
             Manage all RSVPs for this wedding card.
           </p>
-          <div className="text-gray-700 mb-4">
-            <p>
-              <strong>Total Adults:</strong> {totals.adults}
-            </p>
-            <p>
-              <strong>Total Kids:</strong> {totals.kids}
-            </p>
-            <p>
-              <strong>Total Guests:</strong> {totals.total}
-            </p>
+          <div className="text-gray-700 my-4 space-x-3">
+            <Badge variant="secondary">
+              Total Adults:&nbsp; <strong> {totals.adults} guests </strong>
+            </Badge>
+            <Badge variant="default">
+              Total Kids:&nbsp; <strong>{totals.kids} guests</strong>
+            </Badge>
+            <Badge variant="custom">
+              Total Guests:&nbsp; <strong>{totals.total} guests</strong>
+            </Badge>
           </div>
-          <div>
+          <div className="space-y-3">
             {Object.keys(totals.byPihak).map((pihak) => (
-              <p key={pihak}>
-                <strong>{pihak}:</strong> {totals.byPihak[pihak].total} guests
-                (Adults: {totals.byPihak[pihak].adults}, Kids:{" "}
-                {totals.byPihak[pihak].kids})
+              <p key={pihak} className="space-x-2">
+                <strong>{pihak}:</strong> <Badge variant="custom">{totals.byPihak[pihak].total} guests</Badge> 
+                <Badge variant="secondary">Adults: {totals.byPihak[pihak].adults} guests</Badge>
+                <Badge variant="default">Kids:{" "}
+                {totals.byPihak[pihak].kids} guests</Badge>
+                
               </p>
             ))}
           </div>

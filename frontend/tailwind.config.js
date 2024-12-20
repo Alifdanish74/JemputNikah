@@ -15,6 +15,7 @@ export default {
     extend: {
       colors: {
         primary: "#E01760",
+        secondary: "#060cc2",
         ...colors, // Include Tailwind default colors
       },
       fontFamily: {
