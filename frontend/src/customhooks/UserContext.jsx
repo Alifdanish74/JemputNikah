@@ -25,6 +25,7 @@ const UserContextProvider = ({ children }) => {
       "/contact",
       "/pakej",
       "/weddingcardpreview",
+      "/pakejpreview",
       "/preview",
       "/weddingcard",
     ],
@@ -64,7 +65,8 @@ const UserContextProvider = ({ children }) => {
       publicPaths.includes(location.pathname) ||
       location.pathname.startsWith("/weddingcard") ||
       location.pathname.startsWith("/weddingcardpreview") ||
-      location.pathname.startsWith("/preview");
+      location.pathname.startsWith("/preview")||
+      location.pathname.startsWith("/pakejpreview");
 
     // Only fetch profile if the path is not public and the user is not already set
     if (!isPublicPath && !user && !ready) {
