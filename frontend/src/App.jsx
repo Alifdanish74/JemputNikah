@@ -32,11 +32,13 @@ import { useEffect, useState } from "react";
 import AdminViewDesign from "./adminside/AdminViewDesign";
 import ProtectedRoute from "./customhooks/ProtectedRoute";
 import { WeddingCardProvider } from "./customhooks/WeddingCardContext";
+
 // import ContactUs from "./pages/ContactUs";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
+
 // axios.defaults.baseURL = "https://jemput-nikah-backend.vercel.app";
 // axios.defaults.baseURL = "https://jemput-nikah-backend.vercel.app";
 function App() {
@@ -80,7 +82,9 @@ function App() {
                 <Route path="/kad-digital" element={<KadDigitalPage />} />
                 <Route path="/pakej" element={<PakejPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+            
                 <Route path="/login" element={<LoginPage />} />
+                
                 {/* <Route path="/contact" element={<ContactUs />} /> */}
 
                 <Route

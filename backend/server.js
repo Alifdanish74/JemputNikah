@@ -2,8 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const dotenv = require("dotenv");
 const path = require("path");
+const dotenv = require("dotenv");
 dotenv.config();
 
 const authRoutes = require("./routes/auth");
@@ -30,6 +30,7 @@ const corsOptions = {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.error(`Blocked by CORS: ${origin}`);
       callback(new Error("Not allowed by CORS"));
     }
   },
@@ -37,6 +38,17 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+// Middleware to set Cross-Origin headers
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Opener-Policy", "unsafe-none");
+  res.setHeader("Cross-Origin-Embedder-Policy", "unsafe-none");
+  res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  next();
+});
 
 //   Connect to MongoDB by mongoose
 mongoose
