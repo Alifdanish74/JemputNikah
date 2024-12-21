@@ -9,7 +9,7 @@ function PakejPage() {
       <HeaderBackground H1="PAKEJ KAD KAHWIN DIGITAL" P="" />
       <section className="bg-blue-50 pb-16">
         <PakejSection />
-        <div className="flex py-8 px-4 mx-auto max-w-5xl lg:py-16 lg:px-6 space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-6 lg:space-y-0">
+        <div className=" py-8 px-4 mx-auto max-w-5xl grid-cols-1 lg:py-16 lg:px-6 space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-6 lg:space-y-0">
           {/* Add on 1 */}
           <div className="px-4  mx-auto max-w-5xl lg:px-6 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-6 lg:space-y-0">
             <div className="flex flex-col py-5 px-16 border-x-4 border-y-8 border-green-400 mx-auto text-center text-gray-900 bg-white rounded-lg shadow ">

@@ -16,6 +16,7 @@ import { IoReceiptOutline } from "react-icons/io5";
 // import { toast } from "react-toastify";
 import { Button, Modal } from "flowbite-react";
 import { HiOutlineCheckCircle } from "react-icons/hi";
+import emailjs from "@emailjs/browser";
 
 function BookingPage() {
   const { designName } = useParams(); // Get the design name from the URL
@@ -98,6 +99,14 @@ function BookingPage() {
   // Function to handle pakej change
   const handlePakejChange = (pakej) => {
     setSelectedPakej(pakej);
+    // Update the maxInvitations based on the pakej
+  setFormData((prevFormData) => ({
+    ...prevFormData,
+    pakej: pakej,
+    maxInvitations: pakej === "Bali" ? 0 : prevFormData.maxInvitations, // Set to 0 if pakej is Bali
+    maxInvitationsDewasa: pakej === "Bali" ? 0 : prevFormData.maxInvitationsDewasa, // Set to 0 if pakej is Bali
+    maxInvitationsKids: pakej === "Bali" ? 0 : prevFormData.maxInvitationsKids, // Set to 0 if pakej is Bali
+  }));
     handleSectionChange("Pengantin");
     // Update selected pakej class based on user selection
   };
@@ -351,9 +360,7 @@ function BookingPage() {
       if (!formData.accountNumber) {
         newErrors.accountNumber = "Account number is required";
       }
-      if (!formData.qrCodeFile) {
-        newErrors.qrCodeFile = "QR Code image is required";
-      }
+      
     }
 
     if (activeSection === "RSVP") {
@@ -402,7 +409,7 @@ function BookingPage() {
     e.preventDefault();
     const formDataObj = new FormData();
 
-    // Append all other form data and handle the file field `qrCodeFile` explicitly
+    // Append all form data
     Object.entries(formData).forEach(([key, value]) => {
       if (value !== null && value !== undefined) {
         formDataObj.append(key, value);
@@ -410,17 +417,43 @@ function BookingPage() {
     });
 
     try {
-      const url = isEditMode
-        ? `/api/wedding-cards/${weddingCardId}`
-        : "/api/wedding-cards";
+      const isPostRequest = !isEditMode; // Determine if it's a POST request
+      const url = isPostRequest
+        ? "/api/wedding-cards" // POST URL for creating
+        : `/api/wedding-cards/${weddingCardId}`; // PUT URL for updating
 
       await axios({
-        method: isEditMode ? "PUT" : "POST",
+        method: isPostRequest ? "POST" : "PUT",
         url: url,
         data: formDataObj,
       });
 
-      setOpenModal(true);
+      // Send email notification only for POST requests
+      if (isPostRequest) {
+        const emailParams = {
+          phone_number: formData.orderphone || "Unknown User",
+          wedding_date: formData.tarikhMajlis || "Not Specified",
+          user_message: "A new wedding card has been created",
+        };
+
+        emailjs
+          .send(
+            "service_rqrmjvu", // Replace with your EmailJS Service ID
+            "template_25bejj1", // Replace with your EmailJS Template ID
+            emailParams, // Email parameters
+            "mod9vdWjwPxz25nvq" // Replace with your EmailJS Public Key
+          )
+          .then(
+            () => {
+              console.log("Email notification sent successfully.");
+            },
+            (error) => {
+              console.error("Failed to send email notification:", error.text);
+            }
+          );
+      }
+
+      setOpenModal(true); // Open modal after successful form submission
     } catch (error) {
       console.error("Error submitting form:", error);
     }

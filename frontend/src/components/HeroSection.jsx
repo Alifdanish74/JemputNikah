@@ -2,49 +2,22 @@
 // import { Link } from 'react-router-dom'
 
 // import { Button } from "flowbite-react";
-import MockupImage from "../assets/phone-mockup.png";
+import MockupImage from "../assets/phone-mockup-removebg.png";
 import { featureicons } from "./featureicons";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/moving-border";
+import { FlipWords } from "./ui/flip-words";
 // import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
 // import { AnimatedTooltipPreview } from "./AnimatedToolTip";
 
-const words = [
-  {
-    text: "Kad",
-  },
-  {
-    text: "jemputan",
-  },
-  {
-    text: "alaf",
-  },
-  {
-    text: "baru!",
-  },
-  {
-    text: "Kini",
-  },
-  {
-    text: "lebih",
-  },
-  {
-    text: "mudah",
-  },
-  {
-    text: "dengan",
-  },
-  {
-    text: "JemputKahwin.my",
-    className: "text-blue-500 dark:text-blue-500",
-  },
-];
-console.log (words)
 function HeroSection() {
   const navigate = useNavigate();
-
+  const words = ["KAHWIN", "TUNANG", "AKIKAH", "MAJLIS"];
   return (
-    <div className="relative bg-gradient-to-b h-fit from-pink-300 to-blue-50">
+    <div className="relative h-screen flex items-center hero-background justify-center bg-cover bg-center bg-no-repeat">
+         
+      {/* Overlay for faded effect */}
+      {/* <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70"></div> */}
       {/* <section className="overflow-scroll"> */}
       <div className="flex flex-col lg:flex-row lg:items-stretch">
         {/* column left */}
@@ -52,10 +25,18 @@ function HeroSection() {
           <div className="h-full px-4 pt-24 pb-16 sm:px-6 lg:px-24 2xl:px-32 lg:pt-40 lg:pb-14">
             <div className="flex flex-col justify-between flex-1 h-fit">
               <div>
-                <h1 className="text-4xl uppercase font-bold text-black sm:text-6xl xl:text-7xl">
+                {/* <h1 className="text-4xl uppercase font-bold text-black sm:text-6xl xl:text-7xl">
                   Kad Jemputan <br />
                   Kahwin Digital
-                </h1>
+                </h1> */}
+                <div className=" flex justify-center items-center ">
+                  <div className="text-4xl uppercase font-bold text-black sm:text-6xl xl:text-7xl mx-auto ">
+                    KAD JEMPUTAN
+                    <br />
+                    <FlipWords words={words} />
+                    DIGITAL
+                  </div>
+                </div>
 
                 <p className="mt-6 text-base text-black sm:text-xl">
                   Jemputan majlis alaf baru! Kini lebih mudah dan teratur
@@ -63,12 +44,12 @@ function HeroSection() {
 
                 {/* <TypewriterEffectSmooth words={words} /> */}
 
-                <div className="mx-auto pb-6">
+                <div className="mx-auto p-6">
                   <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
                     {featureicons.map((feature, index) => (
                       <div key={index} className="">
                         <div
-                          className={`w-16 h-16 ${feature.bgColor} flex mx-auto items-center justify-center rounded-full ${feature.textColor} text-3xl`}
+                          className={`w-16 h-16 ${feature.bgColor} flex mx-auto items-center shadow-lg justify-center rounded-full ${feature.textColor} text-3xl`}
                         >
                           {feature.icon}
                         </div>
@@ -85,7 +66,7 @@ function HeroSection() {
                   title=""
                   // className="inline-flex rounded-full border border-sky-500 items-center px-6 py-5 text-base font-semibold text-white transition-all duration-200 bg-sky-500 mt-9 hover:bg-white hover:text-blue-400"
                   borderRadius="1.75rem"
-                  className="bg-cyan-950  text-white  border-neutral-200 "
+                  className="bg-blue-600  text-white font-semibold  border-neutral-200 "
                   role="button"
                   onClick={() => {
                     navigate("/kad-digital");

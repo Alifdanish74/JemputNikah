@@ -51,10 +51,10 @@ function Header() {
   }
 
   return (
-    <header className="sticky z-10 top-0 bg-white border border-opacity-50 border-slate-400">
+    <header className="sticky min-h-24 z-20 top-0 bg-white border border-opacity-50 border-slate-400">
       <nav
         aria-label="Global"
-        className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+        className="mx-auto flex max-h-24 max-w-7xl items-center justify-between p-6 lg:px-8"
       >
         <div className="flex lg:flex-1">
           <NavLink to={"/"} className="-m-1.5 p-1.5 flex gap-2">

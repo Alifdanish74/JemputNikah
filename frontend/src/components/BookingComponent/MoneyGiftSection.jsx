@@ -55,6 +55,14 @@ function MoneyGiftSection({
               onChange={(e) => handleFormDataChange("bankName", e.target.value)}
             >
               <option value="">Pilih bank</option>
+              <option value="Maybank Berhad">Maybank Berhad</option>
+              <option value="CIMB Bank Berhad">CIMB Bank Berhad</option>
+              <option value="CIMB Islamic Bank Berhad">
+                CIMB Islamic Bank Berhad
+              </option>
+              <option value="Bank Islam Malaysia Berhad">
+                Bank Islam Malaysia Berhad
+              </option>
               <option value="Affin Bank Berhad">Affin Bank Berhad</option>
               <option value="Affin Islamic Bank Berhad">
                 Affin Islamic Bank Berhad
@@ -69,9 +77,7 @@ function MoneyGiftSection({
                 Al-Rajhi Banking &amp; Investment Corporation (Malaysia) Berhad
               </option>
               <option value="AmBank (M) Berhad">AmBank (M) Berhad</option>
-              <option value="Bank Islam Malaysia Berhad">
-                Bank Islam Malaysia Berhad
-              </option>
+
               <option value="Bank Kerjasama Rakyat Malaysia Berhad">
                 Bank Kerjasama Rakyat Malaysia Berhad
               </option>
@@ -87,10 +93,7 @@ function MoneyGiftSection({
               <option value="Bank Simpanan Nasional">
                 Bank Simpanan Nasional
               </option>
-              <option value="CIMB Bank Berhad">CIMB Bank Berhad</option>
-              <option value="CIMB Islamic Bank Berhad">
-                CIMB Islamic Bank Berhad
-              </option>
+
               <option value="Citibank Berhad">Citibank Berhad</option>
               <option value="Hong Leong Bank Berhad">
                 Hong Leong Bank Berhad
@@ -108,7 +111,7 @@ function MoneyGiftSection({
                 Industrial and Commercial Bank of China (Malaysia) Berhad
               </option>
               <option value="Kuwait Finance House">Kuwait Finance House</option>
-              <option value="Maybank Berhad">Maybank Berhad</option>
+
               <option value="GX Bank">GX Bank</option>
               <option value="MBSB Bank Berhad">MBSB Bank Berhad</option>
               <option value="OCBC Bank (Malaysia) Berhad">
@@ -170,11 +173,7 @@ function MoneyGiftSection({
               />
               <FaUpload className="text-indigo-600 text-xl" />
             </div>
-            {errors.qrCodeFile && (
-              <p className="text-red-500 text-sm">{errors.qrCodeFile}</p>
-            )}
           </div>
-         
 
           {/* QR Code image preview */}
           {imageUrl && (
@@ -189,9 +188,7 @@ function MoneyGiftSection({
               />
             </div>
           )}
-          
         </div>
-        
 
         {/* Navigation buttons */}
         <div className="grid grid-cols-2">

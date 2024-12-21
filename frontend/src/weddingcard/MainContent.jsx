@@ -8,6 +8,7 @@ import AnimatedComponent from "./component/AnimatedComponent_Motion001";
 import ParticleComponent from "./component/ParticleComponent";
 import AnimatedComponent002 from "./component/AnimatedComponent_Motion002";
 import AnimatedComponentPreview from "./component/AnimatedComponent_Motion001_preview";
+import AnimatedComponentPreview002 from "./component/AnimatedComponent_Motion002_preview";
 
 function MainContent() {
   const { weddingCard, design, fetchDesign } = useWeddingCard();
@@ -88,9 +89,13 @@ function MainContent() {
             <ParticleComponent particleColor={particlesColor} />
           </section>
 
-          <section id="animated" className="-z-10">
+          {designName?.includes("Motion002") ? (
+            <section id="animated" className="-z-10">
+              <AnimatedComponentPreview002 />
+            </section>
+          ) : (
             <AnimatedComponent002 />
-          </section>
+          )}
         </>
       )}
 
