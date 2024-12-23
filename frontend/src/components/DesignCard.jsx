@@ -46,46 +46,46 @@ function DesignCard({ itemName, itemImage, itemCategory }) {
     // </div>
     // <div className="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
     <div className="mb-4 sm:max-w-xs">
-  <div className="rounded-lg border mx-auto border-gray-200 bg-white p-3 shadow-xl">
-    <Badge variant="default">{itemCategory}</Badge>
-    <div className="flex mx-auto mt-2 justify-center items-center">
-      <img
-        className="w-3/4 md:w-7/12 sm:h-[180px] rounded-t-lg"
-        src={itemImage}
-        alt="product image"
-      />
-    </div>
+      <div className="rounded-lg border mx-auto border-gray-200 bg-white p-3 pt-0 shadow-xl">
+        <div className="hidden">
 
-    <div className="pt-2">
-      <h1 className="text-2xl font-bold leading-tight text-gray-900">
-        {itemName}
-      </h1>
+        <Badge variant="default">{itemCategory}</Badge>
+        </div>
+        <div className="flex mx-auto mt-2  min-h-[220px] justify-center items-center">
+          <img
+            className="w-3/4 md:w-7/12 min-h-[180px] rounded-t-lg"
+            src={itemImage}
+            alt="product image"
+          />
+        </div>
 
-      {/* Responsive Button Container */}
-      <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <a
-          type="button"
-          href={`/preview/${itemName}`}
-          target="_blank"
-          className="inline-flex w-full sm:w-auto items-center gap-x-2 justify-center rounded-lg border-2 bg-white px-5 py-2.5 text-xs font-medium text-blue-600 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300"
-        >
-          <FaRegEye />
-          Preview
-        </a>
+        <h1 className="text-2xl font-bold leading-tight text-gray-900">
+          {itemName}
+        </h1>
 
-        <Link
-          type="button"
-          to={`/kad-digital/tempah/${itemName}`}
-          className="inline-flex w-full sm:w-auto items-center gap-x-2 justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-primary-300"
-        >
-          <MdOutlineShoppingCartCheckout />
-          Tempah
-        </Link>
+        {/* Responsive Button Container */}
+        <div className="mt-1 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <a
+            type="button"
+            href={`/preview/${itemName}`}
+            target="_blank"
+            className="inline-flex w-full sm:w-auto items-center gap-x-2 justify-center rounded-lg border-2 bg-white px-5 py-2.5 text-xs font-medium text-blue-600 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300"
+          >
+            <FaRegEye />
+            Preview
+          </a>
+
+          <Link
+            type="button"
+            to={`/kad-digital/tempah/${itemName}`}
+            className="inline-flex w-full sm:w-auto items-center gap-x-2 justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-primary-300"
+          >
+            <MdOutlineShoppingCartCheckout />
+            Tempah
+          </Link>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-
   );
 }
 
