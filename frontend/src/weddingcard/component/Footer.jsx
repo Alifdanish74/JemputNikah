@@ -22,7 +22,10 @@ function Footer() {
       id="hashtag"
       className="flex flex-col text-center content-center justify-center container py-5"
     >
-      <h1 className="text-black font-[gormorant] mt-10 text-xl">
+      <h1
+        style={{ color: weddingCard.designFontColor || "#000000" }}
+        className=" font-[gormorant] mt-10 text-xl"
+      >
         #{weddingCard.hashtag}
         {/* #DanishXIqkriany */}
       </h1>
@@ -30,7 +33,12 @@ function Footer() {
       <br></br>
       {/* Logo */}
       <div className="flex flex-col my-4 mx-auto">
-        <h1 className="text-black my-1 text-xs">Dizahirkan penuh ❤️ oleh</h1>
+        <h1
+          style={{ color: weddingCard.designFontColor || "#000000" }}
+          className=" my-1 text-xs"
+        >
+          Dizahirkan penuh ❤️ oleh
+        </h1>
         <a href="https://www.jemputkahwin.com.my" target="_blank">
           <img
             src={JemputKahwinLogo}
@@ -43,14 +51,20 @@ function Footer() {
       </div>
       {/* Social media */}
       <div className="mt-4">
-        <h1 className="text-black my-2">Lebih lanjut</h1>
+        <h1
+          style={{ color: weddingCard.designFontColor || "#000000" }}
+          className=" my-2"
+        >
+          Lebih lanjut
+        </h1>
         <a
           href={
             "http://wasap.my/601127877926/Hi! Nak tempah kad jemputan digital."
           }
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center text-3xl justify-center text-black"
+          style={{ color: weddingCard.designFontColor || "#000000" }}
+          className="flex items-center text-3xl justify-center "
         >
           <FaWhatsapp />
         </a>

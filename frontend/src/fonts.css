@@ -5,14 +5,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Marck+Script&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Text&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=La+Graziela&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Julietta+Messie&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Hearthway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Italianno&display=swap');
 
 
 /* CSS classes for each font using the .font-[FontName] convention */
+.font-Imperial {
+    font-family: "Imperial Script", serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  .font-Italianno {
+    font-family: "Italianno", cursive;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .font-Italianno > p {
+    font-size: 50px;
+  }
+  
+  .font-Sacramento {
+    font-family: "Sacramento", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  
+  .font-Amiri {
+    font-family: "Amiri", serif;
+  font-weight: 400;
+  font-style: normal;
+  }
+
 .font-Tangerine {
     font-family: 'Tangerine', cursive;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .font-Tangerine > p {
+    font-family: 'Tangerine', cursive;
+    font-size: 40px !important;
+  }
+
+  .font-Tangerine > h1 {
+    font-family: 'Tangerine', cursive;
+    font-size: 50px !important;
   }
   
   .font-CinzelDecorative {
@@ -47,17 +89,7 @@
     font-size: 35px;
   }
   
-  .font-LaGraziela {
-    font-family: 'La Graziela', cursive;
-  }
-  
-  .font-JuliettaMessie {
-    font-family: 'Julietta Messie', cursive;
-  }
-  
-  .font-Hearthway {
-    font-family: 'Hearthway', cursive;
-  }
+ 
 
 .fontType-1 {
     font-size: 72px !important;

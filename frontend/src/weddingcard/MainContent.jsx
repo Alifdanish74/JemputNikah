@@ -48,7 +48,7 @@ function MainContent() {
 
   return (
     <div
-      className="relative flex flex-col overflow-hidden z-0 px-4 pb-14 text-center min-h-screen main-card  text-black justify-center items-center"
+      className="relative flex flex-col overflow-hidden z-0 px-4 pb-14 text-center min-h-screen main-card justify-center items-center"
       style={{
         backgroundImage:
           designName?.includes("Motion") ||
@@ -63,6 +63,7 @@ function MainContent() {
         backgroundRepeat: "no-repeat",
         width: "100%",
         height: "400px",
+        color: weddingCard.designFontColor || "#000000",
         // overflow: "hidden",
       }}
     >
@@ -203,8 +204,9 @@ function MainContent() {
                 scale: 1.1,
                 transition: { duration: 0.4, opacity: 1 },
               }}
+              className="my-3"
             >
-              &
+              dan
             </motion.p>
             <motion.p
               initial={{ opacity: 0, scale: 0.5 }}
@@ -224,14 +226,8 @@ function MainContent() {
         transition={{ delay: 0.8, duration: 1.2 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-2xl mb-5 font-medium text-transform: uppercase font-['Cinzel']"
+        className="text-xl mb-5 font-medium text-transform: uppercase font-['Cinzel']"
       >
-        {/* <br />
-        <span>Sabtu</span>
-        <br />
-        <span>10 </span>
-        <span> August</span>
-        <span> 2024</span> */}
         <span>{dayName}</span>
         <br />
         <span>{dayNumber}</span>
@@ -243,7 +239,7 @@ function MainContent() {
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1, duration: 1 }}
-        className={`text-3xl mt-4 font-Libre font-normal ${weddingCard.jenisFont}`}
+        className={`text-3xl mt-4  ${weddingCard.jenisFont}`}
       >
         {weddingCard.locationMajlis}
       </motion.p>

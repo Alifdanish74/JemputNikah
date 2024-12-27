@@ -45,7 +45,7 @@ function BaseWeddingCard() {
     setIsPlaying(true);
   };
 
-  const particlesColor = "#f9e4cc"; // Change this value dynamically
+  // const particlesColor = "#f9e4cc"; // Change this value dynamically
 
   const isPreview = location.pathname.includes("/weddingcardpreview"); // Correct usage of includes
   const isPreviewGeneral = location.pathname.includes("/preview", "/preview/Bali"); // Correct usage of includes
@@ -78,7 +78,7 @@ function BaseWeddingCard() {
           {isPreview && <PreviewWatermark />}
 
           <section id="particles">
-            <ParticleComponent particleColor={particlesColor} />
+            <ParticleComponent particleColor={`${weddingCard.designParticleColor}`} />
           </section>
 
           <section id="navbar" className="z-20">

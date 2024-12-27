@@ -34,7 +34,8 @@ function Countdown() {
       transition={{ duration: 1.2 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="flex flex-col text-black justify-center text-center items-center pt-4 pb-8"
+      style={{ color: weddingCard.designFontColor || "#000000" }}
+      className="flex flex-col justify-center text-center items-center pt-4 pb-8"
     >
       <p className="pb-3 text-3xl  font-['Cinzel']"> Menanti Hari Bahagia</p>
       <FlipClockCountdown
@@ -44,7 +45,7 @@ function Countdown() {
           fontSize: 10,
           fontWeight: 500,
           textTransform: "uppercase",
-          color: "black",
+          color: weddingCard.designFontColor || "#000000",
         }}
         digitBlockStyle={{ width: 30, height: 50, fontSize: 30 }}
         dividerStyle={{ color: "white", height: 1 }}

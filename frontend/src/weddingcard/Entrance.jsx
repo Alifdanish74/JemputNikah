@@ -42,6 +42,7 @@ const Entrance = ({ onClose, setIsPlaying }) => {
           className="flex flex-col pb-10 pt-20 text-center h-screen main-card text-black justify-center items-center bg-blurred"
           style={{
             backgroundImage: `url(${weddingCard.designUrl})`,
+            color: weddingCard.designFontColor || "#000000",
           }}
         >
           <div className="z-10">
@@ -65,14 +66,14 @@ const Entrance = ({ onClose, setIsPlaying }) => {
                 <>
                   {/* NAMA PENGANTIN */}
                   <div className={`mb-5 text-6xl ${weddingCard.jenisFont}`}>
-                    <motion.p
+                    <motion.h1
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 1 }}
                     >
                       {weddingCard.namaPendekLelaki}
                       {/* {weddingCard.designUrl} */}
-                    </motion.p>
+                    </motion.h1>
                     <motion.p
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -84,13 +85,13 @@ const Entrance = ({ onClose, setIsPlaying }) => {
                     >
                       &
                     </motion.p>
-                    <motion.p
+                    <motion.h1
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.6, duration: 1 }}
                     >
                       {weddingCard.namaPendekPerempuan}
-                    </motion.p>
+                    </motion.h1>
                   </div>
                 </>
               )}
@@ -99,14 +100,14 @@ const Entrance = ({ onClose, setIsPlaying }) => {
                 <>
                   {/* NAMA PENGANTIN */}
                   <div className={`mb-5 text-6xl ${weddingCard.jenisFont}`}>
-                    <motion.p
+                    <motion.h1
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 1 }}
                     >
                       {weddingCard.namaPendekPerempuan}
                       {/* {weddingCard.designUrl} */}
-                    </motion.p>
+                    </motion.h1>
                     <motion.p
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -118,13 +119,13 @@ const Entrance = ({ onClose, setIsPlaying }) => {
                     >
                       &
                     </motion.p>
-                    <motion.p
+                    <motion.h1
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.6, duration: 1 }}
                     >
                       {weddingCard.namaPendekLelaki}
-                    </motion.p>
+                    </motion.h1>
                   </div>
                 </>
               )}
@@ -132,15 +133,15 @@ const Entrance = ({ onClose, setIsPlaying }) => {
             {["D"].includes(weddingCard.pihakMajlis) && (
               <>
                 {/* NAMA PENGANTIN */}
-                <div className={`mb-5 text-3xl ${weddingCard.jenisFont}`}>
-                  <motion.p
+                <div className={`mb-5 text-5xl ${weddingCard.jenisFont}`}>
+                  <motion.h1
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1 }}
                   >
                     {weddingCard.namaPendekPasangan1}
                     {/* {weddingCard.designUrl} */}
-                  </motion.p>
+                  </motion.h1>
                   <motion.p
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -149,16 +150,17 @@ const Entrance = ({ onClose, setIsPlaying }) => {
                       scale: 1.1,
                       transition: { duration: 0.4, opacity: 1 },
                     }}
+                    className="my-5"
                   >
-                    &
+                    dan
                   </motion.p>
-                  <motion.p
+                  <motion.h1
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.6, duration: 1 }}
                   >
                     {weddingCard.namaPendekPasangan2}
-                  </motion.p>
+                  </motion.h1>
                 </div>
               </>
             )}
@@ -172,8 +174,12 @@ const Entrance = ({ onClose, setIsPlaying }) => {
                 transition: { duration: 0.4, opacity: 1 },
               }}
               onClick={handleClick}
-              className="border border-black hover:bg-blue-400 text-black hover:text-white
+              className="border border-black hover:bg-yellow-600  hover:text-white
               font-bold py-2 px-4 rounded-full"
+              style={{
+                color: weddingCard.designFontColor || "#000000",
+                borderColor: weddingCard.designFontColor || "#000000", // Border color
+              }}
             >
               {" "}
               Buka

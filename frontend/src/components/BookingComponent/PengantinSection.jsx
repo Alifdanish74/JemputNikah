@@ -33,7 +33,7 @@ function PengantinSection({
       <h1 className="mb-4 text-xl font-extrabold tracking-tight text-gray-900 sm:mb-6 leding-tight ">
         Maklumat Pengantin
       </h1>
-      
+
       <form action="#">
         <div className="grid gap-5 my-6 sm:grid-cols-2">
           {/* Pihak Majlis */}
@@ -107,24 +107,21 @@ function PengantinSection({
               <option className="font-KaushanScript" value="font-KaushanScript">
                 Kaushan Script
               </option>
-              <option className="font-LaGraziela" value="font-LaGraziela">
-                La Graziela
+              <option className="font-Imperial" value="font-Imperial">
+                Imperial
               </option>
-              <option
-                className="font-JuliettaMessie"
-                value="font-JuliettaMessie"
-              >
-                Julietta Messie
+              <option className="font-Sacramento" value="font-Sacramento">
+                Sacramento
               </option>
-              <option className="font-Hearthway" value="font-Hearthway">
-                Hearthway
+              <option className="font-Italianno" value="font-Italianno">
+                Italianno
               </option>
             </select>
             {errors.pihakMajlis && (
               <p className="text-red-500 text-sm">{errors.jenisFont}</p>
             )}
           </div>
-          {pihakMajlis === "D" ? (
+          {pihakMajlis === "D" || formData.pihakMajlis === "D"  ? (
             <>
               {/* Nama penuh pasangan pertama */}
               <div>
@@ -340,7 +337,7 @@ function PengantinSection({
             </>
           )}
 
-          {pihakMajlis === "LL" || formData.pihakMajlis === 'LL' ? (
+          {pihakMajlis === "LL" || formData.pihakMajlis === "LL" ? (
             <>
               {/* Nama bapa (pihak lelaki) */}
               <div>
@@ -449,7 +446,7 @@ function PengantinSection({
                 )}
               </div>
             </>
-          ) : pihakMajlis === "PP" || formData.pihakMajlis === 'PP' ? (
+          ) : pihakMajlis === "PP" || formData.pihakMajlis === "PP" ? (
             <>
               {/* Nama bapa (pihak perempuan) */}
               <div>

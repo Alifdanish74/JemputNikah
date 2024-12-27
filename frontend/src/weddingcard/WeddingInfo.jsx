@@ -32,7 +32,10 @@ function WeddingInfo() {
     return `${hour12}:${minute} ${period}`;
   }
   return (
-    <div className="flex flex-col text-black justify-center px-3 text-center items-center pb-8">
+    <div
+      style={{ color: weddingCard.designFontColor || "#000000" }}
+      className="flex flex-col text-black justify-center mx-3 pt-3  text-center items-center pb-8"
+    >
       <motion.div
         initial={{
           y: 100,
@@ -269,9 +272,9 @@ function WeddingInfo() {
             transition={{ duration: 1.2 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-5xl font-['Tangerine']"
+            className="text-2xl py-5 font-['Cinzel']"
           >
-            &
+            dan
           </motion.p>
 
           {/* NAMA PENGANTIN 2 */}

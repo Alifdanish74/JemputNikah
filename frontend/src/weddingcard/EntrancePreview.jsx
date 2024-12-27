@@ -53,6 +53,7 @@ const EntrancePreview = ({ onClose, setIsPlaying }) => {
         backgroundImage: design ? `url(${design.image})` : "none", // Use the design image if available
         backgroundSize: "cover",
         backgroundPosition: "center",
+        
       }}
     >
       <div className="z-10">

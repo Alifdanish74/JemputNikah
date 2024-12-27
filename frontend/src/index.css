@@ -55,7 +55,7 @@ html {
   background-image: url('../src/assets/preview-watermark.png');
   /* background-size: cover; 
   background-repeat: no-repeat;*/
-  opacity: 0.8;  
+  opacity: 0.3;  
   width: 400px;
   background-position: center;
   pointer-events: none; /* Prevent interference with interactions */
