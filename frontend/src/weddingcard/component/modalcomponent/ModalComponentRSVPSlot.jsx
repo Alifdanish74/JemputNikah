@@ -126,7 +126,6 @@ const ModalComponentRSVPSlot = ({ onCancel, onGuestbookUpdate }) => {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             className="w-full p-1 border border-gray-300 rounded-md"
-            required
           />
         </div>
 

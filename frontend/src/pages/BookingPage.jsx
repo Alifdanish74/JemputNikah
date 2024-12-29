@@ -172,6 +172,7 @@ function BookingPage() {
     eventTentativeTime5: "",
     eventTentativeTitle5: "",
     // Money gift info
+    moneyGiftDisabled: false,
     bankName: "",
     accountNumber: "",
     qrCodeFile: "",
@@ -352,7 +353,7 @@ function BookingPage() {
       }
       // Add more Majlis validation logic here...
     }
-    if (activeSection === "MoneyGift") {
+    if (activeSection === "MoneyGift" && formData.moneyGiftDisabled === false) {
       // Example: Add validation for Majlis section fields
       if (!formData.bankName) {
         newErrors.bankName = "Bank name is required";

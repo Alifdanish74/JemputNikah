@@ -80,17 +80,21 @@ function Navbar({ onGuestbookUpdate, preview }) {
           {/* BUKAN BALI */}
           {weddingCard.pakej !== "Bali" && (
             <>
-              <motion.button
-                initial={{ opacity: 0.8 }}
-                whileHover={{
-                  scale: 1.1,
-                  transition: { duration: 0.4, opacity: 1 },
-                }}
-                onClick={() => openModal("Money Gift")}
-                className={navbarButtonCSS}
-              >
-                <BiMoneyWithdraw className="text-2xl mb-1" /> Money Gift
-              </motion.button>
+              {weddingCard.moneyGiftDisabled === false ? (
+                <motion.button
+                  initial={{ opacity: 0.8 }}
+                  whileHover={{
+                    scale: 1.1,
+                    transition: { duration: 0.4, opacity: 1 },
+                  }}
+                  onClick={() => openModal("Money Gift")}
+                  className={navbarButtonCSS}
+                >
+                  <BiMoneyWithdraw className="text-2xl mb-1" /> Money Gift
+                </motion.button>
+              ) : (
+                <> </>
+              )}
 
               {!preview && weddingCard.pakej === "Paris" && (
                 <motion.button

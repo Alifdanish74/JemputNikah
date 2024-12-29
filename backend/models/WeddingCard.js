@@ -80,6 +80,7 @@ const WeddingCardSchema = new mongoose.Schema(
     eventTentativeTime5: { type: String },
     eventTentativeTitle5: { type: String },
     // Money Gift
+    moneyGiftDisabled: {type: Boolean, default: false},
     bankName: { type: String },
     accountNumber: { type: String },
     qrCode: { type: String }, // File path or URL for QR code image

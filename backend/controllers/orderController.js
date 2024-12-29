@@ -6,7 +6,7 @@ const WeddingCard = require("../models/WeddingCard");
 exports.getAllOrders = async (req, res) => {
   try {
     const { page = 1, search = "" } = req.query;
-    const itemsPerPage = 10;
+    const itemsPerPage = 20;
 
     const query = search
       ? { orderNumber: { $regex: search, $options: "i" } }

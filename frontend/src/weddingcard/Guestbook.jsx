@@ -7,7 +7,7 @@ import axios from "axios";
 import { useWeddingCard } from "../customhooks/WeddingCardContext"; // Assuming you use a context for wedding card details
 
 function Guestbook() {
-  const { order, weddingCard} = useWeddingCard(); // Access order details from context
+  const { order, weddingCard } = useWeddingCard(); // Access order details from context
   const [wishes, setWishes] = useState([]); // State for storing ucapan and names
   const [loading, setLoading] = useState(true);
   // eslint-disable-next-line no-unused-vars
@@ -55,7 +55,7 @@ function Guestbook() {
   }, [order.orderNumber]);
 
   if (loading) {
-    return <p  className="text-center text-gray-500">Loading guestbook...</p>;
+    return <p className="text-center text-gray-500">Loading guestbook...</p>;
   }
 
   // if (error) {
@@ -63,20 +63,36 @@ function Guestbook() {
   // }
 
   if (wishes.length === 0) {
-    return <p  style={{ color: weddingCard.designFontColor || "#000000" }} className="text-center text-gray-500">Be the first to wish!</p>;
+    return (
+      <p
+        style={{ color: weddingCard.designFontColor || "#000000" }}
+        className="text-center text-gray-500"
+      >
+        Be the first to wish!
+      </p>
+    );
   }
 
   return (
-    <div style={{ color: weddingCard.designFontColor || "#000000" }} className="p-6 pt-3 text-center main-card  justify-center items-center">
+    <div
+      style={{ color: weddingCard.designFontColor || "#000000" }}
+      className="p-6 pt-3 text-center main-card  justify-center items-center"
+    >
       <h1 className="pb-3 text-xl font-['Cinzel'] opacity-70"> GUESTBOOK</h1>
       <div className="p-4">
         <Slider {...settings}>
           {wishes.map((data, index) => (
             <div key={index}>
-              <p className="text-center p-4 text-lg fontType-4 text-black font-extralight">
+              <p
+                style={{ color: weddingCard.designFontColor || "#000000" }}
+                className="text-center p-4 text-lg fontType-4 font-extralight"
+              >
                 {data.weddingWish}
               </p>
-              <p className="text-center text-sm text-black font-light">
+              <p
+                style={{ color: weddingCard.designFontColor || "#000000" }}
+                className="text-center text-sm  font-light"
+              >
                 -{data.name}-
               </p>
             </div>

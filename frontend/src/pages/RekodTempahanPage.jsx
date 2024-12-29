@@ -54,34 +54,6 @@ function RekodTempahanPage() {
     }
   }, [ready, user]);
 
-  // Function to handle the navigation
-  //   const navigateToPreviewCard = async (weddingCardId, orderNumber) => {
-  //     try {
-  //       const response = await axios.get(`/api/wedding-cards/${weddingCardId}`);
-  //       const { hashtag } = response.data;
-  //       const url = `/weddingcardpreview/${hashtag}/${orderNumber}`;
-
-  //       // Return the dynamically generated URL
-  //       return url;
-  //     } catch (error) {
-  //       console.error("Error fetching wedding card details:", error);
-  //       return null; // Return null if there's an error
-  //     }
-  //   };
-
-  //   const navigateToActualCard = async (weddingCardId, orderNumber) => {
-  //     try {
-  //       const response = await axios.get(`/api/wedding-cards/${weddingCardId}`);
-  //       const { hashtag } = response.data;
-  //       const url = `/weddingcard/${hashtag}/${orderNumber}`;
-
-  //       // Return the dynamically generated URL
-  //       return url;
-  //     } catch (error) {
-  //       console.error("Error fetching wedding card details:", error);
-  //       return null; // Return null if there's an error
-  //     }
-  //   };
 
   // Function to delete the selected order
   const handleDelete = async () => {
@@ -221,9 +193,8 @@ function RekodTempahanPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {orders.length > 0 &&
-                      orders.paymentStatus !== "Deleted" ? (
-                        orders.map((order) => (
+                      {orders.length > 0 ? (
+                        orders.filter((order) => order.paymentStatus !== "deleted").map((order) => ( 
                           <tr
                             key={order._id}
                             className="border dark:border-gray-700"
@@ -241,7 +212,7 @@ function RekodTempahanPage() {
                               RM {order.price}
                             </td>
                             <td className="px-4 py-3 border">
-                              {order.weddingCardId.pakej}
+                              {order.weddingCardId?.pakej || "N/A"}
                             </td>
 
                             <td>
@@ -279,7 +250,7 @@ function RekodTempahanPage() {
                                 {order.paymentStatus !== "paid" && (
                                   <div className="bg-blue-600 border rounded-xl mx-auto flex">
                                     <a
-                                      href={`/weddingcardpreview/${order.weddingCardId.hashtag}/${order.orderNumber}`}
+                                      href={`/weddingcardpreview/${order.weddingCardId?.hashtag}/${order.orderNumber}`}
                                       target="_blank"
                                       rel="noopener noreferrer"
                                       className="text-white text-center hover:underline p-2 flex"
@@ -297,7 +268,7 @@ function RekodTempahanPage() {
                                   <div className="flex-row lg:flex my-2 gap-x-3 mx-auto items-center justify-center">
                                     <div className="bg-blue-600 border rounded-xl mx-auto flex">
                                       <a
-                                        href={`/weddingcard/${order.weddingCardId.hashtag}/${order.orderNumber}`}
+                                        href={`/weddingcard/${order.weddingCardId?.hashtag}/${order.orderNumber}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="flex text-white text-center hover:underline p-2"
@@ -317,7 +288,7 @@ function RekodTempahanPage() {
 
                             <td className=" py-3 border min-w-[250px] ">
                               <div className="grid grid-cols-2 gap-y-2 items-center justify-center">
-                                {order.weddingCardId.pakej !== "Bali" &&
+                                {order.weddingCardId?.pakej !== "Bali" &&
                                   order.paymentStatus === "paid" && (
                                     <>
                                       <div className="mx-auto items-center justify-center">
@@ -364,7 +335,7 @@ function RekodTempahanPage() {
                                     color="warning"
                                     onClick={() =>
                                       navigate(
-                                        `/kad-digital/tempah/${order.weddingCardId.designName}/${order.weddingCardId._id}`,
+                                        `/kad-digital/tempah/${order.weddingCardId?.designName}/${order.weddingCardId?._id}`,
                                         { state: { order } }
                                       )
                                     } // Pass order to BookingPage
@@ -385,7 +356,7 @@ function RekodTempahanPage() {
                                     Delete
                                   </Button>
                                 </div>
-                                {order.weddingCardId.pakej === "Paris" && order.paymentStatus === "paid" && (
+                                {order.weddingCardId?.pakej === "Paris" && order.paymentStatus === "paid" && (
                                   <div className="mx-auto items-center justify-center">
                                     <Button
                                       size="xs"

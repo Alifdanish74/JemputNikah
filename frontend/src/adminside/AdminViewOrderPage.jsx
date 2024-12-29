@@ -130,7 +130,7 @@ function AdminViewOrder() {
 
   // Define column definitions for ag-grid
   const columnDefs = [
-    { headerName: "#", valueGetter: "node.rowIndex + 1", width: 50 },
+    { headerName: "#", valueGetter: "node.rowIndex + 1", width: 70 },
     { field: "orderNumber", headerName: "Order Number", sortable: true },
     { field: "userId.name", headerName: "User Name", sortable: true },
     { field: "userId.phone", headerName: "User Contact", sortable: true },
