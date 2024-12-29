@@ -54,7 +54,6 @@ function RekodTempahanPage() {
     }
   }, [ready, user]);
 
-
   // Function to delete the selected order
   const handleDelete = async () => {
     if (!selectedOrderId) return;
@@ -194,176 +193,151 @@ function RekodTempahanPage() {
                     </thead>
                     <tbody>
                       {orders.length > 0 ? (
-                        orders.filter((order) => order.paymentStatus !== "deleted").map((order) => ( 
-                          <tr
-                            key={order._id}
-                            className="border dark:border-gray-700"
-                          >
-                            <th
-                              scope="row"
-                              className="px-4 py-3 border font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        orders
+                          .filter((order) => order.paymentStatus !== "deleted")
+                          .map((order) => (
+                            <tr
+                              key={order._id}
+                              className="border dark:border-gray-700"
                             >
-                              {order.orderNumber}
-                            </th>
-                            <td className="px-4 py-3 border">
-                              {new Date(order.createdAt).toLocaleDateString()}
-                            </td>
-                            <td className="px-4 py-3 border">
-                              RM {order.price}
-                            </td>
-                            <td className="px-4 py-3 border">
-                              {order.weddingCardId?.pakej || "N/A"}
-                            </td>
+                              <th
+                                scope="row"
+                                className="px-4 py-3 border font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                {order.orderNumber}
+                              </th>
+                              <td className="px-4 py-3 border">
+                                {new Date(order.createdAt).toLocaleDateString()}
+                              </td>
+                              <td className="px-4 py-3 border">
+                                RM {order.price}
+                              </td>
+                              <td className="px-4 py-3 border">
+                                {order.weddingCardId?.pakej || "N/A"}
+                              </td>
 
-                            <td>
-                              <div className="px-4 py-3 text-lg mx-auto items-center justify-center gap-x-4 flex">
-                                <Badge
-                                  className="w-fit px-3 py-2 text-md uppercase font-bold"
-                                  color={
-                                    order.paymentStatus === "paid"
-                                      ? "success"
-                                      : order.paymentStatus === "pending"
-                                      ? "warning"
-                                      : order.paymentStatus === "deleted"
-                                      ? "failure"
-                                      : "default" // Default color for any other status
-                                  }
-                                >
-                                  {order.paymentStatus}
-                                </Badge>
-
-                                {order.paymentStatus === "pending" && (
-                                  <Button
-                                    className="flex items-center"
-                                    size="sm"
-                                    color="success"
+                              <td>
+                                <div className="px-4 py-3 text-lg mx-auto items-center justify-center gap-x-4 flex">
+                                  <Badge
+                                    className="w-fit px-3 py-2 text-md uppercase font-bold"
+                                    color={
+                                      order.paymentStatus === "paid"
+                                        ? "success"
+                                        : order.paymentStatus === "pending"
+                                        ? "warning"
+                                        : order.paymentStatus === "deleted"
+                                        ? "failure"
+                                        : "default" // Default color for any other status
+                                    }
                                   >
-                                    {" "}
-                                    <MdPayment className="mr-2 h-5 w-5" /> Bayar
-                                  </Button>
-                                )}
-                              </div>
-                            </td>
-                            {/* PREVIEW CARD ONLY */}
-                            <td className=" py-3 border">
-                              <div className="flex-row lg:flex  gap-x-3 mx-auto items-center justify-center">
-                                {order.paymentStatus !== "paid" && (
-                                  <div className="bg-blue-600 border rounded-xl mx-auto flex">
-                                    <a
-                                      href={`/weddingcardpreview/${order.weddingCardId?.hashtag}/${order.orderNumber}`}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="text-white text-center hover:underline p-2 flex"
+                                    {order.paymentStatus}
+                                  </Badge>
+
+                                  {order.paymentStatus === "pending" && (
+                                    <Button
+                                      className="flex items-center"
+                                      size="sm"
+                                      color="success"
                                     >
                                       {" "}
-                                      <FaRegPlayCircle className="mx-auto h-5 w-5" />{" "}
-                                      Preview Card
-                                    </a>
-                                  </div>
-                                )}
-                              </div>
-                              {order.paymentStatus === "paid" && (
-                                <>
-                                  {/* ACTUAL CARD */}
-                                  <div className="flex-row lg:flex my-2 gap-x-3 mx-auto items-center justify-center">
+                                      <MdPayment className="mr-2 h-5 w-5" />{" "}
+                                      Bayar
+                                    </Button>
+                                  )}
+                                </div>
+                              </td>
+                              {/* PREVIEW CARD ONLY */}
+                              <td className=" py-3 border">
+                                <div className="flex-row lg:flex  gap-x-3 mx-auto items-center justify-center">
+                                  {order.paymentStatus !== "paid" && (
                                     <div className="bg-blue-600 border rounded-xl mx-auto flex">
                                       <a
-                                        href={`/weddingcard/${order.weddingCardId?.hashtag}/${order.orderNumber}`}
+                                        href={`/weddingcardpreview/${order.weddingCardId?.hashtag}/${order.orderNumber}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex text-white text-center hover:underline p-2"
+                                        className="text-white text-center hover:underline p-2 flex"
                                       >
                                         {" "}
-                                        <FaRegPlayCircle className="mx-auto h-5 w-5 " />{" "}
-                                        Digital Card
+                                        <FaRegPlayCircle className="mx-auto h-5 w-5" />{" "}
+                                        Preview Card
                                       </a>
                                     </div>
-                                    {/* hello {order.weddingCardId} */}
-
-                                    <CopyToClipboardButton content={"Hello"} />
-                                  </div>
-                                </>
-                              )}
-                            </td>
-
-                            <td className=" py-3 border min-w-[250px] ">
-                              <div className="grid grid-cols-2 gap-y-2 items-center justify-center">
-                                {order.weddingCardId?.pakej !== "Bali" &&
-                                  order.paymentStatus === "paid" && (
-                                    <>
-                                      <div className="mx-auto items-center justify-center">
-                                        <Button
-                                          size="xs"
-                                          color="blue"
-                                          onClick={() =>
-                                            navigate(
-                                              `/tempahan/rsvp/${order.orderNumber}/${order._id}`,
-                                              {
-                                                state: { order },
-                                              }
-                                            )
-                                          }
-                                        >
-                                          {" "}
-                                          <IoPeople className="mr-2 h-5 w-5" />{" "}
-                                          RSVP
-                                        </Button>
-                                      </div>
-                                      <div className="mx-auto items-center justify-center">
-                                        <Button
-                                          size="xs"
-                                          color="dark"
-                                          onClick={() =>
-                                            navigate(
-                                              `/tempahan/guestbook/${order.orderNumber}/${order._id}`,
-                                              {
-                                                state: { order },
-                                              }
-                                            )
-                                          }
-                                        >
-                                          {" "}
-                                          <RiContactsBook3Line className="mr-2 h-5 w-5" />{" "}
-                                          Guestbook
-                                        </Button>
-                                      </div>
-                                    </>
                                   )}
-                                <div className="mx-auto items-center justify-center">
-                                  <Button
-                                    size="xs"
-                                    color="warning"
-                                    onClick={() =>
-                                      navigate(
-                                        `/kad-digital/tempah/${order.weddingCardId?.designName}/${order.weddingCardId?._id}`,
-                                        { state: { order } }
-                                      )
-                                    } // Pass order to BookingPage
-                                  >
-                                    {" "}
-                                    <FaRegEdit className="mr-2 h-5 w-5" />{" "}
-                                    Update
-                                  </Button>
                                 </div>
-                                <div className="mx-auto items-center justify-center">
-                                  <Button
-                                    size="xs"
-                                    color="failure"
-                                    onClick={() => openModal(order._id)}
-                                  >
-                                    {" "}
-                                    <MdOutlineDelete className="mr-2 h-5 w-5" />{" "}
-                                    Delete
-                                  </Button>
-                                </div>
-                                {order.weddingCardId?.pakej === "Paris" && order.paymentStatus === "paid" && (
+                                {order.paymentStatus === "paid" && (
+                                  <>
+                                    {/* ACTUAL CARD */}
+                                    <div className="flex-row lg:flex my-2 gap-x-3 mx-auto items-center justify-center">
+                                      <div className="bg-blue-600 border rounded-xl mx-auto flex">
+                                        <a
+                                          href={`/weddingcard/${order.weddingCardId?.hashtag}/${order.orderNumber}`}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="flex text-white text-center hover:underline p-2"
+                                        >
+                                          {" "}
+                                          <FaRegPlayCircle className="mx-auto h-5 w-5 " />{" "}
+                                          Digital Card
+                                        </a>
+                                      </div>
+                                      {/* hello {order.weddingCardId} */}
+
+                                      <CopyToClipboardButton
+                                        content={"Hello"}
+                                      />
+                                    </div>
+                                  </>
+                                )}
+                              </td>
+
+                              <td className=" py-3 border min-w-[250px] ">
+                                <div className="grid grid-cols-2 gap-y-2 items-center justify-center">
                                   <div className="mx-auto items-center justify-center">
                                     <Button
                                       size="xs"
-                                      color="purple"
+                                      color="warning"
                                       onClick={() =>
                                         navigate(
-                                          `/tempahan/wishlist/${order.orderNumber}/${order._id}`,
+                                          `/kad-digital/tempah/${order.weddingCardId?.designName}/${order.weddingCardId?._id}`,
+                                          { state: { order } }
+                                        )
+                                      } // Pass order to BookingPage
+                                    >
+                                      {" "}
+                                      <FaRegEdit className="mr-2 h-5 w-5" />{" "}
+                                      Update
+                                    </Button>
+                                  </div>
+                                  {order.weddingCardId?.pakej !== "Bali" &&
+                                    order.paymentStatus === "paid" && (
+                                      <>
+                                        <div className="mx-auto items-center justify-center">
+                                          <Button
+                                            size="xs"
+                                            color="blue"
+                                            onClick={() =>
+                                              navigate(
+                                                `/tempahan/rsvp/${order.orderNumber}/${order._id}`,
+                                                {
+                                                  state: { order },
+                                                }
+                                              )
+                                            }
+                                          >
+                                            {" "}
+                                            <IoPeople className="mr-2 h-5 w-5" />{" "}
+                                            RSVP
+                                          </Button>
+                                        </div>
+                                      </>
+                                    )}
+                                  <div className="mx-auto items-center justify-center">
+                                    <Button
+                                      size="xs"
+                                      color="dark"
+                                      onClick={() =>
+                                        navigate(
+                                          `/tempahan/guestbook/${order.orderNumber}/${order._id}`,
                                           {
                                             state: { order },
                                           }
@@ -371,15 +345,47 @@ function RekodTempahanPage() {
                                       }
                                     >
                                       {" "}
-                                      <CiGift className="mr-2 h-5 w-5" />{" "}
-                                      Wishlist
+                                      <RiContactsBook3Line className="mr-2 h-5 w-5" />{" "}
+                                      Guestbook
                                     </Button>
                                   </div>
-                                )}
-                              </div>
-                            </td>
-                          </tr>
-                        ))
+
+                                  <div className="mx-auto items-center justify-center">
+                                    <Button
+                                      size="xs"
+                                      color="failure"
+                                      onClick={() => openModal(order._id)}
+                                    >
+                                      {" "}
+                                      <MdOutlineDelete className="mr-2 h-5 w-5" />{" "}
+                                      Delete
+                                    </Button>
+                                  </div>
+                                  {order.weddingCardId?.pakej === "Paris" &&
+                                    order.paymentStatus === "paid" && (
+                                      <div className="mx-auto items-center justify-center">
+                                        <Button
+                                          size="xs"
+                                          color="purple"
+                                          onClick={() =>
+                                            navigate(
+                                              `/tempahan/wishlist/${order.orderNumber}/${order._id}`,
+                                              {
+                                                state: { order },
+                                              }
+                                            )
+                                          }
+                                        >
+                                          {" "}
+                                          <CiGift className="mr-2 h-5 w-5" />{" "}
+                                          Wishlist
+                                        </Button>
+                                      </div>
+                                    )}
+                                </div>
+                              </td>
+                            </tr>
+                          ))
                       ) : (
                         <tr>
                           <td

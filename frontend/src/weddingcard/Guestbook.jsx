@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -6,7 +7,7 @@ import "../fonts.css";
 import axios from "axios";
 import { useWeddingCard } from "../customhooks/WeddingCardContext"; // Assuming you use a context for wedding card details
 
-function Guestbook() {
+function Guestbook({ guestbookUpdated }) {
   const { order, weddingCard } = useWeddingCard(); // Access order details from context
   const [wishes, setWishes] = useState([]); // State for storing ucapan and names
   const [loading, setLoading] = useState(true);
@@ -23,36 +24,44 @@ function Guestbook() {
     autoplaySpeed: 5000,
   };
 
-  useEffect(() => {
-    const fetchGuestbookData = async () => {
-      if (!order || !order.orderNumber) {
-        // Skip fetching if order or orderNumber is missing
-        setLoading(false);
-        return;
+  const fetchGuestbookData = async () => {
+    if (!order || !order.orderNumber) {
+      // Skip fetching if order or orderNumber is missing
+      setLoading(false);
+      return;
+    }
+    try {
+      setLoading(true);
+      const response = await axios.get(`/api/rsvp/list/${order.orderNumber}`);
+      const submissions = response.data?.submissions || []; // Safely access submissions
+      if (submissions.length > 0) {
+        const filteredWishes = submissions
+          .filter((submission) => submission.ucapan && submission.name) // Ensure both ucapan and name exist
+          .map((submission) => ({
+            weddingWish: submission.ucapan,
+            name: submission.name,
+          }));
+        setWishes(filteredWishes);
       }
-      try {
-        setLoading(true);
-        const response = await axios.get(`/api/rsvp/list/${order.orderNumber}`);
-        const submissions = response.data?.submissions || []; // Safely access submissions
-        if (submissions.length > 0) {
-          const filteredWishes = submissions
-            .filter((submission) => submission.ucapan && submission.name) // Ensure both ucapan and name exist
-            .map((submission) => ({
-              weddingWish: submission.ucapan,
-              name: submission.name,
-            }));
-          setWishes(filteredWishes);
-        }
-      } catch (err) {
-        console.error("Error fetching guestbook data:", err);
-        setError("Failed to load guestbook data.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    } catch (err) {
+      console.error("Error fetching guestbook data:", err);
+      setError("Failed to load guestbook data.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchGuestbookData();
-  }, [order.orderNumber]);
+  }, []);
+
+  // Fetch when guestbookUpdated changes
+  useEffect(() => {
+    if (guestbookUpdated) {
+      fetchGuestbookData();
+      console.log("DATA IS FETCHING AFTER FORM SUBMITTED");
+    }
+  }, [guestbookUpdated]);
 
   if (loading) {
     return <p className="text-center text-gray-500">Loading guestbook...</p>;

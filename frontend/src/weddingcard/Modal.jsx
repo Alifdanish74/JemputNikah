@@ -10,6 +10,7 @@ import ModalComponentCalendar from "./component/modalcomponent/ModalComponentCal
 import ModalComponentBooking from "./component/modalcomponent/ModalComponentBooking";
 import ModalComponentRSVPSlot from "./component/modalcomponent/ModalComponentRSVPSlot";
 import ModalComponentRSVPSlotTidakHadir from "./component/modalcomponent/ModalComponentRSVPSlotTidakHadir";
+import ModalComponentUcapan from "./component/modalcomponent/ModalComponentUcapan";
 
 const Modal = ({
   isOpen,
@@ -63,6 +64,14 @@ const Modal = ({
       case "RSVPTidakHadir":
         return (
           <ModalComponentRSVPSlotTidakHadir
+            onConfirm={onConfirm}
+            onCancel={onCancel}
+            onGuestbookUpdate={onGuestbookUpdate}
+          />
+        );
+      case "Guestbook":
+        return (
+          <ModalComponentUcapan
             onConfirm={onConfirm}
             onCancel={onCancel}
             onGuestbookUpdate={onGuestbookUpdate}
