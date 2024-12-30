@@ -77,6 +77,30 @@ function Navbar({ onGuestbookUpdate, preview }) {
           id="buttondiv"
           className="main-div bg-white w-full border-t border-gray-200 rounded-t-3xl text-[10px] font-medium flex flex-wrap justify-around items-center p-2 min-h-16"
         >
+          {/* GENERAL SEMUA ADA */}
+          <motion.button
+            initial={{ opacity: 0.8 }}
+            whileHover={{
+              scale: 1.1,
+              transition: { duration: 0.4, opacity: 1 },
+            }}
+            onClick={() => openModal("Contact")}
+            className={navbarButtonCSS}
+          >
+            <MdOutlineLocalPhone className="text-2xl mb-1" /> Contact
+          </motion.button>
+          <motion.button
+            initial={{ opacity: 0.8 }}
+            whileHover={{
+              scale: 1.1,
+              transition: { duration: 0.4, opacity: 1 },
+            }}
+            onClick={() => openModal("Location")}
+            className={navbarButtonCSS}
+          >
+            <SlLocationPin className="text-2xl mb-1" /> Location
+          </motion.button>
+
           {/* BUKAN BALI */}
           {weddingCard.pakej !== "Bali" && (
             <>
@@ -109,17 +133,6 @@ function Navbar({ onGuestbookUpdate, preview }) {
                   <CiGift className="text-2xl mb-1" /> Wishlist
                 </motion.button>
               )}
-              <motion.button
-                initial={{ opacity: 0.8 }}
-                whileHover={{
-                  scale: 1.1,
-                  transition: { duration: 0.4, opacity: 1 },
-                }}
-                onClick={() => openModal("Contact")}
-                className={navbarButtonCSS}
-              >
-                <MdOutlineLocalPhone className="text-2xl mb-1" /> Contact
-              </motion.button>
 
               {preview ? (
                 <motion.button
@@ -149,17 +162,6 @@ function Navbar({ onGuestbookUpdate, preview }) {
             </>
           )}
 
-          <motion.button
-            initial={{ opacity: 0.8 }}
-            whileHover={{
-              scale: 1.1,
-              transition: { duration: 0.4, opacity: 1 },
-            }}
-            onClick={() => openModal("Location")}
-            className={navbarButtonCSS}
-          >
-            <SlLocationPin className="text-2xl mb-1" /> Location
-          </motion.button>
           {/* BALI */}
           {weddingCard.pakej === "Bali" && (
             <motion.button

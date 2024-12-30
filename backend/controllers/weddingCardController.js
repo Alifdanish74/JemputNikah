@@ -1,6 +1,11 @@
 const WeddingCard = require("../models/WeddingCard");
 const Order = require("../models/Order");
-const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
+const {
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+  DeleteObjectCommand,
+} = require("@aws-sdk/client-s3");
 const multer = require("multer");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 // const AWS = require("aws-sdk");
@@ -78,27 +83,11 @@ exports.createWeddingCard = [
       const maxDate =
         req.body.maxDate === "null" ? null : new Date(req.body.maxDate);
 
-      // Parse and set `tarikhMajlisLocal` only if `tarikhMajlis` is provided
-      let tarikhMajlisLocal = null;
-      if (tarikhMajlis) {
-        tarikhMajlisLocal = new Date(tarikhMajlis);
-        tarikhMajlisLocal.setHours(0, 0, 0, 0); // Set time to start of the day
-      }
-
       // Parse and set `maxDateLocal` only if `maxDate` is provided
       let maxDateLocal = null;
       if (maxDate) {
         maxDateLocal = new Date(maxDate);
         maxDateLocal.setHours(0, 0, 0, 0);
-      }
-
-      // Apply time from `majlisStart` to both dates if `majlisStart` is provided
-      if (majlisStart && tarikhMajlisLocal) {
-        const [hours, minutes] = majlisStart.split(":").map(Number);
-        tarikhMajlisLocal.setHours(hours, minutes, 0, 0);
-        if (maxDateLocal) {
-          maxDateLocal.setHours(hours, minutes, 0, 0);
-        }
       }
 
       // Generate custom order number
@@ -116,8 +105,8 @@ exports.createWeddingCard = [
 
       const newWeddingCard = new WeddingCard({
         ...req.body,
-        tarikhMajlis: tarikhMajlisLocal,
-        
+        tarikhMajlis: tarikhMajlis,
+
         maxInvitations: maxInvitations,
         maxInvitationsDewasa: maxInvitationsDewasa,
         maxInvitationsKids: maxInvitationsKids,
@@ -127,28 +116,26 @@ exports.createWeddingCard = [
         qrCode: qrCodeUrl, // Store S3 URL
       });
 
-       // Save the wedding card
+      // Save the wedding card
       await newWeddingCard.save();
       console.log("Created wedding card:", newWeddingCard); // Log updated data
 
-
       // Set order price based on the newWeddingCard price
-    const { price } = newWeddingCard;
+      const { price } = newWeddingCard;
 
-    // Create order with custom order number
-    const newOrder = new Order({
-      userId: req.user._id,
-      weddingCardId: newWeddingCard._id,
-      orderNumber: nextOrderNumber,
-      paymentStatus: "pending",
-      price,
-    });
+      // Create order with custom order number
+      const newOrder = new Order({
+        userId: req.user._id,
+        weddingCardId: newWeddingCard._id,
+        orderNumber: nextOrderNumber,
+        paymentStatus: "pending",
+        price,
+      });
 
-    await newOrder.save();
+      await newOrder.save();
 
-    // Respond with created data
-    res.status(201).json({ weddingCard: newWeddingCard, order: newOrder });
-
+      // Respond with created data
+      res.status(201).json({ weddingCard: newWeddingCard, order: newOrder });
     } catch (error) {
       console.error("Error creating wedding card:", error);
       res.status(500).json({ message: "Error creating wedding card", error });
@@ -179,7 +166,9 @@ exports.getPresignedQRCodeUrl = async (req, res) => {
 
     // Generate the presigned URL
     const command = new GetObjectCommand(params);
-    const presignedUrl = await getSignedUrl(s3Client, command, { expiresIn: 600 }); // Expires in 600 seconds (10 minutes)
+    const presignedUrl = await getSignedUrl(s3Client, command, {
+      expiresIn: 600,
+    }); // Expires in 600 seconds (10 minutes)
 
     res.json({ url: presignedUrl });
   } catch (error) {

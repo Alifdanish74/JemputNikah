@@ -100,13 +100,15 @@ function BookingPage() {
   const handlePakejChange = (pakej) => {
     setSelectedPakej(pakej);
     // Update the maxInvitations based on the pakej
-  setFormData((prevFormData) => ({
-    ...prevFormData,
-    pakej: pakej,
-    maxInvitations: pakej === "Bali" ? 0 : prevFormData.maxInvitations, // Set to 0 if pakej is Bali
-    maxInvitationsDewasa: pakej === "Bali" ? 0 : prevFormData.maxInvitationsDewasa, // Set to 0 if pakej is Bali
-    maxInvitationsKids: pakej === "Bali" ? 0 : prevFormData.maxInvitationsKids, // Set to 0 if pakej is Bali
-  }));
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      pakej: pakej,
+      maxInvitations: pakej === "Bali" ? 0 : prevFormData.maxInvitations, // Set to 0 if pakej is Bali
+      maxInvitationsDewasa:
+        pakej === "Bali" ? 0 : prevFormData.maxInvitationsDewasa, // Set to 0 if pakej is Bali
+      maxInvitationsKids:
+        pakej === "Bali" ? 0 : prevFormData.maxInvitationsKids, // Set to 0 if pakej is Bali
+    }));
     handleSectionChange("Pengantin");
     // Update selected pakej class based on user selection
   };
@@ -361,7 +363,6 @@ function BookingPage() {
       if (!formData.accountNumber) {
         newErrors.accountNumber = "Account number is required";
       }
-      
     }
 
     if (activeSection === "RSVP") {
@@ -408,11 +409,23 @@ function BookingPage() {
   // BookingPage.jsx
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Combine tarikhMajlis and majlisStart into a single datetime
+    const tarikhMajlisDate = new Date(formData.tarikhMajlis); // Assuming this is a Date object
+    const [hours, minutes] = formData.majlisStart.split(":").map(Number); // Parse time (HH:mm)
+
+    // Manually set the time in local timezone
+    tarikhMajlisDate.setHours(hours + 8, minutes, 0, 0); // Adjust by subtracting 8 hours for UTC+8
+
+    // Convert to ISO string (this will be in UTC)
+    const tarikhMajlisUTC = tarikhMajlisDate.toISOString();
+
     const formDataObj = new FormData();
+    formDataObj.append("tarikhMajlis", tarikhMajlisUTC); // Add combined datetime to form data
 
     // Append all form data
     Object.entries(formData).forEach(([key, value]) => {
-      if (value !== null && value !== undefined) {
+      if (key !== "tarikhMajlis" && value !== null && value !== undefined) {
         formDataObj.append(key, value);
       }
     });
