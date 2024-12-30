@@ -3,7 +3,8 @@ const {
   submitRSVP,
   getRSVPs,
   getRSVPsByOrderNumber,
-  deleteRSVPSubmission 
+  deleteRSVPSubmission,
+  resetUcapan
 } = require("../controllers/rsvpController");
 
 const router = express.Router();
@@ -18,5 +19,8 @@ router.get("/list/:orderNumber", getRSVPsByOrderNumber);
 
 // DELETE: Delete an RSVP submission
 router.delete("/delete/:rsvpId/:submissionId", deleteRSVPSubmission);
+
+// Reset ucapan
+router.put("/reset-ucapan/:rsvpId/:submissionId", resetUcapan);
 
 module.exports = router;

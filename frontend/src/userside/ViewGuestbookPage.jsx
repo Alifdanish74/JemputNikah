@@ -40,14 +40,14 @@ const ViewGuestbookPage = () => {
       flex: 3,
     },
     {
-      headerName: "Delete",
+      headerName: "Remove",
       cellRenderer: (params) => (
         <Button
-          onClick={() => handleDelete(params.data)}
+          onClick={() => handleRemove(params.data)}
           size="xs"
           color="failure"
         >
-          Delete
+          Remove
         </Button>
       ),
       width: 95,
@@ -69,10 +69,14 @@ const ViewGuestbookPage = () => {
       const response = await axios.get(`/api/rsvp/list/${orderNumber}`);
       const { submissions, _id: rsvpId } = response.data; // Extract RSVP ID and submissions
       setRowData(
-        submissions.map((submission) => ({
-          ...submission,
-          rsvpId, // Add RSVP ID to each submission for deletion
-        }))
+        submissions
+          .filter(
+            (submission) => submission.ucapan && submission.ucapan.trim() !== ""
+          ) // Filter rows where ucapan is not empty
+          .map((submission) => ({
+            ...submission,
+            rsvpId, // Add RSVP ID to each submission for deletion
+          }))
       );
     } catch (err) {
       console.error(err);
@@ -82,17 +86,20 @@ const ViewGuestbookPage = () => {
     }
   };
 
-  const handleDelete = async (submission) => {
+  const handleRemove = async (submission) => {
     try {
       const confirmed = window.confirm(
-        "Are you sure you want to delete this RSVP?"
+        "Are you sure you want to remove this guestbook?"
       );
       if (!confirmed) return;
       setLoading(true);
-      await axios.delete(
-        `/api/rsvp/delete/${submission.rsvpId}/${submission._id}`
-      );
-      toast.error("RSVP submission deleted successfully.", {
+      // Use explicit HTTP PUT request
+      await axios({
+        method: "PUT",
+        url: `/api/rsvp/reset-ucapan/${submission.rsvpId}/${submission._id}`,
+      });
+
+      toast.success("Ucapan is removed successfully.", {
         autoClose: 2000,
         position: "top-center",
         closeOnClick: true,
@@ -100,7 +107,7 @@ const ViewGuestbookPage = () => {
       fetchRSVPs(); // Refresh data after deletion
     } catch (err) {
       console.error(err);
-      toast.error("Failed to delete submission. Please try again.", {
+      toast.error("Failed to remove ucapan. Please try again.", {
         autoClose: 2000,
         position: "top-center",
         closeOnClick: true,

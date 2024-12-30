@@ -128,3 +128,37 @@ exports.deleteRSVPSubmission = async (req, res) => {
     res.status(500).json({ message: "Error deleting RSVP submission", error });
   }
 };
+
+// Reset the ucapan field of a specific RSVP submission
+exports.resetUcapan = async (req, res) => {
+  const { rsvpId, submissionId } = req.params;
+
+  try {
+    const rsvp = await RSVP.findById(rsvpId);
+    if (!rsvp) {
+      return res.status(404).json({ message: "RSVP not found" });
+    }
+
+    // Find the specific submission by submissionId and reset its ucapan field
+    const submission = rsvp.submissions.find(
+      (submission) => submission._id.toString() === submissionId
+    );
+
+    if (!submission) {
+      return res
+        .status(404)
+        .json({ message: "RSVP submission not found" });
+    }
+
+    submission.ucapan = ""; // Reset ucapan to an empty string
+
+    // Save the updated RSVP document
+    await rsvp.save();
+
+    res.status(200).json({ message: "Ucapan reset successfully" });
+  } catch (error) {
+    console.error("Error resetting ucapan:", error);
+    res.status(500).json({ message: "Error resetting ucapan", error });
+  }
+};
+
