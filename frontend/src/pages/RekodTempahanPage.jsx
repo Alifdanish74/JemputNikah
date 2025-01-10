@@ -238,6 +238,11 @@ function RekodTempahanPage() {
                                       className="flex items-center"
                                       size="sm"
                                       color="success"
+                                      onClick={() =>
+                                        navigate(
+                                          `/payment/${order.orderNumber}/${order._id}`
+                                        )
+                                      }
                                     >
                                       {" "}
                                       <MdPayment className="mr-2 h-5 w-5" />{" "}

@@ -34,6 +34,8 @@ import ProtectedRoute from "./customhooks/ProtectedRoute";
 import { WeddingCardProvider } from "./customhooks/WeddingCardContext";
 
 import ContactUs from "./pages/ContactUs";
+import PaymentPage from "./pages/PaymentPage";
+import PaymentSuccess from "./pages/PaymentSuccess";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
 axios.defaults.withCredentials = true;
@@ -82,9 +84,9 @@ function App() {
                 <Route path="/kad-digital" element={<KadDigitalPage />} />
                 <Route path="/pakej" element={<PakejPage />} />
                 <Route path="/register" element={<RegisterPage />} />
-            
+
                 <Route path="/login" element={<LoginPage />} />
-                
+
                 <Route path="/contact" element={<ContactUs />} />
 
                 <Route
@@ -128,7 +130,30 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route path="/tempahan" element={<RekodTempahanPage />} />
+                <Route
+                  path="/tempahan"
+                  element={
+                    <ProtectedRoute>
+                      <RekodTempahanPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/payment/:orderNumber/:orderId"
+                  element={
+                    <ProtectedRoute>
+                      <PaymentPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/payment-success"
+                  element={
+                    <ProtectedRoute>
+                      <PaymentSuccess />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route
                   path="/profile"
                   element={

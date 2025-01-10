@@ -13,16 +13,22 @@ const orderRoutes = require("./routes/order");
 const rsvpRoutes = require("./routes/rsvp");
 const songRoutes = require("./routes/song");
 const wishlistRoutes = require("./routes/wishlist");
+const paymentRoutes = require("./routes/payment");
 
 const app = express();
-app.use(express.json());
+// Middleware to parse URL-encoded data (for form submissions)
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
+app.use(express.json()); // Parse JSON data
+
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 // Dynamic CORS Configuration
 const allowedOrigins = [
   "http://localhost:5173", // Local development
   "https://jemput-kahwin.vercel.app",
-  "https://www.jemputkahwin.com.my" // Deployed frontend on Vercel
+  "https://www.jemputkahwin.com.my",
+  "https://toyyibpay.com", // Production
+  "https://dev.toyyibpay.com", // Sandbox // Deployed frontend on Vercel
 ];
 
 const corsOptions = {
@@ -34,7 +40,7 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -44,7 +50,10 @@ app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Opener-Policy", "unsafe-none");
   res.setHeader("Cross-Origin-Embedder-Policy", "unsafe-none");
   res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.setHeader("Access-Control-Allow-Credentials", "true");
   next();
@@ -66,6 +75,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/songs", songRoutes);
 app.use("/api/rsvp", rsvpRoutes);
 app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/payment", paymentRoutes);
 
 app.get("/test", (req, res) => {
   res.send("API is working");

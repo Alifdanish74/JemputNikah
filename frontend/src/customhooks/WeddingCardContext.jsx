@@ -13,7 +13,7 @@ export const WeddingCardProvider = ({ children }) => {
   const [order, setOrder] = useState(null);
   const [design, setDesign] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [error, setError] = useState(null); // Add error state
   const location = useLocation(); // Detect the current URL
 
   // Function to fetch wedding card data by orderNumber
@@ -25,6 +25,7 @@ export const WeddingCardProvider = ({ children }) => {
       setOrder(response.data); // Assuming the wedding card is in response.data.weddingCardId
     } catch (error) {
       console.error("Error fetching wedding card:", error);
+      setError(error); // Set error state if fetching fails
     } finally {
       setLoading(false);
     }
@@ -73,6 +74,7 @@ export const WeddingCardProvider = ({ children }) => {
         fetchWeddingCard,
         design,
         fetchDesign,
+        error, // Provide error in context
       }}
     >
       {children}

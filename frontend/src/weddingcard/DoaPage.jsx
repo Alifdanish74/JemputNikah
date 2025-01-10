@@ -4,7 +4,7 @@ function DoaPage() {
   const { weddingCard } = useWeddingCard();
 
   // if (loading) return <p>Loading wedding card details...</p>;
-  if (!weddingCard) return <p>Wedding card not found.</p>;
+  // if (!weddingCard) return <p>Wedding card not found.</p>;
   return (
     // <div className="flex flex-col main-card h-[420px] w-[390px] text-black justify-center text-center items-center pt-4 pb-8 bg-doa_bg_image">
     <motion.div

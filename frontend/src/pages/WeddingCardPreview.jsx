@@ -24,7 +24,7 @@ function WeddingCardPreview() {
   }, [designName, tajukMajlis, orderNumber]);
 
 //   if (loading) return <p>Loading wedding card details...</p>;
-  if (!orderData) return <p>Wedding card not found.</p>;
+  // if (!orderData) return <p>Wedding card not found.</p>;
   // Render wedding card information
 
   const { weddingCardId: weddingCard } = orderData;

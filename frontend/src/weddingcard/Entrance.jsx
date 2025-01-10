@@ -16,7 +16,7 @@ const Entrance = ({ onClose, setIsPlaying }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const { orderNumber } = useParams();
-  const { weddingCard, fetchWeddingCard, loading } = useWeddingCard();
+  const { weddingCard, fetchWeddingCard, loading, error } = useWeddingCard();
 
   useEffect(() => {
     if (orderNumber) {
@@ -32,8 +32,10 @@ const Entrance = ({ onClose, setIsPlaying }) => {
   };
 
   return (
-    <LoadingWrapper isLoading={loading}>
-      {weddingCard ? (
+    <LoadingWrapper isLoading={loading || (!weddingCard && !error)}>
+      {error ? (
+        <p className="text-center text-red-400">Wedding card not found.</p>
+      ) : weddingCard ? (
         <motion.div
           initial={{ y: 0, opacity: 1 }}
           animate={isOpen ? "open" : "closed"}
