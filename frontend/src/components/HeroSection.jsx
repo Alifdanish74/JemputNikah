@@ -6,13 +6,13 @@ import MockupImage from "../assets/phone-mockup-removebg.png";
 import { featureicons } from "./featureicons";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/moving-border";
-import { FlipWords } from "./ui/flip-words";
+// import { FlipWords } from "./ui/flip-words";
 // import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
 // import { AnimatedTooltipPreview } from "./AnimatedToolTip";
 
 function HeroSection() {
   const navigate = useNavigate();
-  const words = ["KAHWIN", "TUNANG", "AKIKAH", "MAJLIS"];
+  // const words = ["KAHWIN", "TUNANG", "AKIKAH", "MAJLIS"];
   return (
     <div className="relative h-screen flex items-center hero-background justify-center bg-cover bg-center bg-no-repeat">
          
@@ -33,7 +33,8 @@ function HeroSection() {
                   <div className="text-4xl uppercase font-bold text-black sm:text-6xl xl:text-7xl mx-auto ">
                     KAD JEMPUTAN
                     <br />
-                    <FlipWords words={words} />
+                    {/* <FlipWords words={words} /> */}
+                    KAHWIN
                     DIGITAL
                   </div>
                 </div>

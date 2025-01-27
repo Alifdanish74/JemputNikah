@@ -388,6 +388,39 @@ function BookingPage() {
       }
       if (!formData.hashtag) {
         newErrors.hashtag = "Hashtag is required";
+      } else {
+        // Validate for invalid characters in the hashtag
+        const invalidCharacters = [
+          "/",
+          ":",
+          "?",
+          "#",
+          "[",
+          "]",
+          "@",
+          "!",
+          "$",
+          "&",
+          "'",
+          "(",
+          ")",
+          "*",
+          "+",
+          ",",
+          ";",
+          "=",
+          "%",
+          " ",
+        ];
+        if (formData.hashtag.includes(" ")) {
+          newErrors.hashtag = "Hashtag should not contain spaces.";
+        } else if (invalidCharacters.some((char) => formData.hashtag.includes(char))) {
+          newErrors.hashtag = (
+            <>
+              Do not use these characters: <br /> {invalidCharacters.join(" ")}.
+            </>
+          );
+        }
       }
       if (!formData.orderphone) {
         newErrors.orderphone = "Order phone is required";
@@ -430,46 +463,48 @@ function BookingPage() {
       }
     });
 
-    try {
-      const isPostRequest = !isEditMode; // Determine if it's a POST request
-      const url = isPostRequest
-        ? "/api/wedding-cards" // POST URL for creating
-        : `/api/wedding-cards/${weddingCardId}`; // PUT URL for updating
+    if (validateSection()) {
+      try {
+        const isPostRequest = !isEditMode; // Determine if it's a POST request
+        const url = isPostRequest
+          ? "/api/wedding-cards" // POST URL for creating
+          : `/api/wedding-cards/${weddingCardId}`; // PUT URL for updating
 
-      await axios({
-        method: isPostRequest ? "POST" : "PUT",
-        url: url,
-        data: formDataObj,
-      });
+        await axios({
+          method: isPostRequest ? "POST" : "PUT",
+          url: url,
+          data: formDataObj,
+        });
 
-      // Send email notification only for POST requests
-      if (isPostRequest) {
-        const emailParams = {
-          phone_number: formData.orderphone || "Unknown User",
-          wedding_date: formData.tarikhMajlis || "Not Specified",
-          user_message: "A new wedding card has been created",
-        };
+        // Send email notification only for POST requests
+        if (isPostRequest) {
+          const emailParams = {
+            phone_number: formData.orderphone || "Unknown User",
+            wedding_date: formData.tarikhMajlis || "Not Specified",
+            user_message: "A new wedding card has been created",
+          };
 
-        emailjs
-          .send(
-            "service_rqrmjvu", // Replace with your EmailJS Service ID
-            "template_25bejj1", // Replace with your EmailJS Template ID
-            emailParams, // Email parameters
-            "mod9vdWjwPxz25nvq" // Replace with your EmailJS Public Key
-          )
-          .then(
-            () => {
-              console.log("Email notification sent successfully.");
-            },
-            (error) => {
-              console.error("Failed to send email notification:", error.text);
-            }
-          );
+          emailjs
+            .send(
+              "service_rqrmjvu", // Replace with your EmailJS Service ID
+              "template_25bejj1", // Replace with your EmailJS Template ID
+              emailParams, // Email parameters
+              "mod9vdWjwPxz25nvq" // Replace with your EmailJS Public Key
+            )
+            .then(
+              () => {
+                console.log("Email notification sent successfully.");
+              },
+              (error) => {
+                console.error("Failed to send email notification:", error.text);
+              }
+            );
+        }
+
+        setOpenModal(true); // Open modal after successful form submission
+      } catch (error) {
+        console.error("Error submitting form:", error);
       }
-
-      setOpenModal(true); // Open modal after successful form submission
-    } catch (error) {
-      console.error("Error submitting form:", error);
     }
   };
 

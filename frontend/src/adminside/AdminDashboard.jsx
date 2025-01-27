@@ -61,6 +61,18 @@ function AdminDashboard() {
             cards.
           </p>
         </div>
+        {/* Manage Voucher */}
+        <div
+          className="bg-white shadow-lg rounded-lg p-6 cursor-pointer transform hover:scale-105 transition-transform"
+          onClick={() => navigate("/admin/voucher")}
+        >
+          <h2 className="text-2xl font-semibold mb-4 text-purple-600">
+            Manage Voucher
+          </h2>
+          <p className="text-gray-600">
+            Go to the manage voucher page to manage voucher.
+          </p>
+        </div>
       </div>
     </div>
   );

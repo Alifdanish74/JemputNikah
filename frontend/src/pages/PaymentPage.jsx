@@ -1,5 +1,4 @@
 import axios from "axios";
-// import { Modal } from "flowbite-react";
 import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { UserContext } from "../customhooks/UserContext";
@@ -8,19 +7,23 @@ const PaymentPage = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [description, setDescription] = useState("");
-  // const [modalOpen, setModalOpen] = useState(false);
-  // const [paymentLink, setPaymentLink] = useState("");
+  const [voucher, setVoucher] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [voucherError, setVoucherError] = useState("");
+  const [totalAmount, setTotalAmount] = useState(0);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { user, ready } = useContext(UserContext);
   const { orderNumber } = useParams();
-  const [order, setOrder] = useState();
+  // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
+
+  const [order, setOrder] = useState();
 
   useEffect(() => {
     if (ready && user) {
-      setEmail(user.email || ""); // Set email from user
+      setEmail(user.email || "");
     }
   }, [ready, user]);
 
@@ -33,6 +36,7 @@ const PaymentPage = () => {
           setOrder(response.data);
           setPhone(response.data.weddingCardId?.orderphone || "");
           setDescription(orderNumber);
+          setTotalAmount(response.data.price || 1); // Set total amount
         } catch (error) {
           console.error("Error fetching orders:", error);
         } finally {
@@ -43,8 +47,27 @@ const PaymentPage = () => {
     }
   }, [orderNumber]);
 
-  // const fixedAmount = order?.price || 1; // Use order price or fallback
-  const fixedAmount =  1; // Use order price or fallback
+  const validateVoucher = async () => {
+    try {
+      const response = await axios.post("/api/vouchers/validate", { code: voucher });
+      if (response.data.valid) {
+        const discountPercentage = response.data.discount; // Discount as a percentage
+        const discountAmount = (order.price * discountPercentage) / 100; // Calculate discount amount
+        const updatedTotalAmount = order.price - discountAmount; // Calculate the new total amount
+        setDiscount(discountAmount);
+        setVoucherError("");
+        setTotalAmount(updatedTotalAmount); // Update total amount
+
+      } else {
+        setVoucherError("Invalid or expired voucher code.");
+        setDiscount(0);
+        setTotalAmount(order.price); // Reset total amount
+      }
+    } catch (error) {
+      console.error("Error validating voucher:", error);
+      setVoucherError("Error validating voucher. Please try again.");
+    }
+  };
 
   const handleSubmit = async () => {
     if (!email || !description || !phone) {
@@ -59,11 +82,10 @@ const PaymentPage = () => {
         email,
         phone,
         description,
-        amount: fixedAmount,
+        amount: totalAmount,
       });
 
       if (response.data.paymentUrl) {
-        // Navigate to payment link in the same tab
         window.location.href = response.data.paymentUrl;
       } else {
         setError("Failed to create payment. Please try again.");
@@ -76,79 +98,122 @@ const PaymentPage = () => {
     }
   };
 
-  const checkPaymentStatus = async () => {
-    try {
-      const response = await axios.get(`/api/payment/status/${orderNumber}`);
-      if (response.data.status === "paid") {
-        navigate("/payment-success"); // Redirect to payment success page
-      }
-    } catch (error) {
-      console.error("Error checking payment status:", error);
-    }
-  };
-
-  useEffect(() => {
-    // Poll for payment status after redirection
-    const interval = setInterval(() => {
-      checkPaymentStatus();
-    }, 5000); // Check every 5 seconds
-
-    return () => clearInterval(interval); // Cleanup interval on unmount
-  }, []);
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-      <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-96">
-        <h2 className="text-center text-2xl font-bold mb-4">Make a Payment</h2>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4">
+      <div className="bg-white shadow-xl rounded-lg p-8 w-full max-w-2xl">
+        <h2 className="text-center text-3xl font-extrabold text-gray-800 mb-6">
+          Complete Your Payment
+        </h2>
         <form
           onSubmit={(e) => {
             e.preventDefault();
             handleSubmit();
           }}
+          className="space-y-6"
         >
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Email
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email Address
             </label>
             <input
+              id="email"
               type="email"
               value={email}
               readOnly
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="block w-full mt-2 p-3 rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Phone
+  
+          <div>
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Phone Number
             </label>
             <input
+              id="phone"
               type="text"
               value={phone}
               readOnly
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="block w-full mt-2 p-3 rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
+  
+          <div>
+            <label
+              htmlFor="order-number"
+              className="block text-sm font-medium text-gray-700"
+            >
               Order Number
             </label>
             <input
+              id="order-number"
               type="text"
               value={description}
               readOnly
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="block w-full mt-2 p-3 rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Amount
+  
+          <div>
+            <label
+              htmlFor="amount"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Amount to Pay
             </label>
-            <p className="text-gray-800 font-bold">RM {fixedAmount}</p>
+            <p
+              id="amount"
+              className="mt-2 p-3 bg-gray-100 rounded-lg border border-gray-300 text-gray-800 font-semibold"
+            >
+              RM {totalAmount.toFixed(2)}
+            </p>
           </div>
+  
+          {/* Voucher Section */}
+          <div>
+            <label
+              htmlFor="voucher"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Voucher Code
+            </label>
+            <div className="flex mt-2">
+              <input
+                id="voucher"
+                type="text"
+                value={voucher}
+                onChange={(e) => setVoucher(e.target.value)}
+                placeholder="Enter voucher code"
+                className="w-full p-3 rounded-l-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
+              />
+              <button
+                type="button"
+                onClick={validateVoucher}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                Apply
+              </button>
+            </div>
+            {voucherError && (
+              <p className="text-red-500 text-sm mt-2">{voucherError}</p>
+            )}
+            {discount > 0 && (
+              <p className="text-green-500 text-sm mt-2">
+                Discount Applied: RM {discount.toFixed(2)}
+              </p>
+            )}
+          </div>
+  
           {error && <p className="text-red-500 text-sm">{error}</p>}
+  
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+            className="w-full py-3 px-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             disabled={loading || !order}
           >
             {loading ? "Processing..." : "Pay Now"}
@@ -157,6 +222,7 @@ const PaymentPage = () => {
       </div>
     </div>
   );
+  
 };
 
 export default PaymentPage;

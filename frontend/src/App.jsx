@@ -36,6 +36,7 @@ import { WeddingCardProvider } from "./customhooks/WeddingCardContext";
 import ContactUs from "./pages/ContactUs";
 import PaymentPage from "./pages/PaymentPage";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import AdminVoucherManager from "./adminside/AdminAddVoucher";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
 axios.defaults.withCredentials = true;
@@ -201,6 +202,14 @@ function App() {
                   element={
                     <ProtectedRoute adminOnly={true}>
                       <AdminUpdateOrderPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/voucher"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminVoucherManager/>
                     </ProtectedRoute>
                   }
                 />

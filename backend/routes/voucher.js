@@ -1,0 +1,14 @@
+const express = require('express');
+const router = express.Router();
+const voucherController = require('../controllers/voucherController');
+
+// Route to validate a voucher
+router.post('/validate', voucherController.validateVoucher);
+
+// Route to create a new voucher
+router.post('/create', voucherController.createVoucher);
+
+// Route to get all vouchers
+router.get('/', voucherController.getVouchers);
+
+module.exports = router;
