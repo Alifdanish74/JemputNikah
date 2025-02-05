@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
   if (!ready) return <p>Loading...</p>;
 
   // Redirect to home page if user is not authenticated
-  if (!user) return <Navigate to="/login" replace />;
+  if (!user) return <Navigate to="/register" replace />;
 
   // Redirect to home page if user is not ADMIN
   if (adminOnly && !user?.isAdmin) return <Navigate to="/" replace />;

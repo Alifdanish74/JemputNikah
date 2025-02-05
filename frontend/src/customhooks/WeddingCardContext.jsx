@@ -16,6 +16,7 @@ export const WeddingCardProvider = ({ children }) => {
   const [error, setError] = useState(null); // Add error state
   const location = useLocation(); // Detect the current URL
 
+
   // Function to fetch wedding card data by orderNumber
   const fetchWeddingCard = async (orderNumber) => {
     try {
@@ -49,10 +50,32 @@ export const WeddingCardProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // If the URL is /preview, fetch wedding card data for order JK0001
+
+    const fetchPreviewDesign = async () => {
+
+          // If the URL is /preview, fetch wedding card data for order JK0001
     if (location.pathname.includes("/preview")) {
       fetchWeddingCard("JK00001");
     }
+
+      if (location.pathname.includes("/preview")) {
+        const segments = location.pathname.split("/");
+        const designName = segments[segments.length - 1]; // Extract the last part of the path (e.g., "Tradisional001")
+        if (designName) {
+          const fetchedDesign = await fetchDesign(designName);
+
+          // Update weddingCard with design's particleColor and fontColor
+          setWeddingCard((prevCard) => ({
+            ...prevCard,
+            designParticleColor: fetchedDesign?.particleColor,
+            designFontColor: fetchedDesign?.fontColor,
+          }));
+        }
+      }
+
+    }
+
+
     if (location.pathname.includes("/pakejpreview/Bali")) {
       fetchWeddingCard("JK00005");
     } if (location.pathname.includes("/pakejpreview/Istanbul")) {
@@ -62,6 +85,8 @@ export const WeddingCardProvider = ({ children }) => {
     } else {
       setLoading(false);
     }
+
+    fetchPreviewDesign();
   }, [location.pathname]);
   //   console.log("WeddingCard data from WeddingCardContext:", weddingCard);
   //   console.log("Order data from WeddingCardContext:", order);

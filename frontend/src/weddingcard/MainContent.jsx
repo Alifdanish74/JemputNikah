@@ -25,6 +25,7 @@ function MainContent() {
 
   console.log("DesignName: ", weddingCard.designName);
   console.log("Design from params: ", designName);
+  console.log("Font color when preview: ", weddingCard.designFontColor);
   // console.log("Design include: ", designName.includes("Motion"));
   console.log("Design: ", design);
 

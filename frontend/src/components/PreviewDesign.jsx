@@ -10,7 +10,7 @@ function PreviewDesign() {
   const [designs, setDesigns] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/admin/get-all-design").then((response) => {
+    axios.get("/api/admin/get-top-design").then((response) => {
       setDesigns(response.data);
       console.log(response.data);
     });

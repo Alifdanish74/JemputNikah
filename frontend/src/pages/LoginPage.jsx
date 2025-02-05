@@ -106,10 +106,10 @@ function LoginPage() {
                 </svg>
                 <div>
                   <h3 className="mb-2 text-xl font-bold leading-none text-gray-900 dark:text-white">
-                    Get started quickly
+                  Cipta Kad Kahwin Digital Anda Sekarang
                   </h3>
                   <p className="mb-2 text-gray-500 dark:text-gray-400">
-                    Integrate with developer-friendly APIs or choose low-code.
+                  Rekabentuk elegan, mudah dihantar, dan pantas untuk jemputan perkahwinan istimewa anda.
                   </p>
                 </div>
               </div>
@@ -128,11 +128,10 @@ function LoginPage() {
                 </svg>
                 <div>
                   <h3 className="mb-2 text-xl font-bold leading-none text-gray-900 dark:text-white">
-                    Support any business model
+                  Kad Jemputan Digital, Kenangan Abadi
                   </h3>
                   <p className="mb-2 text-gray-500 dark:text-gray-400">
-                    Host code that you dont want to share with the world in
-                    private.
+                  Jemput tetamu dengan cara moden, pantas, dan mesra alam. Daftar sekarang!
                   </p>
                 </div>
               </div>
@@ -151,11 +150,10 @@ function LoginPage() {
                 </svg>
                 <div>
                   <h3 className="mb-2 text-xl font-bold leading-none text-gray-900 dark:text-white">
-                    Join millions of businesses
+                  Jemputan Perkahwinan Lebih Mudah dan Bergaya
                   </h3>
                   <p className="mb-2 text-gray-500 dark:text-gray-400">
-                    Flowbite is trusted by ambitious startups and enterprises of
-                    every size.
+                  Kad digital mudah, elegan, dan cepat dihantar. Log masuk untuk bermula.
                   </p>
                 </div>
               </div>

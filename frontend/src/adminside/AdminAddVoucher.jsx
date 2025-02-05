@@ -1,4 +1,5 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { Datepicker } from "flowbite-react";
 import axios from "axios";
 
 const AdminVoucherManager = () => {
@@ -41,7 +42,12 @@ const AdminVoucherManager = () => {
     e.preventDefault();
     setError("");
 
-    if (!formData.code || !formData.discount || !formData.expires || !formData.quantity) {
+    if (
+      !formData.code ||
+      !formData.discount ||
+      !formData.expires ||
+      !formData.quantity
+    ) {
       setError("All fields are required.");
       return;
     }
@@ -78,13 +84,17 @@ const AdminVoucherManager = () => {
 
       {/* Voucher Creation Form */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">Create New Voucher</h2>
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">
+          Create New Voucher
+        </h2>
         <form
           onSubmit={handleCreateVoucher}
           className="bg-white p-6 shadow-md rounded-lg"
         >
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Code</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Code
+            </label>
             <input
               type="text"
               name="code"
@@ -95,7 +105,9 @@ const AdminVoucherManager = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Discount (%)</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Discount (%)
+            </label>
             <input
               type="number"
               name="discount"
@@ -106,17 +118,24 @@ const AdminVoucherManager = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Expires</label>
-            <input
-              type="date"
-              name="expires"
-              value={formData.expires}
-              onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            <label className="block text-sm font-medium text-gray-700">
+              Expires
+            </label>
+            <Datepicker
+              title="Voucher Expire Date"
+              minDate={new Date()}
+              showTodayButton={false}
+              value={
+                formData.expires ? new Date(formData.expires) : new Date()
+              }
+              onChange={(date) => setFormData({ ...formData, expires: date.toISOString() })}
+              // className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Quantity</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Quantity
+            </label>
             <input
               type="number"
               name="quantity"
@@ -139,7 +158,9 @@ const AdminVoucherManager = () => {
 
       {/* Voucher List */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">Existing Vouchers</h2>
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">
+          Existing Vouchers
+        </h2>
         <div className="bg-white shadow-md rounded-lg">
           {loading ? (
             <p className="p-4 text-center text-gray-500">Loading...</p>
@@ -149,22 +170,36 @@ const AdminVoucherManager = () => {
             <table className="min-w-full table-auto border-collapse">
               <thead>
                 <tr className="bg-gray-100 border-b">
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Code</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Discount</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Expires</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Quantity</th>
+                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                    Code
+                  </th>
+                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                    Discount
+                  </th>
+                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                    Expires
+                  </th>
+                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                    Quantity
+                  </th>
                   <th className="px-4 py-2"></th>
                 </tr>
               </thead>
               <tbody>
                 {vouchers.map((voucher) => (
                   <tr key={voucher._id} className="border-b">
-                    <td className="px-4 py-2 text-sm text-gray-800">{voucher.code}</td>
-                    <td className="px-4 py-2 text-sm text-gray-800">{voucher.discount}%</td>
+                    <td className="px-4 py-2 text-sm text-gray-800">
+                      {voucher.code}
+                    </td>
+                    <td className="px-4 py-2 text-sm text-gray-800">
+                      {voucher.discount}%
+                    </td>
                     <td className="px-4 py-2 text-sm text-gray-800">
                       {new Date(voucher.expires).toLocaleDateString()}
                     </td>
-                    <td className="px-4 py-2 text-sm text-gray-800">{voucher.quantity}</td>
+                    <td className="px-4 py-2 text-sm text-gray-800">
+                      {voucher.quantity}
+                    </td>
                     <td className="px-4 py-2">
                       <button
                         onClick={() => handleDeleteVoucher(voucher._id)}

@@ -296,6 +296,11 @@ function MajlisSection({ onPrevious, onNext, formData, handleFormDataChange, err
                   handleFormDataChange("wazeLink", e.target.value);
                 }}
               />
+              {errors.wazeLink && (
+                  <p className="text-red-500 text-sm">
+                    {errors.wazeLink}
+                  </p>
+                )}
             </div>
           </div>
 

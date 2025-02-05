@@ -15,6 +15,7 @@ const songRoutes = require("./routes/song");
 const wishlistRoutes = require("./routes/wishlist");
 const paymentRoutes = require("./routes/payment");
 const voucherRoutes = require("./routes/voucher");
+const promoRoutes = require("./routes/promo");
 
 const app = express();
 // Middleware to parse URL-encoded data (for form submissions)
@@ -78,6 +79,7 @@ app.use("/api/rsvp", rsvpRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/vouchers", voucherRoutes);
+app.use("/api/promos", promoRoutes);
 
 app.get("/test", (req, res) => {
   res.send("API is working");

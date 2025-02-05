@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { UserContext } from "../customhooks/UserContext";
 import { GoogleLogin } from "@react-oauth/google";
+import JemputKahwinLogo from "../assets/JemputKahwinLogo.png";
 
 function RegisterPage() {
   const [name, setName] = useState("");
@@ -120,13 +121,13 @@ function RegisterPage() {
           <div className="mr-auto hidden flex-col justify-between lg:col-span-5 lg:flex xl:col-span-6 xl:mb-0 lg:py-16">
             <div>
               <a
-                href="#"
-                className="mb-6 inline-flex items-center text-2xl font-semibold text-gray-900 "
+                href="/"
+                className="mb-6 inline-flex items-center text-2xl font-semibold text-gray-900 dark:text-white lg:mb-10"
               >
                 <img
-                  alt="logo"
-                  src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
                   className="mr-2 h-8 w-8"
+                  src={JemputKahwinLogo}
+                  alt="logo"
                 />
                 Jemput Kahwin
               </a>
@@ -144,11 +145,12 @@ function RegisterPage() {
                   />
                 </svg>
                 <div>
-                  <h3 className="mb-2 text-xl font-bold leading-none text-gray-900 ">
-                    Get started quickly
+                  <h3 className="mb-2 text-xl font-bold leading-none text-gray-900 dark:text-white">
+                    Cipta Kad Kahwin Digital Anda Sekarang
                   </h3>
-                  <p className="mb-2 text-gray-500 ">
-                    Integrate with developer-friendly APIs or choose low-code.
+                  <p className="mb-2 text-gray-500 dark:text-gray-400">
+                    Rekabentuk elegan, mudah dihantar, dan pantas untuk jemputan
+                    perkahwinan istimewa anda.
                   </p>
                 </div>
               </div>
@@ -166,12 +168,12 @@ function RegisterPage() {
                   />
                 </svg>
                 <div>
-                  <h3 className="mb-2 text-xl font-bold leading-none text-gray-900 ">
-                    Support any business model
+                  <h3 className="mb-2 text-xl font-bold leading-none text-gray-900 dark:text-white">
+                    Kad Jemputan Digital, Kenangan Abadi
                   </h3>
-                  <p className="mb-2 text-gray-500 ">
-                    Host code that you dont want to share with the world in
-                    private.
+                  <p className="mb-2 text-gray-500 dark:text-gray-400">
+                    Jemput tetamu dengan cara moden, pantas, dan mesra alam.
+                    Daftar sekarang!
                   </p>
                 </div>
               </div>
@@ -189,12 +191,12 @@ function RegisterPage() {
                   />
                 </svg>
                 <div>
-                  <h3 className="mb-2 text-xl font-bold leading-none text-gray-900 ">
-                    Join millions of businesses
+                  <h3 className="mb-2 text-xl font-bold leading-none text-gray-900 dark:text-white">
+                    Jemputan Perkahwinan Lebih Mudah dan Bergaya
                   </h3>
-                  <p className="mb-2 text-gray-500 ">
-                    Flowbite is trusted by ambitious startups and enterprises of
-                    every size.
+                  <p className="mb-2 text-gray-500 dark:text-gray-400">
+                    Kad digital mudah, elegan, dan cepat dihantar. Log masuk
+                    untuk bermula.
                   </p>
                 </div>
               </div>

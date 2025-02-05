@@ -31,6 +31,7 @@ const Entrance = ({ onClose, setIsPlaying }) => {
     setTimeout(onClose, 800); // Ensure this matches the transition duration
   };
 
+
   return (
     <LoadingWrapper isLoading={loading || (!weddingCard && !error)}>
       {error ? (

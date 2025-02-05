@@ -44,7 +44,7 @@ function AnimatedComponent() {
         <motion.img
           src={weddingCard.designAnimatedKiriAtas} // Replace with your flower image path
           alt="Flower"
-          className="w-[320px] h-auto -top-28 absolute right-[80px] "
+          className="w-[300px] h-auto -top-28 absolute right-[100px] "
           animate={{
             rotate: [0, 3, -3, 0], // Slight rotations to simulate wind
             x: [0, 4, -4, 0], // Horizontal sway
@@ -63,7 +63,7 @@ function AnimatedComponent() {
         <motion.img
           src={weddingCard.designAnimatedKiriTengah} // Replace with your flower image path
           alt="Flower"
-          className="w-[250px] h-auto -top-16 absolute right-[230px] "
+          className="w-[250px] h-auto -top-16 absolute right-[260px] "
           animate={{
             rotate: [0, 3, -3, 0], // Slight rotations to simulate wind
             x: [0, 4, -4, 0], // Horizontal sway
@@ -82,7 +82,7 @@ function AnimatedComponent() {
         <motion.img
           src={weddingCard.designAnimatedKananBawah} // Replace with your flower image path
           alt="Flower"
-          className="w-[250px] h-auto -bottom-4 absolute left-[150px]"
+          className="w-[230px] h-auto -bottom-4 absolute left-[180px]"
           animate={{
             rotate: [0, 3, -3, 0], // Slight rotations to simulate wind
             x: [0, 4, -4, 0], // Horizontal sway
@@ -100,7 +100,7 @@ function AnimatedComponent() {
         <motion.img
           src={weddingCard.designAnimatedKananAtas} // Replace with your flower image path
           alt="Flower"
-          className="w-[200px] h-auto bottom-16 absolute left-[300px]"
+          className="w-[180px] h-auto bottom-16 absolute left-[320px]"
           animate={{
             rotate: [0, 3, -3, 0], // Slight rotations to simulate wind
             x: [0, 4, -4, 0], // Horizontal sway
@@ -118,7 +118,7 @@ function AnimatedComponent() {
         <motion.img
           src={weddingCard.designAnimatedKananTengah} // Replace with your flower image path
           alt="Flower"
-          className="w-[250px] h-auto -bottom-10 absolute left-[270px]"
+          className="w-[250px] h-auto -bottom-10 absolute left-[290px]"
           animate={{
             rotate: [0, 3, -3, 0], // Slight rotations to simulate wind
             x: [0, 4, -4, 0], // Horizontal sway

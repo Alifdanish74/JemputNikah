@@ -334,6 +334,9 @@ function BookingPage() {
       if (!formData.googleMapsLink) {
         newErrors.googleMapsLink = "GoogleMaps link is required";
       }
+      if (!formData.wazeLink) {
+        newErrors.wazeLink = "Waze link is required";
+      }
       if (
         !formData.emergencyContacts1 ||
         !formData.emergencyNumber1 ||

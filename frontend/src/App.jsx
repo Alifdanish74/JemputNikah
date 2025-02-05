@@ -37,6 +37,8 @@ import ContactUs from "./pages/ContactUs";
 import PaymentPage from "./pages/PaymentPage";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import AdminVoucherManager from "./adminside/AdminAddVoucher";
+import EntryPopup from "./components/EntryPopup";
+import AdminUploadPromoPage from "./adminside/AdminUploadPromoPage";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
 axios.defaults.withCredentials = true;
@@ -70,6 +72,7 @@ function App() {
   return (
     <>
       <LoadingWrapper isLoading={loading}>
+      {showHeaderFooter && <EntryPopup />}
         <UserContextProvider>
           <WeddingCardProvider>
             {showHeaderFooter && <Header />}
@@ -210,6 +213,14 @@ function App() {
                   element={
                     <ProtectedRoute adminOnly={true}>
                       <AdminVoucherManager/>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/promo"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminUploadPromoPage/>
                     </ProtectedRoute>
                   }
                 />

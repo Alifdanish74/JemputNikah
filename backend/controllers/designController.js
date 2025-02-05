@@ -57,7 +57,6 @@ const uploadDesign = async (req, res) => {
   const imageMotionKananAtasFile = req.files.animatedKananAtas?.[0];
   const imageMotionKananTengahFile = req.files.animatedKananTengah?.[0];
   const imageMotionKananBawahFile = req.files.animatedKananBawah?.[0];
-
   try {
     if (
       !imageFile ||
@@ -219,6 +218,35 @@ const getAllDesigns = async (req, res) => {
   res.json(await CardDesign.find());
 };
 
+// Get the first 3 designs of each category
+const getTopDesignsByCategory = async (req, res) => {
+  try {
+    const designs = await CardDesign.aggregate([
+      { $match: { status: 'public' } }, // Filter only public designs
+      { $sort: { category: 1, createdAt: -1 } }, // Sort by category and then by creation date (newest first)
+      {
+        $group: {
+          _id: '$category', // Group by category
+          topDesigns: { $push: '$$ROOT' }, // Push all designs into an array
+        },
+      },
+      {
+        $project: {
+          _id: 0, // Remove the grouping key
+          topDesigns: { $slice: ['$topDesigns', 3] }, // Take only the first 3 designs per category
+        },
+      },
+      { $unwind: '$topDesigns' }, // Flatten the array of top designs
+      { $replaceRoot: { newRoot: '$topDesigns' } }, // Replace the root with the design objects
+    ]);
+
+    res.status(200).json(designs);
+  } catch (error) {
+    console.error('Error fetching top designs:', error);
+    res.status(500).json({ message: 'Failed to fetch designs', error });
+  }
+};
+
 // Controller to get design by name
 const getDesignByName = async (req, res) => {
   const { designName } = req.params;
@@ -244,4 +272,5 @@ module.exports = {
   getAllDesigns,
   getDesignByName,
   deleteDesign,
+  getTopDesignsByCategory
 };

@@ -73,6 +73,18 @@ function AdminDashboard() {
             Go to the manage voucher page to manage voucher.
           </p>
         </div>
+        {/* Manage Promo Popup */}
+        <div
+          className="bg-white shadow-lg rounded-lg p-6 cursor-pointer transform hover:scale-105 transition-transform"
+          onClick={() => navigate("/admin/promo")}
+        >
+          <h2 className="text-2xl font-semibold mb-4 text-pink-700">
+            Manage Promo Popup
+          </h2>
+          <p className="text-gray-600">
+            Go to the manage promo popup page.
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ import { FaMusic } from "react-icons/fa";
 import { FaBookOpen } from "react-icons/fa";
 import { MdOutlineLocalPhone } from "react-icons/md";
 import { CiGift } from "react-icons/ci";
-import { FaFilePdf } from "react-icons/fa6";
+// import { FaFilePdf } from "react-icons/fa6";
 // import { Button } from "flowbite-react";
 
 function PakejSection() {
@@ -202,10 +202,10 @@ function PakejSection() {
                     <CiGift />
                     <span>Wishlist (10)</span>
                   </li>
-                  <li className="flex items-center justify-left mx-auto gap-2 font-bold underline">
+                  {/* <li className="flex items-center justify-left mx-auto gap-2 font-bold underline">
                     <FaFilePdf />
                     <span>PDF version</span>
-                  </li>
+                  </li> */}
                 </ul>
               </ul>
               <a
