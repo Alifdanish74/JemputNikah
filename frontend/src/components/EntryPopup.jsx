@@ -3,22 +3,24 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const EntryPopup = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [promo, setPromo] = useState("");
-//   const [promoId, setPromoId] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(true);
   
-//   const [successMessage, setSuccessMessage] = useState("");
-//   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    const hasSeenPopup = localStorage.getItem("hasSeenPopup");
-    if (!hasSeenPopup) {
+    // const hasSeenPopup = localStorage.getItem("hasSeenPopup");
+    // if (!hasSeenPopup) {
+    //   setIsOpen(true);
+    //   localStorage.setItem("hasSeenPopup", "true");
+    // }
+    const isPageReload = performance?.navigation?.type === 1 || window?.performance?.getEntriesByType("navigation")?.[0]?.type === "reload";
+
+    if (isPageReload) {
       setIsOpen(true);
-      localStorage.setItem("hasSeenPopup", "true");
     }
-    // setIsOpen(true);
+  
 
     const fetchPromo = async () => {
         try {

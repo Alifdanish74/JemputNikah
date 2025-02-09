@@ -15,6 +15,7 @@ import Entrance from "./Entrance";
 import ParticleComponent from "./component/ParticleComponent";
 import PreviewWatermark from "./component/PreviewWatermark";
 import EntrancePreview from "./EntrancePreview";
+import MainContentPreview from "./MainContentPreview";
 
 function BaseWeddingCard() {
   const [showEntrance, setShowEntrance] = useState(true);
@@ -91,7 +92,12 @@ function BaseWeddingCard() {
           <ToastContainer />
 
           <section id="maincontent" className="relative">
-            <MainContent />
+         { isPreviewGeneral ? (
+            <MainContentPreview />
+        ) : (
+          <MainContent />
+        )}
+            
             {/* <AnimatedComponent/> */}
           </section>
           <div className="pb-16" style={backgroundStyle}>

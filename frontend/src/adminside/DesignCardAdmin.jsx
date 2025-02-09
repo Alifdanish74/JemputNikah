@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Modal } from "flowbite-react";
+import mockup from "../../src/assets/phonemockupframe.png";
 
 function DesignCardAdmin({ itemName, itemImage, itemCategory, onDelete }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,11 +54,26 @@ function DesignCardAdmin({ itemName, itemImage, itemCategory, onDelete }) {
           {itemCategory}
         </h5>
         <div className="bg-white border border-gray-200 rounded-2xl shadow-lg">
-          <img
+          {/* <img
             className="mx-auto w-2/4 rounded-t-lg object-cover my-2"
             src={itemImage}
             alt="product image"
-          />
+          /> */}
+                <div className="relative my-3 h-[200px] ">
+                <img
+                    // className="absolute w-[91px] left-1/2 transform -translate-x-1/2 bottom-5 z-0"
+                    className="w-[96px] h-[200px] absolute left-1/2 transform -translate-x-1/2  z-0 rounded-2xl"
+                    src={itemImage}
+                    alt="item"
+                  />
+                  <img
+                    // className="absolute w-[91px] left-1/2 transform -translate-x-1/2 bottom-5 z-0"
+                    className="w-[200px] absolute left-1/2 transform -translate-x-1/2  z-0"
+                    src={mockup}
+                    alt="item"
+                  />
+                  
+                </div>
 
           <div className="grid grid-cols-2 rounded-lg bg-gray-50">
             <div className="border-r py-2 w-full text-sm rounded-bl-xl border-black hover:bg-black hover:text-white">

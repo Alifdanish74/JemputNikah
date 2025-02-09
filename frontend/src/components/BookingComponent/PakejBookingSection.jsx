@@ -250,7 +250,7 @@ function PakejSection({ onPakejChange, handleFormDataChange }) {
 
             <ul
               role="list"
-              className=" gap-y-4 mt-3 grid grid-cols-4 justify-evenly"
+              className=" gap-y-4 mt-3 grid grid-cols-3 justify-evenly"
             >
               <li className="flex items-center justify-left mx-auto gap-2 font-bold underline">
                 <span className="text-lg flex mx-auto items-center justify-center">
@@ -273,13 +273,13 @@ function PakejSection({ onPakejChange, handleFormDataChange }) {
                   &nbsp;Wishlist (10)
                 </span>
               </li>
-              <li className="flex items-center justify-left mx-auto gap-2 font-bold underline">
+              {/* <li className="flex items-center justify-left mx-auto gap-2 font-bold underline">
                 <span className="text-lg flex mx-auto items-center justify-center">
                   {" "}
                   <FcPlus />
                   &nbsp;PDF Version
                 </span>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

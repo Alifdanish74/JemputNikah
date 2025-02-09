@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 // import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { Badge } from "../components/ui/badge";
 // import ImageDisplay from "../../src/assets/tradisional001.png";
+import mockup from "../../src/assets/phonemockupframe.png";
 function DesignCard({ itemName, itemImage, itemCategory }) {
   return (
     // <div className="sm:max-w-xs mx-auto w-full px-4">
@@ -97,12 +98,19 @@ function DesignCard({ itemName, itemImage, itemCategory }) {
     <div className="relative mb-4 mx-auto w-full max-w-xs bg-white rounded-lg shadow-md">
       {/* Image Container */}
       <div className="relative mt-3 h-[200px] ">
-        <img
+      <img
           // className="absolute w-[91px] left-1/2 transform -translate-x-1/2 bottom-5 z-0"
-          className="w-[120px] absolute left-1/2 transform -translate-x-1/2  z-0"
+          className="w-[96px] h-[200px] absolute left-1/2 transform -translate-x-1/2  z-0 rounded-2xl"
           src={itemImage}
           alt="item"
         />
+        <img
+          // className="absolute w-[91px] left-1/2 transform -translate-x-1/2 bottom-5 z-0"
+          className="w-[200px] absolute left-1/2 transform -translate-x-1/2  z-0"
+          src={mockup}
+          alt="item"
+        />
+        
       </div>
 
       <h1 className="text-lg sm:text-xl font-bold leading-tight text-gray-900 text-center">

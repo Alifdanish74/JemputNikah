@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 // import { useState, useEffect } from "react";
 // import Modal from "./Modal";
-import { IoReceiptOutline } from "react-icons/io5";
+// import { IoReceiptOutline } from "react-icons/io5";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { CiGift } from "react-icons/ci";
 import { MdOutlineLocalPhone } from "react-icons/md";
@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Modal from "../Modal";
 import { useWeddingCard } from "../../customhooks/WeddingCardContext";
+import rsvpgif from "../../assets/rsvp.gif";
 function Navbar({ onGuestbookUpdate, preview }) {
   const [activeModal, setActiveModal] = useState("");
   const [newModal, setNewModal] = useState(""); // To track the new modal to be opened
@@ -104,6 +105,32 @@ function Navbar({ onGuestbookUpdate, preview }) {
           {/* BUKAN BALI */}
           {weddingCard.pakej !== "Bali" && (
             <>
+            {preview ? (
+                <motion.button
+                  initial={{ opacity: 0.8 }}
+                  whileHover={{
+                    scale: 1.1,
+                    transition: { duration: 0.4, opacity: 1 },
+                  }}
+                  onClick={() => openModal("RSVP-preview")}
+                  className="focus:outline-none flex flex-col items-center"
+                >
+                  <img src={rsvpgif} alt="Animated Icon" className="w-8 h-8" /> RSVP
+                </motion.button>
+              ) : (
+                <motion.button
+                  initial={{ opacity: 0.8 }}
+                  whileHover={{
+                    scale: 1.1,
+                    transition: { duration: 0.4, opacity: 1 },
+                  }}
+                  onClick={() => openModal("RSVP")}
+                  className="focus:outline-none flex flex-col items-center "
+                >
+                  <img src={rsvpgif} alt="Animated Icon" className="w-8 h-8" /> RSVP
+                </motion.button>
+              )}
+
               {weddingCard.moneyGiftDisabled === false ? (
                 <motion.button
                   initial={{ opacity: 0.8 }}
@@ -134,31 +161,7 @@ function Navbar({ onGuestbookUpdate, preview }) {
                 </motion.button>
               )}
 
-              {preview ? (
-                <motion.button
-                  initial={{ opacity: 0.8 }}
-                  whileHover={{
-                    scale: 1.1,
-                    transition: { duration: 0.4, opacity: 1 },
-                  }}
-                  onClick={() => openModal("RSVP-preview")}
-                  className={navbarButtonCSS}
-                >
-                  <IoReceiptOutline className="text-2xl mb-1" /> RSVP
-                </motion.button>
-              ) : (
-                <motion.button
-                  initial={{ opacity: 0.8 }}
-                  whileHover={{
-                    scale: 1.1,
-                    transition: { duration: 0.4, opacity: 1 },
-                  }}
-                  onClick={() => openModal("RSVP")}
-                  className={navbarButtonCSS}
-                >
-                  <IoReceiptOutline className="text-2xl mb-1" /> RSVP
-                </motion.button>
-              )}
+              
             </>
           )}
 
@@ -171,9 +174,10 @@ function Navbar({ onGuestbookUpdate, preview }) {
                 transition: { duration: 0.4, opacity: 1 },
               }}
               onClick={() => openModal("Guestbook")}
-              className={navbarButtonCSS}
+              className="focus:outline-none flex flex-col items-center"
             >
-              <IoReceiptOutline className="text-2xl mb-1" /> Ucapan
+              {/* <IoReceiptOutline className="text-2xl  mb-1" /> Wish Card */}
+              <img src={rsvpgif} alt="Animated Icon" className="w-8 h-8" /> Wish Card
             </motion.button>
           )}
           <motion.button

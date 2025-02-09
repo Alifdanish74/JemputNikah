@@ -52,6 +52,7 @@ function KadDigitalPage() {
                     <option value="">All Categories</option>
                     <option value="Floral">Floral</option>
                     <option value="Luxury">Luxury</option>
+                    <option value="Motion">Motion</option>
                     <option value="Tradisional">Tradisional</option>
                     <option value="Khat">Khat</option>
                     <option value="Minimalist">Minimalist</option>
