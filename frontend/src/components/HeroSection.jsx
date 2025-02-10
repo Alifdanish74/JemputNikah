@@ -22,15 +22,15 @@ function HeroSection() {
       <div className="flex flex-col lg:flex-row lg:items-stretch">
         {/* column left */}
         <div className="flex items-center justify-center w-full lg:order-2 lg:w-7/12">
-          <div className="h-full px-4 pt-24 pb-3 sm:px-6 lg:px-24 2xl:px-32 lg:pt-40 lg:pb-14">
-            <div className="flex flex-col justify-between flex-1 h-fit">
+          <div className="h-full px-4 pt-24 pb-3 sm:px-6  lg:pt-20 lg:pb-14">
+            <div className="flex flex-col justify-between  flex-1 h-fit">
               <div>
                 {/* <h1 className="text-4xl uppercase font-bold text-black sm:text-6xl xl:text-7xl">
                   Kad Jemputan <br />
                   Kahwin Digital
                 </h1> */}
                 <div className=" flex justify-center items-center ">
-                  <div className="text-4xl uppercase font-bold text-black sm:text-6xl xl:text-7xl mx-auto ">
+                  <div className="text-4xl uppercase font-bold text-black sm:text-6xl lg:text-6xl xl:text-7xl mx-auto ">
                     KAD JEMPUTAN
                     <br />
                     {/* <FlipWords words={words} /> */}

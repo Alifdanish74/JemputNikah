@@ -223,7 +223,7 @@ const getTopDesignsByCategory = async (req, res) => {
   try {
     const designs = await CardDesign.aggregate([
       { $match: { status: 'public' } }, // Filter only public designs
-      { $sort: { category: 1, createdAt: -1 } }, // Sort by category and then by creation date (newest first)
+      { $sort: { category: 1, createdAt: 1 } }, // Sort by category and then by creation date (newest first)
       {
         $group: {
           _id: '$category', // Group by category
@@ -233,7 +233,7 @@ const getTopDesignsByCategory = async (req, res) => {
       {
         $project: {
           _id: 0, // Remove the grouping key
-          topDesigns: { $slice: ['$topDesigns', 3] }, // Take only the first 3 designs per category
+          topDesigns: { $slice: ['$topDesigns', 2] }, // Take only the first 3 designs per category
         },
       },
       { $unwind: '$topDesigns' }, // Flatten the array of top designs

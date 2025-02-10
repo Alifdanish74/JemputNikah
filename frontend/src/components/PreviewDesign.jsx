@@ -50,7 +50,7 @@ function PreviewDesign() {
           </div>
 
           {/* Button Lihat Semua Design */}
-          <div className="pt-14 flex items-center justify-center mx-auto">
+          <div className="pt-5 flex items-center justify-center mx-auto">
             <Button
               onClick={navigateToKadDigital}
               className="rounded-full border  bg-sky-500 px-8 py-4 text-base text-white hover:bg-white hover:text-blue-500"

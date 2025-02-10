@@ -95,25 +95,26 @@ function DesignCard({ itemName, itemImage, itemCategory }) {
 
     //   </div>
     // </div>
-    <div className="relative mb-4 mx-auto w-full max-w-xs bg-white rounded-lg shadow-md">
+    <div className="relative mb-4 mx-auto w-full  bg-white rounded-lg shadow-md">
       {/* Image Container */}
-      <div className="relative mt-3 h-[200px] ">
-      <img
+      <div className="relative  h-[200px] ">
+        {/* gambar design */}
+        <img
           // className="absolute w-[91px] left-1/2 transform -translate-x-1/2 bottom-5 z-0"
-          className="w-[96px] h-[200px] absolute left-1/2 transform -translate-x-1/2  z-0 rounded-2xl"
+          className="w-[100px] h-[200px] absolute left-1/2 top-1 transform -translate-x-1/2  z-0 rounded-2xl"
           src={itemImage}
           alt="item"
         />
+        {/* Gambar phone */}
         <img
-          // className="absolute w-[91px] left-1/2 transform -translate-x-1/2 bottom-5 z-0"
-          className="w-[200px] absolute left-1/2 transform -translate-x-1/2  z-0"
+          className="absolute w-[100px]  h-[200px] top-1 left-1/2 transform -translate-x-1/2 bottom-5 z-0"
+          // className="w-[200px] h-[200px] absolute left-1/2 transform -translate-x-1/2  z-0"
           src={mockup}
           alt="item"
         />
-        
       </div>
 
-      <h1 className="text-lg sm:text-xl font-bold leading-tight text-gray-900 text-center">
+      <h1 className="text-lg sm:text-xl font-bold pt-2 leading-tight text-gray-900 text-center">
         {itemName}
       </h1>
 
@@ -122,7 +123,7 @@ function DesignCard({ itemName, itemImage, itemCategory }) {
       </div>
 
       {/* Buttons Container */}
-      <div className="flex mt-2 justify-center ">
+      <div className="flex mt-1 justify-center ">
         <a
           className="flex mx-auto items-center md:gap-2 rounded-l-lg border border-r-gray-200 border-gray-200 justify-center w-full text-center bg-white hover:bg-gray-300 text-blue-600 text-sm font-medium py-2  focus:outline-none focus:ring-2 focus:ring-blue-300"
           href={`/preview/${itemName}`}
