@@ -16,7 +16,7 @@ function HeroSection() {
   const navigate = useNavigate();
   // const words = ["KAHWIN", "TUNANG", "AKIKAH", "MAJLIS"];
   return (
-    <div className="relative h-screen flex items-center hero-background justify-center bg-cover bg-center bg-no-repeat">
+    <div className="relative h-screen pt-11 flex items-center hero-background justify-center bg-cover bg-center bg-no-repeat">
       {/* Overlay for faded effect */}
       {/* <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70"></div> */}
       {/* <section className="overflow-scroll"> */}
