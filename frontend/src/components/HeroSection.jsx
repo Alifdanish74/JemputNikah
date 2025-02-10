@@ -6,6 +6,8 @@ import MockupImage from "../assets/phone-mockup-removebg.png";
 import { featureicons } from "./featureicons";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/moving-border";
+import SplitText from "./ui/SplitText";
+import { motion } from "framer-motion";
 // import { FlipWords } from "./ui/flip-words";
 // import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
 // import { AnimatedTooltipPreview } from "./AnimatedToolTip";
@@ -15,7 +17,6 @@ function HeroSection() {
   // const words = ["KAHWIN", "TUNANG", "AKIKAH", "MAJLIS"];
   return (
     <div className="relative h-screen flex items-center hero-background justify-center bg-cover bg-center bg-no-repeat">
-         
       {/* Overlay for faded effect */}
       {/* <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70"></div> */}
       {/* <section className="overflow-scroll"> */}
@@ -30,13 +31,29 @@ function HeroSection() {
                   Kahwin Digital
                 </h1> */}
                 <div className=" flex justify-center items-center ">
-                  <div className="text-4xl uppercase font-bold text-black sm:text-6xl lg:text-6xl xl:text-7xl mx-auto ">
+                  {/* <div className="text-4xl uppercase font-bold text-black sm:text-6xl lg:text-6xl xl:text-7xl mx-auto ">
                     KAD JEMPUTAN
                     <br />
-                    {/* <FlipWords words={words} /> */}
-                    KAHWIN
-                    DIGITAL
-                  </div>
+                    
+                    KAHWIN DIGITAL
+                  </div> */}
+                  <SplitText
+                    text="KAD JEMPUTAN KAHWIN DIGITAL"
+                    className="text-4xl uppercase font-bold text-black sm:text-6xl lg:text-6xl xl:text-7xl text-center"
+                    delay={70}
+                    animationFrom={{
+                      opacity: 0,
+                      transform: "translate3d(0,50px,0)",
+                    }}
+                    animationTo={{
+                      opacity: 1,
+                      transform: "translate3d(0,0,0)",
+                    }}
+                    easing="easeOutCubic"
+                    threshold={0.2}
+                    rootMargin="-50px"
+                    // onLetterAnimationComplete={handleAnimationComplete}
+                  />
                 </div>
 
                 <p className="mt-6 text-base text-black sm:text-xl">
@@ -48,16 +65,25 @@ function HeroSection() {
                 <div className="mx-auto p-6">
                   <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
                     {featureicons.map((feature, index) => (
-                      <div key={index} className="">
-                        <div
-                          className={`w-16 h-16 ${feature.bgColor} flex mx-auto items-center shadow-lg justify-center rounded-full ${feature.textColor} text-3xl`}
-                        >
-                          {feature.icon}
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: index * 0.1 }} // Adds staggered effect
+                        viewport={{ once: true }}
+                        className=""
+                      >
+                        <div key={index} className="">
+                          <div
+                            className={`w-16 h-16 ${feature.bgColor} flex mx-auto items-center shadow-lg justify-center rounded-full ${feature.textColor} text-3xl`}
+                          >
+                            {feature.icon}
+                          </div>
+                          <span className="mt-2 block text-sm font-semibold whitespace-nowrap">
+                            {feature.title}
+                          </span>
                         </div>
-                        <span className="mt-2 block text-sm font-semibold whitespace-nowrap">
-                          {feature.title}
-                        </span>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                   {/* <AnimatedTooltipPreview/> */}
@@ -83,11 +109,20 @@ function HeroSection() {
 
         {/* column right */}
 
-        <div className="relative w-full justify-center items-center overflow-hidden lg:w-5/12 lg:order-1">
+        <motion.div
+          initial={{
+            x: -100,
+            opacity: 0,
+          }}
+          transition={{ duration: 1.2 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="relative w-full justify-center items-center overflow-hidden lg:w-5/12 lg:order-1"
+        >
           {/* <div className="lg:absolute lg:justify-center lg:items-center">  */}
           <img className="w-2/4 md:w-3/4 mx-auto" src={MockupImage} alt="" />
           {/* </div> */}
-        </div>
+        </motion.div>
       </div>
       {/* </section> */}
     </div>

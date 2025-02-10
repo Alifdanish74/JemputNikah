@@ -73,9 +73,6 @@ function App() {
     <>
       <LoadingWrapper isLoading={loading}>
       {showHeaderFooter && <EntryPopup />}
-      {/* {showHeaderFooter && ((location.pathname === "/") || location.pathname.startsWith("/payment")) && (
-        <EntryPopup />
-      )} */}
         <UserContextProvider>
           <WeddingCardProvider>
             {showHeaderFooter && <Header />}
