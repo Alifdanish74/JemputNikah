@@ -1,9 +1,15 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import Slider from "react-slick";
+// import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Navigation, Autoplay } from "swiper/modules";
+
 import "../fonts.css";
+import "../swiperStyles.css";
 import axios from "axios";
 import { useWeddingCard } from "../customhooks/WeddingCardContext"; // Assuming you use a context for wedding card details
 
@@ -14,15 +20,15 @@ function Guestbook({ guestbookUpdated }) {
   // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState("");
 
-  const settings = {
-    arrow: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    infinite: true,
-    autoplay: true,
-    autoplaySpeed: 5000,
-  };
+  // const settings = {
+  //   arrow: true,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  //   infinite: true,
+  //   autoplay: true,
+  //   autoplaySpeed: 5000,
+  // };
 
   const fetchGuestbookData = async () => {
     if (!order || !order.orderNumber) {
@@ -89,9 +95,20 @@ function Guestbook({ guestbookUpdated }) {
     >
       <h1 className="pb-3 text-xl font-['Cinzel'] opacity-70"> GUESTBOOK</h1>
       <div className="p-4">
-        <Slider {...settings}>
+        <Swiper
+          modules={[Navigation, Autoplay]}
+          spaceBetween={10}
+          slidesPerView={1}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          // navigation={wishes.length > 1} // Hide navigation if only 1 slide
+          navigation={{
+            nextEl: ".custom-next",
+            prevEl: ".custom-prev",
+          }}
+          loop={wishes.length > 1} // Disable looping if only 1 slide
+        >
           {wishes.map((data, index) => (
-            <div key={index}>
+            <SwiperSlide key={index}>
               <p
                 style={{ color: weddingCard.designFontColor || "#000000" }}
                 className="text-center p-4 text-lg fontType-4 font-extralight"
@@ -104,9 +121,12 @@ function Guestbook({ guestbookUpdated }) {
               >
                 -{data.name}-
               </p>
-            </div>
+            </SwiperSlide>
           ))}
-        </Slider>
+          {/* Custom Navigation Buttons */}
+          <div className="custom-prev">‹</div>
+          <div className="custom-next">›</div>
+        </Swiper>
       </div>
     </div>
   );

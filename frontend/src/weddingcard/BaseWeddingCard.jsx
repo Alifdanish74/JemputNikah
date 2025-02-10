@@ -16,6 +16,7 @@ import ParticleComponent from "./component/ParticleComponent";
 import PreviewWatermark from "./component/PreviewWatermark";
 import EntrancePreview from "./EntrancePreview";
 import MainContentPreview from "./MainContentPreview";
+import CountdownPreview from "./CountdownPreview";
 
 function BaseWeddingCard() {
   const [showEntrance, setShowEntrance] = useState(true);
@@ -82,7 +83,9 @@ function BaseWeddingCard() {
           {isPreview && <PreviewWatermark />}
 
           <section id="particles">
-            <ParticleComponent particleColor={`${weddingCard.designParticleColor}`} />
+            <ParticleComponent
+              particleColor={`${weddingCard.designParticleColor}`}
+            />
 
             {designName && design && (
               <ParticleComponent particleColor={`${design.particleColor}`} />
@@ -116,9 +119,17 @@ function BaseWeddingCard() {
               <Border />
             </section>
 
-            <section id="countdown">
+            
+
+            {isPreviewGeneral ? (
+              <section id="countdown">
+              <CountdownPreview />
+            </section>
+            ) : (
+              <section id="countdown">
               <Countdown />
             </section>
+            )}
 
             <section id="border">
               <Border />

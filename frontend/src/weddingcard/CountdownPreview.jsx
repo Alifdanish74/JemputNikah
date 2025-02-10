@@ -1,0 +1,65 @@
+import FlipClockCountdown from "@leenguyen/react-flip-clock-countdown";
+import "@leenguyen/react-flip-clock-countdown/dist/index.css";
+import { motion } from "framer-motion";
+import { useParams } from "react-router-dom";
+import { useWeddingCard } from "../customhooks/WeddingCardContext";
+import { useEffect } from "react";
+
+function CountdownPreview() {
+  const { designName } = useParams(); // Extract designName from the URL
+  const { fetchDesign, design } = useWeddingCard();
+
+  useEffect(() => {
+    if (designName) {
+      fetchDesign(designName);
+    }
+  }, [designName]);
+
+  // if (loading) return <p>Loading wedding card details...</p>;
+  // if (!weddingCard) return <p>Wedding card not found.</p>;
+
+  // const targetDate = new Date(weddingCard.tarikhMajlis);            
+  const currentDate = new Date();
+  // const dateString = currentDate; // Extract the date part only
+  const targetDate = new Date(currentDate); // Now `date` represents only the date
+  targetDate.setDate(currentDate.getDate() + 5); // Add 5 days
+  const timeDifference = targetDate.getTime() - currentDate.getTime();
+  const day = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+  return (
+    <motion.div
+      initial={{
+        y: 100,
+        opacity: 0,
+      }}
+      transition={{ duration: 1.2 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      style={{ color: design.fontColor || "#000000" }}
+      className="flex flex-col justify-center text-center items-center pt-4 pb-8"
+    >
+      <p className="pb-3 text-3xl  font-['Cinzel']"> Menanti Hari Bahagia</p>
+      <FlipClockCountdown
+        to={new Date().getTime() + day * 24 * 3600 * 1000 + 5000}
+        labels={["DAYS", "HOURS", "MINUTES", "SECONDS"]}
+        labelStyle={{
+          fontSize: 10,
+          fontWeight: 500,
+          textTransform: "uppercase",
+          color: design.fontColor || "#000000",
+        }}
+        digitBlockStyle={{ width: 30, height: 50, fontSize: 30 }}
+        dividerStyle={{ color: "white", height: 1 }}
+        separatorStyle={{ color: "red", size: "6px" }}
+        duration={0.5}
+      >
+        <p className="pb-3 text-3xl font-semibold font-['Cinzel']">
+          {" "}
+          Alhamdulillah Majlis Selesai
+        </p>
+      </FlipClockCountdown>
+    </motion.div>
+  );
+}
+
+export default CountdownPreview;
