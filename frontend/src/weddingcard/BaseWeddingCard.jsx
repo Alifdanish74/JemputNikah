@@ -49,7 +49,10 @@ function BaseWeddingCard() {
   // const particlesColor = "#f9e4cc"; // Change this value dynamically
 
   const isPreview = location.pathname.includes("/weddingcardpreview"); // Correct usage of includes
-  const isPreviewGeneral = location.pathname.includes("/preview", "/preview/Bali"); // Correct usage of includes
+  const isPreviewGeneral = location.pathname.includes(
+    "/preview",
+    "/preview/Bali"
+  ); // Correct usage of includes
 
   // Dynamic background style
   const backgroundStyle = {
@@ -80,6 +83,10 @@ function BaseWeddingCard() {
 
           <section id="particles">
             <ParticleComponent particleColor={`${weddingCard.designParticleColor}`} />
+
+            {designName && design && (
+              <ParticleComponent particleColor={`${design.particleColor}`} />
+            )}
           </section>
 
           <section id="navbar" className="z-20">
@@ -92,12 +99,8 @@ function BaseWeddingCard() {
           <ToastContainer />
 
           <section id="maincontent" className="relative">
-         { isPreviewGeneral ? (
-            <MainContentPreview />
-        ) : (
-          <MainContent />
-        )}
-            
+            {isPreviewGeneral ? <MainContentPreview /> : <MainContent />}
+
             {/* <AnimatedComponent/> */}
           </section>
           <div className="pb-16" style={backgroundStyle}>
