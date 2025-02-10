@@ -59,21 +59,21 @@ function DesignCardAdmin({ itemName, itemImage, itemCategory, onDelete }) {
             src={itemImage}
             alt="product image"
           /> */}
-                <div className="relative my-3 h-[200px] ">
-                <img
-                    // className="absolute w-[91px] left-1/2 transform -translate-x-1/2 bottom-5 z-0"
-                    className="w-[96px] h-[200px] absolute left-1/2 transform -translate-x-1/2  z-0 rounded-2xl"
-                    src={itemImage}
-                    alt="item"
-                  />
-                  <img
-                    // className="absolute w-[91px] left-1/2 transform -translate-x-1/2 bottom-5 z-0"
-                    className="w-[200px] absolute left-1/2 transform -translate-x-1/2  z-0"
-                    src={mockup}
-                    alt="item"
-                  />
-                  
-                </div>
+          <div className="relative my-3 h-[200px] ">
+            <img
+              // className="absolute w-[91px] left-1/2 transform -translate-x-1/2 bottom-5 z-0"
+              className="w-[100px] h-[200px] absolute left-1/2 top-1 transform -translate-x-1/2  z-0 rounded-2xl"
+              src={itemImage}
+              alt="item"
+            />
+            {/* Gambar phone */}
+            <img
+              className="absolute w-[100px]  h-[200px] top-1 left-1/2 transform -translate-x-1/2 bottom-5 z-0"
+              // className="w-[200px] h-[200px] absolute left-1/2 transform -translate-x-1/2  z-0"
+              src={mockup}
+              alt="item"
+            />
+          </div>
 
           <div className="grid grid-cols-2 rounded-lg bg-gray-50">
             <div className="border-r py-2 w-full text-sm rounded-bl-xl border-black hover:bg-black hover:text-white">

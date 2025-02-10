@@ -106,7 +106,7 @@ const ParticleComponent = ({ particleColor = "#f9e4cc" }) => {
           type: "circle",
         },
         size: {
-          value: { min: 2, max: 6 },
+          value: { min: 3, max: 9 },
         },
       },
       detectRetina: false,

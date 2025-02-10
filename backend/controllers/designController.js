@@ -154,40 +154,34 @@ const deleteDesign = async (req, res) => {
       return res.status(404).json({ message: "Design not found" });
     }
 
-    // Extract the S3 file keys from the URLs
-    const imageKey = design.image.split(".com/")[1];
-    const imagePreviewKey = design.imagepreview.split(".com/")[1];
-    const imageBgKey = design.imagebg.split(".com/")[1];
-    const animatedKiriAtaskey = design.animatedKiriAtas.split(".com/")[1];
-    const animatedKiriTengahkey = design.animatedKiriTengah.split(".com/")[1];
-    const animatedKiriBawahkey = design.animatedKiriBawah.split(".com/")[1];
-    const animatedKananAtaskey = design.animatedKananAtas.split(".com/")[1];
-    const animatedKananTengahkey = design.animatedKananTengah.split(".com/")[1];
-    const animatedKananBawahkey = design.animatedKananBawah.split(".com/")[1];
+    // Extract required image keys
+    const imageKeysToDelete = [
+      design.image?.split(".com/")[1],
+      design.imagepreview?.split(".com/")[1],
+      design.imagebg?.split(".com/")[1],
+    ];
 
-    console.log(
-      "Keys to delete:",
-      imageKey,
-      imagePreviewKey,
-      imageBgKey,
-      animatedKiriAtaskey,
-      animatedKiriTengahkey,
-      animatedKiriBawahkey,
-      animatedKananAtaskey,
-      animatedKananTengahkey,
-      animatedKananBawahkey
-    );
+    // Check if the design is of category "Motion" before adding animated values
+    if (design.category === "Motion") {
+      imageKeysToDelete.push(
+        design.animatedKiriAtas?.split(".com/")[1],
+        design.animatedKiriTengah?.split(".com/")[1],
+        design.animatedKiriBawah?.split(".com/")[1],
+        design.animatedKananAtas?.split(".com/")[1],
+        design.animatedKananTengah?.split(".com/")[1],
+        design.animatedKananBawah?.split(".com/")[1]
+      );
+    }
 
-    // Delete images from S3
-    await deleteFromS3(imageKey);
-    await deleteFromS3(imagePreviewKey);
-    await deleteFromS3(imageBgKey);
-    await deleteFromS3(animatedKiriAtaskey);
-    await deleteFromS3(animatedKiriTengahkey);
-    await deleteFromS3(animatedKiriBawahkey);
-    await deleteFromS3(animatedKananAtaskey);
-    await deleteFromS3(animatedKananTengahkey);
-    await deleteFromS3(animatedKananBawahkey);
+    // Filter out undefined values
+    const validKeys = imageKeysToDelete.filter(Boolean);
+
+    console.log("Keys to delete:", validKeys);
+
+    // Delete images from S3 only if they exist
+    for (const key of validKeys) {
+      await deleteFromS3(key);
+    }
 
     // Delete the design from the database
     await CardDesign.deleteOne({ designName });
@@ -198,6 +192,7 @@ const deleteDesign = async (req, res) => {
     res.status(500).json({ message: "Error deleting design", error });
   }
 };
+
 
 // Controller for getting the count of designs in a category
 const getDesignCountByCategory = async (req, res) => {
