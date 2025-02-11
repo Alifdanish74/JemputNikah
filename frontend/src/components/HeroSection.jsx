@@ -16,14 +16,14 @@ function HeroSection() {
   const navigate = useNavigate();
   // const words = ["KAHWIN", "TUNANG", "AKIKAH", "MAJLIS"];
   return (
-    <div className="relative h-screen pt-14 flex items-center hero-background justify-center bg-cover bg-center bg-no-repeat">
+    <div className="relative h-screen lg:pt-14 flex items-center hero-background justify-center bg-cover bg-center bg-no-repeat">
       {/* Overlay for faded effect */}
       {/* <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70"></div> */}
       {/* <section className="overflow-scroll"> */}
       <div className="flex flex-col lg:flex-row lg:items-stretch">
         {/* column left */}
         <div className="flex items-center justify-center w-full lg:order-2 lg:w-7/12">
-          <div className="h-full px-4 pt-24 pb-3 sm:px-6  lg:pt-20 lg:pb-14">
+          <div className="h-full px-4 pt-16 pb-3 sm:px-6  lg:pt-20 lg:pb-14">
             <div className="flex flex-col justify-between  flex-1 h-fit">
               <div>
                 {/* <h1 className="text-4xl uppercase font-bold text-black sm:text-6xl xl:text-7xl">
@@ -88,20 +88,39 @@ function HeroSection() {
                   </div>
                   {/* <AnimatedTooltipPreview/> */}
                 </div>
-                <Button
-                  target="blank"
-                  title=""
-                  // className="inline-flex rounded-full border border-sky-500 items-center px-6 py-5 text-base font-semibold text-white transition-all duration-200 bg-sky-500 mt-9 hover:bg-white hover:text-blue-400"
-                  borderRadius="1.75rem"
-                  className="bg-blue-600  text-white font-semibold  border-neutral-200 "
-                  role="button"
-                  onClick={() => {
-                    navigate("/kad-digital");
-                  }}
-                >
-                  {" "}
-                  Tempah Sekarang{" "}
-                </Button>
+                <div>
+                  
+                </div>
+                <div className="flex flex-col md:flex-row mx-auto justify-center items-center gap-4">
+                  <Button
+                    target="blank"
+                    title=""
+                    // className="inline-flex rounded-full border border-sky-500 items-center px-6 py-5 text-base font-semibold text-white transition-all duration-200 bg-sky-500 mt-9 hover:bg-white hover:text-blue-400"
+                    borderRadius="1.75rem"
+                    className="bg-blue-600  text-white font-semibold  border-neutral-200 "
+                    role="button"
+                    onClick={() => {
+                      navigate("/kad-digital");
+                    }}
+                  >
+                    {" "}
+                    TEMPAH SEKARANG{" "}
+                  </Button>
+                  <Button
+                    target="blank"
+                    title=""
+                    // className="inline-flex rounded-full border border-sky-500 items-center px-6 py-5 text-base font-semibold text-white transition-all duration-200 bg-sky-500 mt-9 hover:bg-white hover:text-blue-400"
+                    borderRadius="1.75rem"
+                    className="bg-white  text-blue-600 font-semibold border-4 border-blue-200 "
+                    role="button"
+                    onClick={() => {
+                      navigate("/pakej");
+                    }}
+                  >
+                    {" "}
+                    LIHAT PAKEJ{" "}
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

@@ -23,7 +23,7 @@ function PreviewDesign() {
   }
 
   return (
-    <div className="relative bg-slate-100 md:p-20 pb-28">
+    <div className="relative bg-slate-100 md:p-20 lg:pb-16">
       <div className=" max-w-5xl max-h-5xl p-10 md:p-0 mx-auto bg-slate-100">
         <div>
           <motion.div

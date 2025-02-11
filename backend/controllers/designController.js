@@ -210,8 +210,34 @@ const getDesignCountByCategory = async (req, res) => {
 
 // Get All Design
 const getAllDesigns = async (req, res) => {
-  res.json(await CardDesign.find());
+  try {
+    const { category, page = 1 } = req.query;
+    const limit = 12;
+    const skip = (page - 1) * limit;
+
+    // Build the query dynamically
+    let query = {};
+    if (category) {
+      query.category = category; // Filter by category if provided
+    }
+
+    const totalCount = await CardDesign.countDocuments(query);
+    const designs = await CardDesign.find(query).skip(skip).limit(limit);
+
+    res.json({
+      designs: designs || [],
+      currentPage: Number(page),
+      totalPages: Math.ceil(totalCount / limit) || 1,
+      totalItems: totalCount,
+    });
+  } catch (error) {
+    console.error("Error fetching wedding cards:", error);
+    res.status(500).json({ designs: [], message: "Error fetching wedding cards", error });
+  }
 };
+
+
+
 
 // Get the first 3 designs of each category
 const getTopDesignsByCategory = async (req, res) => {

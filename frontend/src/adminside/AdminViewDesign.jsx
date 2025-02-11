@@ -7,27 +7,40 @@ function AdminViewDesign() {
   const [designs, setDesigns] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(""); // Track the selected category
   const [loading, setLoading] = useState(true); // Loading state
-
-  // Filter the designs based on selected category
-  const filteredDesigns = selectedCategory
-    ? designs.filter((design) => design.category === selectedCategory)
-    : designs;
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchDesigns = async () => {
       try {
-        const response = await axios.get("/api/admin/get-all-design");
-        setDesigns(response.data);
-        console.log(response.data);
+        setLoading(true);
+        const response = await axios.get(`/api/admin/get-all-design`, {
+          params: { category: selectedCategory || undefined, page },
+        });
+
+        if (response.data && response.data.designs) {
+          setDesigns(response.data.designs);
+          setTotalPages(response.data.totalPages || 1);
+        } else {
+          setDesigns([]);
+          setTotalPages(1);
+        }
       } catch (error) {
         console.error("Error fetching designs:", error);
+        setDesigns([]);
+        setTotalPages(1);
       } finally {
-        setLoading(false); // Ensure loading state is updated
+        setLoading(false);
       }
     };
 
     fetchDesigns();
-  }, []);
+  }, [selectedCategory, page]);
+
+  // Handle category filtering
+  const filteredDesigns = selectedCategory
+    ? designs.filter((design) => design.category === selectedCategory)
+    : designs;
 
   // Remove a design from the designs state after deletion
   const removeDesign = (designName) => {
@@ -51,7 +64,10 @@ function AdminViewDesign() {
                   <select
                     id="category-filter"
                     value={selectedCategory} // Bind to selected category state
-                    onChange={(e) => setSelectedCategory(e.target.value)} // Update selected category
+                    onChange={(e) => {
+                      setSelectedCategory(e.target.value);
+                      setPage(1); // Reset to first page when category changes
+                    }}
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 sm:w-[144px]"
                   >
                     <option value="">All Categories</option>
@@ -81,6 +97,37 @@ function AdminViewDesign() {
                   </p>
                 )}
               </div>
+
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="flex justify-center mt-6 space-x-4">
+                  <button
+                    onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                    disabled={page === 1}
+                    className={`px-4 py-2 border rounded ${
+                      page === 1
+                        ? "text-gray-400 cursor-not-allowed"
+                        : "text-blue-500"
+                    }`}
+                  >
+                    Previous
+                  </button>
+                  <span className="text-lg">{`Page ${page} of ${totalPages}`}</span>
+                  <button
+                    onClick={() =>
+                      setPage((prev) => Math.min(prev + 1, totalPages))
+                    }
+                    disabled={page === totalPages}
+                    className={`px-4 py-2 border rounded ${
+                      page === totalPages
+                        ? "text-gray-400 cursor-not-allowed"
+                        : "text-blue-500"
+                    }`}
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </section>
