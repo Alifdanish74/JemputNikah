@@ -34,7 +34,7 @@ function Footer() {
                   </li>
                   <li className="flex items-center gap-2 text-sm">
                     <MdOutlineMail />
-                    <span>info@jemputkahwin@gmail.com</span>
+                    <span>jemputkahwin@gmail.com</span>
                   </li>
                 </ul>
               </div>

@@ -17,6 +17,10 @@ import PreviewWatermark from "./component/PreviewWatermark";
 import EntrancePreview from "./EntrancePreview";
 import MainContentPreview from "./MainContentPreview";
 import CountdownPreview from "./CountdownPreview";
+import WeddingInfoPreview from "./WeddingInfoPreview";
+import GuestbookPreview from "./GuestbookPreview";
+import DoaPagePreview from "./DoaPagePreview";
+import FooterPreview from "./component/FooterPreview";
 
 function BaseWeddingCard() {
   const [showEntrance, setShowEntrance] = useState(true);
@@ -112,7 +116,7 @@ function BaseWeddingCard() {
             </section>
 
             <section id="weddinginfo" className="container mx-auto">
-              <WeddingInfo />
+              {isPreviewGeneral? <WeddingInfoPreview/> : <WeddingInfo />}
             </section>
 
             <section id="border">
@@ -136,7 +140,7 @@ function BaseWeddingCard() {
             </section>
 
             <section id="guestbook">
-              <Guestbook guestbookUpdated={guestbookUpdated} />
+              {isPreviewGeneral ? <GuestbookPreview/> : <Guestbook guestbookUpdated={guestbookUpdated} />}
             </section>
 
             <section id="border-1">
@@ -144,10 +148,10 @@ function BaseWeddingCard() {
             </section>
 
             <section id="doa">
-              <DoaPage />
+              {isPreviewGeneral ? <DoaPagePreview/> : <DoaPage />}
             </section>
 
-            <Footer />
+            {isPreviewGeneral ? <FooterPreview/> : <Footer />}
           </div>
         </>
       )}

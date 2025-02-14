@@ -59,7 +59,7 @@ const Entrance = ({ onClose, setIsPlaying }) => {
               viewport={{ once: true }}
               className="mb-8"
             >
-              <p className="text-lg text-tranform: uppercase font-['Cinzel']">
+              <p className="text-2xl text-tranform: uppercase font-['Cinzel']">
                 {weddingCard.tajukMajlis}
               </p>
             </motion.div>
@@ -68,7 +68,7 @@ const Entrance = ({ onClose, setIsPlaying }) => {
               ["L", "LL"].includes(weddingCard.pihakMajlis) && (
                 <>
                   {/* NAMA PENGANTIN */}
-                  <div className={`mb-5 text-6xl ${weddingCard.jenisFont}`}>
+                  <div className={`mt-16 mb-10 text-6xl ${weddingCard.jenisFont}`}>
                     <motion.h1
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -102,7 +102,7 @@ const Entrance = ({ onClose, setIsPlaying }) => {
               ["P", "PP"].includes(weddingCard.pihakMajlis) && (
                 <>
                   {/* NAMA PENGANTIN */}
-                  <div className={`mb-5 text-6xl ${weddingCard.jenisFont}`}>
+                  <div className={`mt-16 mb-10 text-6xl ${weddingCard.jenisFont}`}>
                     <motion.h1
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -136,7 +136,7 @@ const Entrance = ({ onClose, setIsPlaying }) => {
             {["D"].includes(weddingCard.pihakMajlis) && (
               <>
                 {/* NAMA PENGANTIN */}
-                <div className={`mb-5 text-5xl ${weddingCard.jenisFont}`}>
+                <div className={`mt-16 mb-10 text-4xl ${weddingCard.jenisFont}`}>
                   <motion.h1
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}

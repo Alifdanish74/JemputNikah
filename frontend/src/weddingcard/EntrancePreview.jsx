@@ -62,11 +62,11 @@ const EntrancePreview = ({ onClose, setIsPlaying }) => {
               viewport={{ once: true }}
               className="mb-8"
             >
-              <p className="text-lg uppercase font-['Cinzel']">Walimatulurus</p>
+              <p className="text-2xl uppercase font-['Cinzel']">Walimatulurus</p>
             </motion.div>
 
             {/* Display names of the bride and groom */}
-            <div className="mb-5 text-6xl font-Tangerine">
+            <div className="mt-16 mb-10 text-6xl font-Tangerine">
               <motion.p
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}

@@ -20,16 +20,6 @@ function Guestbook({ guestbookUpdated }) {
   // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState("");
 
-  // const settings = {
-  //   arrow: true,
-  //   speed: 500,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1,
-  //   infinite: true,
-  //   autoplay: true,
-  //   autoplaySpeed: 5000,
-  // };
-
   const fetchGuestbookData = async () => {
     if (!order || !order.orderNumber) {
       // Skip fetching if order or orderNumber is missing
