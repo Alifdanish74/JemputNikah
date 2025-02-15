@@ -18,7 +18,7 @@ import { CiGift } from "react-icons/ci";
 function PakejSection() {
   return (
     <>
-      <section className="bg-blue-50">
+      <section className="bg-grey-50">
         <div className="py-5 px-4 mx-auto max-w-5xl  lg:px-6">
           <div className="max-w-5xl mx-auto text-center pb-10">
             <h2 className="text-3xl font-bold text-gray-800">

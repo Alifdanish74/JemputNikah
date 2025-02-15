@@ -1,5 +1,5 @@
 // import React from "react";
-
+// import featurevideo from "../assets/featurevideo.mp4";
 function PhoneMockup() {
   return (
     <>
@@ -9,11 +9,16 @@ function PhoneMockup() {
         <div className="h-[46px] w-[3px] bg-gray-800 absolute -start-[17px] top-[124px] rounded-s-lg"></div>
         <div className="h-[46px] w-[3px] bg-gray-800 absolute -start-[17px] top-[178px] rounded-s-lg"></div>
         <div className="h-[64px] w-[3px] bg-gray-800 absolute -end-[17px] top-[142px] rounded-e-lg"></div>
-        <div className="rounded-[2rem] mx-auto overflow-hidden w-[222px] h-[472px] bg-white dark:bg-gray-800">
-          <img
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/mockup-2-light.png"
-            className=" w-[222px] h-[472px]"
-            alt=""
+        <div className="rounded-[2rem] mx-auto overflow-hidden w-[222px] h-[470px] bg-white dark:bg-gray-800">
+          {/* insert video here */}
+          <video 
+            // src={featurevideo}
+            src="https://jemputkahwin-bucket.s3.ap-southeast-1.amazonaws.com/video/featurevideo.mp4"
+            autoPlay 
+            loop 
+            muted 
+            playsInline 
+            className="w-full h-full object-cover"
           />
         </div>
       </div>

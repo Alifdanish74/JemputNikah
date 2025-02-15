@@ -7,6 +7,7 @@ import PreviewDesign from "../components/PreviewDesign";
 import FeaturesSection from "../components/FeatureSection";
 import PakejSection from "../components/PakejSection";
 import Footer from "../components/Footer";
+import FAQ from "../components/FAQ";
 // import WhatsAppButton from "../components/WhatsappButton";
 
 function HomePage() {
@@ -16,7 +17,7 @@ function HomePage() {
       <PreviewDesign />
       <FeaturesSection />
       <PakejSection />
-      
+      <FAQ/>
     </div>
   );
 }

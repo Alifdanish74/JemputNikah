@@ -5,17 +5,21 @@ import WhatsAppButton from "./WhatsappButton";
 import JemputKahwinLogo from "../assets/JemputKahwinLogo.png";
 
 function Footer() {
+  const YEAR = new Date().getUTCFullYear();
   return (
     <>
       <footer className="p-4 bg-white sm:p-6 dark:bg-gray-800">
         <div className="mx-auto max-w-screen-xl">
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
-              <a href="https://flowbite.com" className="flex items-center">
+              <a
+                href="https://www.jemputkahwin.com.my"
+                className="flex items-center"
+              >
                 <img
                   src={JemputKahwinLogo}
                   className="mr-3 h-8"
-                  alt="FlowBite Logo"
+                  alt="JemputKahwin Logo"
                 />
                 <span className="self-center text-2xl font-semibold whitespace-nowrap">
                   Jemput Kahwin
@@ -86,9 +90,23 @@ function Footer() {
           </div>
           <div className="sm:flex sm:items-center sm:justify-between">
             <span className="text-sm text-gray-500 sm:text-center ">
-              Hak Cipta Terpelihara © 2024
-              <a href="https://flowbite.com" className="hover:underline">
-                Jemput Kahwin™
+              Hak Cipta Terpelihara © {YEAR}
+              <a
+                href="https://www.jemputkahwin.com.my"
+                className="hover:underline"
+              >
+                {"\t"}Jemput Kahwin
+              </a>
+            </span>
+          </div>
+          <div className="sm:flex sm:items-center sm:justify-between">
+            <span className="text-sm text-gray-500 sm:text-center ">
+              Dimiliki sepenuhnya oleh
+              <a
+                href="https://www.jemputkahwin.com.my"
+                className="hover:underline text-blue-600"
+              >
+                {"\t"}IQDAN SOLUTION (JM1014208-H)
               </a>
             </span>
           </div>

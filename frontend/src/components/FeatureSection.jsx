@@ -11,7 +11,7 @@
     
   
     return (
-      <section className="bg-gray-50 py-16 px-4">
+      <section className="bg-blue-50 py-16 px-4">
         {/* Section header */}
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-800">

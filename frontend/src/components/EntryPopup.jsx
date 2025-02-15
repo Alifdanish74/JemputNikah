@@ -6,7 +6,7 @@ const EntryPopup = () => {
   const [promo, setPromo] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(true);
-  const DELAY_TIME = 3000; // Delay in milliseconds (3 seconds)
+  const DELAY_TIME = 4500; // Delay in milliseconds (3 seconds)
 
   useEffect(() => {
     // ✅ Detect if page is refreshed
