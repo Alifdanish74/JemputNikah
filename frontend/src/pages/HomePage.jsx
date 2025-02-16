@@ -22,7 +22,7 @@ function HomePage() {
         />
         <meta
           name="keywords"
-          content="kad kahwin digital, jemputan kahwin, wedding invitation, digital invitation"
+          content="kad kahwin, kad kawin, digital wedding card, kad kahwin digital, kad kawin digital, kad jemputan digital, kad kahwin murah, kad jemputan kahwin, kahwinnow, kad digital kahwinnow, kahwinnow digital card, digital kad, digital invitation, jemputan, contoh kad kahwin, kad undangan digital"
         />
         <meta name="author" content="Jemput Kahwin" />
 
@@ -35,10 +35,10 @@ function HomePage() {
           property="og:description"
           content="Tempah kad jemputan digital dengan pelbagai design yang menarik."
         />
-        {/* <meta
+        <meta
           property="og:image"
-          content="https://jemputkahwin.com.my/preview.jpg"
-        /> */}
+          content="https://jemputkahwin.com.my/assets/phone-mockup-removebg-CFus9G_1.png"
+        />
         <meta property="og:url" content="https://jemputkahwin.com.my/" />
         <meta property="og:type" content="website" />
 
@@ -52,10 +52,10 @@ function HomePage() {
           name="twitter:description"
           content="Tempah kad jemputan digital eksklusif untuk majlis perkahwinan anda."
         />
-        {/* <meta
+        <meta
           name="twitter:image"
-          content="https://jemputkahwin.com.my/preview.jpg"
-        /> */}
+          content="https://jemputkahwin.com.my//assets/popup.png"
+        />
       </Helmet>
       <div>
         <HeroSection />
