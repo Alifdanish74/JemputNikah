@@ -55,7 +55,7 @@ exports.getOrdersByUserId = async (req, res) => {
 
 exports.getOrdersByOrderNumber = async (req, res) => {
   try {
-    const orders = await Order.findOne({
+    const order = await Order.findOne({
       orderNumber: req.params.orderNumber,
     }).populate("weddingCardId");
     if (!order) {
@@ -64,7 +64,7 @@ exports.getOrdersByOrderNumber = async (req, res) => {
 
     // Extract metadata information
     const { weddingCardId } = order;
-    const title = `${weddingCardId.title} | ${weddingCardId.hashtag}`;
+    const title = `${weddingCardId.tajukMajlis} | ${weddingCardId.hashtag}`;
     const hashtag = `${weddingCardId.hashtag}`
     const description = "Tekan pautan untuk lihat jemputan";
     // const image = weddingCardId.imageUrl || "https://jemputkahwin.com.my/default-preview.jpg"; // Fallback image
@@ -96,7 +96,7 @@ exports.getOrdersByOrderNumber = async (req, res) => {
       </body>
       </html>
     `);
-    res.status(200).json(orders);
+    // res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: "Error fetching orders for user", error });
   }
