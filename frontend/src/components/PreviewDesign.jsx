@@ -47,7 +47,7 @@ function PreviewDesign() {
             </div>
           </motion.div>
           {/* Preview Card */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 ">
+          <div className="grid mx-20 grid-cols-2 sm:grid-cols-3 ">
             {designs.length > 0 &&
               designs.map((item, index) => (
                 <motion.div

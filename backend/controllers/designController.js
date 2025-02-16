@@ -254,7 +254,7 @@ const getTopDesignsByCategory = async (req, res) => {
       {
         $project: {
           _id: 0, // Remove the grouping key
-          topDesigns: { $slice: ['$topDesigns', 2] }, // Take only the first 3 designs per category
+          topDesigns: { $slice: ['$topDesigns', 1] }, // Take only the first 3 designs per category
         },
       },
       { $unwind: '$topDesigns' }, // Flatten the array of top designs

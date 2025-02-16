@@ -8,7 +8,7 @@ import mockup from "../../src/assets/phonemockupframe.png";
 function DesignCard({ itemName, itemImage, itemCategory }) {
   return (
 
-    <div className="relative mb-4 mx-auto w-full border-2 border-stone-300 bg-blue-50 rounded-lg shadow-md">
+    <div className="relative mb-4 mx-auto w-[240px] border-2 border-stone-300 bg-blue-50 rounded-lg shadow-md">
       {/* Image Container */}
       <div className="relative  h-[180px] md:h-[200px] ">
         {/* gambar design */}
@@ -17,6 +17,7 @@ function DesignCard({ itemName, itemImage, itemCategory }) {
           className="w-[90px] h-[170px] md:w-[90px] md:h-[200px] absolute left-1/2 top-1 transform -translate-x-1/2  z-0 rounded-2xl"
           src={itemImage}
           alt="item"
+          loading="lazy" 
         />
         {/* Gambar phone */}
         <img
@@ -24,6 +25,7 @@ function DesignCard({ itemName, itemImage, itemCategory }) {
           // className="w-[200px] h-[200px] absolute left-1/2 transform -translate-x-1/2  z-0"
           src={mockup}
           alt="item"
+          loading="lazy" 
         />
       </div>
 

@@ -21,6 +21,7 @@ import WeddingInfoPreview from "./WeddingInfoPreview";
 import GuestbookPreview from "./GuestbookPreview";
 import DoaPagePreview from "./DoaPagePreview";
 import FooterPreview from "./component/FooterPreview";
+import { Helmet } from "react-helmet-async";
 
 function BaseWeddingCard() {
   const [showEntrance, setShowEntrance] = useState(true);
@@ -73,6 +74,30 @@ function BaseWeddingCard() {
 
   return (
     <div className="main-div main-card h-screen overflow-auto overflow-x-hidden overflow-y-scroll no-scrollbar bg-white z-10">
+      {/* Dynamically set the page title */}
+      <Helmet>
+        <title>
+          {weddingCard?.tajukMajlis || "Jemput Kahwin"} | {weddingCard?.hashtag || ""}
+        </title>
+        <meta
+          name="description"  
+          content={"Tekan pautan untuk lihat jemputan"}
+        />
+        <meta
+          name="keywords"
+          content="kad kahwin digital, wedding invitation, digital card"
+        />
+        {/* Open Graph Meta Tags (For Facebook, WhatsApp, etc.) */}
+        <meta
+          property="og:title"
+          // content={`weddingCard?.title || "Jemput Kahwin"} | {weddingCard?.hashtag || ""`}
+          content={`${weddingCard?.tajukMajlis} | ${weddingCard?.hashtag}`} 
+        />
+        <meta
+          property="og:description"
+          content={"Tekan pautan untuk lihat jemputan"}
+        />
+      </Helmet>
       {showEntrance ? (
         isPreviewGeneral ? (
           <EntrancePreview
@@ -116,23 +141,21 @@ function BaseWeddingCard() {
             </section>
 
             <section id="weddinginfo" className="container mx-auto">
-              {isPreviewGeneral? <WeddingInfoPreview/> : <WeddingInfo />}
+              {isPreviewGeneral ? <WeddingInfoPreview /> : <WeddingInfo />}
             </section>
 
             <section id="border">
               <Border />
             </section>
 
-            
-
             {isPreviewGeneral ? (
               <section id="countdown">
-              <CountdownPreview />
-            </section>
+                <CountdownPreview />
+              </section>
             ) : (
               <section id="countdown">
-              <Countdown />
-            </section>
+                <Countdown />
+              </section>
             )}
 
             <section id="border">
@@ -140,7 +163,11 @@ function BaseWeddingCard() {
             </section>
 
             <section id="guestbook">
-              {isPreviewGeneral ? <GuestbookPreview/> : <Guestbook guestbookUpdated={guestbookUpdated} />}
+              {isPreviewGeneral ? (
+                <GuestbookPreview />
+              ) : (
+                <Guestbook guestbookUpdated={guestbookUpdated} />
+              )}
             </section>
 
             <section id="border-1">
@@ -148,10 +175,10 @@ function BaseWeddingCard() {
             </section>
 
             <section id="doa">
-              {isPreviewGeneral ? <DoaPagePreview/> : <DoaPage />}
+              {isPreviewGeneral ? <DoaPagePreview /> : <DoaPage />}
             </section>
 
-            {isPreviewGeneral ? <FooterPreview/> : <Footer />}
+            {isPreviewGeneral ? <FooterPreview /> : <Footer />}
           </div>
         </>
       )}

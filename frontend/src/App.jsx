@@ -39,6 +39,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import AdminVoucherManager from "./adminside/AdminAddVoucher";
 import EntryPopup from "./components/EntryPopup";
 import AdminUploadPromoPage from "./adminside/AdminUploadPromoPage";
+import { HelmetProvider } from "react-helmet-async";
 // import WeddingCardPreview from "./pages/WeddingCardPreview";
 
 axios.defaults.withCredentials = true;
@@ -71,6 +72,7 @@ function App() {
 
   return (
     <>
+    <HelmetProvider>
       <LoadingWrapper isLoading={loading}>
       {showHeaderFooter && <EntryPopup />}
         <UserContextProvider>
@@ -260,6 +262,7 @@ function App() {
           </WeddingCardProvider>
         </UserContextProvider>
       </LoadingWrapper>
+      </HelmetProvider>
     </>
   );
 }
