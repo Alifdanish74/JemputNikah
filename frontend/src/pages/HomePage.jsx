@@ -26,7 +26,6 @@ function HomePage() {
         />
         <meta name="author" content="Jemput Kahwin" />
 
-        {/* Open Graph Meta Tags (For Facebook, WhatsApp, etc.) */}
         <meta
           property="og:title"
           content="Jemput Kahwin - Kad Jemputan Digital"

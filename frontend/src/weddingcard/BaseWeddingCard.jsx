@@ -21,7 +21,7 @@ import WeddingInfoPreview from "./WeddingInfoPreview";
 import GuestbookPreview from "./GuestbookPreview";
 import DoaPagePreview from "./DoaPagePreview";
 import FooterPreview from "./component/FooterPreview";
-import { Helmet } from "react-helmet-async";
+
 
 function BaseWeddingCard() {
   const [showEntrance, setShowEntrance] = useState(true);
@@ -75,29 +75,7 @@ function BaseWeddingCard() {
   return (
     <div className="main-div main-card h-screen overflow-auto overflow-x-hidden overflow-y-scroll no-scrollbar bg-white z-10">
       {/* Dynamically set the page title */}
-      <Helmet>
-        <title>
-          {weddingCard?.tajukMajlis || "Jemput Kahwin"} | {weddingCard?.hashtag || ""}
-        </title>
-        <meta
-          name="description"  
-          content={"Tekan pautan untuk lihat jemputan"}
-        />
-        <meta
-          name="keywords"
-          content="kad kahwin digital, wedding invitation, digital card"
-        />
-        {/* Open Graph Meta Tags (For Facebook, WhatsApp, etc.) */}
-        <meta
-          property="og:title"
-          // content={`weddingCard?.title || "Jemput Kahwin"} | {weddingCard?.hashtag || ""`}
-          content={`${weddingCard?.tajukMajlis} | ${weddingCard?.hashtag}`} 
-        />
-        <meta
-          property="og:description"
-          content={"Tekan pautan untuk lihat jemputan"}
-        />
-      </Helmet>
+      
       {showEntrance ? (
         isPreviewGeneral ? (
           <EntrancePreview
