@@ -55,48 +55,10 @@ exports.getOrdersByUserId = async (req, res) => {
 
 exports.getOrdersByOrderNumber = async (req, res) => {
   try {
-    const order = await Order.findOne({
+    const orders = await Order.findOne({
       orderNumber: req.params.orderNumber,
     }).populate("weddingCardId");
-    if (!order) {
-      return res.status(404).send("<h1>Order not found</h1>");
-    }
-
-    // Extract metadata information
-    const { weddingCardId } = order;
-    const title = `${weddingCardId.tajukMajlis} | ${weddingCardId.hashtag}`;
-    const hashtag = `${weddingCardId.hashtag}`
-    const description = "Tekan pautan untuk lihat jemputan";
-    // const image = weddingCardId.imageUrl || "https://jemputkahwin.com.my/default-preview.jpg"; // Fallback image
-
-    // Return HTML with metadata
-    res.send(`
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>${title}</title>
-        
-        <!-- Open Graph Meta Tags for WhatsApp & Facebook -->
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="${title}">
-        <meta property="og:description" content="${description}">
-        <meta property="og:url" content="https://jemputkahwin.com.my/weddingcard/${hashtag}/${order.orderNumber}">
-        
-        <!-- Twitter Card -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="${title}">
-        <meta name="twitter:description" content="${description}">
-
-        <meta http-equiv="refresh" content="0;url=https://jemputkahwin.com.my/weddingcard/${hashtag}/${order.orderNumber}">
-      </head>
-      <body>
-        <p>Redirecting...</p>
-      </body>
-      </html>
-    `);
-    // res.status(200).json(orders);
+    res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: "Error fetching orders for user", error });
   }
