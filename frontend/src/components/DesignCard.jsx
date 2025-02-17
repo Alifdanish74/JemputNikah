@@ -8,7 +8,7 @@ import mockup from "../../src/assets/phonemockupframe.png";
 function DesignCard({ itemName, itemImage, itemCategory }) {
   return (
 
-    <div className="relative mb-4 mx-auto w-[240px] border-2 border-stone-300 bg-blue-50 rounded-lg shadow-md">
+    <div className="relative mb-4 mx-auto w-full border-2 border-stone-300 bg-blue-50 rounded-lg shadow-md">
       {/* Image Container */}
       <div className="relative  h-[180px] md:h-[200px] ">
         {/* gambar design */}
