@@ -58,9 +58,76 @@ exports.getOrdersByOrderNumber = async (req, res) => {
     const orders = await Order.findOne({
       orderNumber: req.params.orderNumber,
     }).populate("weddingCardId");
+
+    if (!orders) {
+      return res.status(404).json({ message: "Order not found" });
+  }
+    
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: "Error fetching orders for user", error });
+  }
+};
+
+// ✅ Serve Open Graph metadata for WhatsApp previews
+exports.getOrderMetadata = async (req, res) => {
+  try {
+      const { orderNumber } = req.params;
+
+      // Fetch order details based on orderNumber
+      const order = await Order.findOne({ orderNumber }).populate("weddingCardId");
+
+      if (!order) {
+          return res.status(404).send("Order not found");
+      }
+
+      // Construct Open Graph metadata dynamically
+      const metadata = {
+          title: `${order.weddingCardId.tajukMajlis} | ${order.weddingCardId.hashtag}`,
+          description: `Klik pautan untuk lihat jemputan`,
+          image: order.weddingCardId?.designImageUrl || "https://www.jemputkahwin.com.my/assets/phone-mockup-removebg-CFus9G_1.png",
+          url: `https://jemputkahwin.com.my/weddingcard/${order.weddingCardId.hashtag}/${orderNumber}`,
+      };
+
+      // Send Open Graph metadata in HTML response
+      const htmlContent = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>${metadata.title}</title>
+          
+          <!-- Open Graph Meta Tags -->
+          <meta property="og:title" content="${metadata.title}" />
+          <meta property="og:description" content="${metadata.description}" />
+          <meta property="og:image" content="${metadata.image}" />
+          <meta property="og:url" content="${metadata.url}" />
+          <meta property="og:type" content="website" />
+
+          <!-- Twitter Cards -->
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="${metadata.title}" />
+          <meta name="twitter:description" content="${metadata.description}" />
+          <meta name="twitter:image" content="${metadata.image}" />
+
+          <!-- Other meta -->
+          <meta name="robots" content="index, follow">
+      </head>
+      <body>
+          <h1>${metadata.title}</h1>
+          <p>${metadata.description}</p>
+          <script>
+              window.location.href = "/weddingcard/${order.weddingCardId.hashtag}/${orderNumber}"; // Redirect to React App
+          </script>
+      </body>
+      </html>
+      `;
+
+      res.send(htmlContent);
+  } catch (error) {
+      console.error("Error fetching order metadata:", error);
+      res.status(500).send("Internal Server Error");
   }
 };
 

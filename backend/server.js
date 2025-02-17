@@ -74,6 +74,7 @@ app.use("/api/wedding-cards", weddingCardRoutes);
 // Use the admin design routes
 app.use("/api/admin", adminRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/weddingcard", orderRoutes);
 app.use("/api/songs", songRoutes);
 app.use("/api/rsvp", rsvpRoutes);
 app.use("/api/wishlist", wishlistRoutes);

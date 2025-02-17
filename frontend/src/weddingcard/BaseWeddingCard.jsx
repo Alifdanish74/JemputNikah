@@ -22,7 +22,6 @@ import GuestbookPreview from "./GuestbookPreview";
 import DoaPagePreview from "./DoaPagePreview";
 import FooterPreview from "./component/FooterPreview";
 
-
 function BaseWeddingCard() {
   const [showEntrance, setShowEntrance] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -75,7 +74,7 @@ function BaseWeddingCard() {
   return (
     <div className="main-div main-card h-screen overflow-auto overflow-x-hidden overflow-y-scroll no-scrollbar bg-white z-10">
       {/* Dynamically set the page title */}
-      
+
       {showEntrance ? (
         isPreviewGeneral ? (
           <EntrancePreview
