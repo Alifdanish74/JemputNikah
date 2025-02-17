@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllOrders, getOrderById, deleteOrder, getOrdersByUserId,updateOrder, getOrdersByOrderNumber, deleteOrderAndWeddingCard, getOrderMetadata  } = require('../controllers/orderController');
+const { getAllOrders, getOrderById, deleteOrder, getOrdersByUserId,updateOrder, getOrdersByOrderNumber, deleteOrderAndWeddingCard } = require('../controllers/orderController');
 const authMiddleware = require('../middleware/authMiddleware'); // Use authMiddleware for protected routes
 const adminMiddleware = require('../middleware/adminMiddleware');
 const router = express.Router();
@@ -15,9 +15,6 @@ router.get('/user/:userId', getOrdersByUserId);
 
 // GET: Get a single order by user ID
 router.get('/order/:orderNumber', getOrdersByOrderNumber);
-
-// ✅ Serve Open Graph metadata for WhatsApp previews
-router.get("/:hashtag/:orderNumber", getOrderMetadata);
 
 // Update an order (PUT)
 router.put("/update/:id", updateOrder);

@@ -17,6 +17,8 @@ const paymentRoutes = require("./routes/payment");
 const voucherRoutes = require("./routes/voucher");
 const promoRoutes = require("./routes/promo");
 
+const Order = require("./models/Order");
+
 const app = express();
 // Middleware to parse URL-encoded data (for form submissions)
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
@@ -84,6 +86,77 @@ app.use("/api/promos", promoRoutes);
 
 app.get("/test", (req, res) => {
   res.send("API is working");
+});
+
+const FRONTEND_URL = "https://www.jemputkahwin.com.my";
+
+// ✅ Serve Open Graph metadata for WhatsApp previews **before React serves index.html**
+app.get("/weddingcard/:hashtag/:orderNumber", async (req, res) => {
+  try {
+    const { orderNumber } = req.params;
+
+    // Fetch order details from database
+    const order = await Order.findOne({ orderNumber }).populate("weddingCardId");
+
+    if (!order) {
+      return res.status(404).send("Order not found");
+    }
+
+    // Construct Open Graph metadata dynamically
+    const metadata = {
+      title: `${order.weddingCardId.tajukMajlis} | ${order.weddingCardId.hashtag}`,
+      description: "Klik pautan untuk lihat jemputan",
+      image: order.weddingCardId?.designImageUrl || `${FRONTEND_URL}/assets/phone-mockup-removebg-CFus9G_1.png`,
+      url: `${FRONTEND_URL}/weddingcard/${order.weddingCardId.hashtag}/${orderNumber}`,
+    };
+
+    // Serve Open Graph metadata as an HTML response
+    const htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${metadata.title}</title>
+        
+        <!-- Open Graph Meta Tags -->
+        <meta property="og:title" content="${metadata.title}" />
+        <meta property="og:description" content="${metadata.description}" />
+        <meta property="og:image" content="${metadata.image}" />
+        <meta property="og:url" content="${metadata.url}" />
+        <meta property="og:type" content="website" />
+
+        <!-- Twitter Cards -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="${metadata.title}" />
+        <meta name="twitter:description" content="${metadata.description}" />
+        <meta name="twitter:image" content="${metadata.image}" />
+
+        <!-- Other meta -->
+        <meta name="robots" content="index, follow">
+    </head>
+    <body>
+        <h1>${metadata.title}</h1>
+        <p>${metadata.description}</p>
+        <script>
+            window.location.href = "${metadata.url}"; // ✅ Redirect to Frontend
+        </script>
+    </body>
+    </html>
+    `;
+
+    res.send(htmlContent);
+  } catch (error) {
+    console.error("Error fetching order metadata:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+// ✅ Serve React frontend for all other routes **only if Open Graph metadata was not needed**
+app.use(express.static(path.join(__dirname, "client/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
 
 // Serve React Frontend
