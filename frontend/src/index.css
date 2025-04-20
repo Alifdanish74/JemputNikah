@@ -34,6 +34,7 @@ html {
   }
   
   .main-card {
+    max-width: 400px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -115,7 +116,7 @@ html {
     background-image: inherit; /* Use the inherited background */
     background-size: cover;
     background-position: center;
-    filter: blur(3px); /* Adjust blur intensity */
+    filter: blur(var(--blur-amount, 3px)); /* Use CSS variable with fallback */
     z-index: 0; /* Ensures blur effect stays behind content */
 }
 

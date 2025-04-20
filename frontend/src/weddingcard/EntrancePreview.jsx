@@ -43,7 +43,7 @@ const EntrancePreview = ({ onClose, setIsPlaying }) => {
           animate={isOpen ? "open" : "closed"}
           variants={variants}
           transition={{ duration: 0.8 }}
-          className="flex flex-col pb-10 pt-20 text-center h-screen main-card  justify-center items-center bg-blurred"
+          className="flex flex-col pb-10  pt-20 text-center h-screen main-card  justify-center items-center bg-blurred"
           style={{
             backgroundImage: design ? `url(${design.image})` : "none", // Use the design image if available
             backgroundSize: "cover",

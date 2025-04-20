@@ -102,6 +102,18 @@ function RekodTempahanPage() {
     return <Navigate to={"/login"} />;
   }
 
+  const formatDateToReadable = (isoDate) => {
+    if (!isoDate) return '';
+    const date = new Date(isoDate);
+    return date.toLocaleDateString('ms-MY', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    });
+  };
+  
+  
+
   return (
     <>
       <LoadingWrapper isLoading={loading}>
@@ -288,12 +300,40 @@ function RekodTempahanPage() {
                                       {/* hello {order.weddingCardId} */}
 
                                       <CopyToClipboardButton
-                                        content={"Hello"}
-                                      />
+                                          content={`👰🏻‍♀🤵🏻UNDANGAN WALIMATUL URUS 🤍
+
+‎بِسۡـــــــــمِ ٱللهِ ٱلرَّحۡـمَـٰنِ ٱلرَّحِـــــــيمِ
+‎السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ
+
+Bismillahirrahmanirrahim.
+Assalamualaikum W.B.T & Salam Sejahtera.
+
+Dengan penuh kesyukuran ke hadrat Ilahi, kami sekeluarga ingin menjemput Tuan/Puan/Saudara/Saudari ke majlis perkahwinan anakkanda kami:
+
+${order.weddingCardId?.namaPenuhLelaki}
+                     &
+${order.weddingCardId?.namaPenuhPerempuan}
+
+🗓 Pada ${formatDateToReadable(order.weddingCardId?.tarikhMajlis)}
+
+🏠 Bertempat di :
+${order.weddingCardId?.locationMajlis}
+
+⏰ Pada jam : ${order.weddingCardId?.majlisStart} - ${order.weddingCardId?.majlisEnd}
+
+✉ RSVP : Bagi tetamu yang hadir, sila isi RSVP sebelum ${formatDateToReadable(order.weddingCardId?.maxDate)}
+
+Link RSVP 👉🏻 https://www.jemputkahwin.com.my/weddingcard/${order.weddingCardId?.hashtag}/${order.orderNumber}
+
+Semoga dengan kehadiran Tuan/Puan/Saudara/Saudari akan lebih menyerikan dan memberkati majlis yang bakal berlangsung nanti.
+Doakan kelancaran dan segala urusan kami dipermudahkan.`}
+/>
+
                                     </div>
                                   </>
                                 )}
                               </td>
+                              
 
                               <td className=" py-3 border min-w-[250px] ">
                                 <div className="grid grid-cols-2 gap-y-2 items-center justify-center">

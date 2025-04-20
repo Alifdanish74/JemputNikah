@@ -21,6 +21,7 @@ import WeddingInfoPreview from "./WeddingInfoPreview";
 import GuestbookPreview from "./GuestbookPreview";
 import DoaPagePreview from "./DoaPagePreview";
 import FooterPreview from "./component/FooterPreview";
+import EntranceJK00012 from "./EntranceJK00012";
 
 function BaseWeddingCard() {
   const [showEntrance, setShowEntrance] = useState(true);
@@ -58,6 +59,7 @@ function BaseWeddingCard() {
     "/preview",
     "/preview/Bali"
   ); // Correct usage of includes
+  const isJK00012 = location.pathname.includes("/JK00012");
 
   // Dynamic background style
   const backgroundStyle = {
@@ -81,6 +83,8 @@ function BaseWeddingCard() {
             onClose={handleEntranceClose}
             setIsPlaying={setIsPlaying}
           />
+        ) : isJK00012 ? (
+          <EntranceJK00012 onClose={handleEntranceClose} setIsPlaying={setIsPlaying} />
         ) : (
           <Entrance onClose={handleEntranceClose} setIsPlaying={setIsPlaying} />
         )
