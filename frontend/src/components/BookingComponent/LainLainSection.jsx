@@ -49,7 +49,7 @@ function LainLainSection({
     handleFormDataChange("doa", inputText); // Store updated doa text in formData
   };
 
-  console.log("Is Edit Mode in LainLain Section:", isEditMode);
+  console.log("Is Edit Mode in LainLain Section 2.0:", isEditMode);
 
   useEffect(() => {
     // Fetch the list of songs from the backend
@@ -88,7 +88,7 @@ function LainLainSection({
       <h1 className="mb-4 text-xl font-extrabold tracking-tight text-gray-900 sm:mb-6 leading-tight ">
         Lain Lain Maklumat
       </h1>
-      <form action="#">
+      <form onSubmit={submit} action="#">
         <div className="grid gap-5 my-6">
           {/* Musik background */}
           <div>
@@ -251,7 +251,7 @@ function LainLainSection({
               htmlFor="hashtag"
               className="block mb-2 text-sm font-medium text-gray-900 "
             >
-              HashTag
+              HashTag (*)
             </label>
             
             <input
@@ -309,7 +309,7 @@ function LainLainSection({
             <button
               type="submit"
               className="w-3/4 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-5 py-2.5 sm:py-3.5 text-center"
-              onClick={submit}
+              // onClick={submit}
             >
               {isEditMode ? "Update" : "Submit"}
             </button>
