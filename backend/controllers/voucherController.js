@@ -64,4 +64,17 @@ exports.getVouchers = async (req, res) => {
       res.status(500).json({ message: 'Internal server error' });
     }
   };
+
+  //delete voucher
+  exports.deleteVoucher = async (req, res) => {
+    try {
+      const voucher = await Voucher.findByIdAndDelete(req.params.id); // Delete voucher by ID
+      if (!voucher) {
+        return res.status(404).json({ message: "voucher not found" });
+      }
+      res.status(200).json({ message: "voucher deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting the order", error });
+    }
+  };
   

@@ -69,7 +69,7 @@ const AdminVoucherManager = () => {
   const handleDeleteVoucher = async (id) => {
     try {
       setLoading(true);
-      await axios.delete(`/api/vouchers/${id}`);
+      await axios.delete(`/api/vouchers//delete/${id}`);
       fetchVouchers(); // Refresh the voucher list
     } catch (err) {
       console.error("Error deleting voucher:", err);

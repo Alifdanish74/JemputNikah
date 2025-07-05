@@ -11,4 +11,7 @@ router.post('/create', voucherController.createVoucher);
 // Route to get all vouchers
 router.get('/', voucherController.getVouchers);
 
+// Route to delete certain voucher
+router.get('/delete', voucherController.deleteVoucher)
+
 module.exports = router;

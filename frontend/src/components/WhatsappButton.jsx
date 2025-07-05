@@ -2,11 +2,9 @@
 import { FaWhatsapp } from "react-icons/fa";
 
 const WhatsAppButton = () => {
-  
-
   return (
     <a
-      href={"http://wasap.my/601127877926/Hi! Nak tempah kad jemputan digital."}
+      href="https://wa.me/601127877926?text=Hi! Nak tempah kad jemputan digital."
       target="_blank"
       rel="noopener noreferrer"
       className="whatsapp-float"
