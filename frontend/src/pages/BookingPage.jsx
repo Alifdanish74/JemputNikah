@@ -446,7 +446,7 @@ function BookingPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    alert("✅ Submit button clicked 3.0");
+    alert("✅ Submit button clicked 4.0");
 
     // Step 1: Check form fields
     alert(
@@ -499,11 +499,28 @@ function BookingPage() {
           alert(`📡 Sending ${isPostRequest ? "POST" : "PUT"} request to: ${url}`);
       // Visual confirmation for debugging
 
-        await axios({
-          method: isPostRequest ? "POST" : "PUT",
-          url: url,
-          data: formDataObj,
-        });
+        // await axios({
+        //   method: isPostRequest ? "POST" : "PUT",
+        //   url: url,
+        //   data: formDataObj,
+        // });
+
+        if (isPostRequest) {
+          const jsonBody = {
+            ...formData,
+            tarikhMajlis: tarikhMajlisUTC,
+          };
+        
+          alert("📦 Sending JSON instead of FormData (for mobile fix)");
+        
+          await axios.post(url, jsonBody, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+        } else {
+          await axios.put(url, formDataObj); // still send FormData for update if needed
+        }
 
         // Send email notification only for POST requests
         if (isPostRequest) {
