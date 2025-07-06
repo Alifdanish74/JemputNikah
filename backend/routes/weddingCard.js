@@ -29,7 +29,7 @@ const axios = require("axios");
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Create a new wedding card
-router.post("/", authMiddleware, createWeddingCard);
+router.post("/", createWeddingCard);
 
 // debug
 router.post("/debug", debugWeddingCard );
