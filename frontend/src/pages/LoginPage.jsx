@@ -21,7 +21,13 @@ function LoginPage() {
   async function handleLoginUser(e) {
     e.preventDefault();
     try {
-      const { data } = await axios.post("/api/auth/login", { email, password });
+      const { data } = await axios.post(
+        "/api/auth/login",
+        { email, password },
+        {
+          withCredentials: true, // ✅ this tells browser to store the cookie
+        }
+      );
       setUser(data);
       toast.success("Login successfull!", {
         autoClose: 500,
@@ -46,9 +52,15 @@ function LoginPage() {
     try {
       const { credential } = credentialResponse; // Token from Google
       // console.log("Google Credential:", credential); // Log for debugging
-      const { data } = await axios.post("/api/auth/google-login", {
-        token: credential,
-      });
+      const { data } = await axios.post(
+        "/api/auth/google-login",
+        {
+          token: credential,
+        },
+        {
+          withCredentials: true, // ✅ this tells browser to store the cookie
+        }
+      );
       console.log("Login Response:", data);
       setUser(data);
       toast.success("Google login successful!", {
@@ -106,10 +118,11 @@ function LoginPage() {
                 </svg>
                 <div>
                   <h3 className="mb-2 text-xl font-bold leading-none text-gray-900 dark:text-white">
-                  Cipta Kad Kahwin Digital Anda Sekarang
+                    Cipta Kad Kahwin Digital Anda Sekarang
                   </h3>
                   <p className="mb-2 text-gray-500 dark:text-gray-400">
-                  Rekabentuk elegan, mudah dihantar, dan pantas untuk jemputan perkahwinan istimewa anda.
+                    Rekabentuk elegan, mudah dihantar, dan pantas untuk jemputan
+                    perkahwinan istimewa anda.
                   </p>
                 </div>
               </div>
@@ -128,10 +141,11 @@ function LoginPage() {
                 </svg>
                 <div>
                   <h3 className="mb-2 text-xl font-bold leading-none text-gray-900 dark:text-white">
-                  Kad Jemputan Digital, Kenangan Abadi
+                    Kad Jemputan Digital, Kenangan Abadi
                   </h3>
                   <p className="mb-2 text-gray-500 dark:text-gray-400">
-                  Jemput tetamu dengan cara moden, pantas, dan mesra alam. Daftar sekarang!
+                    Jemput tetamu dengan cara moden, pantas, dan mesra alam.
+                    Daftar sekarang!
                   </p>
                 </div>
               </div>
@@ -150,10 +164,11 @@ function LoginPage() {
                 </svg>
                 <div>
                   <h3 className="mb-2 text-xl font-bold leading-none text-gray-900 dark:text-white">
-                  Jemputan Perkahwinan Lebih Mudah dan Bergaya
+                    Jemputan Perkahwinan Lebih Mudah dan Bergaya
                   </h3>
                   <p className="mb-2 text-gray-500 dark:text-gray-400">
-                  Kad digital mudah, elegan, dan cepat dihantar. Log masuk untuk bermula.
+                    Kad digital mudah, elegan, dan cepat dihantar. Log masuk
+                    untuk bermula.
                   </p>
                 </div>
               </div>
