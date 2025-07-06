@@ -500,37 +500,38 @@ function BookingPage() {
           alert(`📡 Sending ${isPostRequest ? "POST" : "PUT"} request to: ${url}`);
       // Visual confirmation for debugging
 
-        // await axios({
-        //   method: isPostRequest ? "POST" : "PUT",
-        //   url: url,
-        //   data: formDataObj,
-        // });
+        await axios({
+          method: isPostRequest ? "POST" : "PUT",
+          url: url,
+          data: formDataObj,
+          withCredentials: true,
+        });
 
-        if (isPostRequest) {
-          try {
-            const jsonBody = {
-              ...formData,
-              tarikhMajlis: tarikhMajlisUTC,
-            };
+        // if (isPostRequest) {
+        //   try {
+        //     const jsonBody = {
+        //       ...formData,
+        //       tarikhMajlis: tarikhMajlisUTC,
+        //     };
           
-            alert("📦 Sending JSON instead of FormData (for mobile fix)");
+        //     alert("📦 Sending JSON instead of FormData (for mobile fix)");
           
-            const response = await axios.post(url, jsonBody, {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            });
+        //     const response = await axios.post(url, jsonBody, {
+        //       headers: {
+        //         "Content-Type": "application/json",
+        //       },
+        //     });
           
-            alert("✅ Create Success! Server responded: " + JSON.stringify(response.data));
-            setOpenModal(true);
+        //     alert("✅ Create Success! Server responded: " + JSON.stringify(response.data));
+        //     setOpenModal(true);
           
-          } catch (error) {
-            alert("❌ Error during POST: " + (error?.response?.data?.message || error.message || "Unknown error"));
-            console.error("Mobile POST error:", error);
-          }
-        } else {
-          await axios.put(url, formDataObj); // still send FormData for update if needed
-        }
+        //   } catch (error) {
+        //     alert("❌ Error during POST: " + (error?.response?.data?.message || error.message || "Unknown error"));
+        //     console.error("Mobile POST error:", error);
+        //   }
+        // } else {
+        //   await axios.put(url, formDataObj); // still send FormData for update if needed
+        // }
 
         // Send email notification only for POST requests
         if (isPostRequest) {
