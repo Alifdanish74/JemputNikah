@@ -493,8 +493,8 @@ function BookingPage() {
       try {
         const isPostRequest = !isEditMode; // Determine if it's a POST request
         const url = isPostRequest
-          // ? "/api/wedding-cards" // POST URL for creating
-          ? "/api/wedding-cards/debug" // POST URL for debug
+          ? "/api/wedding-cards" // POST URL for creating
+          // ? "/api/wedding-cards/debug" // POST URL for debug
           : `/api/wedding-cards/${weddingCardId}`; // PUT URL for updating
 
           alert(`📡 Sending ${isPostRequest ? "POST" : "PUT"} request to: ${url}`);
