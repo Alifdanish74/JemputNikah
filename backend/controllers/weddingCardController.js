@@ -262,3 +262,8 @@ exports.getWeddingCardInfo = async (req, res) => {
       .json({ message: "Error fetching wedding card info", error });
   }
 };
+
+exports.debugWeddingCard = async (req, res) => {
+  console.log("📡 Debug POST received:", req.body);
+  res.json({ status: "ok", received: req.body });
+};

@@ -13,6 +13,7 @@ const express = require("express");
 const authMiddleware = require("../middleware/authMiddleware");
 const {
   createWeddingCard,
+  debugWeddingCard,
   getWeddingCardById,
   getAllWeddingCards,
   updateWeddingCard,
@@ -29,6 +30,9 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 // Create a new wedding card
 router.post("/", authMiddleware, createWeddingCard);
+
+// debug
+router.post("/debug", debugWeddingCard );
 
 // Get a wedding card by ID
 router.get("/:id", getWeddingCardById);
