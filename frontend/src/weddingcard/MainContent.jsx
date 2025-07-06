@@ -137,6 +137,9 @@ function MainContent() {
                   scale: 1.1,
                   transition: { duration: 0.4, opacity: 1 },
                 }}
+                className={`${
+                  weddingCard.jenisFont === "font-LibreCaslonText" ? "my-5" : ""
+                }`}
               >
                 &
               </motion.p>
@@ -171,6 +174,9 @@ function MainContent() {
                   scale: 1.1,
                   transition: { duration: 0.4, opacity: 1 },
                 }}
+                className={`${
+                  weddingCard.jenisFont === "font-LibreCaslonText" ? "my-5" : ""
+                }`}
               >
                 &
               </motion.p>
@@ -240,7 +246,9 @@ function MainContent() {
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1, duration: 1 }}
-        className={`text-3xl mt-4  ${weddingCard.jenisFont}`}
+        className={`text-3xl mt-4  ${weddingCard.jenisFont} ${
+          weddingCard.jenisFont === "font-LibreCaslonText" ? "text-xl" : ""
+        }`}
       >
         {weddingCard.locationMajlis}
       </motion.p>

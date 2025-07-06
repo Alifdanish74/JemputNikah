@@ -445,10 +445,12 @@ function BookingPage() {
   // BookingPage.jsx
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
 
     // Combine tarikhMajlis and majlisStart into a single datetime
     const tarikhMajlisDate = new Date(formData.tarikhMajlis); // Assuming this is a Date object
-    const [hours, minutes] = formData.majlisStart.split(":").map(Number); // Parse time (HH:mm)
+    // const [hours, minutes] = formData.majlisStart.split(":").map(Number); // Parse time (HH:mm)
+    const [hours, minutes] = (formData.majlisStart || "10:00").split(":").map(Number);
 
     // Manually set the time in local timezone
     tarikhMajlisDate.setHours(hours + 8, minutes, 0, 0); // Adjust by subtracting 8 hours for UTC+8

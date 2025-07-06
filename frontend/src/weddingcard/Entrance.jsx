@@ -85,6 +85,7 @@ const Entrance = ({ onClose, setIsPlaying }) => {
                         scale: 1.1,
                         transition: { duration: 0.4, opacity: 1 },
                       }}
+                      className="my-5"
                     >
                       &
                     </motion.p>
@@ -119,6 +120,7 @@ const Entrance = ({ onClose, setIsPlaying }) => {
                         scale: 1.1,
                         transition: { duration: 0.4, opacity: 1 },
                       }}
+                      className="my-5"
                     >
                       &
                     </motion.p>

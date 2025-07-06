@@ -77,7 +77,17 @@
   }
   
   .font-LibreCaslonText {
-    font-family: 'Libre Caslon Text', serif;
+    font-family: 'Libre Caslon Text', cursive;
+  }
+
+  .font-LibreCaslonText > h1 {
+    font-family: 'Libre Caslon Text', cursive;
+    font-size: 30px !important;
+  }
+
+  .font-LibreCaslonText > p {
+    font-family: 'Libre Caslon Text', cursive;
+    font-size: 30px !important;
   }
   
   .font-KaushanScript {
