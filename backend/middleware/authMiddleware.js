@@ -5,7 +5,11 @@ const jwtSecret = process.env.JWT_SECRET;
 
 // Middleware to verify token and attach user to request
 const authMiddleware = async (req, res, next) => {
-  const { token } = req.cookies;
+  const cookieToken = req.cookies?.token;
+  const headerToken = req.headers.authorization?.split(" ")[1];
+
+  const token = cookieToken || headerToken;
+
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized: No token provided" });
