@@ -3,42 +3,61 @@ const User = require("../models/User");
 
 const jwtSecret = process.env.JWT_SECRET;
 
-// Middleware to verify token and attach user to request
 const authMiddleware = async (req, res, next) => {
-  const cookieToken = req.cookies?.token;
-  const headerToken = req.headers.authorization?.split(" ")[1];
+  try {
+    // Log tokens for debugging
+    console.log("🔐 Checking authentication...");
+    console.log("Cookies:", req.cookies);
+    console.log("Authorization header:", req.headers.authorization);
 
-  const token = cookieToken || headerToken;
+    // Extract token from cookie or Authorization header
+    const cookieToken = req.cookies?.token;
+    const authHeader = req.headers.authorization;
 
-
-  if (!token) {
-    return res.status(401).json({ message: "Unauthorized: No token provided" });
-  }
-
-  jwt.verify(token, jwtSecret, async (err, decoded) => {
-    if (err) {
-      if (err.name === "TokenExpiredError") {
-        console.log("Token has expired");
-        res.clearCookie("token", { httpOnly: true });
-        return res.status(401).json({ message: "Token expired", code: "TOKEN_EXPIRED" });
-      }
-      return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    let headerToken = null;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      headerToken = authHeader.split(" ")[1];
     }
 
-    try {
+    const token = cookieToken || headerToken;
+
+    if (!token) {
+      console.warn("❌ No token provided in cookies or headers");
+      return res.status(401).json({ message: "Unauthorized: No token provided" });
+    }
+
+    // Verify token
+    jwt.verify(token, jwtSecret, async (err, decoded) => {
+      if (err) {
+        console.error("❌ Token verification failed:", err.name);
+
+        if (err.name === "TokenExpiredError") {
+          res.clearCookie("token", { httpOnly: true });
+          return res.status(401).json({
+            message: "Token expired",
+            code: "TOKEN_EXPIRED"
+          });
+        }
+
+        return res.status(401).json({ message: "Unauthorized: Invalid token" });
+      }
+
+      // Token is valid, find user
       const user = await User.findById(decoded.id);
       if (!user) {
+        console.warn("❌ User not found for decoded token:", decoded);
         return res.status(401).json({ message: "Unauthorized: User not found" });
       }
 
+      // Attach user to request
       req.user = user;
+      console.log("✅ Authenticated user:", user.email || user._id);
       next();
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching user data", error });
-    }
-  });
+    });
+  } catch (error) {
+    console.error("🔥 AuthMiddleware internal error:", error);
+    res.status(500).json({ message: "Internal server error in auth middleware", error });
+  }
 };
 
-
-
-module.exports =  authMiddleware ;
+module.exports = authMiddleware;
