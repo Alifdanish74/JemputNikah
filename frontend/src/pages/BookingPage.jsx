@@ -469,7 +469,7 @@ function BookingPage() {
     });
 
     if (validateSection()) {
-      alert("Submit button clicked"); // Visual confirmation for debugging
+      alert("Submit button clicked 2.0"); // Visual confirmation for debugging
       try {
         const isPostRequest = !isEditMode; // Determine if it's a POST request
         const url = isPostRequest
