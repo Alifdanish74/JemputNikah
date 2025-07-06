@@ -216,6 +216,7 @@ exports.updateWeddingCard = [
         { new: true }
       );
       res.json(updatedWeddingCard);
+      console.log("Success updating wedding card:", updatedWeddingCard);
     } catch (error) {
       console.error("Error updating wedding card:", error);
       res.status(500).json({ message: "Error updating wedding card", error });
