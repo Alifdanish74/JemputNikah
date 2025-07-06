@@ -446,7 +446,6 @@ function BookingPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    alert("Submit button clicked"); // Visual confirmation for debugging
 
     // Combine tarikhMajlis and majlisStart into a single datetime
     const tarikhMajlisDate = new Date(formData.tarikhMajlis); // Assuming this is a Date object
@@ -470,6 +469,7 @@ function BookingPage() {
     });
 
     if (validateSection()) {
+      alert("Submit button clicked"); // Visual confirmation for debugging
       try {
         const isPostRequest = !isEditMode; // Determine if it's a POST request
         const url = isPostRequest
