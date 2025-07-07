@@ -58,10 +58,16 @@ function RekodTempahanPage() {
   const handleDelete = async () => {
     if (!selectedOrderId) return;
     try {
+      const token = localStorage.getItem("jwtToken"); 
       const response = await axios.delete(
         `/api/orders/delete/${selectedOrderId}`,
+        // {
+        //   withCredentials: true, // If using cookies for authentication
+        // }
         {
-          withCredentials: true, // If using cookies for authentication
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
         }
       );
       //   alert(response.data.message);

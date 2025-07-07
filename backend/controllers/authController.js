@@ -52,6 +52,7 @@ const login = async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       _id: user._id,
+      token // <--- Add this!
     });
   } catch (error) {
     res.status(500).json({ message: "Login failed", error });

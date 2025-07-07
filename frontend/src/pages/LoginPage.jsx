@@ -28,6 +28,7 @@ function LoginPage() {
           withCredentials: true, // ✅ this tells browser to store the cookie
         }
       );
+      localStorage.setItem("jwtToken", data.token);
       setUser(data);
       toast.success("Login successfull!", {
         autoClose: 500,

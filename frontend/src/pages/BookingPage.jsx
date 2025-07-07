@@ -448,8 +448,6 @@ function BookingPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    alert("✅ Submit button clicked 5.0");
-
 
     // Combine tarikhMajlis and majlisStart into a single datetime
     const tarikhMajlisDate = new Date(formData.tarikhMajlis); // Assuming this is a Date object
@@ -476,72 +474,28 @@ function BookingPage() {
       }
     });
 
-    // Step 3: Confirm field list
-    alert(
-      "✅ Sending data: " +
-        [...formDataObj.entries()].map(([k, v]) => `${k}: ${v}`).join(", ")
-    );
 
     if (validateSection()) {
       try {
         const isPostRequest = !isEditMode; // Determine if it's a POST request
         const url = isPostRequest
-          // ? "/api/wedding-cards/create" // POST URL for creating
-           ? "/api/wedding-cards/debug" // POST URL for debug
+          ? "/api/wedding-cards/create" // POST URL for creating
+          //  ? "/api/wedding-cards/debug" // POST URL for debug
           :  `/api/wedding-cards/${weddingCardId}`; // PUT URL for updating
 
-        alert(
-          `📡 Sending ${isPostRequest ? "POST" : "PUT"} request to: ${url}`
-        );
-        // Visual confirmation for debugging
+      // Get JWT from localStorage
+      const token = localStorage.getItem("jwtToken");
 
-        const response = await axios({
+        await axios({
           method: isPostRequest ? "POST" : "PUT",
           url: url,
           data: formDataObj,
-          withCredentials: true,
+          // withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            // Do NOT add Content-Type header for FormData, axios will set it correctly
+          }
         });
-    
-        // Get token from backend's cookies object in response
-        const cookies = response.data.cookies;
-        const token = cookies ? cookies.token : null;
-    
-        if (token) {
-          alert("✅ Token received by backend: " + token.slice(0, 32) + "...");
-          console.log("Token received by backend:", token);
-        } else {
-          alert("❌ No token cookie received by backend!");
-          console.log("Cookies object from backend:", cookies);
-        }
-
-
-
-        // if (isPostRequest) {
-        //   try {
-        //     const jsonBody = {
-        //       ...formData,
-        //       tarikhMajlis: tarikhMajlisUTC,
-        //     };
-
-        //     alert("📦 Sending JSON instead of FormData (for mobile fix)");
-
-        //     const response = await axios.post(url, jsonBody, {
-        //       headers: {
-        //         "Content-Type": "application/json",
-        //       },
-        //       withCredentials: true, // ✅ this line is critical
-        //     });
-
-        //     alert("✅ Create Success! Server responded: " + JSON.stringify(response.data));
-        //     setOpenModal(true);
-
-        //   } catch (error) {
-        //     alert("❌ Error during POST: " + (error?.response?.data?.message || error.message || "Unknown error"));
-        //     console.error("Mobile POST error:", error);
-        //   }
-        // } else {
-        //   await axios.put(url, formDataObj); // still send FormData for update if needed
-        // }
 
         // Send email notification only for POST requests
         if (isPostRequest) {

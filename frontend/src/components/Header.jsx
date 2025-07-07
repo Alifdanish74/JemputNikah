@@ -31,6 +31,7 @@ function Header() {
   
       // Clear user state and localStorage
       setUser(null);
+      localStorage.removeItem("jwtToken");
       localStorage.removeItem("user");
   
       // Navigate to the home page or login page
