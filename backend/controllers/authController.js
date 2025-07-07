@@ -96,7 +96,8 @@ const googleLogin = async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       _id: user._id,
-      token, // <-- JWT
+      // token, // <-- JWT
+      token: jwtToken, 
     });
   } catch (error) {
     console.error("Google login error:", error);

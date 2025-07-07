@@ -66,8 +66,8 @@ function LoginPage() {
         // }
       );
       if (data.token) {
-        alert("JWT from Google login: " + data.token); // <-- Show JWT from Google login
-        localStorage.setItem("jwtToken", data.token);
+        localStorage.setItem("jwtToken", data.token); // Save backend JWT
+        alert("Backend JWT: " + data.token);
       } else {
         alert("❌ No token received from Google login backend");
       }
