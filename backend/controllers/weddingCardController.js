@@ -265,5 +265,5 @@ exports.getWeddingCardInfo = async (req, res) => {
 
 exports.debugWeddingCard = async (req, res) => {
   console.log("📡 Debug POST received:", req.body);
-  res.json({ status: "ok", received: req.body });
+  res.json({ status: "ok", received: req.body, cookies: req.cookies });
 };
