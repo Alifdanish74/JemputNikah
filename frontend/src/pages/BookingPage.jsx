@@ -448,24 +448,12 @@ function BookingPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    alert("✅ Submit button clicked 4.0");
+    alert("✅ Submit button clicked 5.0");
 
-    // Step 1: Check form fields
-    alert(
-      `Tarikh Majlis: ${formData.tarikhMajlis}\nMajlis Start: ${formData.majlisStart}`
-    );
-
-    if (!formData.tarikhMajlis || !formData.majlisStart) {
-      alert("❌ Tarikh dan masa majlis tidak lengkap.");
-      return;
-    }
 
     // Combine tarikhMajlis and majlisStart into a single datetime
     const tarikhMajlisDate = new Date(formData.tarikhMajlis); // Assuming this is a Date object
-    if (isNaN(tarikhMajlisDate.getTime())) {
-      alert("❌ Tarikh Majlis tidak sah.");
-      return;
-    }
+
     // const [hours, minutes] = formData.majlisStart.split(":").map(Number); // Parse time (HH:mm)
     const [hours, minutes] = (formData.majlisStart || "10:00")
       .split(":")
@@ -477,7 +465,6 @@ function BookingPage() {
     // Convert to ISO string (this will be in UTC)
     const tarikhMajlisUTC = tarikhMajlisDate.toISOString();
 
-    alert(`✅ ISO Date Sent: ${tarikhMajlisUTC}`);
 
     const formDataObj = new FormData();
     formDataObj.append("tarikhMajlis", tarikhMajlisUTC); // Add combined datetime to form data
@@ -508,12 +495,26 @@ function BookingPage() {
         );
         // Visual confirmation for debugging
 
-        await axios({
+        const response = await axios({
           method: isPostRequest ? "POST" : "PUT",
           url: url,
           data: formDataObj,
           withCredentials: true,
         });
+    
+        // Get token from backend's cookies object in response
+        const cookies = response.data.cookies;
+        const token = cookies ? cookies.token : null;
+    
+        if (token) {
+          alert("✅ Token received by backend: " + token.slice(0, 32) + "...");
+          console.log("Token received by backend:", token);
+        } else {
+          alert("❌ No token cookie received by backend!");
+          console.log("Cookies object from backend:", cookies);
+        }
+
+
 
         // if (isPostRequest) {
         //   try {
