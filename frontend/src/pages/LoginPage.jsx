@@ -65,12 +65,12 @@ function LoginPage() {
         //   withCredentials: true, // ✅ this tells browser to store the cookie
         // }
       );
-      if (data.token) {
-        localStorage.setItem("jwtToken", data.token); // Save backend JWT
-        alert("Backend JWT: " + data.token);
-      } else {
-        alert("❌ No token received from Google login backend");
-      }
+      // if (data.token) {
+      //   localStorage.setItem("jwtToken", data.token); // Save backend JWT
+      //   alert("Backend JWT: " + data.token);
+      // } else {
+      //   alert("❌ No token received from Google login backend");
+      // }
       console.log("Login Response:", data);
       setUser(data);
       toast.success("Google login successful!", {
