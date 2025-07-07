@@ -24,11 +24,13 @@ function LoginPage() {
       const { data } = await axios.post(
         "/api/auth/login",
         { email, password },
-        {
-          withCredentials: true, // ✅ this tells browser to store the cookie
-        }
+        // {
+        //   withCredentials: true, // ✅ this tells browser to store the cookie
+        // }
       );
-      localStorage.setItem("jwtToken", data.token);
+      if (data.token) {
+        localStorage.setItem("jwtToken", data.token);
+      }
       setUser(data);
       toast.success("Login successfull!", {
         autoClose: 500,
@@ -57,11 +59,18 @@ function LoginPage() {
         "/api/auth/google-login",
         {
           token: credential,
-        },
-        {
-          withCredentials: true, // ✅ this tells browser to store the cookie
         }
+        // ,
+        // {
+        //   withCredentials: true, // ✅ this tells browser to store the cookie
+        // }
       );
+      if (data.token) {
+        alert("JWT from Google login: " + data.token); // <-- Show JWT from Google login
+        localStorage.setItem("jwtToken", data.token);
+      } else {
+        alert("❌ No token received from Google login backend");
+      }
       console.log("Login Response:", data);
       setUser(data);
       toast.success("Google login successful!", {
