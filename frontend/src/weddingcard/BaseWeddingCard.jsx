@@ -67,14 +67,20 @@ function BaseWeddingCard() {
       designName && design
         ? `url(${design.imagebg})`
         : `url(${weddingCard?.designBgUrl || ""})`, // Fallback to weddingCard designUrl if available
-    backgroundSize: "cover",
+    // backgroundSize: "cover",
+    // backgroundPosition: "center",
+    // backgroundRepeat: "no-repeat",
+    // width: "100%",
+    backgroundRepeat: "repeat-y",           // Repeat vertically
+    backgroundSize: "cover",                 // Or try 'contain' for some designs
     backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    width: "100%",
+    minHeight: "100vh",                     // Ensures at least viewport height
+    width: "100%",     
   };
 
   return (
-    <div className="main-div main-card h-screen overflow-auto overflow-x-hidden overflow-y-scroll no-scrollbar bg-white z-10">
+    <div className="main-div main-card h-screen overflow-auto overflow-x-hidden overflow-y-scroll no-scrollbar bg-white z-10"
+    style={backgroundStyle}>
       {/* Dynamically set the page title */}
 
       {showEntrance ? (
@@ -116,7 +122,9 @@ function BaseWeddingCard() {
 
             {/* <AnimatedComponent/> */}
           </section>
-          <div className="pb-16" style={backgroundStyle}>
+          <div className="pb-16" 
+          // style={backgroundStyle}
+          >
             <section id="audiobar" className="sticky -top-5 z-30 ">
               <AudioBar isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
             </section>
