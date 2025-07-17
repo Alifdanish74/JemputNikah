@@ -101,7 +101,7 @@ function Guestbook({ guestbookUpdated }) {
             <SwiperSlide key={index}>
               <p
                 style={{ color: weddingCard.designFontColor || "#000000" }}
-                className="text-center p-4 text-lg fontType-4 font-extralight"
+                className="text-center p-4 text-lg  font-normal"
               >
                 {data.weddingWish}
               </p>
