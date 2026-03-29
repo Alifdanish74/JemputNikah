@@ -155,6 +155,8 @@ function MoneyGiftSection({
                   </option>
 
                   <option value="GX Bank">GX Bank</option>
+                  <option value="Aeon Bank">Aeon Bank</option>
+                  <option value="TNG Digital">TNG Digital</option>
                   <option value="MBSB Bank Berhad">MBSB Bank Berhad</option>
                   <option value="OCBC Bank (Malaysia) Berhad">
                     OCBC Bank (Malaysia) Berhad

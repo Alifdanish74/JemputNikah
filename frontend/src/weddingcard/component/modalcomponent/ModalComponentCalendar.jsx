@@ -78,6 +78,12 @@ END:VCALENDAR
 
   const CalendarComponent = () => {
     useEffect(() => {
+      // Stripping out the Z character casts it to a local floating time 
+      // instead of a strict UTC time, resolving +8 timezone jumps!
+      const fixedDateString = weddingCard.tarikhMajlis.endsWith("Z")
+        ? weddingCard.tarikhMajlis.slice(0, 19)
+        : weddingCard.tarikhMajlis;
+
       const calendar = new Calendar({
         id: "#myCal",
         theme: "glass",
@@ -89,13 +95,13 @@ END:VCALENDAR
         eventsData: [
           {
             id: 1,
-            start: weddingCard.tarikhMajlis,
-            end: weddingCard.tarikhMajlis,
+            start: fixedDateString,
+            end: fixedDateString,
           },
         ],
       });
 
-      calendar.setDate(weddingCard.tarikhMajlis);
+      calendar.setDate(fixedDateString);
     }, [weddingCard.tarikhMajlis]);
 
     return <div id="myCal"></div>;

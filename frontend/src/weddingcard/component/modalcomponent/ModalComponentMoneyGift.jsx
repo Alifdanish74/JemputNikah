@@ -44,23 +44,23 @@ const ModalComponentMoneyGift = () => {
   const { weddingCard } = useWeddingCard();
   //   const [downloadUrl, setDownloadUrl] = useState("");
   const fetchAndDownloadImage = async () => {
-  try {
-    const response = await axios.get(`/api/wedding-cards/download-image/${weddingCard._id}`, {
-      responseType: 'blob', // Set the response type to blob for binary data
-    });
+    try {
+      const response = await axios.get(`/api/wedding-cards/download-image/${weddingCard._id}`, {
+        responseType: 'blob', // Set the response type to blob for binary data
+      });
 
-    // Create a download link and click it to start the download
-    const blob = response.data;
-    const downloadUrl = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = downloadUrl;
-    link.download = `QR_${weddingCard.hashtag || "WeddingCard"}.png`;
-    link.click();
-    URL.revokeObjectURL(downloadUrl);
-  } catch (error) {
-    console.error("Error downloading image:", error);
-  }
-};
+      // Create a download link and click it to start the download
+      const blob = response.data;
+      const downloadUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = `QR_${weddingCard.hashtag || "WeddingCard"}.png`;
+      link.click();
+      URL.revokeObjectURL(downloadUrl);
+    } catch (error) {
+      console.error("Error downloading image:", error);
+    }
+  };
 
 
   return (
@@ -88,7 +88,7 @@ const ModalComponentMoneyGift = () => {
           <h2 className="text-lg text-center font-normal text-gray-700">
             {weddingCard.accountNumber}
           </h2>
-          <CopyButton text="162013183456" />
+          <CopyButton text={weddingCard.accountNumber} />
           {/* <ToastContainer /> */}
         </div>
 

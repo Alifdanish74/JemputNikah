@@ -53,11 +53,11 @@ function MainContent() {
       style={{
         backgroundImage:
           designName?.includes("Motion") ||
-          weddingCard?.designName?.includes("Motion")
+            weddingCard?.designName?.includes("Motion")
             ? `url(${weddingCard.designBgUrl})`
             : designName && design
-            ? `url(${design.image})`
-            : `url(${weddingCard.designUrl})`,
+              ? `url(${design.image})`
+              : `url(${weddingCard.designUrl})`,
         // backgroundImage: `url(${BgTest})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -70,36 +70,36 @@ function MainContent() {
     >
       {(weddingCard?.designName?.includes("Motion001") ||
         designName?.includes("Motion001")) && (
-        <>
-          <section id="particles" className="">
-            <ParticleComponent particleColor={particlesColor} />
-          </section>
-
-          {designName?.includes("Motion001") ? (
-            <section id="animated" className="-z-10">
-              <AnimatedComponentPreview />
+          <>
+            <section id="particles" className="">
+              <ParticleComponent particleColor={particlesColor} />
             </section>
-          ) : (
-            <AnimatedComponent />
-          )}
-        </>
-      )}
+
+            {designName?.includes("Motion001") ? (
+              <section id="animated" className="-z-10">
+                <AnimatedComponentPreview />
+              </section>
+            ) : (
+              <AnimatedComponent />
+            )}
+          </>
+        )}
       {(weddingCard?.designName?.includes("Motion002") ||
         designName?.includes("Motion002")) && (
-        <>
-          <section id="particles" className="">
-            <ParticleComponent particleColor={particlesColor} />
-          </section>
-
-          {designName?.includes("Motion002") ? (
-            <section id="animated" className="-z-10">
-              <AnimatedComponentPreview002 />
+          <>
+            <section id="particles" className="">
+              <ParticleComponent particleColor={particlesColor} />
             </section>
-          ) : (
-            <AnimatedComponent002 />
-          )}
-        </>
-      )}
+
+            {designName?.includes("Motion002") ? (
+              <section id="animated" className="-z-10">
+                <AnimatedComponentPreview002 />
+              </section>
+            ) : (
+              <AnimatedComponent002 />
+            )}
+          </>
+        )}
 
       <motion.div
         initial={{
@@ -137,9 +137,8 @@ function MainContent() {
                   scale: 1.1,
                   transition: { duration: 0.4, opacity: 1 },
                 }}
-                className={`${
-                  weddingCard.jenisFont === "font-LibreCaslonText" ? "my-5" : ""
-                }`}
+                className={`${weddingCard.jenisFont === "font-LibreCaslonText" ? "my-5" : ""
+                  }`}
               >
                 &
               </motion.p>
@@ -174,9 +173,8 @@ function MainContent() {
                   scale: 1.1,
                   transition: { duration: 0.4, opacity: 1 },
                 }}
-                className={`${
-                  weddingCard.jenisFont === "font-LibreCaslonText" ? "my-5" : ""
-                }`}
+                className={`${weddingCard.jenisFont === "font-LibreCaslonText" ? "my-5" : ""
+                  }`}
               >
                 &
               </motion.p>
@@ -246,9 +244,8 @@ function MainContent() {
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1, duration: 1 }}
-        className={`text-3xl mt-4 whitespace-pre-wrap ${weddingCard.jenisFont} ${
-          weddingCard.jenisFont === "font-LibreCaslonText" ? "text-xl" : ""
-        }`}
+        className={`text-3xl mt-4 whitespace-pre-wrap ${weddingCard.jenisFont} ${weddingCard.jenisFont === "font-LibreCaslonText" ? "text-xl" : ""
+          }`}
       >
         {weddingCard.locationMajlis}
       </motion.p>
