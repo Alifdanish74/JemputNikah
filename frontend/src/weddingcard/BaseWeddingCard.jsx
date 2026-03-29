@@ -22,6 +22,8 @@ import GuestbookPreview from "./GuestbookPreview";
 import DoaPagePreview from "./DoaPagePreview";
 import FooterPreview from "./component/FooterPreview";
 import EntranceJK00012 from "./EntranceJK00012";
+import GalleryComponent from "./component/GalleryComponent";
+import GalleryComponentPreview from "./component/GalleryComponentPreview";
 
 function BaseWeddingCard() {
   const [showEntrance, setShowEntrance] = useState(true);
@@ -75,12 +77,12 @@ function BaseWeddingCard() {
     backgroundSize: "cover",                 // Or try 'contain' for some designs
     backgroundPosition: "center",
     minHeight: "100vh",                     // Ensures at least viewport height
-    width: "100%",     
+    width: "100%",
   };
 
   return (
     <div className="main-div main-card h-screen overflow-auto overflow-x-hidden overflow-y-scroll no-scrollbar bg-white z-10"
-    style={backgroundStyle}>
+      style={backgroundStyle}>
       {/* Dynamically set the page title */}
 
       {showEntrance ? (
@@ -122,7 +124,7 @@ function BaseWeddingCard() {
 
             {/* <AnimatedComponent/> */}
           </section>
-          <div className="pb-16" 
+          <div className="pb-16"
           // style={backgroundStyle}
           >
             <section id="audiobar" className="sticky -top-5 z-30 ">
@@ -166,6 +168,12 @@ function BaseWeddingCard() {
             <section id="doa">
               {isPreviewGeneral ? <DoaPagePreview /> : <DoaPage />}
             </section>
+
+            {(isPreviewGeneral || (weddingCard?.gallery && weddingCard.gallery.filter(img => img.trim() !== "").length > 0)) && (
+              <section id="gallery">
+                {isPreviewGeneral ? <GalleryComponentPreview /> : <GalleryComponent />}
+              </section>
+            )}
 
             {isPreviewGeneral ? <FooterPreview /> : <Footer />}
           </div>

@@ -77,7 +77,9 @@ function DesignCardAdmin({ itemName, itemImage, itemCategory, onDelete }) {
 
           <div className="grid grid-cols-2 rounded-lg bg-gray-50">
             <div className="border-r py-2 w-full text-sm rounded-bl-xl border-black hover:bg-black hover:text-white">
-              <a href="/preview-card" target="_blank">
+              <a
+                href={`/preview/${itemName}`}
+                target="_blank">
                 Preview
               </a>
             </div>

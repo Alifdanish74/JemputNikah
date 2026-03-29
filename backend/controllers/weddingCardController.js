@@ -58,11 +58,12 @@ const uploadToS3 = async (file, filename) => {
 // Create a new wedding card
 // weddingCardController.js
 exports.createWeddingCard = [
-  upload.single("qrCodeFile"), // Ensure "qrCodeFile" matches MoneyGiftSection
+  upload.fields([{ name: "qrCodeFile", maxCount: 1 }, { name: "galleryImages", maxCount: 5 }]), // Allow multiple files
   async (req, res) => {
     try {
       const { tarikhMajlis, majlisStart, hashtag } = req.body;
-      const qrCodeFile = req.file;
+      const qrCodeFile = req.files?.qrCodeFile?.[0] || null;
+      const galleryFiles = req.files?.galleryImages || [];
 
       console.log("Request body:", req.body); // Log incoming data
 
@@ -103,6 +104,17 @@ exports.createWeddingCard = [
         );
       }
 
+      // Upload Gallery Images to S3 if provided
+      let galleryUrls = [];
+      if (galleryFiles.length > 0) {
+        for (let i = 0; i < galleryFiles.length; i++) {
+          const file = galleryFiles[i];
+          const filename = `gallery/${nextOrderNumber}/image_${i + 1}_${Date.now()}`;
+          const url = await uploadToS3(file, filename);
+          galleryUrls.push(url);
+        }
+      }
+
       const newWeddingCard = new WeddingCard({
         ...req.body,
         tarikhMajlis: tarikhMajlis,
@@ -114,6 +126,7 @@ exports.createWeddingCard = [
         userPhone: req.user.phone,
         userName: req.user.name,
         qrCode: qrCodeUrl, // Store S3 URL
+        gallery: galleryUrls, // Store S3 Gallery URLs
       });
 
       // Save the wedding card
@@ -197,18 +210,47 @@ exports.getWeddingCardById = async (req, res) => {
 // Apply multer as middleware to handle multipart/form-data
 // Update wedding card
 exports.updateWeddingCard = [
-  upload.single("qrCodeFile"),
+  upload.fields([{ name: "qrCodeFile", maxCount: 1 }, { name: "galleryImages", maxCount: 5 }]),
   async (req, res) => {
     try {
       const { id } = req.params;
       let updateData = { ...req.body };
 
-      if (req.file) {
-        updateData.qrCode = await uploadToS3(
-          req.file,
-          `qr_codes/${id}_qrCode.png`
-        );
+      if (req.files) {
+        const qrCodeFile = req.files.qrCodeFile?.[0];
+        if (qrCodeFile) {
+          updateData.qrCode = await uploadToS3(
+            qrCodeFile,
+            `qr_codes/${id}_qrCode.png`
+          );
+        }
       }
+
+      // Handle gallery (both existing + newly uploaded)
+      let finalGallery = [];
+      if (req.body.existingGallery) {
+          if (Array.isArray(req.body.existingGallery)) {
+             finalGallery = [...req.body.existingGallery];
+          } else {
+             finalGallery = [req.body.existingGallery];
+          }
+      }
+
+      const galleryFiles = req.files?.galleryImages;
+      if (galleryFiles && galleryFiles.length > 0) {
+        const order = await Order.findOne({ weddingCardId: id });
+        const orderNumber = order ? order.orderNumber : id;
+
+        for (let i = 0; i < galleryFiles.length; i++) {
+          const file = galleryFiles[i];
+          const filename = `gallery/${orderNumber}/image_${i + 1}_${Date.now()}`;
+          const url = await uploadToS3(file, filename);
+          finalGallery.push(url);
+        }
+      }
+      
+      // Update gallery in DB
+      updateData.gallery = finalGallery;
 
       const updatedWeddingCard = await WeddingCard.findByIdAndUpdate(
         id,

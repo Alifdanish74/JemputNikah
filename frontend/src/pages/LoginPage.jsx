@@ -12,11 +12,29 @@ import { GoogleLogin } from "@react-oauth/google";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [redirect, setRedirect] = useState(false);
+  const [redirectPath, setRedirectPath] = useState(null);
   const [showPassword, setShowPassword] = useState(false); // Manage password visibility
 
   const { setUser } = useContext(UserContext);
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+
+  async function checkUserOrdersAndRedirect(userData) {
+    let destination = "/";
+    try {
+      const userId = userData._id || userData.user?._id || userData.id;
+      if (userId) {
+        const orderRes = await axios.get(`/api/orders/user/${userId}`);
+        // Check if there are existing orders in the payload
+        const orders = orderRes.data;
+        if (orders && ((Array.isArray(orders) && orders.length > 0) || orders.orders?.length > 0)) {
+          destination = "/tempahan";
+        }
+      }
+    } catch (err) {
+      console.error("Error checking user orders:", err);
+    }
+    setRedirectPath(destination);
+  }
 
   async function handleLoginUser(e) {
     e.preventDefault();
@@ -37,7 +55,7 @@ function LoginPage() {
         position: "top-center",
         closeOnClick: true,
       });
-      setRedirect(true);
+      await checkUserOrdersAndRedirect(data);
     } catch (error) {
       const serverMessage =
         error.response?.data?.message || "Login failed. Please try again.";
@@ -78,7 +96,7 @@ function LoginPage() {
         position: "top-center",
         closeOnClick: true,
       });
-      setRedirect(true);
+      await checkUserOrdersAndRedirect(data);
     } catch (error) {
       toast.error(
         "Google login failed. Please try again.",
@@ -92,8 +110,8 @@ function LoginPage() {
     }
   };
 
-  if (redirect) {
-    return <Navigate to={"/"} />;
+  if (redirectPath) {
+    return <Navigate to={redirectPath} />;
   }
 
   return (

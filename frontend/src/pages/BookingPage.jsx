@@ -8,10 +8,11 @@ import RSVPSection from "../components/BookingComponent/RSVPSection";
 import MoneyGiftSection from "../components/BookingComponent/MoneyGiftSection";
 import LainLainSection from "../components/BookingComponent/LainLainSection";
 import PakejSection from "../components/BookingComponent/PakejBookingSection";
+import GallerySection from "../components/BookingComponent/GallerySection";
 import { GrCatalog } from "react-icons/gr";
 import { GiDiamondRing } from "react-icons/gi";
 import { MdEventAvailable } from "react-icons/md";
-import { BiMoneyWithdraw, BiListPlus } from "react-icons/bi";
+import { BiMoneyWithdraw, BiListPlus, BiImages } from "react-icons/bi";
 import { IoReceiptOutline } from "react-icons/io5";
 // import { toast } from "react-toastify";
 import { Button, Modal } from "flowbite-react";
@@ -59,8 +60,18 @@ function BookingPage() {
         cache: "no-store",
       });
 
+      let updatedData = response.data;
+      if (updatedData.gallery && updatedData.gallery.length > 0) {
+        updatedData.galleryImages = updatedData.gallery.map(url => ({
+          file: null, 
+          previewUrl: url,
+        }));
+      } else {
+        updatedData.galleryImages = [];
+      }
+
       // Set formData with fetched data and update selectedPakej based on the current pakej
-      setFormData(response.data);
+      setFormData(updatedData);
 
       // Set selectedPakej based on the `pakej` value from response data
       if (response.data.pakej) {
@@ -198,6 +209,7 @@ function BookingPage() {
     gallery1: "",
     gallery2: "",
     gallery3: "",
+    galleryImages: [],
     doa: "",
     dressCode: "",
     extraInfo: "",
@@ -469,7 +481,18 @@ function BookingPage() {
 
     // Append all form data
     Object.entries(formData).forEach(([key, value]) => {
-      if (key !== "tarikhMajlis" && value !== null && value !== undefined) {
+      if (key === "galleryImages") {
+        // Extract the raw file from array of objects and append it
+        value.forEach((img) => {
+          if (img.file) {
+            formDataObj.append("galleryImages", img.file);
+          } else if (img.previewUrl) {
+            formDataObj.append("existingGallery", img.previewUrl);
+          }
+        });
+      } else if (key === "gallery") {
+        // Skip default gallery array to avoid [object Object] appending
+      } else if (key !== "tarikhMajlis" && value !== null && value !== undefined) {
         formDataObj.append(key, value);
       }
     });
@@ -593,7 +616,7 @@ function BookingPage() {
             onNext={() => {
               // Check if the pakej is "Bali" and conditionally set the next section
               handleSectionChange(
-                formData.pakej === "Bali" ? "Lain-lain" : "MoneyGift"
+                formData.pakej === "Bali" ? "Gallery" : "MoneyGift"
               );
             }}
             formData={formData}
@@ -616,19 +639,27 @@ function BookingPage() {
         return (
           <RSVPSection
             onPrevious={() => handleSectionChange("MoneyGift")}
-            onNext={() => handleSectionChange("Lain-lain")}
+            onNext={() => handleSectionChange("Gallery")}
             formData={formData}
             handleFormDataChange={handleFormDataChange}
             errors={errors}
             isEditMode={isEditMode}
           />
         );
+      case "Gallery":
+        return (
+          <GallerySection
+            onPrevious={() => handleSectionChange(formData.pakej === "Bali" ? "Majlis" : "RSVP")}
+            onNext={() => handleSectionChange("Lain-lain")}
+            formData={formData}
+            handleFormDataChange={handleFormDataChange}
+            errors={errors}
+          />
+        );
       case "Lain-lain":
         return (
           <LainLainSection
-            onPrevious={() =>
-              handleSectionChange(formData.pakej === "Bali" ? "Majlis" : "RSVP")
-            }
+            onPrevious={() => handleSectionChange("Gallery")}
             formData={formData}
             handleFormDataChange={handleFormDataChange}
             submit={handleSubmit}
@@ -647,6 +678,7 @@ function BookingPage() {
     { name: "Majlis", label: "Majlis", index: <MdEventAvailable /> },
     { name: "MoneyGift", label: "MoneyGift", index: <BiMoneyWithdraw /> },
     { name: "RSVP", label: "RSVP", index: <IoReceiptOutline /> },
+    { name: "Gallery", label: "Gallery", index: <BiImages /> },
     { name: "Lain-lain", label: "Lain-lain", index: <BiListPlus /> },
   ];
 
