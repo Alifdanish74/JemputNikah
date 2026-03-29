@@ -246,7 +246,7 @@ function MainContent() {
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1, duration: 1 }}
-        className={`text-3xl mt-4  ${weddingCard.jenisFont} ${
+        className={`text-3xl mt-4 whitespace-pre-wrap ${weddingCard.jenisFont} ${
           weddingCard.jenisFont === "font-LibreCaslonText" ? "text-xl" : ""
         }`}
       >
