@@ -5,7 +5,7 @@ const WishlistProductSchema = new mongoose.Schema({
   // uniqueId: {
   //   type: String,
   // },
-  productName: { type: String}, // Name of the product
+  productName: { type: String }, // Name of the product
   productUrl: { type: String }, // URL of the product
   productImage: { type: String }, // Image URL of the product
   bookingName: { type: String, default: null }, // Name of the person who booked
@@ -43,6 +43,11 @@ const WishlistMainSchema = new mongoose.Schema({
   wishlistProduct8: { type: WishlistProductSchema },
   wishlistProduct9: { type: WishlistProductSchema },
   wishlistProduct10: { type: WishlistProductSchema },
+  wishlistProduct11: { type: WishlistProductSchema },
+  wishlistProduct12: { type: WishlistProductSchema },
+  wishlistProduct13: { type: WishlistProductSchema },
+  wishlistProduct14: { type: WishlistProductSchema },
+  wishlistProduct15: { type: WishlistProductSchema },
 });
 
 module.exports = mongoose.model("Wishlist", WishlistMainSchema);

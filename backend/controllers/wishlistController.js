@@ -21,6 +21,8 @@ const s3Client = new S3Client({
   },
 });
 
+const MAX_WISHLIST_ITEMS = 15;
+
 // Function to upload a file to S3 and return the URL
 const uploadToS3 = async (file, filename) => {
   try {
@@ -72,7 +74,7 @@ const uploadWishlist = async (req, res) => {
       });
 
       // Initialize empty wishlist products
-      for (let i = 1; i <= 10; i++) {
+      for (let i = 1; i <= MAX_WISHLIST_ITEMS; i++) {
         wishlistEntry[`wishlistProduct${i}`] = {
           productName: "",
           productUrl: "",
@@ -85,7 +87,7 @@ const uploadWishlist = async (req, res) => {
     }
 
     // Handle each wishlist product from the frontend
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= MAX_WISHLIST_ITEMS; i++) {
       const productName = req.body[`wishlistproductname${i}`];
       const productUrl = req.body[`wishlistproducturl${i}`];
       const productImageFile = files[`wishlistImage${i}`]?.[0];
@@ -325,7 +327,7 @@ const bookWishlistItem = async (req, res) => {
     let updated = false;
 
     // Check and update the matching wishlist product
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= MAX_WISHLIST_ITEMS; i++) {
       const wishlistKey = `wishlistProduct${i}`;
       if (
         wishlistEntry[wishlistKey] &&

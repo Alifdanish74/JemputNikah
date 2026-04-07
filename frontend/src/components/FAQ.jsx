@@ -68,7 +68,7 @@ function FAQ() {
       value: "item-8",
       question: "Perlukah download di Appstore atau Playstore?",
       answer: [
-        "Tidak perlu. KahwinNow adalah sebuah web-based app yang boleh diakses menggunakan browser.",
+        "Tidak perlu. JemputKahwin adalah sebuah web-based app yang boleh diakses menggunakan browser.",
       ],
     },
   ];

@@ -56,7 +56,17 @@ function LainLainSection({
     const fetchSongs = async () => {
       try {
         const response = await axios.get("/api/songs");
-        setSongs(response.data);
+        const fetchedSongs = response.data;
+        setSongs(fetchedSongs);
+
+        // In edit mode, if bgSongId is not yet set but bgSong URL exists,
+        // match by URL to pre-select the correct dropdown option.
+        if (isEditMode && formData.bgSong && !formData.bgSongId) {
+          const matched = fetchedSongs.find((s) => s.url === formData.bgSong);
+          if (matched) {
+            handleFormDataChange("bgSongId", matched._id);
+          }
+        }
       } catch (error) {
         console.error("Error fetching songs:", error);
       }

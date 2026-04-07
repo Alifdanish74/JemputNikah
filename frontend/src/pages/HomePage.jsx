@@ -22,7 +22,7 @@ function HomePage() {
         />
         <meta
           name="keywords"
-          content="kad kahwin, kad kawin, digital wedding card, kad kahwin digital, kad kawin digital, kad jemputan digital, kad kahwin murah, kad jemputan kahwin, kahwinnow, kad digital kahwinnow, kahwinnow digital card, digital kad, digital invitation, jemputan, contoh kad kahwin, kad undangan digital"
+          content="kad kahwin, kad kawin, digital wedding card, kad kahwin digital, kad kawin digital, kad jemputan digital, kad kahwin murah, kad jemputan kahwin, JemputKahwin, kad digital JemputKahwin, JemputKahwin digital card, digital kad, digital invitation, jemputan, contoh kad kahwin, kad undangan digital"
         />
         <meta name="author" content="Jemput Kahwin" />
 
