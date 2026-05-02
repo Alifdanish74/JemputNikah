@@ -39,6 +39,11 @@ const ModalComponentWishlist = () => {
         wishlistProduct8,
         wishlistProduct9,
         wishlistProduct10,
+        wishlistProduct11,
+        wishlistProduct12,
+        wishlistProduct13,
+        wishlistProduct14,
+        wishlistProduct15,
         address: fetchedAddress,
         phone: fetchedPhone,
       } = response.data || {};
@@ -55,6 +60,11 @@ const ModalComponentWishlist = () => {
         wishlistProduct8,
         wishlistProduct9,
         wishlistProduct10,
+        wishlistProduct11,
+        wishlistProduct12,
+        wishlistProduct13,
+        wishlistProduct14,
+        wishlistProduct15,
       ].filter((product) => product && product.productName);
 
       setWishlist(fetchedWishlist || []);
