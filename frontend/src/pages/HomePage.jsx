@@ -36,7 +36,7 @@ function HomePage() {
         />
         <meta
           property="og:image"
-          content="https://jemputkahwin.com.my/assets/phone-mockup-removebg-CFus9G_1.png"
+          content="https://jemputkahwin.com.my/jemputkahwinlinkpreview.png"
         />
         <meta property="og:url" content="https://jemputkahwin.com.my/" />
         <meta property="og:type" content="website" />
