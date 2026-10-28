@@ -1,6 +1,8 @@
 {
-    "nodeVersion": "24.x",
     "rewrites": [
-        {"source": "/(.*)", "destination": "/"}
+        {
+            "source": "/(.*)",
+            "destination": "/"
+        }
     ]
 }
